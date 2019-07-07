@@ -10,3 +10,6 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 * Irene Ho, senior CS major. She likes eating a lot.
 
 [I am a link to StoryMapping.md](https://github.com/ecs160ss12019/EightAM/blob/master/StoryMapping.md)
+
+##  CRC cards
+![Link to CRC Cards for Assignment 2](https://github.com/ecs160ss12019/EightAM/blob/master/crc_cards.png)

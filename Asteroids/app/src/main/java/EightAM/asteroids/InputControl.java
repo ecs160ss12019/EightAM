@@ -1,4 +1,4 @@
 package EightAM.asteroids;
 
-public class InputControl {
+class InputControl {
 }

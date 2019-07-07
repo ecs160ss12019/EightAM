@@ -1,6 +1,6 @@
 package EightAM.asteroids;
 
-public interface GameObject {
+interface GameObject {
 
 
 }

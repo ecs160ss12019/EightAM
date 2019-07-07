@@ -1,4 +1,4 @@
-package com.example.asteroids;
+package EightAM.asteroids;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.asteroids", appContext.getPackageName());
+        assertEquals("com.EightAM.asteroids", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.asteroids;
+package EightAM.asteroids;
 
 public class InputControl {
 }

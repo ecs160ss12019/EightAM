@@ -19,6 +19,7 @@ As space, I want to contain the player (ship), asteroids, and aliens
 As a projectile, I want to hit stuff, depending on who shot me.
 
 ## Sprints Chart:
+![Alt Text]()
 
 ## Team members:
 Adrian Wang, Liyin Li (Kenny), Melissa Goh, Tim Van, Irene Ho

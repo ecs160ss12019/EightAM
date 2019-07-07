@@ -19,7 +19,7 @@ As space, I want to contain the player (ship), asteroids, and aliens
 As a projectile, I want to hit stuff, depending on who shot me.
 
 ## Sprints Chart:
-![Alt Text]()
+![Alt Text](https://github.com/ecs160ss12019/EightAM/blob/master/Screen%20Shot%202019-07-07%20at%2013.46.15.png)
 
 ## Team members:
 Adrian Wang, Liyin Li (Kenny), Melissa Goh, Tim Van, Irene Ho

@@ -9,4 +9,4 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 * Melissa Goh, senior CS major. She likes the surprised pikachu meme.
 * Irene Ho, senior CS major. She likes eating a lot.
 
-
+[I am a link to StoryMapping.md](https://github.com/ecs160ss12019/EightAM/blob/master/StoryMapping.md)

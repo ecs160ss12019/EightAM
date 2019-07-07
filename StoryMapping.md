@@ -1,7 +1,8 @@
 # Project User Story Mapping: Asteroids
- BHAG	You’re part of the crew in a rocketship, trying to survive in the asteroid belt by shooting and avoiding asteroids as well as alien invaders.
- Narrative driven user stories
-### Notes
+
+## BHAG	You’re part of the crew in a rocketship, trying to survive in the asteroid belt by shooting and avoiding asteroids as well as alien invaders.
+ 
+## Narrative driven user stories
 * Ship, Asteroid, Alien, Space, Projectile
 * Input Model, Game Model
 * Initialization -> game loop -> deinitialization

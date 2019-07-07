@@ -1,9 +1,9 @@
 # EightAM
 
-## BHAG
+## BHAG:
 You’re part of the crew in a rocketship, trying to survive in the asteroid belt by shooting and avoiding asteroids as well as alien invaders.
 
-## Narrative driven user stories
+## Narrative driven user stories:
 As the player, I want to be able to control my ship (rotating, moving forward, shooting bullets) so that I can avoid asteroids and invaders.
 As the player, I want to be able to shoot the asteroids and alien’s attack.
 As the player, I should be incentivized to destroy asteroids and aliens.

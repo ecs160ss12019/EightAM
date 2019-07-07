@@ -19,6 +19,3 @@
 ## Sprints Chart:
 ![Alt Text](https://github.com/ecs160ss12019/EightAM/blob/master/Screen%20Shot%202019-07-07%20at%2013.46.15.png)
 
-## Team members:
-Adrian Wang, Liyin Li (Kenny), Melissa Goh, Tim Van, Irene Ho
-

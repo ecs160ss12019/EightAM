@@ -17,13 +17,6 @@ abstract class GameObject {
         this.posY = y;
     }
 
-    /**
-     * does literally nothing
-     * @param x some integer idk
-     * @return another integer lol
-     */
-    protected int foo(int x) {return 0;}
-
     protected void draw() {
         /*
         Use canvas and paint to draw objects

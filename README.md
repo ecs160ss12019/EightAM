@@ -49,7 +49,7 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 * Test with losing one life when ship collides with alien projectile. (pass)
 * Test with number of lives remaining the same if ship is shot by own projectile. (pass)
 ##### _**Ship**_
-* Upon hitting the fire button, the spaceship creates projectile
+* Upon hitting the fire button, the spaceship creates projectile. (pass)
 ##### _**Space**_
 * Test inputting with player’s hitbox and all generated asteroid hitboxes, it should return true to indicate the existence of a collision if the two types of hit box has any intersection, false otherwise.
 ##### _**Aliens**_
@@ -64,7 +64,7 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 * Test with the option for a new game appearing as the player runs out of lives. (pass)
 * Test with option for new game actually starting a new game. (pass)
 ##### _**Ship**_
-* Ship should disappear and reappear in a random location when hyper space is activated
+* Ship should disappear and reappear in a random location when hyper space is activated. (pass)
 ##### _**Space**_
 * Test with calling render function of each game object, expecting objects to appear in space. (pass)
 ##### _**Aliens**_

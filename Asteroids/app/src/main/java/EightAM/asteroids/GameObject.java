@@ -3,12 +3,12 @@ package EightAM.asteroids;
 import android.graphics.RectF;
 
 abstract class GameObject {
-    protected float velX;
-    protected float velY;
-    protected float posX;
-    protected float posY;
-    protected float delX;
-    protected float delY;
+    private float velX;
+    private float velY;
+    private float posX;
+    private float posY;
+    private float delX;
+    private float delY;
 
     private RectF hitbox;   // manipulate shape using set()
 

@@ -17,26 +17,20 @@ abstract class GameObject {
         this.posY = y;
     }
 
-    protected void draw() {
-        /*
-        Use canvas and paint to draw objects
-        */
-    }
+    /**
+     * Use canvas and paint to draw objects
+     */
+    protected void draw();
 
-    protected void move(/*velocity*/) {
-        /*
-        Takes in velocity, computes new position
-        Set new position.
-         */
-    }
-
-    protected void collision() {
-        /*
-        Possibly take in 2 RectF objects
-        Check intersection of hitboxes
-         */
-    }
-
-
-
+    /**
+     * Takes in velocity, computes new position
+     * Set new position.
+     */
+    protected void move(/*velocity*/);
+    
+    /**
+     * Possibly take in 2 RectF objects
+     * Check intersection of hitboxes
+     */
+    protected void collision();
 }

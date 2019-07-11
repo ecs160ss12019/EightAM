@@ -29,6 +29,26 @@ class Rocks extends GameObject{
 
     private Size rockSize;
     private int MAXSPEED; //TODO: Decide what MAXSPEED should be and set to static final
+    
+    /**
+     * Sets and/or updates the position of the hit box of the asteroid
+     *
+     * @param x - horizontal position of asteroid
+     * @param y - vertical position of asteroid
+     */
+    //TODO: Set RecF dependent on size of screen and position of Asteroid
+    private void setHitBox(double x, double y) {
+        if (rockSize == Size.LARGE) {
+
+        }
+        else if (rockSize == Size.MEDIUM) {
+
+        }
+        else {
+
+        }
+    }
+
 
     /**
      * This constructor constructs the asteroid rocks when there are no
@@ -47,7 +67,6 @@ class Rocks extends GameObject{
 
     protected Rocks(int xTotalPix, int yTotalPix) {
         rockSize = Size.LARGE;
-        //TODO: Set RecF to a "Large size" dependent on size of screen
         Random rand = new Random();
         double xRand, yRand;
         /*
@@ -65,7 +84,9 @@ class Rocks extends GameObject{
             xRand = (double) rand.nextInt(xTotalPix);
             yRand = (double) rand.nextInt(yTotalPix);
         //} while(a certain distance away from the ship);
-        spawn(xRand, yRand);
+
+        this.setHitBox(xRand, yRand);
+        this.spawn(xRand, yRand);
 
         this.velX = (double) rand.nextInt(MAXSPEED/4);
         this.velY = (double) rand.nextInt(MAXSPEED/4);
@@ -89,21 +110,29 @@ class Rocks extends GameObject{
         Random rand = new Random();
         if (parentSize == Size.LARGE) {
             rockSize = Size.MEDIUM;
-            //TODO: Set RecF to a "Medium size" dependent on size of screen
             this.velX = (double) rand.nextInt(MAXSPEED/2);
             this.velY = (double) rand.nextInt(MAXSPEED/2);
         }
         else {
             rockSize = Size.SMALL;
-            //TODO: Set RecF to a "Small size" dependent on size of screen
             this.velX = (double) rand.nextInt(MAXSPEED);
             this.velY = (double) rand.nextInt(MAXSPEED);
         }
-        spawn(currentX, currentY);
+        this.setHitBox(currentX, currentY);
+        this.spawn(currentX, currentY);
     }
 
     protected void draw(){
         //TODO: Draw on canvas dependent on rockSize
+        if (rockSize == Size.LARGE) {
+
+        }
+        else if (rockSize == Size.MEDIUM) {
+
+        }
+        else {
+
+        }
     }
 
     protected void collision() {

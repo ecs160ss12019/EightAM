@@ -1,7 +1,9 @@
 package EightAM.asteroids;
 
+import android.graphics.RectF;
+import java.util.Random;
 
-class Rocks {
+class Rocks extends GameObject{
 
     /*
     Goals:
@@ -16,25 +18,51 @@ class Rocks {
     GameObject
      */
 
-    public int DIM_SMALL;
-    public int DIM_MEDIUM;
-    public int DIM_LARGE;
+    /**
+     * Enum to denote 3 size types of asteroid rock
+     */
+    enum Size {
+        SMALL,
+        MEDIUM,
+        LARGE
+    }
 
-    //int velocity;
-    int dimentsion;
+    private Size rockSize;
+    private int MAXSPEED;
 
-    public Rocks() {
-        //dimension
-        //velocity
-        //
+    protected Rocks(int xTotalPix, int yTotalPix) {
+        //new Random().nextInt((max-min+1))+min to set bounds
+        rockSize = Size.LARGE;
+        Random rand = new Random();
+        float xRand = (float) rand.nextInt(xTotalPix),
+                yRand = (float) rand.nextInt(yTotalPix);
+        spawn(xRand, yRand);
 
 
     }
 
-    public void spawn() {
+    protected Rocks(int currentX, int currentY, Size parentSize) {
+        //new Random().nextInt((max-min+1))+min to set bounds
+        if (parentSize == Size.LARGE) {
+            rockSize = Size.MEDIUM;
+        }
+        else {
+            rockSize = Size.SMALL;
+        }
+        spawn(currentX, currentY);
+
 
     }
 
-    public
+    protected void draw(){
 
+    }
+
+    protected void move(/*velocity*/) {
+
+    }
+
+    protected void collision() {
+
+    }
 }

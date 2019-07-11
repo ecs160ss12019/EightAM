@@ -20,7 +20,7 @@ class Projectile extends GameObject {
      * @param y - vertical position of shooter
      * @param orientation - angle/ orientation of the shooter
      */
-    protected Projectile(ObjectID shooter, float x, float y, double orientation){
+    protected Projectile(ObjectID shooter, double x, double y, double orientation){
         this.posX = x;
         this.posY = y;
         this.objectID = ObjectID.PROJECTILE;
@@ -40,6 +40,14 @@ class Projectile extends GameObject {
     }
 
     protected void collision() {
+
+    }
+
+    protected void update(){
+
+    }
+
+    protected void setHitBox() {
 
     }
 }

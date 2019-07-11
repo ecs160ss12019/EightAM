@@ -77,4 +77,14 @@ abstract class GameObject {
      * Check intersection of hitboxes
      */
     abstract protected void collision();
+
+    /**
+     * Moves and check collision of object
+     */
+    abstract protected void update();
+
+    /**
+     * Set and/or updates hitbox
+     */
+    abstract protected void setHitBox();
 }

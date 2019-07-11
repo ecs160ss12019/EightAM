@@ -32,27 +32,6 @@ class Rocks extends GameObject{
     private int SAFEDIST; //TODO: Determine the safe distance from ship to spawn Asteroids
 
     /**
-     * Sets and/or updates the position of the hit box of the asteroid
-     *
-     * @param x - horizontal position of asteroid
-     * @param y - vertical position of asteroid
-     */
-    //TODO: Set RecF dependent on size of screen and position of Asteroid
-    private void setHitBox(double x, double y) {
-        switch (rockSize){
-            case LARGE:
-
-                break;
-            case MEDIUM:
-
-                break;
-            case SMALL:
-
-                break;
-        }
-    }
-
-    /**
      * This constructor constructs the asteroid rocks when there are no
      * asteroids in space, i.e. when there's a new game or when all
      * asteroids in the field are destroyed.
@@ -92,8 +71,8 @@ class Rocks extends GameObject{
             DistFromShip = Math.sqrt(Math.pow(xDistFromShip, 2) + Math.pow(yDistFromShip, 2));
         } while(DistFromShip > SAFEDIST);
 
-        this.setHitBox(xRand, yRand);
         this.spawn(xRand, yRand);
+        this.setHitBox();
 
         this.velX = (double) rand.nextInt(MAXSPEED/4);
         this.velY = (double) rand.nextInt(MAXSPEED/4);
@@ -129,8 +108,27 @@ class Rocks extends GameObject{
             this.velY = (double) rand.nextInt(MAXSPEED);
         }
 
-        this.setHitBox(currentX, currentY);
         this.spawn(currentX, currentY);
+        this.setHitBox();
+    }
+
+    /**
+     * Sets and/or updates the position of the hit box of the asteroid
+     *
+     */
+    //TODO: Set RecF dependent on size of screen and position of Asteroid
+    protected void setHitBox() {
+        switch (rockSize){
+            case LARGE:
+
+                break;
+            case MEDIUM:
+
+                break;
+            case SMALL:
+
+                break;
+        }
     }
 
     protected void draw(){
@@ -149,6 +147,10 @@ class Rocks extends GameObject{
     }
 
     protected void collision() {
+
+    }
+
+    protected void update() {
 
     }
 }

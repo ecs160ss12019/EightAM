@@ -49,7 +49,7 @@ class Rocks extends GameObject{
         rockSize = Size.LARGE;
         //TODO: Set RecF to a "Large size" dependent on size of screen
         Random rand = new Random();
-        float xRand, yRand;
+        double xRand, yRand;
         /*
          * We only want to spawn asteroids we are a certain distance away from the ship
          * NOTE: May be inefficient, but more fair to the player
@@ -62,13 +62,13 @@ class Rocks extends GameObject{
          */
         //TODO: Find a way to get "a certain distance away from the ship"
         //do {
-            xRand = (float) rand.nextInt(xTotalPix);
-            yRand = (float) rand.nextInt(yTotalPix);
+            xRand = (double) rand.nextInt(xTotalPix);
+            yRand = (double) rand.nextInt(yTotalPix);
         //} while(a certain distance away from the ship);
         spawn(xRand, yRand);
 
-        this.velX = (float) rand.nextInt(MAXSPEED/4);
-        this.velY = (float) rand.nextInt(MAXSPEED/4);
+        this.velX = (double) rand.nextInt(MAXSPEED/4);
+        this.velY = (double) rand.nextInt(MAXSPEED/4);
     }
 
     /**
@@ -90,14 +90,14 @@ class Rocks extends GameObject{
         if (parentSize == Size.LARGE) {
             rockSize = Size.MEDIUM;
             //TODO: Set RecF to a "Medium size" dependent on size of screen
-            this.velX = (float) rand.nextInt(MAXSPEED/2);
-            this.velY = (float) rand.nextInt(MAXSPEED/2);
+            this.velX = (double) rand.nextInt(MAXSPEED/2);
+            this.velY = (double) rand.nextInt(MAXSPEED/2);
         }
         else {
             rockSize = Size.SMALL;
             //TODO: Set RecF to a "Small size" dependent on size of screen
-            this.velX = (float) rand.nextInt(MAXSPEED);
-            this.velY = (float) rand.nextInt(MAXSPEED);
+            this.velX = (double) rand.nextInt(MAXSPEED);
+            this.velY = (double) rand.nextInt(MAXSPEED);
         }
         spawn(currentX, currentY);
     }

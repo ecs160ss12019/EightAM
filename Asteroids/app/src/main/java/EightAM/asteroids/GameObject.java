@@ -3,12 +3,12 @@ package EightAM.asteroids;
 import android.graphics.RectF;
 
 abstract class GameObject {
-    float velX;
-    float velY;
-    float posX;
-    float posY;
-    float delX;
-    float delY;
+    double velX;
+    double velY;
+    double posX;
+    double posY;
+    double delX;
+    double delY;
 
     private RectF hitbox;   // manipulate shape using set()
 
@@ -18,7 +18,7 @@ abstract class GameObject {
      * @param x - horizontal spawn position for object
      * @param y - vertical spawn position for object
      */
-    protected void spawn(float x, float y) {
+    protected void spawn(double x, double y) {
         this.posX = x;
         this.posY = y;
     }
@@ -39,17 +39,17 @@ abstract class GameObject {
 
         // Wrap around screen
         if (this.posX < 0){
-            this.posX += (float) spaceWidth;
+            this.posX += (double) spaceWidth;
         }
-        else if (this.posX > (float) spaceWidth) {
-            this.posX -= (float) spaceWidth;
+        else if (this.posX > (double) spaceWidth) {
+            this.posX -= (double) spaceWidth;
         }
 
         if (this.posY < 0){
-            this.posY += (float) spaceHeight;
+            this.posY += (double) spaceHeight;
         }
-        else if (this.posY > (float) spaceHeight) {
-            this.posY -= (float) spaceHeight;
+        else if (this.posY > (double) spaceHeight) {
+            this.posY -= (double) spaceHeight;
         }
     }
 

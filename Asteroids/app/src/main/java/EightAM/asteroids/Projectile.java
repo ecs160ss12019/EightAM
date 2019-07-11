@@ -6,13 +6,7 @@ import java.lang.Math;
 class Projectile extends GameObject {
 
     private int bulletSpeed;
-
-    Owner owner;
-
-    enum Owner {
-        SHIP,
-        ALIEN
-    }
+    ObjectID owner;
 
     /**
      * Constructs projectile, i.e. shoots projectile in the orientation/angle
@@ -21,21 +15,22 @@ class Projectile extends GameObject {
      * Alien shots are slower than the player's. This is to give the player
      * time to react.
      *
-     * @param friendly - denotes if fired from player (true) or alien (false)
+     * @param shooter - denotes if fired from player (true) or alien (false)
      * @param x - horizontal position of shooter
      * @param y - vertical position of shooter
      * @param orientation - angle/ orientation of the shooter
      */
-    protected Projectile(boolean friendly, float x, float y, double orientation){
+    protected Projectile(ObjectID shooter, float x, float y, double orientation){
         this.posX = x;
         this.posY = y;
-        if (friendly){
-            this.owner = Owner.SHIP;
+        this.objectID = ObjectID.PROJECTILE;
+        this.owner = shooter;
+
+        if (this.owner == ObjectID.SHIP){
             this.velX = bulletSpeed * Math.cos(orientation);
             this.velY = bulletSpeed * Math.sin(orientation);
         }
         else {
-            this.owner = Owner.ALIEN;
             this.velX = (bulletSpeed / 2) * Math.cos(orientation);
             this.velY = (bulletSpeed / 2) * Math.sin(orientation);
         }

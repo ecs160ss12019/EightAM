@@ -12,6 +12,20 @@ abstract class GameObject {
 
     private RectF hitbox;   // manipulate shape using set()
 
+
+    /**
+     * Enum to to determine the ID of object during collision detection,
+     * as well as misc.
+     */
+    enum ObjectID {
+        SHIP,
+        ALIEN,
+        ASTEROID,
+        PROJECTILE
+    }
+
+    ObjectID objectID;
+
     /**
      * Sets the position of the object
      *

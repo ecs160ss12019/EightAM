@@ -29,7 +29,8 @@ class Rocks extends GameObject{
 
     private Size rockSize;
     private int MAXSPEED; //TODO: Decide what MAXSPEED should be and set to static final
-    
+    private int SAFEDIST; //TODO: Determine the safe distance from ship to spawn Asteroids
+
     /**
      * Sets and/or updates the position of the hit box of the asteroid
      *
@@ -38,17 +39,18 @@ class Rocks extends GameObject{
      */
     //TODO: Set RecF dependent on size of screen and position of Asteroid
     private void setHitBox(double x, double y) {
-        if (rockSize == Size.LARGE) {
+        switch (rockSize){
+            case LARGE:
 
-        }
-        else if (rockSize == Size.MEDIUM) {
+                break;
+            case MEDIUM:
 
-        }
-        else {
+                break;
+            case SMALL:
 
+                break;
         }
     }
-
 
     /**
      * This constructor constructs the asteroid rocks when there are no
@@ -65,10 +67,14 @@ class Rocks extends GameObject{
      * @param yTotalPix - total vertical pixels
      */
 
-    protected Rocks(int xTotalPix, int yTotalPix) {
+    protected Rocks(int xTotalPix, int yTotalPix, double xShipPos, double yShipPos) {
+        this.objectID = ObjectID.ASTEROID;
         rockSize = Size.LARGE;
-        Random rand = new Random();
+
         double xRand, yRand;
+        double xDistFromShip, yDistFromShip, DistFromShip;
+        Random rand = new Random();
+
         /*
          * We only want to spawn asteroids we are a certain distance away from the ship
          * NOTE: May be inefficient, but more fair to the player
@@ -77,13 +83,14 @@ class Rocks extends GameObject{
          * Only spawn asteroids close to the borders/outskirts of the screen
          * Alternative Implementation:
          * new Random().nextInt((max-min+1))+min to set bounds
-         *
          */
-        //TODO: Find a way to get "a certain distance away from the ship"
-        //do {
+        do {
             xRand = (double) rand.nextInt(xTotalPix);
             yRand = (double) rand.nextInt(yTotalPix);
-        //} while(a certain distance away from the ship);
+            xDistFromShip = Math.abs(xRand - xShipPos);
+            yDistFromShip = Math.abs(yRand - yShipPos);
+            DistFromShip = Math.sqrt(Math.pow(xDistFromShip, 2) + Math.pow(yDistFromShip, 2));
+        } while(DistFromShip > SAFEDIST);
 
         this.setHitBox(xRand, yRand);
         this.spawn(xRand, yRand);
@@ -106,7 +113,10 @@ class Rocks extends GameObject{
      * @param currentY - current vertical position of the parent asteroid
      * @param parentSize - Size of parent
      */
+
     protected Rocks(int currentX, int currentY, Size parentSize) {
+        this.objectID = ObjectID.ASTEROID;
+
         Random rand = new Random();
         if (parentSize == Size.LARGE) {
             rockSize = Size.MEDIUM;
@@ -118,20 +128,23 @@ class Rocks extends GameObject{
             this.velX = (double) rand.nextInt(MAXSPEED);
             this.velY = (double) rand.nextInt(MAXSPEED);
         }
+
         this.setHitBox(currentX, currentY);
         this.spawn(currentX, currentY);
     }
 
     protected void draw(){
         //TODO: Draw on canvas dependent on rockSize
-        if (rockSize == Size.LARGE) {
+        switch (rockSize){
+            case LARGE:
 
-        }
-        else if (rockSize == Size.MEDIUM) {
+                break;
+            case MEDIUM:
 
-        }
-        else {
+                break;
+            case SMALL:
 
+                break;
         }
     }
 

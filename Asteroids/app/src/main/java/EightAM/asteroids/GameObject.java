@@ -3,12 +3,12 @@ package EightAM.asteroids;
 import android.graphics.RectF;
 
 abstract class GameObject {
-    private float velX;
-    private float velY;
-    private float posX;
-    private float posY;
-    private float delX;
-    private float delY;
+    float velX;
+    float velY;
+    float posX;
+    float posY;
+    float delX;
+    float delY;
 
     private RectF hitbox;   // manipulate shape using set()
 
@@ -20,17 +20,17 @@ abstract class GameObject {
     /**
      * Use canvas and paint to draw objects
      */
-    protected void draw();
+    abstract protected void draw();
 
     /**
      * Takes in velocity, computes new position
      * Set new position.
      */
-    protected void move(/*velocity*/);
+    abstract protected void move(/*velocity*/);
     
     /**
      * Possibly take in 2 RectF objects
      * Check intersection of hitboxes
      */
-    protected void collision();
+    abstract protected void collision();
 }

@@ -2,6 +2,10 @@ package EightAM.asteroids;
 
 import android.graphics.RectF;
 
+/**
+ * Build Ship object as a rectf object
+ */
+
 class Ship extends GameObject {
 
     // These are the member variables (fields)
@@ -14,51 +18,50 @@ class Ship extends GameObject {
     private float mShipWidth;
     private float mShipHeight;
 
-    // This is the constructor method.
-    // It is called by the code:
-    // mShip = new Ship(mScreenX);
-    // in the AsteroidsGame class
-    Ship(int screenX) {
+    /**
+     * Constructor
+     *
+     * @param screenX: width of screen
+     * @param screenY: height of screen
+     */
+    protected Ship(int screenX, int screenY) {
         // Make the ball square and 1% of screen width
         // of the screen width
         mShipWidth = screenX / 100;
         mShipHeight = screenX / 100;
 
-        // mRest holds the position of the Ship
-        // Initialize the RectF with 0, 0, 0, 0
-        // We do it here because we only want to
-        // do it once.
-        // We will initialize the detail
-        // at the start of each game
-        mRect = new RectF();
+        // create ship in the middle of screen
+        // TODO: locate ship in the center lower half of screen
+        float left = (screenX/2) - (mShipWidth /2);
+        float right = (screenX/2) + (mShipWidth /2);
+        float top = (screenY/2) -(mShipHeight / 2);
+        float bottom = (screenY/2) + (mShipHeight/2);
+
+        mRect = new RectF(left, top, right, bottom);
+        // How fast will the ship travel
+        mYVelocity = -(screenY / 3);
+        mXVelocity = (screenY / 3);
 
         //spawn(x, y);
     }
 
-    // Reposition the ship at the start of every game.
-    // The int variables x and y are passed in from the
-    // PongGame class and will hold the horizontal and
-    // vertical resolution of the screen.
-    void reset(int x, int y){
+    /**
+     * Called when restart game - reposition ship
+     *
+    */
+    void reset(int screenX, int screenY){
         // Initialise the four points of
         // the rectangle which defines the Ships
-        mRect.left = x / 2;
-        mRect.top = 0;
-        mRect.right = x / 2 + mShipWidth;
+        mRect.left = screenX / 2;
+        mRect.top = mShipHeight;
+        mRect.right = screenX / 2 + mShipWidth;
         mRect.bottom = mShipHeight;
-
-        // How fast will the ship travel
-        // You could vary this to suit
-        // You could even increase it as the game progresses
-        // to make it harder
-        mYVelocity = -(y / 3);
-        mXVelocity = (y / 3);
     }
 
     protected void draw() {
 
     }
-    protected void move() {
+    protected void update() {
 
     }
     protected void collision() {
@@ -86,30 +89,12 @@ class Ship extends GameObject {
 
     }
 
-    // Two helps:
-    // When the PongGame class detects a
-    // collision on either the top or bottom
-    // of the screen it can simply call
-    // reverseYVelocity and the ball will begin
-    // heading in the opposite direction, the
-    // next time the update method is called.
-    // Similarly, reverseXVelocity switches
-    // direction in the horizontal when either
-    // the left or right sides are collided with.
-    // Reverse the vertical direction of travel
-    void reverseYVelocity(){
-        mYVelocity = -mYVelocity;
-    }
-    // Reverse the horizontal direction of travel
-    void reverseXVelocity(){
-        mXVelocity = -mXVelocity;
-    }
-
+/*
     // Wrap around the ship movement based on
     // whether it hits the left or right-hand side
-    void batBounce(RectF batPosition){
+    void shipOut(RectF shipPos){
         // Detect centre of bat
-//        float batCenter = batPosition.left +
+//        float shipCenter = .left +
 //                (batPosition.width() / 2);
 
         // detect the centre of the ball
@@ -135,5 +120,5 @@ class Ship extends GameObject {
         // vertical direction to go back up
         // the screen
         reverseYVelocity();
-    }
+    }*/
 }

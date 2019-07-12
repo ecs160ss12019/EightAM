@@ -1,15 +1,16 @@
 package EightAM.asteroids;
 
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
-class GameView extends SurfaceView implements Runnable, View.OnTouchListener {
+import androidx.core.content.ContextCompat;
+
+class GameView extends SurfaceView implements Runnable {
     private Paint paint;
     private SurfaceHolder surfaceHolder;
     private boolean isRunning;
@@ -23,16 +24,57 @@ class GameView extends SurfaceView implements Runnable, View.OnTouchListener {
 
     GameView(Context ctx, AttributeSet attrs) {
         super(ctx, attrs);
+        init();
+    }
+
+    GameView(Context ctx, AttributeSet attrs, int defStyleAttrs) {
+        super(ctx, attrs, defStyleAttrs);
+        init();
+    }
+
+    void init() {
+        surfaceHolder = getHolder();
+        int colorPrimary = ContextCompat.getColor(getContext(), R.color.colorPrimary);
+        int colorAccent = ContextCompat.getColor(getContext(), R.color.colorAccent);
+
     }
 
     @Override
     public void run() {
-
+        while (isRunning) {
+            if (surfaceHolder.getSurface().isValid()) {
+                Canvas canvas = surfaceHolder.lockCanvas();
+                if (canvas == null) return;
+                // game logic
+                canvas.drawColor(Color.WHITE);
+                surfaceHolder.unlockCanvasAndPost(canvas);
+            }
+        }
     }
 
-    @Override
-    public boolean onTouch(View var1, MotionEvent var2) {
-        return true;
+    public void pause() {
+        isRunning = false;
+        try {
+            // Stop the thread (rejoin the main thread)
+            thread.join();
+        } catch (InterruptedException e) {
+        }
     }
 
+    public void resume() {
+        isRunning = true;
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    public void onPause() {
+        if (thread == null) return;
+        pause();
+        thread = null;
+    }
+
+    public void onResume() {
+        if (thread != null) onPause();
+        resume();
+    }
 }

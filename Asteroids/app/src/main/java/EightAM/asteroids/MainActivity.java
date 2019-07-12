@@ -1,14 +1,16 @@
 package EightAM.asteroids;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-public class MainActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    GameView gameView;
+    private boolean isPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,5 +23,21 @@ public class MainActivity extends Activity {
         }
         setContentView(R.layout.activity_main);
         InputControl.initializeButtons(this);
+        gameView = findViewById(R.id.gameView);
+        gameView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        if (gameView != null) {
+            gameView.onPause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (gameView != null && !isPaused) gameView.onResume();
     }
 }

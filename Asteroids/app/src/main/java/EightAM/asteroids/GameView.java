@@ -15,8 +15,6 @@ class GameView extends SurfaceView implements Runnable {
     private SurfaceHolder surfaceHolder;
     private boolean isRunning;
     private Thread thread;
-    private InputControl inputControl;
-    private InputControl.Control controlInstance;
 
     GameView(Context ctx) {
         this(ctx, null);
@@ -55,7 +53,6 @@ class GameView extends SurfaceView implements Runnable {
     public void pause() {
         isRunning = false;
         try {
-            // Stop the thread (rejoin the main thread)
             thread.join();
         } catch (InterruptedException e) {
         }

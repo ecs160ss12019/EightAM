@@ -1,5 +1,6 @@
 package EightAM.asteroids;
 
+import android.graphics.Bitmap;
 import android.graphics.RectF;
 
 abstract class GameObject {
@@ -7,7 +8,8 @@ abstract class GameObject {
     float velY;
     float posX;
     float posY;
-    protected RectF hitbox;   // manipulate shape using set()
+    RectF hitbox;   // manipulate shape using set()
+    Bitmap bitmap;
 
     float delX;
     float delY;
@@ -82,11 +84,6 @@ abstract class GameObject {
     }
 
     /**
-     * Use canvas and paint to draw objects
-     */
-    abstract protected void draw();
-    
-    /**
      * Possibly take in 2 RectF objects
      * Check intersection of hitboxes
      */
@@ -98,4 +95,13 @@ abstract class GameObject {
      * Set and/or updates hitbox
      */
     abstract protected void setHitBox();
+
+
+    /**
+     * Set up for drawing
+     * @return
+     */
+    protected Bitmap getBitmap() {
+        return bitmap;
+    }
 }

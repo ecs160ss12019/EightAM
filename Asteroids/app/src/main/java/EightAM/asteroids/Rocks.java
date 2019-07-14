@@ -1,12 +1,16 @@
 package EightAM.asteroids;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.RectF;
 import java.util.Random;
 
 class Rocks extends GameObject {
 
     static final int LARGE_RADIUS = 3;
-    static final int MIDIUM_RADIUS = 2;
+    static final int MEDIUM_RADIUS = 2;
     static final int SMALL_RADIUS = 1;
 
     /*
@@ -42,7 +46,7 @@ class Rocks extends GameObject {
      * @param yTotalPix - total vertical pixels
      */
 
-    protected Rocks(int xTotalPix, int yTotalPix, float xShipPos, float yShipPos) {
+    protected Rocks(int xTotalPix, int yTotalPix, float xShipPos, float yShipPos, Context context) {
         // migth use later
         this.objectID = ObjectID.ASTEROID;
 
@@ -74,6 +78,10 @@ class Rocks extends GameObject {
 
         this.velX = rand.nextInt(MAXSPEED / 4);
         this.velY = rand.nextInt(MAXSPEED / 4);
+
+        //prepare bitmap for drawing
+        //drawable subject to change
+        //bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocks_large);
     }
 
     /**
@@ -99,10 +107,18 @@ class Rocks extends GameObject {
             rockSize = Size.MEDIUM;
             this.velX = rand.nextInt(MAXSPEED / 2);
             this.velY = rand.nextInt(MAXSPEED / 2);
+
+            //prepare bitmap for drawing
+            //drawable subject to change
+            //bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocks_medium);
         } else {
             rockSize = Size.SMALL;
             this.velX = rand.nextInt(MAXSPEED);
             this.velY = rand.nextInt(MAXSPEED);
+
+            //prepare bitmap for drawing
+            //drawable subject to change
+            //bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocks_small);
         }
 
         this.spawn(currentX, currentY);
@@ -125,31 +141,16 @@ class Rocks extends GameObject {
                 hitbox.bottom += LARGE_RADIUS;
                 break;
             case MEDIUM:
-                hitbox.left -= MIDIUM_RADIUS;
-                hitbox.top -= MIDIUM_RADIUS;
-                hitbox.right += MIDIUM_RADIUS;
-                hitbox.bottom += MIDIUM_RADIUS;
+                hitbox.left -= MEDIUM_RADIUS;
+                hitbox.top -= MEDIUM_RADIUS;
+                hitbox.right += MEDIUM_RADIUS;
+                hitbox.bottom += MEDIUM_RADIUS;
                 break;
             case SMALL:
                 hitbox.left -= SMALL_RADIUS;
                 hitbox.top -= SMALL_RADIUS;
                 hitbox.right += SMALL_RADIUS;
                 hitbox.bottom += SMALL_RADIUS;
-                break;
-        }
-    }
-
-    protected void draw() {
-        // TODO: Draw on canvas dependent on rockSize
-        switch (rockSize) {
-            case LARGE:
-
-                break;
-            case MEDIUM:
-
-                break;
-            case SMALL:
-
                 break;
         }
     }

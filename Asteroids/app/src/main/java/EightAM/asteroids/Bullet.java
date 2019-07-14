@@ -3,7 +3,7 @@ package EightAM.asteroids;
 import android.graphics.RectF;
 import java.lang.Math;
 
-class Projectile extends GameObject {
+class Bullet extends GameObject {
 
     private int bulletSpeed;
     ObjectID owner;
@@ -20,19 +20,19 @@ class Projectile extends GameObject {
      * @param y - vertical position of shooter
      * @param orientation - angle/ orientation of the shooter
      */
-    protected Projectile(ObjectID shooter, double x, double y, double orientation){
+    protected Bullet(ObjectID shooter, float x, float y, double orientation){
         this.posX = x;
         this.posY = y;
         this.objectID = ObjectID.PROJECTILE;
         this.owner = shooter;
 
         if (this.owner == ObjectID.SHIP){
-            this.velX = bulletSpeed * Math.cos(orientation);
-            this.velY = bulletSpeed * Math.sin(orientation);
+            this.velX = bulletSpeed * (float)Math.cos(orientation);
+            this.velY = bulletSpeed * (float)Math.sin(orientation);
         }
         else {
-            this.velX = (bulletSpeed / 2) * Math.cos(orientation);
-            this.velY = (bulletSpeed / 2) * Math.sin(orientation);
+            this.velX = (bulletSpeed / 2) * (float)Math.cos(orientation);
+            this.velY = (bulletSpeed / 2) * (float)Math.sin(orientation);
         }
     }
     protected void draw(){

@@ -69,17 +69,17 @@ abstract class GameObject {
 
         // Wrap around screen
         if (this.hitbox.left < 0){
-            this.hitbox.left += (double) spaceWidth;
+            this.hitbox.left += (float) spaceWidth;
         }
-        else if (this.hitbox.right > (double) spaceWidth) {
-            this.hitbox.right -= (double) spaceWidth;
+        else if (this.hitbox.right > (float) spaceWidth) {
+            this.hitbox.right -= (float) spaceWidth;
         }
 
         if (this.hitbox.top < 0){
-            this.hitbox.top += (double) spaceHeight;
+            this.hitbox.top += (float) spaceHeight;
         }
-        else if (this.hitbox.bottom > (double) spaceHeight) {
-            this.hitbox.bottom -= (double) spaceHeight;
+        else if (this.hitbox.bottom > (float) spaceHeight) {
+            this.hitbox.bottom -= (float) spaceHeight;
         }
     }
 

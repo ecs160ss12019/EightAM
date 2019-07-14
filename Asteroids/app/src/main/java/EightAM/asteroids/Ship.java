@@ -1,5 +1,7 @@
 package EightAM.asteroids;
 
+import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
 class Ship extends GameObject {
@@ -18,6 +20,8 @@ class Ship extends GameObject {
     float shipHeight;
     float angle;
 
+    boolean teleporting = false;
+
     // ---------------Member methods---------------
 
     /**
@@ -26,18 +30,21 @@ class Ship extends GameObject {
      * @param screenX: width of screen
      * @param screenY: height of screen
      */
-    protected Ship(int screenX, int screenY) {
+    protected Ship(int screenX, int screenY, Context context) {
         SCREEN_WIDTH = screenX;
         SCREEN_HEIGHT = screenY;
 
-        // Make the ship square and 1% of screen width
-        shipWidth = screenX / 100;
-        shipHeight = screenX / 100;
+        shipHeight = screenY / 10;
+        shipWidth = shipHeight / 2;
 
         this.velX = 0;
         this.velY = 0;
 
         this.setHitBox();
+
+        // Prepare the bitmap
+        // Load .png file in res/drawable
+        this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_ship);
     }
 
     /**

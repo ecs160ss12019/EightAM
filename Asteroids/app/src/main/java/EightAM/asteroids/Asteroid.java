@@ -81,9 +81,9 @@ class Asteroid extends GameObject {
         this.velX = rand.nextInt(MAXSPEED / 4);
         this.velY = rand.nextInt(MAXSPEED / 4);
 
-        //prepare bitmap for drawing
-        //drawable subject to change
-        //bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocks_large);
+        // Prepare the bitmap
+        // Load .png file in res/drawable
+        this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_asteroid_large);
     }
 
     /**
@@ -100,7 +100,7 @@ class Asteroid extends GameObject {
      * @param currentY   - current vertical position of the parent asteroid
      * @param parentSize - Size of parent
      */
-    protected Asteroid(int currentX, int currentY, Size parentSize) {
+    protected Asteroid(int currentX, int currentY, Size parentSize, Context context) {
         this.objectID = ObjectID.ASTEROID;
 
         Random rand = new Random();
@@ -109,17 +109,19 @@ class Asteroid extends GameObject {
             this.velX = rand.nextInt(MAXSPEED / 2);
             this.velY = rand.nextInt(MAXSPEED / 2);
 
-            //prepare bitmap for drawing
-            //drawable subject to change
-            //bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocks_medium);
+            // Prepare the bitmap
+            // Load .png file in res/drawable
+            // TODO: this asteroid figure subject to change
+            this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_asteroid_large);
         } else {
             rockSize = Size.SMALL;
             this.velX = rand.nextInt(MAXSPEED);
             this.velY = rand.nextInt(MAXSPEED);
 
-            //prepare bitmap for drawing
-            //drawable subject to change
-            //bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocks_small);
+            /// Prepare the bitmap
+            // Load .png file in res/drawable
+            // TODO: this asteroid figure subject to change
+            this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_asteroid_large);
         }
         this.spawn(currentX, currentY);
         this.setHitBox();

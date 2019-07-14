@@ -3,15 +3,14 @@ package EightAM.asteroids;
 import android.graphics.RectF;
 
 abstract class GameObject {
-    double velX;
-    double velY;
-    double posX;
-    double posY;
-    double delX;
-    double delY;
+    float velX;
+    float velY;
+    float posX;
+    float posY;
+    protected RectF hitbox;   // manipulate shape using set()
 
-    private RectF hitbox;   // manipulate shape using set()
-
+    float delX;
+    float delY;
 
     /**
      * Enum to to determine the ID of object during collision detection,
@@ -32,7 +31,7 @@ abstract class GameObject {
      * @param x - horizontal spawn position for object
      * @param y - vertical spawn position for object
      */
-    protected void spawn(double x, double y) {
+    protected void spawn(float x, float y) {
         this.posX = x;
         this.posY = y;
     }
@@ -46,24 +45,39 @@ abstract class GameObject {
      * @param spaceWidth - width of space (canvas)
      * @param spaceHeight - height of space (canvas)
      */
-    protected void move(int spaceWidth, int spaceHeight){
+    protected void move(int spaceWidth, int spaceHeight, long timeInMillisecond){
+
+        // Move the ball based upon the
+        // horizontal (mXVelocity) and
+        // vertical(mYVelocity) speed
+        // and the current frame rate(fps)
+        // Move the top left corner
+        this.hitbox.left = this.hitbox.left + (this.velX * timeInMillisecond);
+        this.hitbox.top = this.hitbox.top + (this.velY * timeInMillisecond);
+
+        // Match up the bottom right corner
+        // based on the size of the ball
+        this.hitbox.right = this.hitbox.right + (this.velX * timeInMillisecond);
+        this.hitbox.bottom = this.hitbox.bottom + (this.velY * timeInMillisecond);
+
+
         // Move the object according to its velocity
         this.posX += this.velX;
         this.posY += this.velY;
 
         // Wrap around screen
-        if (this.posX < 0){
-            this.posX += (double) spaceWidth;
+        if (this.hitbox.left < 0){
+            this.hitbox.left += (double) spaceWidth;
         }
-        else if (this.posX > (double) spaceWidth) {
-            this.posX -= (double) spaceWidth;
+        else if (this.hitbox.right > (double) spaceWidth) {
+            this.hitbox.right -= (double) spaceWidth;
         }
 
-        if (this.posY < 0){
-            this.posY += (double) spaceHeight;
+        if (this.hitbox.top < 0){
+            this.hitbox.top += (double) spaceHeight;
         }
-        else if (this.posY > (double) spaceHeight) {
-            this.posY -= (double) spaceHeight;
+        else if (this.hitbox.bottom > (double) spaceHeight) {
+            this.hitbox.bottom -= (double) spaceHeight;
         }
     }
 
@@ -76,12 +90,9 @@ abstract class GameObject {
      * Possibly take in 2 RectF objects
      * Check intersection of hitboxes
      */
-    abstract protected void collision();
-
-    /**
-     * Moves and check collision of object
-     */
-    abstract protected void update();
+    protected boolean detectCollisions(RectF approachingObject) {
+        return hitbox.intersect(approachingObject);
+    }
 
     /**
      * Set and/or updates hitbox

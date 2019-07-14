@@ -7,32 +7,38 @@ import android.graphics.Color;
 import android.graphics.RectF;
 import java.util.Random;
 
-class Rocks extends GameObject {
+/**
+ * Goals:
+ * - Spawn on space outskirts
+ * - rocks generates rocks in a collision
+ * - rocks float in space
+ * - rocks collide with everything other object except itself
+ * - speed: constant and dependent on size
+ *
+ * Interact with:
+ * - Space GameObject
+ */
+
+class Asteroid extends GameObject {
+
+    // ---------------Member statics ---------------
 
     static final int LARGE_RADIUS = 3;
     static final int MEDIUM_RADIUS = 2;
     static final int SMALL_RADIUS = 1;
+    static final int MAXSPEED = 3; // TODO: subject to change
 
-    /*
-     * Goals: - Spawn on space outskirts - rocks generates rocks in a collision -
-     * rocks float in space - rocks collide with everything other object except
-     * itself - speed: constant and dependent on size
-     *
-     * Interact with: Space GameObject
-     */
+    // ---------------Member variables-------------
 
-    /**
-     * Enum to denote 3 size types of asteroid rock
-     */
-    enum Size {
-        SMALL, MEDIUM, LARGE
-    }
-
+    // enum size used to denote three size types of asteroid rock
+    enum Size { SMALL, MEDIUM, LARGE }
     private Size rockSize;
-    private int MAXSPEED; // TODO: Decide what MAXSPEED should be and set to static final
-    private int SAFEDIST; // TODO: Determine the safe distance from ship to spawn Asteroids
+    private int SAFEDIST;  // TODO: Determine the safe distance from ship to spawn Asteroids
+
+    // ---------------Member methods---------------
+
     /**
-     * This constructor constructs the asteroid rocks when there are no asteroids in
+     * First onstructor constructs the asteroid rocks when there are no asteroids in
      * space, i.e. when there's a new game or when all asteroids in the field are
      * destroyed.
      *
@@ -45,26 +51,22 @@ class Rocks extends GameObject {
      * @param xTotalPix - total horizontal pixels
      * @param yTotalPix - total vertical pixels
      */
+    protected Asteroid(int xTotalPix, int yTotalPix, float xShipPos, float yShipPos, Context context) {
+        float xRand, yRand;
+        float xDistFromShip, yDistFromShip, DistFromShip;
+        Random rand = new Random();
 
-    protected Rocks(int xTotalPix, int yTotalPix, float xShipPos, float yShipPos, Context context) {
-        // migth use later
+        // might use later
         this.objectID = ObjectID.ASTEROID;
 
         // crate large rock only
         rockSize = Size.LARGE;
 
-        float xRand, yRand;
-        float xDistFromShip, yDistFromShip, DistFromShip;
-        Random rand = new Random();
-
-        /*
-         * We only want to spawn asteroids we are a certain distance away from the ship
-         * NOTE: May be inefficient, but more fair to the player
-         *
-         * Alternative: Only spawn asteroids close to the borders/outskirts of the
-         * screen Alternative Implementation: new Random().nextInt((max-min+1))+min to
-         * set bounds
-         */
+        // We only want to spawn asteroids we are a certain distance away from the ship
+        // NOTE: May be inefficient, but more fair to the player.
+        // Alternative: Only spawn asteroids close to the borders/outskirts of the
+        // screen Alternative Implementation: new Random().nextInt((max-min+1))+min to
+        // set bounds
         do {
             xRand = rand.nextInt(xTotalPix);
             yRand = rand.nextInt(yTotalPix);
@@ -85,7 +87,7 @@ class Rocks extends GameObject {
     }
 
     /**
-     * This constructor constructs the asteroid rocks when there an asteroid of a
+     * Second constructor constructs the asteroid rocks when there an asteroid of a
      * Size of LARGE or MEDIUM gets destroyed.
      *
      * These asteroids spawn in the wake of the destruction of its parent i.e. the
@@ -98,8 +100,7 @@ class Rocks extends GameObject {
      * @param currentY   - current vertical position of the parent asteroid
      * @param parentSize - Size of parent
      */
-
-    protected Rocks(int currentX, int currentY, Size parentSize) {
+    protected Asteroid(int currentX, int currentY, Size parentSize) {
         this.objectID = ObjectID.ASTEROID;
 
         Random rand = new Random();
@@ -120,19 +121,16 @@ class Rocks extends GameObject {
             //drawable subject to change
             //bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rocks_small);
         }
-
         this.spawn(currentX, currentY);
         this.setHitBox();
     }
 
     /**
-     * Sets and/or updates the position of the hit box of the asteroid
-     *
+     * Sets and/or updates the position of the hitbox of the asteroid
      */
     // TODO: Set RecF dependent on size of screen and position of Asteroid
     protected void setHitBox() {
         hitbox = new RectF(this.posX, this.posY, this.posX, this.posY);
-
         switch (rockSize) {
             case LARGE:
                 hitbox.left -= LARGE_RADIUS;

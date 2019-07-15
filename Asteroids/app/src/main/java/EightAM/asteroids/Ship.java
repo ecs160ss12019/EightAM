@@ -37,8 +37,7 @@ class Ship extends GameObject {
         shipHeight = screenY / 10;
         shipWidth = shipHeight / 2;
 
-        this.velX = 0;
-        this.velY = 0;
+        this.vel = new Velocity(0,0);
 
         this.setHitBox();
 
@@ -59,4 +58,5 @@ class Ship extends GameObject {
 
         this.hitbox = new RectF(left, top, right, bottom);
     }
+
 }

@@ -5,13 +5,10 @@ import android.graphics.RectF;
 
 abstract class GameObject {
 
-<<<<<<< HEAD
     // ---------------Member statics-------------
 
     static final int ANGULAR_VELOCITY = 1;
 
-=======
->>>>>>> 1bcb4b2bc5c2ef2ff8059303fa7cc550a793da50
     // ---------------Member variables-------------
 
     float velX;
@@ -68,28 +65,19 @@ abstract class GameObject {
         // horizontal (mXVelocity) and
         // vertical(mYVelocity) speed
         // and the current frame rate(fps)
-
-        // TODO: test all this movement stuff :-)
         // Move the top left corner
-        this.hitbox.left += (this.velX * timeInMillisecond) % (float) spaceWidth;
-        this.hitbox.top += (this.velY * timeInMillisecond) % (float) spaceHeight;
+        this.hitbox.left = this.hitbox.left + (this.velX * timeInMillisecond);
+        this.hitbox.top = this.hitbox.top + (this.velY * timeInMillisecond);
 
         // Match up the bottom right corner
         // based on the size of the ball
-<<<<<<< HEAD
         this.hitbox.right = this.hitbox.right + (this.velX * timeInMillisecond);
         this.hitbox.bottom = this.hitbox.bottom + (this.velY * timeInMillisecond);
-=======
-        this.hitbox.right += (this.velX * timeInMillisecond) % (float) spaceWidth;
-        this.hitbox.bottom += (this.velY * timeInMillisecond) % (float) spaceHeight;
->>>>>>> 1bcb4b2bc5c2ef2ff8059303fa7cc550a793da50
 
         // Move the object according to its velocity
         this.posX += this.velX;
         this.posY += this.velY;
-    }
 
-<<<<<<< HEAD
         // Wrap around screen
         // TODO: need to be tested later on by adding unit test
         if (this.hitbox.left < 0){
@@ -149,44 +137,5 @@ abstract class GameObject {
     /**
      * Set and/or updates hitbox, object has its own version of hotbox
      */
-=======
-    /**
-     * Rotate method does......
-     *
-     * @param timeInMillisecond
-     */
-    protected void rotate(long timeInMillisecond) {
-        angle = angle + angularVel * timeInMillisecond;
-    }
-
-    /**
-     * Update method means rotating and moving the calling object.
-     *
-     * @param spaceWidth
-     * @param spaceHeight
-     * @param timeInMillisecond
-     */
-    protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
-        rotate(timeInMillisecond);
-        move(spaceWidth, spaceHeight, timeInMillisecond);
-    }
-
-    /**
-     * Collision detection method takes in the hitbox of approaching object, using intersection
-     * method to check of collision
-     *
-     * @param approachingObject the hitbox of approaching object,
-     * @return true for collision, otherwise false
-     */
-    protected boolean detectCollisions(RectF approachingObject) {
-        return hitbox.intersect(approachingObject);
-    }
-
-    // -----------Abstract member methods-----------
-
-    /**
-     * Set and/or updates hitbox, object has its own version of hitbox
-     */
->>>>>>> 1bcb4b2bc5c2ef2ff8059303fa7cc550a793da50
     abstract protected void setHitBox();
 }

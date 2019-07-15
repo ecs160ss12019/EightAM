@@ -12,7 +12,8 @@ public class Velocity {
     float vely;
     float vel;
 
-    protected Velocity() {
-
+    protected Velocity(float x, float y) {
+        velX = x;
+        vely = y;
     }
 }

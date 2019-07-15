@@ -16,7 +16,7 @@ abstract class GameObject {
     Bitmap bitmap;
 
     float angle;
-    Space refSpace;
+    GameModel refGameModel;
     float angularVel;
 
     // ObjectID as Enum determines the type of object during collision detection.
@@ -33,7 +33,7 @@ abstract class GameObject {
     /**
      * Constructor initializes the basic parameters of gameObject
      */
-//    GameObject(int posX, int posY, int width, int height, Space space, Bitmap bitmap) {
+//    GameObject(int posX, int posY, int width, int height, GameModel space, Bitmap bitmap) {
 //        this.hitbox = new RectF(posX, posY, posX + width, posY + height)
 //    }
 

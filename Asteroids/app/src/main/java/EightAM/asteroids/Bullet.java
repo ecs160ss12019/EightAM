@@ -20,20 +20,18 @@ class Bullet extends GameObject {
      * @param shooter - denotes if fired from player (true) or alien (false)
      * @param x - horizontal position of shooter
      * @param y - vertical position of shooter
-     * @param orientation - angle/ orientation of the shooter
+     * @param angle - angle/ orientation of the shooter
      */
-    protected Bullet(ObjectID shooter, float x, float y, double orientation){
+    protected Bullet(ObjectID shooter, float x, float y, float angle){
         hitbox = new RectF(x, y, x, y);
         this.objectID = ObjectID.PROJECTILE;
         this.owner = shooter;
-
+        distanceTraveled = 0;
         if (this.owner == ObjectID.SHIP){
-            this.velX = bulletSpeed * (float)Math.cos(orientation);
-            this.velY = bulletSpeed * (float)Math.sin(orientation);
+            this.vel = new Velocity(bulletSpeed, angle);
         }
         else {
-            this.velX = (bulletSpeed / 2) * (float)Math.cos(orientation);
-            this.velY = (bulletSpeed / 2) * (float)Math.sin(orientation);
+            this.vel = new Velocity(bulletSpeed/2, angle);
         }
     }
 
@@ -41,24 +39,20 @@ class Bullet extends GameObject {
      * Calculates how far the bullet has traveled.
      * (to be used in a super class to determine when the bullet should die.)
      * @param timeInMillisecond current time of the game in ms
-     * @return distance traveled
      */
-    private float distanceTraveled(long timeInMillisecond) {
-        float velocity = (float)Math.sqrt(Math.pow(this.velX, 2) + Math.pow(this.velY, 2));
-        return timeInMillisecond * velocity;
-
+    private void distanceTraveled(long timeInMillisecond) {
+        distanceTraveled += timeInMillisecond * this.vel.magnitude();
     }
 
     /**
      * Determines if the bullet should continue to persist.
-     * @param timeInMillisecond current time of the game in ms
      * @return true if the bullet has exceeded its maximum range
      */
-    protected boolean shouldDie(long timeInMillisecond) {
-        return distanceTraveled(timeInMillisecond) > maxRange;
+    protected boolean reachedMaxRange() {
+        return distanceTraveled > maxRange;
     }
 
-    protected void setHitBox() {
-        hitbox = new RectF(this.posX, this.posY, this.posX, this.posY);
+    protected void setHitBox(float posX, float posY) {
+        hitbox = new RectF(posX, posY, posX, posY);
     }
 }

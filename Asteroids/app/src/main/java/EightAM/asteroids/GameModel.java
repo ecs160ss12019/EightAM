@@ -1,5 +1,5 @@
 package EightAM.asteroids;
 
-class Space {
+class GameModel {
     
 }

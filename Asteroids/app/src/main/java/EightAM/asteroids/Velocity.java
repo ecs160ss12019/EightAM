@@ -1,11 +1,9 @@
 package EightAM.asteroids;
 
 /**
- * The Velocity class holds components of velocity (x and y components)
- * and has a method to calculate total velocity.
+ * The Velocity class holds the magnitude and direction of velocity.
  *
- * Its intention is to simplify the calculation of total velocity
- * for instances of GameObject.
+ * Getter functions return components of the velocity (with respects to x and y).
  */
 public class Velocity {
     float speed;

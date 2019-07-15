@@ -9,11 +9,17 @@ package EightAM.asteroids;
  */
 public class Velocity {
     float velX;
-    float vely;
+    float velY;
     float vel;
 
     protected Velocity(float x, float y) {
         velX = x;
-        vely = y;
+        velY = y;
+        vel = (float)Math.sqrt(Math.pow(this.velX, 2) + Math.pow(this.velY, 2));
+    }
+
+    protected float totalVelocity() {
+        vel = (float)Math.sqrt(Math.pow(this.velX, 2) + Math.pow(this.velY, 2));
+        return vel;
     }
 }

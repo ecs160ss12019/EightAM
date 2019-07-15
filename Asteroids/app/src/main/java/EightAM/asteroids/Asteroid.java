@@ -38,7 +38,7 @@ class Asteroid extends GameObject {
     // ---------------Member methods---------------
 
     /**
-     * First onstructor constructs the asteroid rocks when there are no asteroids in
+     * First constructor constructs the asteroid rocks when there are no asteroids in
      * space, i.e. when there's a new game or when all asteroids in the field are
      * destroyed.
      *

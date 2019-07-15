@@ -7,6 +7,8 @@ class Bullet extends GameObject {
 
     private int bulletSpeed;
     ObjectID owner;
+    private float maxRange; // a cap on how far bullet can travel
+    private float distanceTraveled;
 
     /**
      * Constructs projectile, i.e. shoots projectile in the orientation/angle
@@ -21,8 +23,7 @@ class Bullet extends GameObject {
      * @param orientation - angle/ orientation of the shooter
      */
     protected Bullet(ObjectID shooter, float x, float y, double orientation){
-        this.posX = x;
-        this.posY = y;
+        hitbox = new RectF(x, y, x, y);
         this.objectID = ObjectID.PROJECTILE;
         this.owner = shooter;
 
@@ -36,7 +37,19 @@ class Bullet extends GameObject {
         }
     }
 
-    protected void setHitBox() {
+    /**
+     * Calculates how far the bullet has traveled.
+     * (to be used in a super class to determine when the bullet should die.)
+     * @param timeInMillisecond current time of the game in ms
+     * @return distance traveled
+     */
+    protected float calculateDistanceTraveled(long timeInMillisecond) {
+        float velocity = (float)Math.sqrt(Math.pow(this.velX, 2) + Math.pow(this.velY, 2));
+        return timeInMillisecond * velocity;
 
+    }
+
+    protected void setHitBox() {
+        hitbox = new RectF(this.posX, this.posY, this.posX, this.posY);
     }
 }

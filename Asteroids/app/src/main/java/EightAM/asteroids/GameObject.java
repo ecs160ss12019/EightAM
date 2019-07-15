@@ -11,11 +11,7 @@ abstract class GameObject {
 
     // ---------------Member variables-------------
 
-    float velX;
-    float velY;
-    float posX;
-    float posY;
-
+    Velocity vel;
     RectF hitbox;
     Bitmap bitmap;
 
@@ -41,16 +37,6 @@ abstract class GameObject {
 //        this.hitbox = new RectF(posX, posY, posX + width, posY + height)
 //    }
 
-    /**
-     * Sets the position of the object
-     *
-     * @param x - horizontal spawn position for object
-     * @param y - vertical spawn position for object
-     */
-    protected void spawn(float x, float y) {
-        this.posX = x;
-        this.posY = y;
-    }
 
     /**
      * Move an object according to their velocity, if the object hits the space edge then wrap
@@ -66,17 +52,19 @@ abstract class GameObject {
         // vertical(mYVelocity) speed
         // and the current frame rate(fps)
         // Move the top left corner
-        this.hitbox.left = this.hitbox.left + (this.velX * timeInMillisecond);
-        this.hitbox.top = this.hitbox.top + (this.velY * timeInMillisecond);
+        this.hitbox.left = this.hitbox.left + (this.vel.velX * timeInMillisecond);
+        this.hitbox.top = this.hitbox.top + (this.vel.velY * timeInMillisecond);
 
         // Match up the bottom right corner
         // based on the size of the ball
-        this.hitbox.right = this.hitbox.right + (this.velX * timeInMillisecond);
-        this.hitbox.bottom = this.hitbox.bottom + (this.velY * timeInMillisecond);
+        this.hitbox.right = this.hitbox.right + (this.vel.velX * timeInMillisecond);
+        this.hitbox.bottom = this.hitbox.bottom + (this.vel.velY * timeInMillisecond);
 
+        /*
         // Move the object according to its velocity
         this.posX += this.velX;
         this.posY += this.velY;
+        */
 
         // Wrap around screen
         // TODO: need to be tested later on by adding unit test

@@ -35,17 +35,6 @@ class Bullet extends GameObject {
             this.velY = (bulletSpeed / 2) * (float)Math.sin(orientation);
         }
     }
-    protected void draw(){
-        //TODO: Draw on canvas dependent on rockSize
-    }
-
-    protected void collision() {
-
-    }
-
-    protected void update(){
-
-    }
 
     protected void setHitBox() {
 

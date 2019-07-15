@@ -43,10 +43,19 @@ class Bullet extends GameObject {
      * @param timeInMillisecond current time of the game in ms
      * @return distance traveled
      */
-    protected float calculateDistanceTraveled(long timeInMillisecond) {
+    private float distanceTraveled(long timeInMillisecond) {
         float velocity = (float)Math.sqrt(Math.pow(this.velX, 2) + Math.pow(this.velY, 2));
         return timeInMillisecond * velocity;
 
+    }
+
+    /**
+     * Determines if the bullet should continue to persist.
+     * @param timeInMillisecond current time of the game in ms
+     * @return true if the bullet has exceeded its maximum range
+     */
+    protected boolean shouldDie(long timeInMillisecond) {
+        return distanceTraveled(timeInMillisecond) > maxRange;
     }
 
     protected void setHitBox() {

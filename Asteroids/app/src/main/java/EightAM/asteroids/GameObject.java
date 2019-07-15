@@ -59,26 +59,24 @@ abstract class GameObject {
         // based on the size of the ball
         this.hitbox.right += (this.vel.velX() * timeInMillisecond) % (float) spaceWidth;
         this.hitbox.bottom += (this.vel.velY() * timeInMillisecond) % (float) spaceHeight;
-
-        /*
-        // Move the object according to its velocity
-        this.posX += this.velX;
-        this.posY += this.velY;
-        */
     }
 
     /**
-     * Rotate method does......
+     * Rotate method rotates the object, unless the objects is a ship and it is not
+     * being rotated.
+     *
+     * NOTE: Might have to refactor "angle" and "angularVel" as angle is already a part of
+     * the Velocity class. This method needs a hard look.
      *
      * @param isPress boolean value indicates whether user is pressing
      */
     protected void rotate(boolean isPress) {
-        if (isPress) {
-            angularVel = ANGULAR_VELOCITY;
-            angle += angle * angularVel;
-        } else {
+        if (!isPress && objectID == ObjectID.SHIP ) {
             angularVel = 0;
+        } else {
+            angularVel = ANGULAR_VELOCITY;
         }
+        angle *= angularVel;
     }
 
     /**

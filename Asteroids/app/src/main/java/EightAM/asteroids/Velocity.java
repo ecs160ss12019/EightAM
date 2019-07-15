@@ -8,26 +8,45 @@ package EightAM.asteroids;
  * for instances of GameObject.
  */
 public class Velocity {
-    float velX;
-    float velY;
+    float speed;
+    float angle;
 
     /**
      * Creates an instance of Velocity.
      * Meant to be used within a GameObject.
-     * @param x component of velocity
-     * @param y component of velocity
+     * @param speed - Magnitude of velocity
+     * @param angle - Direction of velocity
      */
-    protected Velocity(float x, float y) {
-        velX = x;
-        velY = y;
+
+    protected Velocity(float speed, float angle) {
+        this.speed = speed;
+        this.angle = angle;
     }
 
     /**
-     * Calculates the total velocity of the object with which this instance
-     * of velocity is associated.
-     * @return total velocity of the object
+     * Update Velocity
+     * Increment Speed (Magnitude of velocity)
+     * Update Velocity by assignment. //<- subject to change, If you guys think its easier to increment angle
+     *
+     * @param changeInSpeed
+     * @param changeInAngle
      */
-    protected float totalVelocity() {
-        return (float)Math.sqrt(Math.pow(this.velX, 2) + Math.pow(this.velY, 2));
+    protected void updateVelocity(float changeInSpeed, float changeInAngle) {
+        this.speed += changeInSpeed;
+        this.angle += changeInAngle;
+    }
+
+    /**
+     * @return X component of Velocity
+     */
+    protected float velX(){
+        return this.speed * (float) Math.cos(angle);
+    }
+
+    /**
+     * @return Y component of Velocity
+     */
+    protected float velY(){
+        return this.speed * (float) Math.sin(angle);
     }
 }

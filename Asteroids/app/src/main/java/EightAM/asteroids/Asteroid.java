@@ -27,6 +27,7 @@ class Asteroid extends GameObject {
     static final int MEDIUM_RADIUS = 2;
     static final int SMALL_RADIUS = 1;
     static final int MAXSPEED = 3; // TODO: subject to change
+    static final int MAXANGLE = 359;
 
     // ---------------Member variables-------------
 
@@ -50,6 +51,9 @@ class Asteroid extends GameObject {
      *
      * @param xTotalPix - total horizontal pixels
      * @param yTotalPix - total vertical pixels
+     * @param xShipPos - Ship horizontal position
+     * @param yShipPos - Ship vertical position
+     * @param context - Context for setting bitmap
      */
     protected Asteroid(int xTotalPix, int yTotalPix, float xShipPos, float yShipPos, Context context) {
         float xRand, yRand;
@@ -75,11 +79,11 @@ class Asteroid extends GameObject {
             DistFromShip = (float) Math.sqrt(Math.pow(xDistFromShip, 2) + Math.pow(yDistFromShip, 2));
         } while (DistFromShip < SAFEDIST);
 
-        this.spawn(xRand, yRand);
-        this.setHitBox();
+        float speed = rand.nextInt(MAXSPEED / 4);
+        float direction = rand.nextInt(MAXANGLE);
 
-        this.velX = rand.nextInt(MAXSPEED / 4);
-        this.velY = rand.nextInt(MAXSPEED / 4);
+        this.vel = new Velocity(speed, direction);
+        this.setHitBox(xRand, yRand);
 
         // Prepare the bitmap
         // Load .png file in res/drawable
@@ -99,15 +103,18 @@ class Asteroid extends GameObject {
      * @param currentX   - current horizontal position of the parent asteroid
      * @param currentY   - current vertical position of the parent asteroid
      * @param parentSize - Size of parent
+     * @param context - Context for setting bitmap
      */
     protected Asteroid(int currentX, int currentY, Size parentSize, Context context) {
         this.objectID = ObjectID.ASTEROID;
 
         Random rand = new Random();
+        float direction = rand.nextInt(MAXANGLE);
+        float speed = rand.nextInt(MAXSPEED);
+
         if (parentSize == Size.LARGE) {
             rockSize = Size.MEDIUM;
-            this.velX = rand.nextInt(MAXSPEED / 2);
-            this.velY = rand.nextInt(MAXSPEED / 2);
+            speed /= 2;
 
             // Prepare the bitmap
             // Load .png file in res/drawable
@@ -115,24 +122,23 @@ class Asteroid extends GameObject {
             this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_asteroid_large);
         } else {
             rockSize = Size.SMALL;
-            this.velX = rand.nextInt(MAXSPEED);
-            this.velY = rand.nextInt(MAXSPEED);
+            speed /= 4;
 
             /// Prepare the bitmap
             // Load .png file in res/drawable
             // TODO: this asteroid figure subject to change
             this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_asteroid_large);
         }
-        this.spawn(currentX, currentY);
-        this.setHitBox();
+        this.vel = new Velocity(speed, direction);
+        this.setHitBox(currentX, currentY);
     }
 
     /**
      * Sets and/or updates the position of the hitbox of the asteroid
      */
     // TODO: Set RecF dependent on size of screen and position of Asteroid
-    protected void setHitBox() {
-        hitbox = new RectF(this.posX, this.posY, this.posX, this.posY);
+    protected void setHitBox(float posX, float posY) {
+        hitbox = new RectF(posX, posY, posX, posY);
         switch (rockSize) {
             case LARGE:
                 hitbox.left -= LARGE_RADIUS;

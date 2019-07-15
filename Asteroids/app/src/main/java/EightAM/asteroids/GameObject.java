@@ -52,35 +52,19 @@ abstract class GameObject {
         // vertical(mYVelocity) speed
         // and the current frame rate(fps)
         // Move the top left corner
-        this.hitbox.left = this.hitbox.left + (this.vel.velX() * timeInMillisecond);
-        this.hitbox.top = this.hitbox.top + (this.vel.velY() * timeInMillisecond);
+        this.hitbox.left += (this.vel.velX() * timeInMillisecond) % (float) spaceWidth;
+        this.hitbox.top += (this.vel.velY() * timeInMillisecond) % (float) spaceHeight;
 
         // Match up the bottom right corner
         // based on the size of the ball
-        this.hitbox.right = this.hitbox.right + (this.vel.velX() * timeInMillisecond);
-        this.hitbox.bottom = this.hitbox.bottom + (this.vel.velY() * timeInMillisecond);
+        this.hitbox.right += (this.vel.velX() * timeInMillisecond) % (float) spaceWidth;
+        this.hitbox.bottom += (this.vel.velY() * timeInMillisecond) % (float) spaceHeight;
 
         /*
         // Move the object according to its velocity
         this.posX += this.velX;
         this.posY += this.velY;
         */
-
-        // Wrap around screen
-        // TODO: need to be tested later on by adding unit test
-        if (this.hitbox.left < 0){
-            this.hitbox.left += (float) spaceWidth;
-        }
-        else if (this.hitbox.right > (float) spaceWidth) {
-            this.hitbox.right -= (float) spaceWidth;
-        }
-
-        if (this.hitbox.top < 0){
-            this.hitbox.top += (float) spaceHeight;
-        }
-        else if (this.hitbox.bottom > (float) spaceHeight) {
-            this.hitbox.bottom -= (float) spaceHeight;
-        }
     }
 
     /**

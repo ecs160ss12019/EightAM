@@ -3,10 +3,12 @@ package EightAM.asteroids;
 import android.graphics.RectF;
 import java.lang.Math;
 
-class Projectile extends GameObject {
+class Bullet extends GameObject {
 
     private int bulletSpeed;
     ObjectID owner;
+    private float maxRange; // a cap on how far bullet can travel
+    private float distanceTraveled;
 
     /**
      * Constructs projectile, i.e. shoots projectile in the orientation/angle
@@ -20,34 +22,43 @@ class Projectile extends GameObject {
      * @param y - vertical position of shooter
      * @param orientation - angle/ orientation of the shooter
      */
-    protected Projectile(ObjectID shooter, double x, double y, double orientation){
-        this.posX = x;
-        this.posY = y;
+    protected Bullet(ObjectID shooter, float x, float y, double orientation){
+        hitbox = new RectF(x, y, x, y);
         this.objectID = ObjectID.PROJECTILE;
         this.owner = shooter;
 
         if (this.owner == ObjectID.SHIP){
-            this.velX = bulletSpeed * Math.cos(orientation);
-            this.velY = bulletSpeed * Math.sin(orientation);
+            this.velX = bulletSpeed * (float)Math.cos(orientation);
+            this.velY = bulletSpeed * (float)Math.sin(orientation);
         }
         else {
-            this.velX = (bulletSpeed / 2) * Math.cos(orientation);
-            this.velY = (bulletSpeed / 2) * Math.sin(orientation);
+            this.velX = (bulletSpeed / 2) * (float)Math.cos(orientation);
+            this.velY = (bulletSpeed / 2) * (float)Math.sin(orientation);
         }
     }
-    protected void draw(){
-        //TODO: Draw on canvas dependent on rockSize
+
+    /**
+     * Calculates how far the bullet has traveled.
+     * (to be used in a super class to determine when the bullet should die.)
+     * @param timeInMillisecond current time of the game in ms
+     * @return distance traveled
+     */
+    private float distanceTraveled(long timeInMillisecond) {
+        float velocity = (float)Math.sqrt(Math.pow(this.velX, 2) + Math.pow(this.velY, 2));
+        return timeInMillisecond * velocity;
+
     }
 
-    protected void collision() {
-
-    }
-
-    protected void update(){
-
+    /**
+     * Determines if the bullet should continue to persist.
+     * @param timeInMillisecond current time of the game in ms
+     * @return true if the bullet has exceeded its maximum range
+     */
+    protected boolean shouldDie(long timeInMillisecond) {
+        return distanceTraveled(timeInMillisecond) > maxRange;
     }
 
     protected void setHitBox() {
-
+        hitbox = new RectF(this.posX, this.posY, this.posX, this.posY);
     }
 }

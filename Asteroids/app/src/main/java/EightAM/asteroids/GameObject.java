@@ -107,7 +107,7 @@ abstract class GameObject {
     // -----------Abstract member methods-----------
 
     /**
-     * Set and/or updates hitbox, object has its own version of hotbox
+     * Set hitbox, object has its own version of hotbox
      */
-    abstract protected void setHitBox();
+    abstract protected void setHitBox(float posX, float posY);
 }

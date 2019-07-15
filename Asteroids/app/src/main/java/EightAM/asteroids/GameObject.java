@@ -4,28 +4,38 @@ import android.graphics.Bitmap;
 import android.graphics.RectF;
 
 abstract class GameObject {
+
+    // ---------------Member variables-------------
+
     float velX;
     float velY;
     float posX;
     float posY;
-    RectF hitbox;   // manipulate shape using set()
+
+    RectF hitbox;
     Bitmap bitmap;
 
-    float delX;
-    float delY;
+    float angle;
+    Space refSpace;
+    float angularVel;
 
-    /**
-     * Enum to to determine the ID of object during collision detection,
-     * as well as misc.
-     */
+    // ObjectID as Enum determines the type of object during collision detection.
     enum ObjectID {
         SHIP,
         ALIEN,
         ASTEROID,
         PROJECTILE
     }
-
     ObjectID objectID;
+
+    // ---------------Member methods---------------
+
+    /**
+     * Constructor initializes the basic parameters of gameObject
+     */
+//    GameObject(int posX, int posY, int width, int height, Space space, Bitmap bitmap) {
+//        this.hitbox = new RectF(posX, posY, posX + width, posY + height)
+//    }
 
     /**
      * Sets the position of the object
@@ -39,16 +49,14 @@ abstract class GameObject {
     }
 
     /**
-     * Move an object according to their velocity
+     * Move an object according to their velocity, if the object hits the space edge then wrap
+     * around the screen.
      *
-     * If the object hits the edge of space (the screen)
-     * wrap around
-     *
-     * @param spaceWidth - width of space (canvas)
-     * @param spaceHeight - height of space (canvas)
+     * @param spaceWidth width of space (canvas)
+     * @param spaceHeight height of space (canvas)
+     * @param timeInMillisecond moving distance calculated base on this input time
      */
     protected void move(int spaceWidth, int spaceHeight, long timeInMillisecond){
-
         // Move the ball based upon the
         // horizontal (mXVelocity) and
         // vertical(mYVelocity) speed
@@ -62,12 +70,12 @@ abstract class GameObject {
         this.hitbox.right = this.hitbox.right + (this.velX * timeInMillisecond);
         this.hitbox.bottom = this.hitbox.bottom + (this.velY * timeInMillisecond);
 
-
         // Move the object according to its velocity
         this.posX += this.velX;
         this.posY += this.velY;
 
         // Wrap around screen
+        // TODO: need to be tested later on by adding unit test
         if (this.hitbox.left < 0){
             this.hitbox.left += (float) spaceWidth;
         }
@@ -84,24 +92,41 @@ abstract class GameObject {
     }
 
     /**
-     * Possibly take in 2 RectF objects
-     * Check intersection of hitboxes
+     * Rotate method does......
+     *
+     * @param timeInMillisecond
+     */
+    protected void rotate(long timeInMillisecond) {
+        angle = angle + angularVel * timeInMillisecond;
+    }
+
+    /**
+     * Update method means rotating and moving the calling object.
+     *
+     * @param spaceWidth
+     * @param spaceHeight
+     * @param timeInMillisecond
+     */
+    protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+        rotate(timeInMillisecond);
+        move(spaceWidth, spaceHeight, timeInMillisecond);
+    }
+
+    /**
+     * Collision detection method takes in the hitbox of approaching object, using intersection
+     * method to check of collision
+     *
+     * @param approachingObject the hitbox of approaching object,
+     * @return true for collision, otherwise false
      */
     protected boolean detectCollisions(RectF approachingObject) {
         return hitbox.intersect(approachingObject);
     }
 
+    // -----------Abstract member methods-----------
+
     /**
-     * Set and/or updates hitbox
+     * Set and/or updates hitbox, object has its own version of hotbox
      */
     abstract protected void setHitBox();
-
-
-    /**
-     * Set up for drawing
-     * @return
-     */
-    protected Bitmap getBitmap() {
-        return bitmap;
-    }
 }

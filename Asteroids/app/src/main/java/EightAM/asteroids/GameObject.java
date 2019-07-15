@@ -5,6 +5,10 @@ import android.graphics.RectF;
 
 abstract class GameObject {
 
+    // ---------------Member statics-------------
+
+    static final int ANGULAR_VELOCITY = 1;
+
     // ---------------Member variables-------------
 
     float velX;
@@ -94,10 +98,15 @@ abstract class GameObject {
     /**
      * Rotate method does......
      *
-     * @param timeInMillisecond
+     * @param isPress boolean value indicates whether user is pressing
      */
-    protected void rotate(long timeInMillisecond) {
-        angle = angle + angularVel * timeInMillisecond;
+    protected void rotate(boolean isPress) {
+        if (isPress) {
+            angularVel = ANGULAR_VELOCITY;
+            angle += angle * angularVel;
+        } else {
+            angularVel = 0;
+        }
     }
 
     /**
@@ -107,8 +116,8 @@ abstract class GameObject {
      * @param spaceHeight
      * @param timeInMillisecond
      */
-    protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
-        rotate(timeInMillisecond);
+    protected void update(boolean isPress, int spaceWidth, int spaceHeight, long timeInMillisecond) {
+        rotate(isPress);
         move(spaceWidth, spaceHeight, timeInMillisecond);
     }
 

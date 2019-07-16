@@ -39,7 +39,7 @@ class Ship extends GameObject {
 
         this.vel = new Velocity(0,0);
 
-        this.setHitBox();
+        this.setHitBox(0,0);
 
         // Prepare the bitmap
         // Load .png file in res/drawable
@@ -49,7 +49,7 @@ class Ship extends GameObject {
     /**
      * Constructor helper sets the position of ship hitbox which would be called when game start.
      */
-    protected void setHitBox(){
+    protected void setHitBox(float x, float y){
         // create ship in the middle of screen
         float left = (SCREEN_WIDTH/2) - (shipWidth /2);
         float right = (SCREEN_WIDTH/2) + (shipWidth /2);

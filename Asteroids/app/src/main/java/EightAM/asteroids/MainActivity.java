@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     GameView gameView;
+    GameController gameController;
+    GameModel gameModel;
     private boolean isPaused;
 
     @Override
@@ -24,7 +26,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         InputControl.initializeButtons(this);
         gameView = findViewById(R.id.gameView);
+        gameModel = new GameModel(gameView.getWidth(), gameView.getHeight(), gameView.getContext());
+        gameController = new GameController(gameModel, gameView.getWidth(), gameView.getHeight());
+        gameView.setGameModel(gameModel);
+        // temporary until menu is created
         gameView.onResume();
+
     }
 
     @Override

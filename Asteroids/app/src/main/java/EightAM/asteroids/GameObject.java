@@ -1,6 +1,8 @@
 package EightAM.asteroids;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
 abstract class GameObject {
@@ -18,35 +20,17 @@ abstract class GameObject {
     GameModel refGameModel;
     float angle;
     float angularVel = ANGULAR_VELOCITY;
-
-    // ObjectID as Enum determines the type of object during collision detection.
-    enum ObjectID {
-        SHIP,
-        ALIEN,
-        ASTEROID,
-        PROJECTILE
-    }
     ObjectID objectID;
-
-    // ---------------Member methods---------------
-
-    /**
-     * Constructor initializes the basic parameters of gameObject
-     */
-//    GameObject(int posX, int posY, int width, int height, GameModel space, Bitmap bitmap) {
-//        this.hitbox = new RectF(posX, posY, posX + width, posY + height)
-//    }
-
 
     /**
      * Move an object according to their velocity, if the object hits the space edge then wrap
      * around the screen.
      *
-     * @param spaceWidth width of space (canvas)
-     * @param spaceHeight height of space (canvas)
+     * @param spaceWidth        width of space (canvas)
+     * @param spaceHeight       height of space (canvas)
      * @param timeInMillisecond moving distance calculated base on this input time
      */
-    protected void move(int spaceWidth, int spaceHeight, long timeInMillisecond){
+    protected void move(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         // Move the ball based upon the
         // horizontal (mXVelocity) and
         // vertical(mYVelocity) speed
@@ -61,6 +45,15 @@ abstract class GameObject {
         this.hitbox.bottom += (this.vel.velY() * timeInMillisecond) % (float) spaceHeight;
     }
 
+    // ---------------Member methods---------------
+
+    /**
+     * Constructor initializes the basic parameters of gameObject
+     */
+    //    GameObject(int posX, int posY, int width, int height, GameModel space, Bitmap bitmap) {
+    //        this.hitbox = new RectF(posX, posY, posX + width, posY + height)
+    //    }
+
     /**
      * Rotate method rotates the object
      */
@@ -68,10 +61,6 @@ abstract class GameObject {
 
     /**
      * Update method means rotating and moving the calling object.
-     *
-     * @param spaceWidth
-     * @param spaceHeight
-     * @param timeInMillisecond
      */
     protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         rotate();
@@ -89,10 +78,17 @@ abstract class GameObject {
         return hitbox.intersect(approachingObject);
     }
 
-    // -----------Abstract member methods-----------
-
     /**
      * Set hitbox, object has its own version of hotbox
      */
     abstract protected void setHitBox(float posX, float posY);
+
+    // -----------Abstract member methods-----------
+
+    protected abstract void draw(Canvas canvas, Paint paint);
+
+    // ObjectID as Enum determines the type of object during collision detection.
+    enum ObjectID {
+        SHIP, ALIEN, ASTEROID, PROJECTILE
+    }
 }

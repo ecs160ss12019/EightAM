@@ -7,22 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 class InputControl {
-    static class Control {
-        boolean UP = false;
-        boolean DOWN = false;
-        boolean RIGHT = false;
-        boolean LEFT = false;
-        boolean SPECIAL_1 = false;
-    }
-
-    static class ButtonSet {
-        Button left;
-        Button right;
-        Button up;
-        Button down;
-        Button shoot;
-    }
-
     static Control playerInput = new Control();
     static ButtonSet buttonSet = new ButtonSet();
 
@@ -75,6 +59,22 @@ class InputControl {
             }
             return true;
         });
+    }
+
+    static class Control {
+        boolean UP = false;
+        boolean DOWN = false;
+        boolean RIGHT = false;
+        boolean LEFT = false;
+        boolean SPECIAL_1 = false;
+    }
+
+    static class ButtonSet {
+        Button left;
+        Button right;
+        Button up;
+        Button down;
+        Button shoot;
     }
 
 }

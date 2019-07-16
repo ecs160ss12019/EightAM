@@ -1,24 +1,21 @@
 package EightAM.asteroids;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import androidx.core.content.ContextCompat;
-import android.graphics.drawable.Drawable;
 
 class GameView extends SurfaceView implements Runnable {
+    Ship ship;
     private Paint paint;
     private SurfaceHolder surfaceHolder;
     private boolean isRunning;
     private Thread thread;
-    Drawable d;
+    private GameModel model;
 
 
     GameView(Context ctx) {
@@ -39,7 +36,10 @@ class GameView extends SurfaceView implements Runnable {
         surfaceHolder = getHolder();
         int colorPrimary = ContextCompat.getColor(getContext(), R.color.colorPrimary);
         int colorAccent = ContextCompat.getColor(getContext(), R.color.colorAccent);
-
+        paint = new Paint();
+        paint.setColor(colorPrimary);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
     }
 
     @Override
@@ -48,22 +48,11 @@ class GameView extends SurfaceView implements Runnable {
             if (surfaceHolder.getSurface().isValid()) {
                 Canvas canvas = surfaceHolder.lockCanvas();
                 if (canvas == null) return;
-                canvas.drawColor(Color.WHITE);
-                // game logic
                 // TODO: Move this to correct part of code
                 // we just wanted to draw the ship . haha
 
                 // make a new ship just to test out drawing
-                Ship mship = new Ship(canvas.getWidth(), canvas.getHeight(), getContext());
-                Bitmap resized; // resize the image
-                double scale = 0.2; // the % of the original image you want to resize to
-                resized = Bitmap.createScaledBitmap(mship.getBitmap(),
-                        (int)(mship.getBitmap().getWidth()*scale),
-                        (int)(mship.getBitmap().getHeight()*scale),
-                        true);
-                // actually draw the ship
-                // TODO: use drawBitmap defn that takes in Matrix
-                canvas.drawBitmap(resized, mship.getHitBox().left, mship.getHitBox().top, paint);
+                //                ship.draw(canvas, paint);
 
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
@@ -93,5 +82,9 @@ class GameView extends SurfaceView implements Runnable {
     public void onResume() {
         if (thread != null) onPause();
         resume();
+    }
+
+    public void setGameModel(GameModel gameModel) {
+        model = gameModel;
     }
 }

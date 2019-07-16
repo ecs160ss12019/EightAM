@@ -37,10 +37,12 @@ class GameModel {
 
         resetObjects();
 
-        this.score = 0;
-        this.numOfAsteroids = STARTING_ASTEROIDS;
-        this.livesLeft = STARTING_LIVES;
-        this.ship = new Ship(spaceWidth,spaceHeight, context);
+        score = 0;
+        numOfAsteroids = STARTING_ASTEROIDS;
+        livesLeft = STARTING_LIVES;
+        numOfAsteroids = STARTING_ASTEROIDS;
+        livesLeft = STARTING_LIVES;
+        this.ship = new Ship(this, spaceWidth, spaceHeight, context);
         this.createAsteroidBelt(context);
     }
 
@@ -55,9 +57,9 @@ class GameModel {
      *
      * @param context
      */
-    private void createAsteroidBelt(Context context /*, float shipPosX, float shipPosY*/){
-        for (int i = 0; i < numOfAsteroids; i ++){
-            asteroidBelt.add(new Asteroid(spaceWidth,spaceHeight,shipPosX, shipPosY, context));
+    private void createAsteroidBelt(Context context /*, float shipPosX, float shipPosY*/) {
+        for (int i = 0; i < numOfAsteroids; i++) {
+            asteroidBelt.add(new Asteroid(spaceWidth, spaceHeight, shipPosX, shipPosY, context));
         }
     }
 
@@ -66,15 +68,15 @@ class GameModel {
      *
      * @param shooter - ObjectID of the shooter i.e. who's shooting the bullet
      */
-    private void createBullet(GameObject.ObjectID shooter){
+    private void createBullet(GameObject.ObjectID shooter) {
         //TODO: get Position and Angle/Orientation of the Shooter (Ship and Alien)
         //TODO: Consult with ship team to retrieve orientation and position
         float shooterPosX, shooterPosY, shooterAngle;
         //bulletsFired.add(new Bullet(shooter, shooterPosX, shooterPosY, shooterAngle));
     }
 
-    private void updateAsteroidBelt(long timeInMillisecond){
-        for (int i = 0; i < numOfAsteroids; i ++){
+    private void updateAsteroidBelt(long timeInMillisecond) {
+        for (int i = 0; i < numOfAsteroids; i++) {
             asteroidBelt.get(i).update(spaceWidth, spaceHeight, timeInMillisecond);
         }
     }
@@ -85,12 +87,12 @@ class GameModel {
      */
     private void checkBulletRange() {
         Deque<Integer> bulletsToDelete = new ArrayDeque<Integer>();
-        for (int i = 0; i < bulletsFired.size(); i ++){
-            if (bulletsFired.get(i).reachedMaxRange()){
+        for (int i = 0; i < bulletsFired.size(); i++) {
+            if (bulletsFired.get(i).reachedMaxRange()) {
                 bulletsToDelete.push(i);
             }
         }
-        while(bulletsToDelete.size() > 0){
+        while (bulletsToDelete.size() > 0) {
             int bulletIndex = bulletsToDelete.pop();
             bulletsFired.remove(bulletIndex);
         }
@@ -100,9 +102,9 @@ class GameModel {
      * Updates bullets' positions within the game model
      * @param timeInMillisecond
      */
-    private void updateBullets(long timeInMillisecond){
+    private void updateBullets(long timeInMillisecond) {
         this.checkBulletRange();
-        for (int i = 0; i < bulletsFired.size(); i++){
+        for (int i = 0; i < bulletsFired.size(); i++) {
             bulletsFired.get(i).update(spaceWidth, spaceHeight, timeInMillisecond);
         }
     }
@@ -147,7 +149,7 @@ class GameModel {
 
         while(asteroidsToDelete.size() > 0){
             int asteroidIndex = asteroidsToDelete.pop();
-            destroyThisAsteroid(bulletIndex);
+            destroyThisAsteroid(asteroidIndex);
         }
     }
 
@@ -169,7 +171,7 @@ class GameModel {
      * @param left
      * @param right
      */
-    protected  void controlShip(boolean accelerate, boolean left, boolean right){
+    protected void controlShip(boolean accelerate, boolean left, boolean right) {
         //TODO: For Ship team
         //TODO: Accelerate (increment velocity)
         //TODO: Rotate Left (Set angular velocity to some negative constant)

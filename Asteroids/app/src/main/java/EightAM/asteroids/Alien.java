@@ -2,17 +2,18 @@ package EightAM.asteroids;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
+
 import java.util.Random;
 
 class Alien extends GameObject {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
-
-    // ---------------Member variables ------------
-    enum Size { SMALL, LARGE }; // denotes what kind of alien
     private Size size;
 
+    // denotes what kind of alien
     // ---------------Member methods --------------
     protected Alien(int xTotalPix, int yTotalPix, Size s, Context context) {
         float randX, randY;
@@ -25,7 +26,7 @@ class Alien extends GameObject {
         randX = rand.nextInt(xTotalPix) * rand.nextInt(2);
         randY = rand.nextInt(yTotalPix);
 
-        speed = rand.nextInt(MAXSPEED/2);
+        speed = rand.nextInt(MAXSPEED / 2);
         this.vel = new Velocity(speed, direction);
         this.setHitBox(randX, randY);
 
@@ -44,11 +45,20 @@ class Alien extends GameObject {
         hitbox = new RectF(posX, posY, posX, posY);
     }
 
+    protected void draw(Canvas canvas, Paint paint) {
+
+    }
+
     protected RectF getHitBox() {
         return this.hitbox;
     }
 
     protected Bitmap getBitmap() {
         return this.bitmap;
+    }
+
+    // ---------------Member variables ------------
+    enum Size {
+        SMALL, LARGE
     }
 }

@@ -42,6 +42,8 @@ class GameModel {
         livesLeft = STARTING_LIVES;
         numOfAsteroids = STARTING_ASTEROIDS;
         livesLeft = STARTING_LIVES;
+        spaceHeight = screenHeight;
+        spaceWidth = screenWidth;
         this.ship = new Ship(this, spaceWidth, spaceHeight, context);
         //this.createAsteroidBelt(context);
     }
@@ -164,19 +166,7 @@ class GameModel {
         //if (bulletsFired.size() != 0) updateBullets(timeInMillisecond);
     }
 
-    /**
-     * Changes ship values with respect to user input
-     *
-     * @param accelerate
-     * @param left
-     * @param right
-     */
-    protected void controlShip(boolean accelerate, boolean left, boolean right) {
-        //TODO: For Ship team
-        //TODO: Accelerate (increment velocity)
-        //TODO: Rotate Left (Set angular velocity to some negative constant)
-        //TODO: Rotate Right (Set angular velocity to some positive constant)
-    }
+
 
     protected void removeEntity() {
 

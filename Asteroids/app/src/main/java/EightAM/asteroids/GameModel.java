@@ -43,7 +43,7 @@ class GameModel {
         numOfAsteroids = STARTING_ASTEROIDS;
         livesLeft = STARTING_LIVES;
         this.ship = new Ship(this, spaceWidth, spaceHeight, context);
-        this.createAsteroidBelt(context);
+        //this.createAsteroidBelt(context);
     }
 
     private void resetObjects() {
@@ -160,8 +160,8 @@ class GameModel {
 
     protected void update(long timeInMillisecond) {
         this.ship.update(spaceWidth, spaceHeight, timeInMillisecond);
-        this.updateAsteroidBelt(timeInMillisecond);
-        if (bulletsFired.size() != 0) updateBullets(timeInMillisecond);
+        //this.updateAsteroidBelt(timeInMillisecond);
+        //if (bulletsFired.size() != 0) updateBullets(timeInMillisecond);
     }
 
     /**

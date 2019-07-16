@@ -1,7 +1,10 @@
 package EightAM.asteroids;
 
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -26,12 +29,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         InputControl.initializeButtons(this);
         gameView = findViewById(R.id.gameView);
-        gameModel = new GameModel(gameView.getWidth(), gameView.getHeight(), gameView.getContext());
-        gameController = new GameController(gameModel, gameView.getWidth(), gameView.getHeight());
+
+        /*Temp solution to get screen width and height*/
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+
+        display.getSize(size);
+
+        Log.d("in main activity", "size.x =" + size.x);
+        gameModel = new GameModel(size.x, size.y, gameView.getContext());
+        gameController = new GameController(gameModel, size.x, size.y);
         gameView.setGameModel(gameModel);
         // temporary until menu is created
         gameView.onResume();
-
+        //gameController.start();
     }
 
     @Override

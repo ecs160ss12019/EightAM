@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.renderscript.ScriptGroup;
 
 class Ship extends GameObject {
 
@@ -73,7 +74,39 @@ class Ship extends GameObject {
 
     @Override
     protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+        rotate();
 
+        move(spaceWidth, spaceHeight, timeInMillisecond);
+
+
+    }
+
+    /**
+     * Changes ship values with respect to user input
+     *
+     * @param accelerate
+     * @param left
+     * @param right
+     */
+    protected void controlShip(boolean accelerate, boolean left, boolean right) {
+        //TODO: For Ship team
+        //TODO: Accelerate (increment velocity)
+        //TODO: Rotate Left (Set angular velocity to some negative constant)
+        //TODO: Rotate Right (Set angular velocity to some positive constant)
+
+        if(accelerate) {
+            this.vel.updateVelocity(1.1f, 0);
+        } else {
+            this.vel.updateVelocity(0.9f, 0);
+        }
+
+        if (left) {
+            this.angularVel = ANGULAR_VELOCITY;
+        } else if (right) {
+            this.angularVel = -ANGULAR_VELOCITY;
+        } else {
+            this.angularVel = 0;
+        }
     }
 
     @Override

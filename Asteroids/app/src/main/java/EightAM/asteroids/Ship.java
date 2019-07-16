@@ -39,12 +39,14 @@ class Ship extends GameObject {
         shipWidth = shipHeight / 2;
 
         this.vel = new Velocity(0,0);
+        this.angle = 0;
 
         this.setHitBox(0,0);
 
         // Prepare the bitmap
         // Load .png file in res/drawable
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_ship);
+        this.objectID = ObjectID.SHIP;
     }
 
     /**
@@ -66,5 +68,9 @@ class Ship extends GameObject {
 
     protected Bitmap getBitmap() {
         return this.bitmap;
+    }
+
+    protected void setAngle(float angle) {
+        this.angle = angle;
     }
 }

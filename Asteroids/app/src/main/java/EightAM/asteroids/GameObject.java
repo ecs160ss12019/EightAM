@@ -15,9 +15,9 @@ abstract class GameObject {
     RectF hitbox;
     Bitmap bitmap;
 
-    float angle;
     GameModel refGameModel;
-    float angularVel;
+    float angle;
+    float angularVel = ANGULAR_VELOCITY;
 
     // ObjectID as Enum determines the type of object during collision detection.
     enum ObjectID {
@@ -62,22 +62,9 @@ abstract class GameObject {
     }
 
     /**
-     * Rotate method rotates the object, unless the objects is a ship and it is not
-     * being rotated.
-     *
-     * NOTE: Might have to refactor "angle" and "angularVel" as angle is already a part of
-     * the Velocity class. This method needs a hard look.
-     *
-     * @param isPress boolean value indicates whether user is pressing
+     * Rotate method rotates the object
      */
-    protected void rotate(boolean isPress) {
-        if (!isPress && objectID == ObjectID.SHIP ) {
-            angularVel = 0;
-        } else {
-            angularVel = ANGULAR_VELOCITY;
-        }
-        angle *= angularVel;
-    }
+    protected void rotate() { angle += angularVel; }
 
     /**
      * Update method means rotating and moving the calling object.
@@ -86,8 +73,8 @@ abstract class GameObject {
      * @param spaceHeight
      * @param timeInMillisecond
      */
-    protected void update(boolean isPress, int spaceWidth, int spaceHeight, long timeInMillisecond) {
-        rotate(isPress);
+    protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+        rotate();
         move(spaceWidth, spaceHeight, timeInMillisecond);
     }
 

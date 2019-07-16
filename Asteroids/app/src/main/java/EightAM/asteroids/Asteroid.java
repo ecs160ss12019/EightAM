@@ -1,10 +1,11 @@
 package EightAM.asteroids;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
+
 import java.util.Random;
 
 /**
@@ -30,14 +31,8 @@ class Asteroid extends GameObject {
     static final int MAXANGLE = 359;
 
     // ---------------Member variables-------------
-
-    // enum size used to denote three size types of asteroid rock
-    enum Size { SMALL, MEDIUM, LARGE }
     private Size rockSize;
     private int SAFEDIST;  // TODO: Determine the safe distance from ship to spawn Asteroids
-
-    // ---------------Member methods---------------
-
     /**
      * First constructor constructs the asteroid rocks when there are no asteroids in
      * space, i.e. when there's a new game or when all asteroids in the field are
@@ -51,9 +46,9 @@ class Asteroid extends GameObject {
      *
      * @param xTotalPix - total horizontal pixels
      * @param yTotalPix - total vertical pixels
-     * @param xShipPos - Ship horizontal position
-     * @param yShipPos - Ship vertical position
-     * @param context - Context for setting bitmap
+     * @param xShipPos  - Ship horizontal position
+     * @param yShipPos  - Ship vertical position
+     * @param context   - Context for setting bitmap
      */
     protected Asteroid(int xTotalPix, int yTotalPix, float xShipPos, float yShipPos, Context context) {
         float xRand, yRand;
@@ -90,6 +85,8 @@ class Asteroid extends GameObject {
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_asteroid_large);
     }
 
+    // ---------------Member methods---------------
+
     /**
      * Second constructor constructs the asteroid rocks when there an asteroid of a
      * Size of LARGE or MEDIUM gets destroyed.
@@ -103,7 +100,7 @@ class Asteroid extends GameObject {
      * @param currentX   - current horizontal position of the parent asteroid
      * @param currentY   - current vertical position of the parent asteroid
      * @param parentSize - Size of parent
-     * @param context - Context for setting bitmap
+     * @param context    - Context for setting bitmap
      */
     protected Asteroid(int currentX, int currentY, Size parentSize, Context context) {
         this.objectID = ObjectID.ASTEROID;
@@ -159,5 +156,16 @@ class Asteroid extends GameObject {
                 hitbox.bottom += SMALL_RADIUS;
                 break;
         }
+    }
+
+    @Override
+    protected void draw(Canvas canvas, Paint paint) {
+
+    }
+
+
+    // enum size used to denote three size types of asteroid rock
+    enum Size {
+        SMALL, MEDIUM, LARGE
     }
 }

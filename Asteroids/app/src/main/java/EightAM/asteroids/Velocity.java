@@ -12,6 +12,7 @@ public class Velocity {
     /**
      * Creates an instance of Velocity.
      * Meant to be used within a GameObject.
+     *
      * @param speed - Magnitude of velocity
      * @param angle - Direction of velocity
      */
@@ -25,9 +26,6 @@ public class Velocity {
      * Update Velocity
      * Increment Speed (Magnitude of velocity)
      * Update Velocity by assignment. //<- subject to change, If you guys think its easier to increment angle
-     *
-     * @param changeInSpeed
-     * @param changeInAngle
      */
     protected void updateVelocity(float changeInSpeed, float changeInAngle) {
         this.speed += changeInSpeed;
@@ -37,21 +35,21 @@ public class Velocity {
     /**
      * @return X component of Velocity
      */
-    protected float velX(){
+    protected float velX() {
         return this.speed * (float) Math.cos(angle);
     }
 
     /**
      * @return Y component of velocity
      */
-    protected float velY(){
+    protected float velY() {
         return this.speed * (float) Math.sin(angle);
     }
 
     /**
      * @return Magnitude of velocity
      */
-    protected float magnitude(){
+    protected float magnitude() {
         return speed;
     }
 }

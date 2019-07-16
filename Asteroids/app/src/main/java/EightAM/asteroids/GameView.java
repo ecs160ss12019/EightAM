@@ -2,6 +2,7 @@ package EightAM.asteroids;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
@@ -10,7 +11,6 @@ import android.view.SurfaceView;
 import androidx.core.content.ContextCompat;
 
 class GameView extends SurfaceView implements Runnable {
-    Ship ship;
     private Paint paint;
     private SurfaceHolder surfaceHolder;
     private boolean isRunning;
@@ -40,6 +40,7 @@ class GameView extends SurfaceView implements Runnable {
         paint.setColor(colorPrimary);
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
+
     }
 
     @Override
@@ -53,7 +54,9 @@ class GameView extends SurfaceView implements Runnable {
 
                 // make a new ship just to test out drawing
                 //                ship.draw(canvas, paint);
+                canvas.drawColor(Color.BLACK);
 
+                model.ship.draw(canvas, paint);
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
         }

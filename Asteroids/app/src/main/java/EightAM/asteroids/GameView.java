@@ -54,8 +54,9 @@ class GameView extends SurfaceView implements Runnable {
                 // we just wanted to draw the ship . haha
 
                 Ship mship = new Ship(canvas.getWidth(), canvas.getHeight(), getContext());
-
-                canvas.drawBitmap(mship.getBitmap(), mship.getHitBox().left, mship.getHitBox().top, paint);
+                Bitmap resized;
+                resized = Bitmap.createScaledBitmap(mship.getBitmap(),(int)(mship.getBitmap().getWidth()*0.8), (int)(mship.getBitmap().getHeight()*0.8), true);
+                canvas.drawBitmap(resized, mship.getHitBox().left, mship.getHitBox().top, paint);
                 /*d = new BitmapDrawable(getResources(), mship.bitmap);
                 d.setBounds(100, 200, 100, 200);
                 d.draw(canvas); */

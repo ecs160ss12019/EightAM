@@ -21,11 +21,6 @@ class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private GameModel model;
 
-
-    //prepare for drawing
-    private Paint paint;
-    private SurfaceHolder surfaceHolder;
-
     // ---------------Member methods---------------
 
     /**

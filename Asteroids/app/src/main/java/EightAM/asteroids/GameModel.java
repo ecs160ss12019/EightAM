@@ -30,7 +30,7 @@ class GameModel {
      * @param screenHeight
      * @param context
      */
-    protected GameModel(int screenWidth, int screenHeight,Context context) {
+    protected GameModel(int screenWidth, int screenHeight, Context context) {
         //TODO: Initialize Grid... Maybe?
 
         resetObjects();
@@ -67,7 +67,7 @@ class GameModel {
         //TODO: get Position and Angle/Orientation of the Shooter (Ship and Alien)
         //TODO: Consult with ship team to retrieve orientation and position
         float shooterPosX, shooterPosY, shooterAngle;
-        bulletsFired.add(new Bullet(shooter, shooterPosX, shooterPosY, shooterAngle));
+        //bulletsFired.add(new Bullet(shooter, shooterPosX, shooterPosY, shooterAngle));
     }
 
     private void updateAsteroidBelt(long timeInMillisecond){
@@ -121,7 +121,7 @@ class GameModel {
      * @param left
      * @param right
      */
-    protected  void controlShip(boolean accelerate,boolean left, boolean right){
+    protected  void controlShip(boolean accelerate, boolean left, boolean right){
         //TODO: For Ship team
         //TODO: Accelerate (increment velocity)
         //TODO: Rotate Left (Set angular velocity to some negative constant)

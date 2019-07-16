@@ -1,6 +1,7 @@
 package EightAM.asteroids;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
 
@@ -59,4 +60,11 @@ class Ship extends GameObject {
         this.hitbox = new RectF(left, top, right, bottom);
     }
 
+    protected RectF getHitBox() {
+        return this.hitbox;
+    }
+
+    protected Bitmap getBitmap() {
+        return this.bitmap;
+    }
 }

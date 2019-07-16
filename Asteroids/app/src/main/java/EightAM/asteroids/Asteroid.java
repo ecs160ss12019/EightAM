@@ -28,8 +28,7 @@ class Asteroid extends GameObject {
     static final int MEDIUM_RADIUS = 2;
     static final int SMALL_RADIUS = 1;
     static final int MAXSPEED = 3; // TODO: subject to change
-    static final int MAXANGLE = 359;
-
+    static final double MAXANGLE = 2*Math.PI;
     // ---------------Member variables-------------
     private Size rockSize;
     private int SAFEDIST;  // TODO: Determine the safe distance from ship to spawn Asteroids
@@ -67,15 +66,15 @@ class Asteroid extends GameObject {
         // screen Alternative Implementation: new Random().nextInt((max-min+1))+min to
         // set bounds
         do {
-            xRand = rand.nextInt(xTotalPix);
-            yRand = rand.nextInt(yTotalPix);
+            xRand = rand.nextInt(((xTotalPix - 1) + 1 ) + 1);
+            yRand = rand.nextInt(((yTotalPix - 1) + 1 ) + 1);
             xDistFromShip = Math.abs(xRand - xShipPos);
             yDistFromShip = Math.abs(yRand - yShipPos);
             DistFromShip = (float) Math.sqrt(Math.pow(xDistFromShip, 2) + Math.pow(yDistFromShip, 2));
         } while (DistFromShip < SAFEDIST);
 
-        float speed = rand.nextInt(MAXSPEED / 4);
-        float direction = rand.nextInt(MAXANGLE);
+        float speed = rand.nextInt(((MAXSPEED/4 - 1) + 1 ) + 1);
+        float direction = Float.MIN_VALUE + rand.nextFloat() * (float)(MAXANGLE - Float.MIN_VALUE);
 
         this.vel = new Velocity(speed, direction);
         this.setHitBox(xRand, yRand);
@@ -106,7 +105,7 @@ class Asteroid extends GameObject {
         this.objectID = ObjectID.ASTEROID;
 
         Random rand = new Random();
-        float direction = rand.nextInt(MAXANGLE);
+        float direction = 1 + rand.nextFloat() * (float)(MAXANGLE - 1);
         float speed = rand.nextInt(MAXSPEED);
 
         if (parentSize == Size.LARGE) {
@@ -116,7 +115,7 @@ class Asteroid extends GameObject {
             // Prepare the bitmap
             // Load .png file in res/drawable
             // TODO: this asteroid figure subject to change
-            this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_asteroid_large);
+            this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
         } else {
             rockSize = Size.SMALL;
             speed /= 4;
@@ -124,7 +123,7 @@ class Asteroid extends GameObject {
             /// Prepare the bitmap
             // Load .png file in res/drawable
             // TODO: this asteroid figure subject to change
-            this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_asteroid_large);
+            this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
         }
         this.vel = new Velocity(speed, direction);
         this.setHitBox(currentX, currentY);

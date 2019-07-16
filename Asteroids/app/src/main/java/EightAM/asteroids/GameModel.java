@@ -16,6 +16,8 @@ class GameModel {
     static int spaceHeight;
     static int livesLeft;
 
+    static int score;
+
     //temp
     float shipPosX, shipPosY;
 
@@ -35,6 +37,7 @@ class GameModel {
 
         resetObjects();
 
+        this.score = 0;
         this.numOfAsteroids = STARTING_ASTEROIDS;
         this.livesLeft = STARTING_LIVES;
         this.ship = new Ship(spaceWidth,spaceHeight, context);
@@ -99,13 +102,58 @@ class GameModel {
      */
     private void updateBullets(long timeInMillisecond){
         this.checkBulletRange();
-        for (int i = 0; i < bulletsFired.size(); i ++){
+        for (int i = 0; i < bulletsFired.size(); i++){
             bulletsFired.get(i).update(spaceWidth, spaceHeight, timeInMillisecond);
         }
     }
 
-    protected void detectCollisions() {
+    private void destroyShip() {
+        this.ship = null;
+        //TODO: push ship explosion event
+    }
 
+    private void destroyThisAsteroid(int asteroidIndex) {
+        asteroidBelt.remove(asteroidIndex);
+        //TODO: push asteroid explosion event
+    }
+
+    private void shipCollision(){
+        for (int i = 0; i < asteroidBelt.size(); i++) {
+            if (ship.detectCollisions(asteroidBelt.get(i).hitbox)) {
+                this.destroyShip();
+                this.destroyThisAsteroid(i);
+                break;
+            }
+        }
+    }
+
+    private void bulletsCollision(){
+        Deque<Integer> bulletsToDelete = new ArrayDeque<Integer>();
+        Deque<Integer> asteroidsToDelete = new ArrayDeque<Integer>();
+
+        for (int i = 0; i < bulletsFired.size(); i++) {
+            for (int j = 0; j < asteroidBelt.size(); j++) {
+                if (bulletsFired.get(i).detectCollisions(asteroidBelt.get(j).hitbox)) {
+                    bulletsToDelete.push(i);
+                    asteroidsToDelete.push(j);
+                }
+            }
+        }
+
+        while(bulletsToDelete.size() > 0){
+            int bulletIndex = bulletsToDelete.pop();
+            bulletsFired.remove(bulletIndex);
+        }
+
+        while(asteroidsToDelete.size() > 0){
+            int asteroidIndex = asteroidsToDelete.pop();
+            destroyThisAsteroid(bulletIndex);
+        }
+    }
+
+    protected void computeCollisions() {
+        this.shipCollision();
+        this.bulletsCollision();
     }
 
     protected void update(long timeInMillisecond) {

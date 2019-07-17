@@ -8,7 +8,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import androidx.core.content.ContextCompat;
+
+import static EightAM.asteroids.GameModel.spaceHeight;
+import static EightAM.asteroids.GameModel.spaceWidth;
 
 class GameView extends SurfaceView implements Runnable {
 
@@ -57,16 +61,28 @@ class GameView extends SurfaceView implements Runnable {
             if (surfaceHolder.getSurface().isValid()) {
                 Canvas canvas = surfaceHolder.lockCanvas();
                 if (canvas == null) return;
-                // TODO: Move this to correct part of code
-                // we just wanted to draw the ship . haha
 
                 // make a new ship just to test out drawing
                 //                ship.draw(canvas, paint);
                 canvas.drawColor(Color.BLACK);
-
-                model.ship.draw(canvas, paint);
+                model.lock.lock();
+                try {
+                    //                    if (Ship.lastLogMessage > 5000) {
+                    //                        Log.d("gameView", "rendering ship");
+                    //                    }
+                    model.ship.draw(canvas, paint);
+                    drawAsteroidBelt(canvas, paint);
+                } finally {
+                    model.lock.unlock();
+                }
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
+        }
+    }
+
+    public void drawAsteroidBelt(Canvas canvas, Paint paint) {
+        for (int i = 0; i < model.numOfAsteroids; i++) {
+            model.asteroidBelt.get(i).draw(canvas, paint);
         }
     }
 

@@ -1,15 +1,14 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.DEF_ANGLE;
+import static EightAM.asteroids.Constants.DEF_ANGULAR_VELOCITY;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
 abstract class GameObject {
-
-    // ---------------Member statics-------------
-
-    static final int ANGULAR_VELOCITY = 1;
 
     // ---------------Member variables-------------
 
@@ -18,51 +17,58 @@ abstract class GameObject {
     Bitmap bitmap;
 
     GameModel refGameModel;
-    float angle;
-    float angularVel = ANGULAR_VELOCITY;
+    float angularVel = DEF_ANGULAR_VELOCITY;
+    float orientation = DEF_ANGLE;
     ObjectID objectID;
 
     /**
-     * Move an object according to their velocity, if the object hits the space edge then wrap
-     * around the screen.
+     * Move an object according to their velocity
      *
      * @param spaceWidth        width of space (canvas)
      * @param spaceHeight       height of space (canvas)
      * @param timeInMillisecond moving distance calculated base on this input time
      */
-    protected void move(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+    void move(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         // Move the ball based upon the
         // horizontal (mXVelocity) and
         // vertical(mYVelocity) speed
         // and the current frame rate(fps)
         // Move the top left corner
-        this.hitbox.left += (this.vel.velX() * timeInMillisecond) % (float) spaceWidth;
-        this.hitbox.top += (this.vel.velY() * timeInMillisecond) % (float) spaceHeight;
-
-        // Match up the bottom right corner
-        // based on the size of the ball
-        this.hitbox.right += (this.vel.velX() * timeInMillisecond) % (float) spaceWidth;
-        this.hitbox.bottom += (this.vel.velY() * timeInMillisecond) % (float) spaceHeight;
+        float dx = vel.x * timeInMillisecond;
+        float dy = vel.y * timeInMillisecond;
+        hitbox.offset(dx, dy);
+        float cx = hitbox.centerX();
+        float cy = hitbox.centerY();
+        // if the center passes the boundary, wrap around the hitbox
+        if (cx > spaceWidth) {
+            hitbox.offset(-(float) spaceWidth, 0);
+        } else if (cx < 0) {
+            hitbox.offset((float) spaceWidth, 0);
+        }
+        if (cy > spaceHeight) {
+            hitbox.offset(0, -(float) spaceHeight);
+        } else if (cy < 0) {
+            hitbox.offset(0, (float) spaceHeight);
+        }
     }
-
-    // ---------------Member methods---------------
-
-    /**
-     * Constructor initializes the basic parameters of gameObject
-     */
-    //    GameObject(int posX, int posY, int width, int height, GameModel space, Bitmap bitmap) {
-    //        this.hitbox = new RectF(posX, posY, posX + width, posY + height)
-    //    }
 
     /**
      * Rotate method rotates the object
      */
-    protected void rotate() { angle += angularVel; }
+    void rotate() {
+        orientation += angularVel;
+        if (orientation > Math.PI) {
+            orientation -= 2 * Math.PI;
+        }
+        if (orientation < -Math.PI) {
+            orientation += 2 * Math.PI;
+        }
+    }
 
     /**
      * Update method means rotating and moving the calling object.
      */
-    protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+    void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         rotate();
         move(spaceWidth, spaceHeight, timeInMillisecond);
     }
@@ -74,18 +80,18 @@ abstract class GameObject {
      * @param approachingObject the hitbox of approaching object,
      * @return true for collision, otherwise false
      */
-    protected boolean detectCollisions(RectF approachingObject) {
+    boolean detectCollisions(RectF approachingObject) {
         return hitbox.intersect(approachingObject);
     }
 
     /**
      * Set hitbox, object has its own version of hotbox
      */
-    abstract protected void setHitBox(float posX, float posY);
+    abstract void setHitBox(float posX, float posY);
 
     // -----------Abstract member methods-----------
 
-    protected abstract void draw(Canvas canvas, Paint paint);
+    abstract void draw(Canvas canvas, Paint paint);
 
     // ObjectID as Enum determines the type of object during collision detection.
     enum ObjectID {

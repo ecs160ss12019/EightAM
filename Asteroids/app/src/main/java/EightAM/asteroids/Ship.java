@@ -1,32 +1,28 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.SHIP_ACCELERATION;
+import static EightAM.asteroids.Constants.SHIP_ANGULARVELOCITY;
+import static EightAM.asteroids.Constants.SHIP_BITMAP_HITBOX_SCALE;
+import static EightAM.asteroids.Constants.SHIP_DECELERATION;
+
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.renderscript.ScriptGroup;
 
 class Ship extends GameObject {
-
-    // ---------------Member statics---------------
-
-    // This is needed for setHitBox(), otherwise
-    // error occurs due to the abstract property of
-    // setHitBox() in class GameObject.
-    static int SCREEN_WIDTH;
-    static int SCREEN_HEIGHT;
 
     // ---------------Member variables-------------
 
     float shipWidth;
     float shipHeight;
-    float angle;
 
     boolean teleporting = false;
 
     // ---------------Member methods---------------
+
+    //    static long lastLogMessage = 0;
 
     /**
      * Constructor constructs a static ship by setting up its size and hitbox.
@@ -34,87 +30,74 @@ class Ship extends GameObject {
      * @param screenX: width of screen
      * @param screenY: height of screen
      */
-    protected Ship(GameModel gameModel, int screenX, int screenY, Context context) {
+    Ship(GameModel gameModel, int screenX, int screenY, Context context) {
 
         this.refGameModel = gameModel;
+        bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
 
-        SCREEN_WIDTH = screenX;
-        SCREEN_HEIGHT = screenY;
-
-        shipHeight = screenY / 10;
-        shipWidth = shipHeight / 2;
+        shipHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
+        shipWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
 
         this.vel = new Velocity(0, 0);
-        this.angle = 0;
+        this.orientation = 0;
 
         // create ship in the middle of screen
-        float left = (SCREEN_WIDTH / 2) - (shipWidth / 2);
-        float right = (SCREEN_WIDTH / 2) + (shipWidth / 2);
-        float top = (SCREEN_HEIGHT / 2) - (shipHeight / 2);
-        float bottom = (SCREEN_HEIGHT / 2) + (shipHeight / 2);
+        float left = ((float) screenX / 2) - (shipWidth / 2);
+        float right = ((float) screenX / 2) + (shipWidth / 2);
+        float top = ((float) screenY / 2) - (shipHeight / 2);
+        float bottom = ((float) screenY / 2) + (shipHeight / 2);
         this.hitbox = new RectF(left, top, right, bottom);
 
-        bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
     }
 
     /**
      * Constructor helper sets the position of ship hitbox which would be called when game start.
      */
-    protected void setHitBox(float x, float y) {
+    @Override
+    void setHitBox(float x, float y) {
         this.hitbox.offsetTo(x, y);
     }
 
-    protected RectF getHitBox() {
-        return this.hitbox;
-    }
-
-    protected Bitmap getBitmap() {
-        return this.bitmap;
-    }
-
     @Override
-    protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+    void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+        //        lastLogMessage += timeInMillisecond;
+        //        if (lastLogMessage > 5000) {
+        //            Log.d("Ship", "x, y, angle: " + this.hitbox.centerX() + " " + this.hitbox.centerY() + " " + this.orientation);
+        //            lastLogMessage = 0;
+        //        }
         rotate();
-
         move(spaceWidth, spaceHeight, timeInMillisecond);
-
-
     }
+
 
     /**
      * Changes ship values with respect to user input
-     *
-     * @param accelerate
-     * @param left
-     * @param right
      */
-    protected void controlShip(boolean accelerate, boolean left, boolean right) {
-        //TODO: For Ship team
-        //TODO: Accelerate (increment velocity)
-        //TODO: Rotate Left (Set angular velocity to some negative constant)
-        //TODO: Rotate Right (Set angular velocity to some positive constant)
-
-        if(accelerate) {
-            this.vel.updateVelocity(1.1f, 0);
+    void input(boolean accelerate, boolean left, boolean right) {
+        //        if (lastLogMessage > 5000) {
+        //            Log.d("Ship", "up, left, right: " + accelerate + " " + left + " " + right);
+        //        }
+        if (accelerate) {
+            this.vel.accelerate(SHIP_ACCELERATION, orientation);
         } else {
-            this.vel.updateVelocity(0.9f, 0);
+            this.vel.decelerate(SHIP_DECELERATION);  // velocity decay
         }
 
         if (left) {
-            this.angularVel = ANGULAR_VELOCITY;
+            this.angularVel = -SHIP_ANGULARVELOCITY;
         } else if (right) {
-            this.angularVel = -ANGULAR_VELOCITY;
+            this.angularVel = SHIP_ANGULARVELOCITY;
         } else {
             this.angularVel = 0;
         }
     }
 
     @Override
-    protected void draw(Canvas canvas, Paint paint) {
+    void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
-        matrix.postTranslate((float) -bitmap.getWidth() / 2, (float) -bitmap.getHeight() / 2);
-        matrix.postRotate(angle);
-        matrix.postTranslate(hitbox.left, hitbox.top);
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+        matrix.postTranslate(hitbox.left - shipWidth * SHIP_BITMAP_HITBOX_SCALE, hitbox.top - shipHeight * SHIP_BITMAP_HITBOX_SCALE);
+        canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(this.bitmap, matrix, paint);
     }
 }

@@ -3,7 +3,6 @@ package EightAM.asteroids;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -36,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
         display.getSize(size);
 
-        Log.d("in main activity", "size.x =" + size.x);
+        //        Log.d("in main activity", "size.x =" + size.x);
         gameModel = new GameModel(size.x, size.y, gameView.getContext());
         gameController = new GameController(gameModel, size.x, size.y);
         gameView.setGameModel(gameModel);
         // temporary until menu is created
         gameView.onResume();
-        //gameController.start();
+        gameController.onResume();
     }
 
     @Override

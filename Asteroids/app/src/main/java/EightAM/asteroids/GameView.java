@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import androidx.core.content.ContextCompat;
 
 class GameView extends SurfaceView implements Runnable {
@@ -63,8 +64,15 @@ class GameView extends SurfaceView implements Runnable {
                 // make a new ship just to test out drawing
                 //                ship.draw(canvas, paint);
                 canvas.drawColor(Color.BLACK);
-
-                model.ship.draw(canvas, paint);
+                model.lock.lock();
+                try {
+                    if (Ship.lastLogMessage > 5000) {
+                        Log.d("gameView", "rendering ship");
+                    }
+                    model.ship.draw(canvas, paint);
+                } finally {
+                    model.lock.unlock();
+                }
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
         }

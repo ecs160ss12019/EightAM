@@ -27,13 +27,10 @@ public class Velocity {
      * Increment Speed (Magnitude of velocity)
      * Update Velocity by assignment. //<- subject to change, If you guys think its easier to increment angle
      */
-    protected void updateVelocity(float changeInSpeed, float newAngle) {
-        this.magnitude *= changeInSpeed;
-        this.angle = newAngle;
-    }
-
-    protected void updateVelocity(float changeInSpeed) {
-        this.magnitude *= changeInSpeed;
+    protected void affectVelocity(float magnitude, float orientation) {
+        float vx = velX() + (float) Math.cos(orientation) * magnitude;
+        float vy = velY() + (float) Math.sin(orientation) * magnitude;
+        this.angle = (float) Math.atan2(vy, vx);
     }
 
     /**

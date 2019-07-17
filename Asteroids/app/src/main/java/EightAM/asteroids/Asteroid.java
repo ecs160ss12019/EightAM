@@ -1,5 +1,11 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.ASTEROID_LARGE_RADIUS;
+import static EightAM.asteroids.Constants.ASTEROID_MAXANGLE;
+import static EightAM.asteroids.Constants.ASTEROID_MAXSPEED;
+import static EightAM.asteroids.Constants.ASTEROID_MEDIUM_RADIUS;
+import static EightAM.asteroids.Constants.ASTEROID_SMALL_RADIUS;
+
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -22,16 +28,10 @@ import java.util.Random;
 
 class Asteroid extends GameObject {
 
-    // ---------------Member statics ---------------
-
-    static final int LARGE_RADIUS = 3;
-    static final int MEDIUM_RADIUS = 2;
-    static final int SMALL_RADIUS = 1;
-    static final int MAXSPEED = 3; // TODO: subject to change
-    static final double MAXANGLE = 2*Math.PI;
     // ---------------Member variables-------------
     private Size rockSize;
     private int SAFEDIST;  // TODO: Determine the safe distance from ship to spawn Asteroids
+
     /**
      * First constructor constructs the asteroid rocks when there are no asteroids in
      * space, i.e. when there's a new game or when all asteroids in the field are
@@ -66,15 +66,15 @@ class Asteroid extends GameObject {
         // screen Alternative Implementation: new Random().nextInt((max-min+1))+min to
         // set bounds
         do {
-            xRand = rand.nextInt(((xTotalPix - 1) + 1 ) + 1);
-            yRand = rand.nextInt(((yTotalPix - 1) + 1 ) + 1);
+            xRand = rand.nextInt(((xTotalPix - 1) + 1) + 1);
+            yRand = rand.nextInt(((yTotalPix - 1) + 1) + 1);
             xDistFromShip = Math.abs(xRand - xShipPos);
             yDistFromShip = Math.abs(yRand - yShipPos);
             DistFromShip = (float) Math.sqrt(Math.pow(xDistFromShip, 2) + Math.pow(yDistFromShip, 2));
         } while (DistFromShip < SAFEDIST);
 
-        float speed = rand.nextInt(((MAXSPEED/4 - 1) + 1 ) + 1);
-        float direction = Float.MIN_VALUE + rand.nextFloat() * (float)(MAXANGLE - Float.MIN_VALUE);
+        float speed = rand.nextInt(((ASTEROID_MAXSPEED / 4 - 1) + 1) + 1);
+        float direction = Float.MIN_VALUE + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - Float.MIN_VALUE);
 
         this.vel = new Velocity(speed, direction);
         this.setHitBox(xRand, yRand);
@@ -105,8 +105,8 @@ class Asteroid extends GameObject {
         this.objectID = ObjectID.ASTEROID;
 
         Random rand = new Random();
-        float direction = 1 + rand.nextFloat() * (float)(MAXANGLE - 1);
-        float speed = rand.nextInt(MAXSPEED);
+        float direction = 1 + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - 1);
+        float speed = rand.nextInt(ASTEROID_MAXSPEED);
 
         if (parentSize == Size.LARGE) {
             rockSize = Size.MEDIUM;
@@ -137,22 +137,22 @@ class Asteroid extends GameObject {
         hitbox = new RectF(posX, posY, posX, posY);
         switch (rockSize) {
             case LARGE:
-                hitbox.left -= LARGE_RADIUS;
-                hitbox.top -= LARGE_RADIUS;
-                hitbox.right += LARGE_RADIUS;
-                hitbox.bottom += LARGE_RADIUS;
+                hitbox.left -= ASTEROID_LARGE_RADIUS;
+                hitbox.top -= ASTEROID_LARGE_RADIUS;
+                hitbox.right += ASTEROID_LARGE_RADIUS;
+                hitbox.bottom += ASTEROID_LARGE_RADIUS;
                 break;
             case MEDIUM:
-                hitbox.left -= MEDIUM_RADIUS;
-                hitbox.top -= MEDIUM_RADIUS;
-                hitbox.right += MEDIUM_RADIUS;
-                hitbox.bottom += MEDIUM_RADIUS;
+                hitbox.left -= ASTEROID_MEDIUM_RADIUS;
+                hitbox.top -= ASTEROID_MEDIUM_RADIUS;
+                hitbox.right += ASTEROID_MEDIUM_RADIUS;
+                hitbox.bottom += ASTEROID_MEDIUM_RADIUS;
                 break;
             case SMALL:
-                hitbox.left -= SMALL_RADIUS;
-                hitbox.top -= SMALL_RADIUS;
-                hitbox.right += SMALL_RADIUS;
-                hitbox.bottom += SMALL_RADIUS;
+                hitbox.left -= ASTEROID_SMALL_RADIUS;
+                hitbox.top -= ASTEROID_SMALL_RADIUS;
+                hitbox.right += ASTEROID_SMALL_RADIUS;
+                hitbox.bottom += ASTEROID_SMALL_RADIUS;
                 break;
         }
     }

@@ -10,7 +10,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 class Ship extends GameObject {
 
@@ -81,7 +80,7 @@ class Ship extends GameObject {
         if (accelerate) {
             this.vel.affectVelocity(SHIP_ACCELERATION, orientation);
         } else {
-            this.vel.magnitude *= SHIP_DECELERATION;  // velocity decay
+            this.vel.decelerate(SHIP_DECELERATION);  // velocity decay
         }
 
         if (left) {

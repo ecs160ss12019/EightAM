@@ -11,6 +11,9 @@ import android.view.SurfaceView;
 
 import androidx.core.content.ContextCompat;
 
+import static EightAM.asteroids.GameModel.spaceHeight;
+import static EightAM.asteroids.GameModel.spaceWidth;
+
 class GameView extends SurfaceView implements Runnable {
 
     // ---------------Member variables-------------
@@ -68,12 +71,18 @@ class GameView extends SurfaceView implements Runnable {
                     //                        Log.d("gameView", "rendering ship");
                     //                    }
                     model.ship.draw(canvas, paint);
-                    model.asteroid.draw(canvas, paint);
+                    drawAsteroidBelt(canvas, paint);
                 } finally {
                     model.lock.unlock();
                 }
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
+        }
+    }
+
+    public void drawAsteroidBelt(Canvas canvas, Paint paint) {
+        for (int i = 0; i < model.numOfAsteroids; i++) {
+            model.asteroidBelt.get(i).draw(canvas, paint);
         }
     }
 

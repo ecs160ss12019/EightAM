@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.util.Random;
 
@@ -75,9 +76,9 @@ class Asteroid extends GameObject {
             DistFromShip = (float) Math.sqrt(Math.pow(xDistFromShip, 2) + Math.pow(yDistFromShip, 2));
         } while (DistFromShip < SAFEDIST);
 
-        float speed = rand.nextInt(((ASTEROID_MAXSPEED / 4 - 1) + 1) + 1);
+        float speed = 1 + rand.nextFloat() * ((ASTEROID_MAXSPEED/4) - 1);
         float direction = Float.MIN_VALUE + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - Float.MIN_VALUE);
-
+        Log.d("in Asteroid.java", "speed=" + speed + " dir=" + direction);
         this.vel = new Velocity(speed, direction);
         this.setHitBox(xRand, yRand);
 
@@ -107,7 +108,7 @@ class Asteroid extends GameObject {
 
         Random rand = new Random();
         float direction = 1 + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - 1);
-        float speed = rand.nextInt(ASTEROID_MAXSPEED);
+        float speed = Float.MIN_VALUE + rand.nextFloat() * ((ASTEROID_MAXSPEED/4) - Float.MIN_VALUE);
 
         if (parentSize == Size.LARGE) {
             rockSize = Size.MEDIUM;

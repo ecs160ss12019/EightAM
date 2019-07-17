@@ -4,6 +4,7 @@ import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 import static EightAM.asteroids.Constants.STARTING_LIVES;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -49,8 +50,8 @@ class GameModel {
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
         this.ship = new Ship(this, spaceWidth, spaceHeight, context);
-        this.asteroid = new Asteroid(spaceWidth, spaceHeight, ship.shipWidth, ship.shipHeight, context);
-        //this.createAsteroidBelt(context);
+        //this.asteroid = new Asteroid(spaceWidth, spaceHeight, ship.shipWidth, ship.shipHeight, context);
+        this.createAsteroidBelt(context);
     }
 
     private void resetObjects() {
@@ -68,6 +69,7 @@ class GameModel {
         for (int i = 0; i < numOfAsteroids; i++) {
             asteroidBelt.add(new Asteroid(spaceWidth, spaceHeight, shipPosX, shipPosY, context));
         }
+        Log.d("in gamemodel","asteroidbelt has " + asteroidBelt.size() + " object id is " + asteroidBelt.get(0).objectID);
     }
 
     /**
@@ -83,7 +85,7 @@ class GameModel {
     }
 
     private void updateAsteroidBelt(long timeInMillisecond) {
-        for (int i = 0; i < numOfAsteroids; i++) {
+        for (int i = 0; i < asteroidBelt.size(); i++) {
             asteroidBelt.get(i).update(spaceWidth, spaceHeight, timeInMillisecond);
         }
     }
@@ -167,7 +169,8 @@ class GameModel {
 
     void update(long timeInMillisecond) {
         this.ship.update(spaceWidth, spaceHeight, timeInMillisecond);
-        //this.updateAsteroidBelt(timeInMillisecond);
+        //this.asteroid.update(spaceWidth, spaceHeight, timeInMillisecond);
+        this.updateAsteroidBelt(timeInMillisecond);
         //if (bulletsFired.size() != 0) updateBullets(timeInMillisecond);
     }
 

@@ -50,6 +50,8 @@ class GameModel {
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
         this.ship = new Ship(this, spaceWidth, spaceHeight, context);
+
+        //this.createAsteroidBelt(context);
         //this.asteroid = new Asteroid(spaceWidth, spaceHeight, ship.shipWidth, ship.shipHeight, context);
         this.createAsteroidBelt(context);
     }
@@ -170,6 +172,7 @@ class GameModel {
     void update(long timeInMillisecond) {
         this.ship.update(spaceWidth, spaceHeight, timeInMillisecond);
         //this.asteroid.update(spaceWidth, spaceHeight, timeInMillisecond);
+        this.updateAsteroidBelt(timeInMillisecond);
         this.updateAsteroidBelt(timeInMillisecond);
         //if (bulletsFired.size() != 0) updateBullets(timeInMillisecond);
     }

@@ -27,7 +27,7 @@ public class Velocity {
      * Increment Speed (Magnitude of velocity)
      * Update Velocity by assignment. //<- subject to change, If you guys think its easier to increment angle
      */
-    protected void affectVelocity(float magnitude, float orientation) {
+    protected void accelerate(float magnitude, float orientation) {
         x += (float) Math.cos(orientation) * magnitude;
         y += (float) Math.sin(orientation) * magnitude;
     }

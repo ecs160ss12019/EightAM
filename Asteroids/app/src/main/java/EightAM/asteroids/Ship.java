@@ -80,7 +80,7 @@ class Ship extends GameObject {
         if (accelerate) {
             this.vel.affectVelocity(SHIP_ACCELERATION, orientation);
         } else {
-            this.vel.magnitude *= 0.999;  // velocity decay
+            this.vel.decelerate(0.999f);  // velocity decay
         }
 
         if (left) {

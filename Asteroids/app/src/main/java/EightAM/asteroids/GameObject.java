@@ -34,8 +34,8 @@ abstract class GameObject {
         // vertical(mYVelocity) speed
         // and the current frame rate(fps)
         // Move the top left corner
-        float dx = vel.velX() * timeInMillisecond;
-        float dy = vel.velY() * timeInMillisecond;
+        float dx = vel.x * timeInMillisecond;
+        float dy = vel.y * timeInMillisecond;
         hitbox.offset(dx, dy);
         float cx = hitbox.centerX();
         float cy = hitbox.centerY();

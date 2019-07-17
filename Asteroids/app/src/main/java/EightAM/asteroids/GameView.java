@@ -58,8 +58,6 @@ class GameView extends SurfaceView implements Runnable {
             if (surfaceHolder.getSurface().isValid()) {
                 Canvas canvas = surfaceHolder.lockCanvas();
                 if (canvas == null) return;
-                // TODO: Move this to correct part of code
-                // we just wanted to draw the ship . haha
 
                 // make a new ship just to test out drawing
                 //                ship.draw(canvas, paint);
@@ -70,6 +68,7 @@ class GameView extends SurfaceView implements Runnable {
                     //                        Log.d("gameView", "rendering ship");
                     //                    }
                     model.ship.draw(canvas, paint);
+                    model.asteroid.draw(canvas, paint);
                 } finally {
                     model.lock.unlock();
                 }

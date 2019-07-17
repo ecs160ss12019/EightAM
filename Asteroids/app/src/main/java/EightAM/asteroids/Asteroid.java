@@ -5,10 +5,12 @@ import static EightAM.asteroids.Constants.ASTEROID_MAXANGLE;
 import static EightAM.asteroids.Constants.ASTEROID_MAXSPEED;
 import static EightAM.asteroids.Constants.ASTEROID_MEDIUM_RADIUS;
 import static EightAM.asteroids.Constants.ASTEROID_SMALL_RADIUS;
+import static EightAM.asteroids.Constants.SHIP_BITMAP_HITBOX_SCALE;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -80,8 +82,7 @@ class Asteroid extends GameObject {
         this.setHitBox(xRand, yRand);
 
         // Prepare the bitmap
-        // Load .png file in res/drawable
-        this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_asteroid_large);
+        this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
     }
 
     // ---------------Member methods---------------
@@ -159,7 +160,11 @@ class Asteroid extends GameObject {
 
     @Override
     protected void draw(Canvas canvas, Paint paint) {
-
+        Matrix matrix = new Matrix();
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+        matrix.postTranslate(hitbox.left, hitbox.top);
+        canvas.drawRect(this.hitbox, paint);
+        canvas.drawBitmap(this.bitmap, matrix, paint);
     }
 
 

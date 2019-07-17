@@ -27,6 +27,7 @@ class GameModel {
     protected ArrayList<Asteroid> asteroidBelt;
     protected ArrayList<Bullet> bulletsFired;
     protected Ship ship;
+    protected Asteroid asteroid;
 
     /**
      * Main Constructor of the Model. Called at the start of every game session.
@@ -48,6 +49,7 @@ class GameModel {
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
         this.ship = new Ship(this, spaceWidth, spaceHeight, context);
+        this.asteroid = new Asteroid(spaceWidth, spaceHeight, ship.shipWidth, ship.shipHeight, context);
         //this.createAsteroidBelt(context);
     }
 

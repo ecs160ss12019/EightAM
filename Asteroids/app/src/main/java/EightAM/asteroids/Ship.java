@@ -1,15 +1,15 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.DEF_ANGLE;
 import static EightAM.asteroids.Constants.SHIP_ACCELERATION;
 import static EightAM.asteroids.Constants.SHIP_ANGULARVELOCITY;
+import static EightAM.asteroids.Constants.SHIP_BITMAP_HITBOX_SCALE;
+import static EightAM.asteroids.Constants.SHIP_DECELERATION;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 class Ship extends GameObject {
 
@@ -22,7 +22,7 @@ class Ship extends GameObject {
 
     // ---------------Member methods---------------
 
-    static long lastLogMessage = 0;
+    //    static long lastLogMessage = 0;
 
     /**
      * Constructor constructs a static ship by setting up its size and hitbox.
@@ -33,12 +33,13 @@ class Ship extends GameObject {
     Ship(GameModel gameModel, int screenX, int screenY, Context context) {
 
         this.refGameModel = gameModel;
+        bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
 
-        shipHeight = (float) screenY / 10;
-        shipWidth = shipHeight / 2;
+        shipHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
+        shipWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
 
         this.vel = new Velocity(0, 0);
-        this.orientation = DEF_ANGLE;
+        this.orientation = 0;
 
         // create ship in the middle of screen
         float left = ((float) screenX / 2) - (shipWidth / 2);
@@ -47,7 +48,6 @@ class Ship extends GameObject {
         float bottom = ((float) screenY / 2) + (shipHeight / 2);
         this.hitbox = new RectF(left, top, right, bottom);
 
-        bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
     }
 
     /**
@@ -60,11 +60,11 @@ class Ship extends GameObject {
 
     @Override
     void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
-        lastLogMessage += timeInMillisecond;
-        if (lastLogMessage > 5000) {
-            Log.d("Ship", "x, y, angle: " + this.hitbox.centerX() + " " + this.hitbox.centerY() + " " + this.orientation);
-            lastLogMessage = 0;
-        }
+        //        lastLogMessage += timeInMillisecond;
+        //        if (lastLogMessage > 5000) {
+        //            Log.d("Ship", "x, y, angle: " + this.hitbox.centerX() + " " + this.hitbox.centerY() + " " + this.orientation);
+        //            lastLogMessage = 0;
+        //        }
         rotate();
         move(spaceWidth, spaceHeight, timeInMillisecond);
     }
@@ -74,13 +74,13 @@ class Ship extends GameObject {
      * Changes ship values with respect to user input
      */
     void input(boolean accelerate, boolean left, boolean right) {
-        if (lastLogMessage > 5000) {
-            Log.d("Ship", "up, left, right: " + accelerate + " " + left + " " + right);
-        }
+        //        if (lastLogMessage > 5000) {
+        //            Log.d("Ship", "up, left, right: " + accelerate + " " + left + " " + right);
+        //        }
         if (accelerate) {
             this.vel.affectVelocity(SHIP_ACCELERATION, orientation);
         } else {
-            this.vel.magnitude *= 0.999;  // velocity decay
+            this.vel.magnitude *= SHIP_DECELERATION;  // velocity decay
         }
 
         if (left) {
@@ -95,9 +95,9 @@ class Ship extends GameObject {
     @Override
     void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
-        matrix.postTranslate((float) -bitmap.getWidth() / 2, (float) -bitmap.getHeight() / 2);
-        matrix.postRotate((float) Math.toDegrees(orientation));
-        matrix.postTranslate(hitbox.left, hitbox.top);
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+        matrix.postTranslate(hitbox.left - shipWidth * SHIP_BITMAP_HITBOX_SCALE, hitbox.top - shipHeight * SHIP_BITMAP_HITBOX_SCALE);
+        canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(this.bitmap, matrix, paint);
     }
 }

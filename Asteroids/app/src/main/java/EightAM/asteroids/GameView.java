@@ -66,9 +66,9 @@ class GameView extends SurfaceView implements Runnable {
                 canvas.drawColor(Color.BLACK);
                 model.lock.lock();
                 try {
-                    if (Ship.lastLogMessage > 5000) {
-                        Log.d("gameView", "rendering ship");
-                    }
+                    //                    if (Ship.lastLogMessage > 5000) {
+                    //                        Log.d("gameView", "rendering ship");
+                    //                    }
                     model.ship.draw(canvas, paint);
                 } finally {
                     model.lock.unlock();

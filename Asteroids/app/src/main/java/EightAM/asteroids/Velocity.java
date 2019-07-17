@@ -6,8 +6,8 @@ package EightAM.asteroids;
  * Getter functions return components of the velocity (with respects to x and y).
  */
 public class Velocity {
-    float magnitude;
-    float angle;
+    float x;
+    float y;
 
     /**
      * Creates an instance of Velocity.
@@ -18,8 +18,8 @@ public class Velocity {
      */
 
     protected Velocity(float speed, float angle) {
-        this.magnitude = speed;
-        this.angle = angle;
+        x = speed * (float) Math.cos(angle);
+        y = speed * (float) Math.sin(angle);
     }
 
     /**
@@ -28,23 +28,16 @@ public class Velocity {
      * Update Velocity by assignment. //<- subject to change, If you guys think its easier to increment angle
      */
     protected void affectVelocity(float magnitude, float orientation) {
-        float vx = velX() + (float) Math.cos(orientation) * magnitude;
-        float vy = velY() + (float) Math.sin(orientation) * magnitude;
-        this.angle = (float) Math.atan2(vy, vx);
-        this.magnitude = (float) Math.hypot(Math.abs(vy), Math.abs(vx));
+        x += (float) Math.cos(orientation) * magnitude;
+        y += (float) Math.sin(orientation) * magnitude;
     }
 
-    /**
-     * @return X component of Velocity
-     */
-    protected float velX() {
-        return this.magnitude * (float) Math.cos(angle);
+    protected void decelerate(float magnitude) {
+        x *= magnitude;
+        y *= magnitude;
     }
 
-    /**
-     * @return Y component of velocity
-     */
-    protected float velY() {
-        return this.magnitude * (float) Math.sin(angle);
+    protected float magnitude(){
+        return (float) Math.hypot(x, y);
     }
 }

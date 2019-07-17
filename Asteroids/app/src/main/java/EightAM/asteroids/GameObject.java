@@ -55,7 +55,15 @@ abstract class GameObject {
     /**
      * Rotate method rotates the object
      */
-    void rotate() { orientation += angularVel; }
+    void rotate() {
+        orientation += angularVel;
+        if (orientation > Math.PI) {
+            orientation -= 2 * Math.PI;
+        }
+        if (orientation < -Math.PI) {
+            orientation += 2 * Math.PI;
+        }
+    }
 
     /**
      * Update method means rotating and moving the calling object.

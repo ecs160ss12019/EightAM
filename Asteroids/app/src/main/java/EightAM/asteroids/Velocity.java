@@ -31,6 +31,7 @@ public class Velocity {
         float vx = velX() + (float) Math.cos(orientation) * magnitude;
         float vy = velY() + (float) Math.sin(orientation) * magnitude;
         this.angle = (float) Math.atan2(vy, vx);
+        this.magnitude = (float) Math.hypot(Math.abs(vy), Math.abs(vx));
     }
 
     /**

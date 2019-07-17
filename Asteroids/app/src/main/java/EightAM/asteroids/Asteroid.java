@@ -34,6 +34,8 @@ class Asteroid extends GameObject {
     // ---------------Member variables-------------
     private Size rockSize;
     private int SAFEDIST;  // TODO: Determine the safe distance from ship to spawn Asteroids
+    private float width;
+    private float height;
 
     /**
      * First constructor constructs the asteroid rocks when there are no asteroids in
@@ -60,8 +62,14 @@ class Asteroid extends GameObject {
         // might use later
         this.objectID = ObjectID.ASTEROID;
 
-        // crate large rock only
+        // create large rock only
         rockSize = Size.LARGE;
+
+        // Prepare the bitmap
+        this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
+        width = bitmap.getWidth() * 0.5f;
+        height = bitmap.getHeight() * 0.5f;
+
 
         // We only want to spawn asteroids we are a certain distance away from the ship
         // NOTE: May be inefficient, but more fair to the player.
@@ -78,12 +86,8 @@ class Asteroid extends GameObject {
 
         float speed = 1 + rand.nextFloat() * ((ASTEROID_MAXSPEED/4) - 1);
         float direction = Float.MIN_VALUE + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - Float.MIN_VALUE);
-        Log.d("in Asteroid.java", "speed=" + speed + " dir=" + direction);
         this.vel = new Velocity(speed, direction);
         this.setHitBox(xRand, yRand);
-
-        // Prepare the bitmap
-        this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
     }
 
     // ---------------Member methods---------------
@@ -139,10 +143,10 @@ class Asteroid extends GameObject {
         hitbox = new RectF(posX, posY, posX, posY);
         switch (rockSize) {
             case LARGE:
-                hitbox.left -= ASTEROID_LARGE_RADIUS;
-                hitbox.top -= ASTEROID_LARGE_RADIUS;
-                hitbox.right += ASTEROID_LARGE_RADIUS;
-                hitbox.bottom += ASTEROID_LARGE_RADIUS;
+                hitbox.left -= width/2;
+                hitbox.top -= height/2;
+                hitbox.right += width/2;
+                hitbox.bottom += height/2;
                 break;
             case MEDIUM:
                 hitbox.left -= ASTEROID_MEDIUM_RADIUS;
@@ -163,7 +167,8 @@ class Asteroid extends GameObject {
     protected void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-        matrix.postTranslate(hitbox.left, hitbox.top);
+        //Log.d("in asteroid", "bitmap get width=" + bitmap.getWidth());
+        matrix.postTranslate(hitbox.left - (width * 0.5f), hitbox.top - (height * 0.5f));
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(this.bitmap, matrix, paint);
     }

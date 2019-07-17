@@ -22,7 +22,6 @@ class Ship extends GameObject {
 
     float shipWidth;
     float shipHeight;
-    float angle;
 
     boolean teleporting = false;
 
@@ -44,8 +43,7 @@ class Ship extends GameObject {
         shipHeight = screenY / 10;
         shipWidth = shipHeight / 2;
 
-        this.vel = new Velocity(0, 0);
-        this.angle = 0;
+        this.vel = new Velocity(0, (3f/2f * (float)Math.PI));
 
         // create ship in the middle of screen
         float left = (SCREEN_WIDTH / 2) - (shipWidth / 2);
@@ -95,9 +93,9 @@ class Ship extends GameObject {
         //TODO: Rotate Right (Set angular velocity to some positive constant)
 
         if(accelerate) {
-            this.vel.updateVelocity(1.1f, 0);
+            this.vel.updateVelocity(1.1f, this.orientation);
         } else {
-            this.vel.updateVelocity(0.9f, 0);
+            this.vel.updateVelocity(0.9f);
         }
 
         if (left) {
@@ -113,7 +111,7 @@ class Ship extends GameObject {
     protected void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
         matrix.postTranslate((float) -bitmap.getWidth() / 2, (float) -bitmap.getHeight() / 2);
-        matrix.postRotate(angle);
+        matrix.postRotate(orientation);
         matrix.postTranslate(hitbox.left, hitbox.top);
         canvas.drawBitmap(this.bitmap, matrix, paint);
     }

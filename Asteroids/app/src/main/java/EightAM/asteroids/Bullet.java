@@ -42,7 +42,7 @@ class Bullet extends GameObject {
      * @param timeInMillisecond current time of the game in ms
      */
     private void distanceTraveled(long timeInMillisecond) {
-        distanceTraveled += timeInMillisecond * this.vel.magnitude();
+        distanceTraveled += timeInMillisecond * this.vel.magnitude;
     }
 
     /**

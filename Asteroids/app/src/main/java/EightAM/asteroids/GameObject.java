@@ -18,7 +18,7 @@ abstract class GameObject {
     Bitmap bitmap;
 
     GameModel refGameModel;
-    float angle;
+    float orientation;
     float angularVel = ANGULAR_VELOCITY;
     ObjectID objectID;
 
@@ -57,7 +57,7 @@ abstract class GameObject {
     /**
      * Rotate method rotates the object
      */
-    protected void rotate() { angle += angularVel; }
+    protected void rotate() { orientation += angularVel; }
 
     /**
      * Update method means rotating and moving the calling object.

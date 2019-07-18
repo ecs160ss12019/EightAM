@@ -15,9 +15,6 @@ class Ship extends GameObject {
 
     // ---------------Member variables-------------
 
-    float shipWidth;
-    float shipHeight;
-
     boolean teleporting = false;
 
     // ---------------Member methods---------------
@@ -35,17 +32,17 @@ class Ship extends GameObject {
         this.refGameModel = gameModel;
         bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
 
-        shipHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
-        shipWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
+        bitmapHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
+        bitmapWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
 
         this.vel = new Velocity(0, 0);
         this.orientation = 0;
 
         // create ship in the middle of screen
-        float left = ((float) screenX / 2) - (shipWidth / 2);
-        float right = ((float) screenX / 2) + (shipWidth / 2);
-        float top = ((float) screenY / 2) - (shipHeight / 2);
-        float bottom = ((float) screenY / 2) + (shipHeight / 2);
+        float left = ((float) screenX / 2) - (bitmapWidth / 2);
+        float right = ((float) screenX / 2) + (bitmapWidth / 2);
+        float top = ((float) screenY / 2) - (bitmapHeight / 2);
+        float bottom = ((float) screenY / 2) + (bitmapHeight / 2);
         this.hitbox = new RectF(left, top, right, bottom);
 
     }
@@ -95,8 +92,10 @@ class Ship extends GameObject {
     @Override
     void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-        matrix.postTranslate(hitbox.left - shipWidth * SHIP_BITMAP_HITBOX_SCALE, hitbox.top - shipHeight * SHIP_BITMAP_HITBOX_SCALE);
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2,
+                (float) bitmap.getHeight() / 2);
+        matrix.postTranslate(hitbox.left - bitmapWidth * SHIP_BITMAP_HITBOX_SCALE,
+                hitbox.top - bitmapHeight * SHIP_BITMAP_HITBOX_SCALE);
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(this.bitmap, matrix, paint);
     }

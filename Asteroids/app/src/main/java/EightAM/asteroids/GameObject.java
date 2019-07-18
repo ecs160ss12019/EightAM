@@ -15,6 +15,9 @@ abstract class GameObject {
     Velocity vel;
     RectF hitbox;
     Bitmap bitmap;
+    // dimensions of bitmap
+    float bitmapWidth;
+    float bitmapHeight;
 
     GameModel refGameModel;
     float angularVel = DEF_ANGULAR_VELOCITY;

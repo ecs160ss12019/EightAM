@@ -14,14 +14,19 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 ##  CRC cards
 ![Link to CRC Cards for Assignment 2](https://github.com/ecs160ss12019/EightAM/blob/master/crc_cards.png)
 ### Division of Workload
-* GameModel: Adrian
-* Asteroid (Rock): Kenny, Tim
-* Ship: Kenny, Melissa
-* Projectile: Tim
-* InputControl: Adrian
-* Game Object: Irene
 * Alien: Irene
-* Space: Melissa
+* Asteroid: Tim, Liyin
+* Bullet: Irene, Tim
+* Constants: Adrian
+* GameController: Adrian
+* GameModel: Adrian, Tim
+* GameObject: everyone
+* GameView: Adrian, Melissa
+* ImageUtils: Adrian
+* InputControl: Adrian, Liyin
+* MainActivity: Adrian, Melissa
+* Ship: Irene, Melissa, Liyin
+* Velocity: Irene, Tim
 
 ## Acceptance Tests
 ###  Sprint 1

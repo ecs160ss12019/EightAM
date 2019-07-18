@@ -3,6 +3,7 @@ package EightAM.asteroids;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -38,7 +39,7 @@ class Alien extends GameObject {
         // prepare bitmap
         // TODO: put ic.alien_png
         // TODO: change alien pic based on size
-        //this.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_alien);
+        //this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien_large);
     }
 
     protected void setHitBox(float posX, float posY) {
@@ -46,7 +47,12 @@ class Alien extends GameObject {
     }
 
     protected void draw(Canvas canvas, Paint paint) {
-
+        Matrix matrix = new Matrix();
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2,
+                (float) bitmap.getHeight() / 2);
+        matrix.postTranslate(hitbox.left - (bitmapWidth * 0.5f), hitbox.top - (bitmapHeight * 0.5f));
+        canvas.drawRect(this.hitbox, paint);
+        canvas.drawBitmap(this.bitmap, matrix, paint);
     }
 
     // ---------------Member variables ------------

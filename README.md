@@ -12,9 +12,9 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 [I am a link to StoryMapping.md](https://github.com/ecs160ss12019/EightAM/blob/master/StoryMapping.md)
 
 ##  Sprint 1
-### CRC Cards
+### 1) CRC Cards
 ![Link to CRC Cards for Sprint 1](https://github.com/ecs160ss12019/EightAM/blob/master/crc_cards.png)
-### Division of Workload
+### 2) Division of Workload
 | Adrian        | Irene       | Tim        | Liyin        | Melissa      |
 | ------------- |-------------| -----------|--------------|--------------|
 | Constants     | Alien       | Asteroid   | Asteroid     | GameView     |
@@ -26,7 +26,7 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 | GameController|             |            |              |              |
 
 
-### Acceptance Tests
+### 3) Acceptance Tests
 ##### _**Game**_
 * Test with score increasing upon asteroid decimation (projectile + asteroid collision). (pass)
 * Test with score increasing upon alien decimation (projectile + alien collision). (pass)
@@ -44,7 +44,7 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 * Test with no Asteroid in space, spawn more asteroids. (Pass)
 * Test with spawning Asteroid, it should contain a random velocity. (Pass) 
 
-### Screen Shots
+### 4) Screen Shots
 ##### Starting Screen
 ![Link to starting screen](https://github.com/ecs160ss12019/EightAM/blob/master/EightAM_Sprint1-Start.png)
 ##### Moved right
@@ -54,9 +54,9 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 
 
 ##  Sprint 2
-### CRC Cards
+### 1) CRC Cards
 ![Link to CRC Cards for Sprint 2](https://github.com/ecs160ss12019/EightAM/blob/master/crc_cards-s2.png)
-### Division of Workload
+### 2) Division of Workload
 | Adrian         | Irene       | Tim        | Liyin        | Melissa    |
 | ---------------|-------------| -----------|--------------|------------|
 | GameController | Alien       | GameObject | Asteroid     | Ship       |
@@ -66,7 +66,7 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 |                | GameObject  |            |              |            |
 |                | Ship        |            |              |            |
 
-
+### 3) Acceptance Tests
 ##### _**Game**_
 * Test with losing one life when ship collides with alien. (pass)
 * Test with losing one life when ship collides with an asteroid. (pass)
@@ -82,8 +82,12 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 ##### _**Asteroids**_
 *  Test with bullet shot by player. The asteroid shot at should break into smaller pieces of same asteroids. (pass)
 
+### 4) Screen Shots
 
 ## Sprint 3
+### 1) CRC Cards
+### 2) Division of Workload
+### 3) Acceptance Tests
 ##### _**Game**_
 * Test with the option for a new game appearing as the player runs out of lives. (pass)
 * Test with option for new game actually starting a new game. (pass)

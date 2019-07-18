@@ -16,7 +16,10 @@ class Alien extends GameObject {
 
     // denotes what kind of alien
     // ---------------Member methods --------------
-    protected Alien(int xTotalPix, int yTotalPix, Size s, Context context) {
+    protected Alien(int xTotalPix, int yTotalPix, Context context) {
+        // TODO: implement different alien sizes
+        // randomly choose if large or small alien?
+
         float randX, randY;
         float speed, direction = 0;
 
@@ -31,15 +34,14 @@ class Alien extends GameObject {
         this.vel = new Velocity(speed, direction);
         this.setHitBox(randX, randY);
 
-        size = s; // set size of alien
+        //size = s; // set size of alien
 
         // might use later
         this.objectID = ObjectID.ALIEN;
 
         // prepare bitmap
-        // TODO: put ic.alien_png
         // TODO: change alien pic based on size
-        //this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien_large);
+        this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
     }
 
     protected void setHitBox(float posX, float posY) {

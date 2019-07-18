@@ -28,6 +28,7 @@ class GameModel {
     protected ArrayList<Asteroid> asteroidBelt;
     protected ArrayList<Bullet> bulletsFired;
     protected Ship ship;
+    protected Alien alien;
 
 
     /**
@@ -50,6 +51,9 @@ class GameModel {
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
         this.ship = new Ship(this, spaceWidth, spaceHeight, context);
+        // TODO: Tim idk how u wanna spawn aliens in Model so imma put there here for now
+        // change if u so desire
+        this.alien = new Alien(spaceWidth, spaceHeight, context);
 
         //this.createAsteroidBelt(context);
         //this.asteroid = new Asteroid(spaceWidth, spaceHeight, ship.shipWidth, ship.shipHeight, context);
@@ -174,6 +178,7 @@ class GameModel {
         //this.asteroid.update(spaceWidth, spaceHeight, timeInMillisecond);
         this.updateAsteroidBelt(timeInMillisecond);
         this.updateAsteroidBelt(timeInMillisecond);
+        this.alien.update(spaceWidth, spaceHeight, timeInMillisecond);
         //if (bulletsFired.size() != 0) updateBullets(timeInMillisecond);
     }
 

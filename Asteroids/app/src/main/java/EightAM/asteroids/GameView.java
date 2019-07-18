@@ -72,6 +72,7 @@ class GameView extends SurfaceView implements Runnable {
                     //                    }
                     model.ship.draw(canvas, paint);
                     drawAsteroidBelt(canvas, paint);
+                    model.alien.draw(canvas, paint);
                 } finally {
                     model.lock.unlock();
                 }

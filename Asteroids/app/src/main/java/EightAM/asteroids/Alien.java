@@ -49,14 +49,6 @@ class Alien extends GameObject {
 
     }
 
-    protected RectF getHitBox() {
-        return this.hitbox;
-    }
-
-    protected Bitmap getBitmap() {
-        return this.bitmap;
-    }
-
     // ---------------Member variables ------------
     enum Size {
         SMALL, LARGE

@@ -14,12 +14,12 @@ abstract class GameObject {
 
     Velocity vel;
     RectF hitbox;
-    Bitmap bitmap;
+    static Bitmap bitmap;
     // dimensions of bitmap
     float bitmapWidth;
     float bitmapHeight;
-
-    GameModel refGameModel;
+    // Reference to the model holding the object
+    GameModel model;
     float angularVel = DEF_ANGULAR_VELOCITY;
     float orientation = DEF_ANGLE;
     ObjectID objectID;
@@ -83,8 +83,8 @@ abstract class GameObject {
      * @param approachingObject the hitbox of approaching object,
      * @return true for collision, otherwise false
      */
-    boolean detectCollisions(RectF approachingObject) {
-        return hitbox.intersect(approachingObject);
+    boolean detectCollisions(GameObject approachingObject) {
+        return hitbox.intersect(approachingObject.hitbox);
     }
 
     /**
@@ -98,6 +98,6 @@ abstract class GameObject {
 
     // ObjectID as Enum determines the type of object during collision detection.
     enum ObjectID {
-        SHIP, ALIEN, ASTEROID, PROJECTILE
+        SHIP, ALIEN, ASTEROID, BULLET
     }
 }

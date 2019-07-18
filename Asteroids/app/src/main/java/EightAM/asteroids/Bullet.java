@@ -25,7 +25,7 @@ class Bullet extends GameObject {
      */
     protected Bullet(ObjectID shooter, float x, float y, float angle) {
         hitbox = new RectF(x, y, x, y);
-        this.objectID = ObjectID.PROJECTILE;
+        this.objectID = ObjectID.BULLET;
         this.owner = shooter;
         distanceTraveled = 0;
         if (this.owner == ObjectID.SHIP) {

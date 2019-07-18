@@ -1,19 +1,16 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.ASTEROID_LARGE_RADIUS;
 import static EightAM.asteroids.Constants.ASTEROID_MAXANGLE;
 import static EightAM.asteroids.Constants.ASTEROID_MAXSPEED;
 import static EightAM.asteroids.Constants.ASTEROID_MEDIUM_RADIUS;
 import static EightAM.asteroids.Constants.ASTEROID_SMALL_RADIUS;
-import static EightAM.asteroids.Constants.SHIP_BITMAP_HITBOX_SCALE;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.Random;
 
@@ -34,6 +31,7 @@ class Asteroid extends GameObject {
     // ---------------Member variables-------------
     private Size rockSize;
     private int SAFEDIST;  // TODO: Determine the safe distance from ship to spawn Asteroids
+    static Bitmap bitmap;
 
     /**
      * First constructor constructs the asteroid rocks when there are no asteroids in
@@ -52,7 +50,8 @@ class Asteroid extends GameObject {
      * @param yShipPos  - Ship vertical position
      * @param context   - Context for setting bitmap
      */
-    protected Asteroid(int xTotalPix, int yTotalPix, float xShipPos, float yShipPos, Context context) {
+    protected Asteroid(GameModel gameModel, int xTotalPix, int yTotalPix, float xShipPos, float yShipPos, Context context) {
+        model = gameModel;
         float xRand, yRand;
         float xDistFromShip, yDistFromShip, DistFromShip;
         Random rand = new Random();
@@ -64,7 +63,7 @@ class Asteroid extends GameObject {
         rockSize = Size.LARGE;
 
         // Prepare the bitmap
-        this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
+        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
         bitmapWidth = bitmap.getWidth() * 0.5f;
         bitmapHeight = bitmap.getHeight() * 0.5f;
 
@@ -82,7 +81,7 @@ class Asteroid extends GameObject {
             DistFromShip = (float) Math.sqrt(Math.pow(xDistFromShip, 2) + Math.pow(yDistFromShip, 2));
         } while (DistFromShip < SAFEDIST);
 
-        float speed = 1 + rand.nextFloat() * ((ASTEROID_MAXSPEED/4) - 1);
+        float speed = rand.nextFloat() * ASTEROID_MAXSPEED;
         float direction = Float.MIN_VALUE + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - Float.MIN_VALUE);
         this.vel = new Velocity(speed, direction);
         this.setHitBox(xRand, yRand);
@@ -110,7 +109,7 @@ class Asteroid extends GameObject {
 
         Random rand = new Random();
         float direction = 1 + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - 1);
-        float speed = Float.MIN_VALUE + rand.nextFloat() * ((ASTEROID_MAXSPEED/4) - Float.MIN_VALUE);
+        float speed = Float.MIN_VALUE + rand.nextFloat() * ((ASTEROID_MAXSPEED / 4) - Float.MIN_VALUE);
 
         if (parentSize == Size.LARGE) {
             rockSize = Size.MEDIUM;
@@ -119,7 +118,7 @@ class Asteroid extends GameObject {
             // Prepare the bitmap
             // Load .png file in res/drawable
             // TODO: this asteroid figure subject to change
-            this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
+            bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
         } else {
             rockSize = Size.SMALL;
             speed /= 4;
@@ -127,7 +126,7 @@ class Asteroid extends GameObject {
             /// Prepare the bitmap
             // Load .png file in res/drawable
             // TODO: this asteroid figure subject to change
-            this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
+            bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
         }
         this.vel = new Velocity(speed, direction);
         this.setHitBox(currentX, currentY);
@@ -164,12 +163,11 @@ class Asteroid extends GameObject {
     @Override
     protected void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2,
-                (float) bitmap.getHeight() / 2);
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         //Log.d("in asteroid", "bitmap get width=" + bitmap.getWidth());
         matrix.postTranslate(hitbox.left - (bitmapWidth * 0.5f), hitbox.top - (bitmapHeight * 0.5f));
         canvas.drawRect(this.hitbox, paint);
-        canvas.drawBitmap(this.bitmap, matrix, paint);
+        canvas.drawBitmap(bitmap, matrix, paint);
     }
 
 

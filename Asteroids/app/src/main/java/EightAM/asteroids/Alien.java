@@ -3,6 +3,7 @@ package EightAM.asteroids;
 import static EightAM.asteroids.Constants.ALIEN_MAXSPEED;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -14,6 +15,7 @@ class Alien extends GameObject {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     private Size size;
+    static Bitmap bitmap;
 
     // denotes what kind of alien
     // ---------------Member methods --------------
@@ -31,7 +33,7 @@ class Alien extends GameObject {
         randX = rand.nextInt(((xTotalPix - 1) + 1) + 1) * rand.nextInt(2);
         randY = rand.nextInt(((yTotalPix - 1) + 1) + 1);
 
-        speed = 1 + rand.nextFloat() * ((ALIEN_MAXSPEED/4) - 1);
+        speed = 1 + rand.nextFloat() * ((ALIEN_MAXSPEED / 4) - 1);
         this.vel = new Velocity(speed, direction);
         this.setHitBox(randX, randY);
 
@@ -42,7 +44,7 @@ class Alien extends GameObject {
 
         // prepare bitmap
         // TODO: change alien pic based on size
-        this.bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
+        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
     }
 
     protected void setHitBox(float posX, float posY) {
@@ -51,11 +53,10 @@ class Alien extends GameObject {
 
     protected void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2,
-                (float) bitmap.getHeight() / 2);
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - (bitmapWidth * 0.5f), hitbox.top - (bitmapHeight * 0.5f));
         canvas.drawRect(this.hitbox, paint);
-        canvas.drawBitmap(this.bitmap, matrix, paint);
+        canvas.drawBitmap(bitmap, matrix, paint);
         // TODO: idk why but the alien is sideways lol
     }
 

@@ -15,12 +15,12 @@ import java.util.concurrent.locks.ReentrantLock;
 class GameModel {
 
     Lock lock;
-    static int numOfAsteroids;
-    static int spaceWidth;
-    static int spaceHeight;
-    static int livesLeft;
-
-    static int score;
+    Context context;
+    int numOfAsteroids;
+    int spaceWidth;
+    int spaceHeight;
+    int livesLeft;
+    int score;
 
     //temp
     float shipPosX, shipPosY;
@@ -33,19 +33,13 @@ class GameModel {
 
     /**
      * Main Constructor of the Model. Called at the start of every game session.
-     *
-     * @param screenWidth
-     * @param screenHeight
-     * @param context
      */
     protected GameModel(int screenWidth, int screenHeight, Context context) {
         //TODO: Initialize Grid... Maybe?
         lock = new ReentrantLock();
         resetObjects();
-
+        this.context = context;
         score = 0;
-        numOfAsteroids = STARTING_ASTEROIDS;
-        livesLeft = STARTING_LIVES;
         numOfAsteroids = STARTING_ASTEROIDS;
         livesLeft = STARTING_LIVES;
         spaceWidth = screenWidth;
@@ -66,16 +60,19 @@ class GameModel {
         this.ship = null;
     }
 
+    // Indirection of input to update ship parameters
+    void input(InputControl.Control i) {
+        if (ship != null) ship.input(i.UP, i.LEFT, i.RIGHT, i.DOWN, i.SPECIAL_1);
+    }
+
     /**
      * Creates/Initializes an Asteroid belt (array of asteroids).
-     *
-     * @param context
      */
     private void createAsteroidBelt(Context context /*, float shipPosX, float shipPosY*/) {
         for (int i = 0; i < numOfAsteroids; i++) {
-            asteroidBelt.add(new Asteroid(spaceWidth, spaceHeight, shipPosX, shipPosY, context));
+            asteroidBelt.add(new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
         }
-        Log.d("in gamemodel","asteroidbelt has " + asteroidBelt.size() + " object id is " + asteroidBelt.get(0).objectID);
+        Log.d("in gamemodel", "asteroidbelt has " + asteroidBelt.size() + " object id is " + asteroidBelt.get(0).objectID);
     }
 
     /**
@@ -115,7 +112,6 @@ class GameModel {
 
     /**
      * Updates bullets' positions within the game model
-     * @param timeInMillisecond
      */
     private void updateBullets(long timeInMillisecond) {
         this.checkBulletRange();
@@ -125,71 +121,68 @@ class GameModel {
     }
 
     private void destroyShip() {
-        this.ship = null;
+        livesLeft--;
+        if (livesLeft > 0) {
+            respawnShip();
+        } else {
+            this.ship = null;
+        }
         //TODO: push ship explosion event
     }
 
-    private void destroyThisAsteroid(int asteroidIndex) {
+    private void respawnShip() {
+        ship = new Ship(this, spaceWidth, spaceHeight, context);
+    }
+
+    private void destroyAsteroid(int asteroidIndex) {
         asteroidBelt.remove(asteroidIndex);
         //TODO: push asteroid explosion event
     }
 
-    private void shipCollision(){
+    private void detectShipCollision() {
         for (int i = 0; i < asteroidBelt.size(); i++) {
-            if (ship.detectCollisions(asteroidBelt.get(i).hitbox)) {
+            if (ship.detectCollisions(asteroidBelt.get(i))) {
                 this.destroyShip();
-                this.destroyThisAsteroid(i);
+                this.destroyAsteroid(i);
                 break;
             }
         }
+        // Add aliens collisions
     }
 
-    private void bulletsCollision(){
-        Deque<Integer> bulletsToDelete = new ArrayDeque<Integer>();
-        Deque<Integer> asteroidsToDelete = new ArrayDeque<Integer>();
+    private void bulletsCollision() {
+        Deque<Integer> bulletsToDelete = new ArrayDeque<>();
+        Deque<Integer> asteroidsToDelete = new ArrayDeque<>();
 
         for (int i = 0; i < bulletsFired.size(); i++) {
             for (int j = 0; j < asteroidBelt.size(); j++) {
-                if (bulletsFired.get(i).detectCollisions(asteroidBelt.get(j).hitbox)) {
+                if (bulletsFired.get(i).detectCollisions(asteroidBelt.get(j))) {
                     bulletsToDelete.push(i);
                     asteroidsToDelete.push(j);
                 }
             }
         }
 
-        while(bulletsToDelete.size() > 0){
+        while (bulletsToDelete.size() > 0) {
             int bulletIndex = bulletsToDelete.pop();
             bulletsFired.remove(bulletIndex);
         }
 
-        while(asteroidsToDelete.size() > 0){
+        while (asteroidsToDelete.size() > 0) {
             int asteroidIndex = asteroidsToDelete.pop();
-            destroyThisAsteroid(asteroidIndex);
+            destroyAsteroid(asteroidIndex);
         }
     }
 
-    protected void computeCollisions() {
-        this.shipCollision();
-        this.bulletsCollision();
-    }
+    //    protected void computeCollisions() {
+    //        this.detectShipCollision();
+    //        this.bulletsCollision();
+    //    }
 
     void update(long timeInMillisecond) {
-        this.ship.update(spaceWidth, spaceHeight, timeInMillisecond);
-        //this.asteroid.update(spaceWidth, spaceHeight, timeInMillisecond);
-        this.updateAsteroidBelt(timeInMillisecond);
-        this.updateAsteroidBelt(timeInMillisecond);
-        this.alien.update(spaceWidth, spaceHeight, timeInMillisecond);
-        //if (bulletsFired.size() != 0) updateBullets(timeInMillisecond);
-    }
-
-    /**
-     * Changes ship values with respect to user input
-     */
-    protected void controlShip(boolean accelerate, boolean left, boolean right) {
-        //TODO: For Ship team
-        //TODO: Accelerate (increment velocity)
-        //TODO: Rotate Left (Set angular velocity to some negative constant)
-        //TODO: Rotate Right (Set angular velocity to some positive constant)
+        updateAsteroidBelt(timeInMillisecond);
+        if (ship != null) ship.update(spaceWidth, spaceHeight, timeInMillisecond);
+        detectShipCollision();
     }
 
     protected void removeEntity() {

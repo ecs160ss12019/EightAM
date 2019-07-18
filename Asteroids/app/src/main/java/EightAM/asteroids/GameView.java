@@ -11,15 +11,13 @@ import android.view.SurfaceView;
 
 import androidx.core.content.ContextCompat;
 
-import static EightAM.asteroids.GameModel.spaceHeight;
-import static EightAM.asteroids.GameModel.spaceWidth;
-
 class GameView extends SurfaceView implements Runnable {
 
     // ---------------Member variables-------------
 
     Ship ship;
-    private Paint paint;
+    private Paint defaultPaint;
+    private Paint invulnerablePaint;
     private SurfaceHolder surfaceHolder;
     private boolean isRunning;
     private Thread thread;
@@ -48,11 +46,14 @@ class GameView extends SurfaceView implements Runnable {
         surfaceHolder = getHolder();
         int colorPrimary = ContextCompat.getColor(getContext(), R.color.colorPrimary);
         int colorAccent = ContextCompat.getColor(getContext(), R.color.colorAccent);
-        paint = new Paint();
-        paint.setColor(colorPrimary);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setAntiAlias(true);
-
+        defaultPaint = new Paint();
+        defaultPaint.setColor(colorPrimary);
+        defaultPaint.setStyle(Paint.Style.FILL);
+        defaultPaint.setAntiAlias(true);
+        invulnerablePaint = new Paint();
+        invulnerablePaint.setColor(Color.YELLOW);
+        invulnerablePaint.setStyle(Paint.Style.FILL);
+        invulnerablePaint.setAntiAlias(true);
     }
 
     @Override
@@ -63,16 +64,13 @@ class GameView extends SurfaceView implements Runnable {
                 if (canvas == null) return;
 
                 // make a new ship just to test out drawing
-                //                ship.draw(canvas, paint);
+                //                ship.draw(canvas, defaultPaint);
                 canvas.drawColor(Color.BLACK);
                 model.lock.lock();
                 try {
-                    //                    if (Ship.lastLogMessage > 5000) {
-                    //                        Log.d("gameView", "rendering ship");
-                    //                    }
-                    model.ship.draw(canvas, paint);
-                    drawAsteroidBelt(canvas, paint);
-                    model.alien.draw(canvas, paint);
+                    drawShip(canvas, defaultPaint);
+                    drawAsteroidBelt(canvas, defaultPaint);
+                    if (model.alien != null) model.alien.draw(canvas, defaultPaint);
                 } finally {
                     model.lock.unlock();
                 }
@@ -81,16 +79,18 @@ class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void drawAsteroidBelt(Canvas canvas, Paint paint) {
-        for (int i = 0; i < model.numOfAsteroids; i++) {
-            model.asteroidBelt.get(i).draw(canvas, paint);
-        }
+    void drawAsteroidBelt(Canvas canvas, Paint paint) {
+        for (GameObject object : model.asteroidBelt) object.draw(canvas, paint);
+    }
+
+    void drawShip(Canvas canvas, Paint paint) {
+        if (model.ship != null) model.ship.draw(canvas, paint);
     }
 
     /**
      * onPause stop the thread which controls when the run method execute
      */
-    public void onPause() {
+    void onPause() {
         if (thread == null) return;
         pause();
         thread = null;
@@ -99,12 +99,12 @@ class GameView extends SurfaceView implements Runnable {
     /**
      * onResume stop the thread which controls when the run method execute
      */
-    public void onResume() {
+    void onResume() {
         if (thread != null) onPause();
         resume();
     }
 
-    public void pause() {
+    void pause() {
         isRunning = false;
         try {
             thread.join();
@@ -114,14 +114,14 @@ class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    public void resume() {
+    void resume() {
         isRunning = true;
         thread = new Thread(this);
         thread.start();
     }
 
 
-    public void setGameModel(GameModel gameModel) {
+    void setGameModel(GameModel gameModel) {
         model = gameModel;
     }
 }

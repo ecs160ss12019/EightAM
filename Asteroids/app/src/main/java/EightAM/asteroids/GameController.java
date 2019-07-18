@@ -26,12 +26,11 @@ final class GameController implements Runnable {
             long time = SystemClock.elapsedRealtime();
             long delta = time - currentTick;
             if (delta > 0) {
-                //                Log.d("Debug", "update ship");
-                InputControl.Control i = InputControl.playerInput;
                 model.lock.lock();
                 try {
-                    //                    Log.d("gameController", "lock acquired");
-                    model.ship.input(i.UP, i.LEFT, i.RIGHT);
+                    // Get player input
+                    model.input(InputControl.playerInput);
+                    // Update model
                     model.update(delta);
                 } finally {
                     model.lock.unlock();

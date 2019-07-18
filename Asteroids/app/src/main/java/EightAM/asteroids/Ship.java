@@ -4,8 +4,10 @@ import static EightAM.asteroids.Constants.SHIP_ACCELERATION;
 import static EightAM.asteroids.Constants.SHIP_ANGULARVELOCITY;
 import static EightAM.asteroids.Constants.SHIP_BITMAP_HITBOX_SCALE;
 import static EightAM.asteroids.Constants.SHIP_DECELERATION;
+import static EightAM.asteroids.Constants.SHIP_INVINCIBILITY_DURATION;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -16,6 +18,9 @@ class Ship extends GameObject {
     // ---------------Member variables-------------
 
     boolean teleporting = false;
+    static Bitmap bitmap;
+    boolean invincible = true;
+    int invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
 
     // ---------------Member methods---------------
 
@@ -28,9 +33,8 @@ class Ship extends GameObject {
      * @param screenY: height of screen
      */
     Ship(GameModel gameModel, int screenX, int screenY, Context context) {
-
-        this.refGameModel = gameModel;
-        bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
+        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
+        this.model = gameModel;
 
         bitmapHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
         bitmapWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
@@ -57,20 +61,22 @@ class Ship extends GameObject {
 
     @Override
     void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
-        //        lastLogMessage += timeInMillisecond;
-        //        if (lastLogMessage > 5000) {
-        //            Log.d("Ship", "x, y, angle: " + this.hitbox.centerX() + " " + this.hitbox.centerY() + " " + this.orientation);
-        //            lastLogMessage = 0;
-        //        }
+        if (invincibilityDuration > 0) invincibilityDuration -= timeInMillisecond;
+        if (invincibilityDuration <= 0) invincible = false;
         rotate();
         move(spaceWidth, spaceHeight, timeInMillisecond);
     }
 
+    @Override
+    boolean detectCollisions(GameObject approachingObject) {
+        if (invincible) return false;
+        return super.detectCollisions(approachingObject);
+    }
 
     /**
      * Changes ship values with respect to user input
      */
-    void input(boolean accelerate, boolean left, boolean right) {
+    void input(boolean accelerate, boolean left, boolean right, boolean down, boolean shoot) {
         //        if (lastLogMessage > 5000) {
         //            Log.d("Ship", "up, left, right: " + accelerate + " " + left + " " + right);
         //        }
@@ -92,11 +98,9 @@ class Ship extends GameObject {
     @Override
     void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2,
-                (float) bitmap.getHeight() / 2);
-        matrix.postTranslate(hitbox.left - bitmapWidth * SHIP_BITMAP_HITBOX_SCALE,
-                hitbox.top - bitmapHeight * SHIP_BITMAP_HITBOX_SCALE);
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+        matrix.postTranslate(hitbox.left - bitmapWidth * SHIP_BITMAP_HITBOX_SCALE, hitbox.top - bitmapHeight * SHIP_BITMAP_HITBOX_SCALE);
         canvas.drawRect(this.hitbox, paint);
-        canvas.drawBitmap(this.bitmap, matrix, paint);
+        canvas.drawBitmap(bitmap, matrix, paint);
     }
 }

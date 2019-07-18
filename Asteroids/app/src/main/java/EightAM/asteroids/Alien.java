@@ -1,7 +1,8 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.ALIEN_MAXSPEED;
+
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -20,17 +21,17 @@ class Alien extends GameObject {
         // TODO: implement different alien sizes
         // randomly choose if large or small alien?
 
-        float randX, randY;
+        int randX, randY;
         float speed, direction = 0;
 
         // spawn alien w/ random speed & direction
         // on either side of the screen
         Random rand = new Random();
         // randX will either be 0 or xTotalPix
-        randX = rand.nextInt(xTotalPix) * rand.nextInt(2);
-        randY = rand.nextInt(yTotalPix);
+        randX = rand.nextInt(((xTotalPix - 1) + 1) + 1) * rand.nextInt(2);
+        randY = rand.nextInt(((yTotalPix - 1) + 1) + 1);
 
-        speed = rand.nextInt(MAXSPEED / 2);
+        speed = 1 + rand.nextFloat() * ((ALIEN_MAXSPEED/4) - 1);
         this.vel = new Velocity(speed, direction);
         this.setHitBox(randX, randY);
 

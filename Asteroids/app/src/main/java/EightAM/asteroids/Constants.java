@@ -14,4 +14,5 @@ final class Constants {
     static final float SHIP_DECELERATION = 0.995f;
     static final float SHIP_ANGULARVELOCITY = 0.01f;
     static final float SHIP_BITMAP_HITBOX_SCALE = 0.5f;
+    static final float ALIEN_MAXSPEED = 0.1f; // TODO: also subject to change
 }

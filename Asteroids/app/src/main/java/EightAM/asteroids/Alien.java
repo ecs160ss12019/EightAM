@@ -56,6 +56,7 @@ class Alien extends GameObject {
         matrix.postTranslate(hitbox.left - (bitmapWidth * 0.5f), hitbox.top - (bitmapHeight * 0.5f));
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(this.bitmap, matrix, paint);
+        // TODO: idk why but the alien is sideways lol
     }
 
     // ---------------Member variables ------------

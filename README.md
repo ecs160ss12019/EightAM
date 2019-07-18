@@ -11,25 +11,22 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 
 [I am a link to StoryMapping.md](https://github.com/ecs160ss12019/EightAM/blob/master/StoryMapping.md)
 
-##  CRC cards
-![Link to CRC Cards for Assignment 2](https://github.com/ecs160ss12019/EightAM/blob/master/crc_cards.png)
-### Division of Workload
-* Alien: Irene
-* Asteroid: Tim, Liyin
-* Bullet: Irene, Tim
-* Constants: Adrian
-* GameController: Adrian
-* GameModel: Adrian, Tim
-* GameObject: everyone
-* GameView: Adrian, Melissa
-* ImageUtils: Adrian
-* InputControl: Adrian, Liyin
-* MainActivity: Adrian, Melissa
-* Ship: Irene, Melissa, Liyin
-* Velocity: Irene, Tim
+##  Sprint 1
+### 1) CRC Cards
+![Link to CRC Cards for Sprint 1](https://github.com/ecs160ss12019/EightAM/blob/master/crc_cards.png)
+### 2) Division of Workload
+| Adrian        | Irene       | Tim        | Liyin        | Melissa      |
+| ------------- |-------------| -----------|--------------|--------------|
+| Constants     | Alien       | Asteroid   | Asteroid     | GameView     |
+| GameModel     | Bullet      | Bullet     | InputControl | MainActivity |
+| GameObject    | GameObject  | GameModel  | GameObject   | GameObject   |
+| ImageUtils    | Velocity    | GameObject | Ship         | Ship         |
+| InputControl  |             | Velocity   |              |              |
+| Main Activity |             |            |              |              |
+| GameController|             |            |              |              |
 
-## Acceptance Tests
-###  Sprint 1
+
+### 3) Acceptance Tests
 ##### _**Game**_
 * Test with score increasing upon asteroid decimation (projectile + asteroid collision). (pass)
 * Test with score increasing upon alien decimation (projectile + alien collision). (pass)
@@ -47,7 +44,29 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 * Test with no Asteroid in space, spawn more asteroids. (Pass)
 * Test with spawning Asteroid, it should contain a random velocity. (Pass) 
 
- ###  Sprint 2
+### 4) Screen Shots
+##### Starting Screen
+![Link to starting screen](https://github.com/ecs160ss12019/EightAM/blob/master/EightAM_Sprint1-Start.png)
+##### Moved right
+![Link to starting screen](https://github.com/ecs160ss12019/EightAM/blob/master/EightAM_Sprint1.png)
+##### Moved left
+![Link to starting screen](https://github.com/ecs160ss12019/EightAM/blob/master/EightAM_Sprint1-moved.png)
+
+
+##  Sprint 2
+### 1) CRC Cards
+![Link to CRC Cards for Sprint 2](https://github.com/ecs160ss12019/EightAM/blob/master/crc_cards-s2.png)
+### 2) Division of Workload
+| Adrian         | Irene       | Tim        | Liyin        | Melissa    |
+| ---------------|-------------| -----------|--------------|------------|
+| GameController | Alien       | GameObject | Asteroid     | Ship       |
+| GameView       | Bullet      | GameModel  | GameModel    | GameObject |
+|                | Velocity    | Bullet     | GameObject   | GameModel  |
+|                | GameModel   | Asteroid   | Ship         | Alien      |
+|                | GameObject  |            |              |            |
+|                | Ship        |            |              |            |
+
+### 3) Acceptance Tests
 ##### _**Game**_
 * Test with losing one life when ship collides with alien. (pass)
 * Test with losing one life when ship collides with an asteroid. (pass)
@@ -63,8 +82,12 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 ##### _**Asteroids**_
 *  Test with bullet shot by player. The asteroid shot at should break into smaller pieces of same asteroids. (pass)
 
+### 4) Screen Shots
 
-### 3) Sprint 3
+## Sprint 3
+### 1) CRC Cards
+### 2) Division of Workload
+### 3) Acceptance Tests
 ##### _**Game**_
 * Test with the option for a new game appearing as the player runs out of lives. (pass)
 * Test with option for new game actually starting a new game. (pass)

@@ -28,7 +28,7 @@ class GameModel {
     protected ArrayList<Asteroid> asteroidBelt;
     protected ArrayList<Bullet> bulletsFired;
     protected Ship ship;
-    protected Asteroid asteroid;
+
 
     /**
      * Main Constructor of the Model. Called at the start of every game session.

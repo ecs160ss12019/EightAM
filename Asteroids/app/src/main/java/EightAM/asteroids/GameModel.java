@@ -4,6 +4,9 @@ import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 import static EightAM.asteroids.Constants.STARTING_LIVES;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayDeque;
@@ -188,4 +191,5 @@ class GameModel {
     protected void removeEntity() {
 
     }
+
 }

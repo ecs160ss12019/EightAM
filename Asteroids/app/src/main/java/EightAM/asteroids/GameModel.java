@@ -4,9 +4,6 @@ import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 import static EightAM.asteroids.Constants.STARTING_LIVES;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.ArrayDeque;
@@ -30,7 +27,7 @@ class GameModel {
 
     protected ArrayList<Asteroid> asteroidBelt;
     protected ArrayList<Bullet> bulletsFired;
-    protected Ship ship;
+    protected Ship playerShip;
     protected Alien alien;
 
 
@@ -47,25 +44,25 @@ class GameModel {
         livesLeft = STARTING_LIVES;
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
-        this.ship = new Ship(this, spaceWidth, spaceHeight, context);
+        this.playerShip = new Ship(this, spaceWidth, spaceHeight, context);
         // TODO: Tim idk how u wanna spawn aliens in Model so imma put there here for now
         // change if u so desire
         this.alien = new Alien(spaceWidth, spaceHeight, context);
 
         //this.createAsteroidBelt(context);
-        //this.asteroid = new Asteroid(spaceWidth, spaceHeight, ship.shipWidth, ship.shipHeight, context);
+        //this.asteroid = new Asteroid(spaceWidth, spaceHeight, playerShip.shipWidth, playerShip.shipHeight, context);
         this.createAsteroidBelt(context);
     }
 
     private void resetObjects() {
         this.asteroidBelt = new ArrayList<Asteroid>();
         this.bulletsFired = new ArrayList<Bullet>();
-        this.ship = null;
+        this.playerShip = null;
     }
 
-    // Indirection of input to update ship parameters
+    // Indirection of input to update playerShip parameters
     void input(InputControl.Control i) {
-        if (ship != null) ship.input(i.UP, i.LEFT, i.RIGHT, i.DOWN, i.SPECIAL_1);
+        if (playerShip != null) playerShip.input(i.UP, i.LEFT, i.RIGHT, i.DOWN, i.SPECIAL_1);
     }
 
     /**
@@ -85,7 +82,7 @@ class GameModel {
      */
     private void createBullet(GameObject.ObjectID shooter) {
         //TODO: get Position and Angle/Orientation of the Shooter (Ship and Alien)
-        //TODO: Consult with ship team to retrieve orientation and position
+        //TODO: Consult with playerShip team to retrieve orientation and position
         float shooterPosX, shooterPosY, shooterAngle;
         //bulletsFired.add(new Bullet(shooter, shooterPosX, shooterPosY, shooterAngle));
     }
@@ -128,13 +125,13 @@ class GameModel {
         if (livesLeft > 0) {
             respawnShip();
         } else {
-            this.ship = null;
+            this.playerShip = null;
         }
-        //TODO: push ship explosion event
+        //TODO: push playerShip explosion event
     }
 
     private void respawnShip() {
-        ship = new Ship(this, spaceWidth, spaceHeight, context);
+        playerShip = new Ship(this, spaceWidth, spaceHeight, context);
     }
 
     private void destroyAsteroid(int asteroidIndex) {
@@ -144,7 +141,7 @@ class GameModel {
 
     private void detectShipCollision() {
         for (int i = 0; i < asteroidBelt.size(); i++) {
-            if (ship.detectCollisions(asteroidBelt.get(i))) {
+            if (playerShip.detectCollisions(asteroidBelt.get(i))) {
                 this.destroyShip();
                 this.destroyAsteroid(i);
                 break;
@@ -184,7 +181,7 @@ class GameModel {
 
     void update(long timeInMillisecond) {
         updateAsteroidBelt(timeInMillisecond);
-        if (ship != null) ship.update(spaceWidth, spaceHeight, timeInMillisecond);
+        if (playerShip != null) playerShip.update(spaceWidth, spaceHeight, timeInMillisecond);
         detectShipCollision();
     }
 

@@ -30,12 +30,22 @@ public class MainActivity extends AppCompatActivity {
         gameView = findViewById(R.id.gameView);
 
         /*Temp solution to get screen width and height*/
+        View decorView = getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                // Note that system bars will only be "visible" if none of the
+                // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
+                if (Build.VERSION.SDK_INT < 16) {
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                } else {
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+                }
+            }
+        });
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
-
         display.getSize(size);
-
-        //        Log.d("in main activity", "size.x =" + size.x);
         gameModel = new GameModel(size.x, size.y, gameView.getContext());
         gameController = new GameController(gameModel, size.x, size.y);
         gameView.setGameModel(gameModel);

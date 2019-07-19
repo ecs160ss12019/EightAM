@@ -3,7 +3,6 @@ package EightAM.asteroids;
 import static EightAM.asteroids.Constants.DEF_ANGLE;
 import static EightAM.asteroids.Constants.DEF_ANGULAR_VELOCITY;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -14,10 +13,9 @@ abstract class GameObject {
 
     Velocity vel;
     RectF hitbox;
-    static Bitmap bitmap;
     // dimensions of bitmap
-    float bitmapWidth;
-    float bitmapHeight;
+    float hitboxWidth;
+    float hitboxHeight;
     // Reference to the model holding the object
     GameModel model;
     float angularVel = DEF_ANGULAR_VELOCITY;

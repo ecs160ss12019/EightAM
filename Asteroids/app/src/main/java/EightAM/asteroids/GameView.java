@@ -63,8 +63,8 @@ class GameView extends SurfaceView implements Runnable {
                 Canvas canvas = surfaceHolder.lockCanvas();
                 if (canvas == null) return;
 
-                // make a new ship just to test out drawing
-                //                ship.draw(canvas, defaultPaint);
+                // make a new playerShip just to test out drawing
+                //                playerShip.draw(canvas, defaultPaint);
                 canvas.drawColor(Color.BLACK);
                 model.lock.lock();
                 try {
@@ -84,7 +84,7 @@ class GameView extends SurfaceView implements Runnable {
     }
 
     void drawShip(Canvas canvas, Paint paint) {
-        if (model.ship != null) model.ship.draw(canvas, paint);
+        if (model.playerShip != null) model.playerShip.draw(canvas, paint);
     }
 
     /**

@@ -22,12 +22,8 @@ class Ship extends GameObject {
     boolean invincible = true;
     int invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
 
-    // ---------------Member methods---------------
-
-    //    static long lastLogMessage = 0;
-
     /**
-     * Constructor constructs a static ship by setting up its size and hitbox.
+     * Constructor constructs a static playerShip by setting up its size and hitbox.
      *
      * @param screenX: width of screen
      * @param screenY: height of screen
@@ -36,23 +32,23 @@ class Ship extends GameObject {
         if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
         this.model = gameModel;
 
-        bitmapHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
-        bitmapWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
+        hitboxHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
+        hitboxWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
 
         this.vel = new Velocity(0, 0);
         this.orientation = 0;
 
-        // create ship in the middle of screen
-        float left = ((float) screenX / 2) - (bitmapWidth / 2);
-        float right = ((float) screenX / 2) + (bitmapWidth / 2);
-        float top = ((float) screenY / 2) - (bitmapHeight / 2);
-        float bottom = ((float) screenY / 2) + (bitmapHeight / 2);
+        // create playerShip in the middle of screen
+        float left = ((float) screenX / 2) - (hitboxWidth / 2);
+        float right = ((float) screenX / 2) + (hitboxWidth / 2);
+        float top = ((float) screenY / 2) - (hitboxHeight / 2);
+        float bottom = ((float) screenY / 2) + (hitboxHeight / 2);
         this.hitbox = new RectF(left, top, right, bottom);
 
     }
 
     /**
-     * Constructor helper sets the position of ship hitbox which would be called when game start.
+     * Constructor helper sets the position of playerShip hitbox which would be called when game start.
      */
     @Override
     void setHitBox(float x, float y) {
@@ -74,7 +70,7 @@ class Ship extends GameObject {
     }
 
     /**
-     * Changes ship values with respect to user input
+     * Changes playerShip values with respect to user input
      */
     void input(boolean accelerate, boolean left, boolean right, boolean down, boolean shoot) {
         //        if (lastLogMessage > 5000) {
@@ -93,13 +89,17 @@ class Ship extends GameObject {
         } else {
             this.angularVel = 0;
         }
+
+        if (down) {
+            teleporting = true;
+        }
     }
 
     @Override
     void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-        matrix.postTranslate(hitbox.left - bitmapWidth * SHIP_BITMAP_HITBOX_SCALE, hitbox.top - bitmapHeight * SHIP_BITMAP_HITBOX_SCALE);
+        matrix.postTranslate(hitbox.left - hitboxWidth * SHIP_BITMAP_HITBOX_SCALE, hitbox.top - hitboxHeight * SHIP_BITMAP_HITBOX_SCALE);
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(bitmap, matrix, paint);
     }

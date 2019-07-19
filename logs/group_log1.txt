@@ -1,0 +1,169 @@
+0b71e35 - Adrian Wang, 20 hours ago : Begin work on collisions, death, and respawn
+fe70a03 - Irene, 2 days ago : alien is drawn and moves but is sideways??
+18e9fda - Irene, 2 days ago : added alien max speed
+05acc7c - Irene, 2 days ago : drew alien
+12143e8 - Irene, 2 days ago : took out unused variable
+dddd9b7 - Irene, 2 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+e593225 - Irene, 2 days ago : added draw functions for alien
+081144e - Irene, 2 days ago : took out unused functions
+1c0c148 - Melissa Goh, 2 days ago : Formatted README
+11df897 - Melissa Goh, 2 days ago : Updated for Sprint 2
+2d909d5 - Irene, 2 days ago : took out private height and width and used GameObject's attributes instead
+31e3ce5 - Irene, 2 days ago : moved bitmap width and height into GameObject; modified Ship to reflect changes
+4b5d942 - Melissa Goh, 2 days ago : added screenshots for sprint1 + crc cards for sprint 2
+b8953aa - Irene, 2 days ago : Update README.md
+42cf650 - Kenny Li, 2 days ago : modified layout/buttons
+18b4a8d - Kenny Li, 2 days ago : added image for buttons
+16b2fab - mesagoh, 2 days ago : repositioned/resized hitbox - added width/height from bitmap
+b4f6dc5 - Kenny Li, 2 days ago : Merge remote-tracking branch 'origin/master'
+a2d216d - Kenny Li, 2 days ago : modified xml for hud
+4adca9f - mesagoh, 2 days ago : moving asteroids - asteroidbelt integrated
+4f695cd - mesagoh, 2 days ago : display 1 asteroid on screen
+b8b4032 - mesagoh, 2 days ago : added asteroid in xml
+88c2310 - TimothyV97, 3 days ago : affectVelocity -> accelerate
+a7bf69e - TimothyV97, 3 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+bdcdfb8 - TimothyV97, 3 days ago : Merge Ship
+25cef25 - Adrian Wang, 3 days ago : Make ship align correctly with hitbox
+8ad1850 - Adrian Wang, 3 days ago : Merge remote-tracking branch 'origin/master'
+93c0bf5 - Adrian Wang, 3 days ago : Make ship align correctly with hitbox
+5a6f389 - TimothyV97, 3 days ago : Slight refactor to Velocity class to make it more intuitive
+f4fcbdd - Adrian Wang, 3 days ago : Fixed ship orientation and controls
+fa703dc - Adrian Wang, 3 days ago : ITS NOW MOVING
+e8b3991 - Adrian Wang, 3 days ago : ITS SPINNING
+7d449b6 - TimothyV97, 3 days ago : Modified orientation, angle convention. Updated Velocity class. Ship now changes direction.
+e3b0b7b - TimothyV97, 3 days ago : Modified Velocity, removed private protection and getter. Corrected updateVelocity
+a53a0ab - Kenny Li, 3 days ago : add comments
+bfa9c5e - Kenny Li, 3 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+20b5685 - mesagoh, 3 days ago : initialize screen width and height
+fd82667 - mesagoh, 3 days ago : used display to get window size
+a68d801 - mesagoh, 3 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+0a03a28 - mesagoh, 3 days ago : used display to get window size - ship at middle of screen
+7767466 - Irene, 3 days ago : commented out asteroids stuff bc we just want to test ship
+e00f304 - mesagoh, 3 days ago : fixed outofbound error for rand
+49d13a3 - mesagoh, 3 days ago : control ship function
+6c5059e - Kenny Li, 3 days ago : Merge remote-tracking branch 'origin/master'
+28c7602 - Adrian Wang, 3 days ago : FUCK
+2c90302 - TimothyV97, 3 days ago : Started collision detection
+4e9a42c - Irene, 3 days ago : took out unused import statement
+8e29caa - Irene, 3 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+d74126e - Irene, 3 days ago : added constructor and methods
+b3d19f4 - mesagoh, 3 days ago : added object id for ship
+aa60a31 - Irene, 3 days ago : set size and ID
+d3c5acd - Kenny Li, 3 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+9420446 - mesagoh, 3 days ago : drew a cute ship inside gameview lol
+bab9b92 - mesagoh, 3 days ago : resized ship
+7cbd2b7 - mesagoh, 3 days ago : drew a huge ship but at least something is on the screen LOL
+06432fb - mesagoh, 3 days ago : added sethitbox
+689c959 - TimothyV97, 4 days ago : Added comments and TODO, added resetObjects() to constructor, and started controlShip()
+5b28c80 - TimothyV97, 4 days ago : Initial Commit of Model, update and constructor functions mostly implemented
+76e5394 - TimothyV97, 4 days ago : Removed logic from rotate. Changes in angularVel should be set within Ship not GameObject
+ad41b40 - Kenny Li, 4 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+1e03495 - Kenny Li, 4 days ago : added debugging code and comments
+5ce7340 - TimothyV97, 4 days ago : updated rotate() to function properly with all objects
+7a785a6 - TimothyV97, 4 days ago : Added magnitude() getter for bullet
+3e054f3 - TimothyV97, 4 days ago : added parameters for setHitBox()
+59f91fc - TimothyV97, 4 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+0636575 - TimothyV97, 4 days ago : refactored Bullet to accomodate Velocity class
+6828062 - Irene, 4 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+00395f9 - Irene, 4 days ago : reversed accidental rewrite of move()
+8765618 - mesagoh, 4 days ago : refactored space to GameModel
+aea384f - mesagoh, 4 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+2d05399 - mesagoh, 4 days ago : refactored ship to GameModel
+190a615 - TimothyV97, 4 days ago : Refactored Asteroid to accomodate Velocity Class
+664342c - TimothyV97, 4 days ago : minor change to attribute calling in move()
+feed9a2 - TimothyV97, 4 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+6edd53f - TimothyV97, 4 days ago : updated Velocity class to contain magnitude and direction
+2cb39d1 - TimothyV97, 4 days ago : updated Velocity class to contain magnitude and direction
+99feea5 - mesagoh, 4 days ago : removed pos and spawn, declared velocity
+3ff4588 - mesagoh, 4 days ago : initialized ship velocity
+fd5023b - Irene, 4 days ago : added documentation
+6f026dc - Irene, 4 days ago : renamed class
+c6e43d0 - Irene, 4 days ago : finished method to calculate velocity
+c6a8102 - Irene, 4 days ago : fixed documentation typo
+15ca870 - Irene, 4 days ago : added constructor
+dfa0098 - Irene, 4 days ago : began velocity class
+f381f38 - Kenny Li, 4 days ago : modified update method
+daec9ce - Kenny Li, 4 days ago : modified update function
+fc1d29a - Kenny Li, 4 days ago : modified update function
+1bcb4b2 - Irene, 4 days ago : simplified move method
+7e716fd - Irene, 4 days ago : changed name from aliens to alien
+2a1f1f5 - Irene, 4 days ago : added method to see if bullet should die
+f97f897 - Irene, 4 days ago : added way to calculate distance traveled
+65ffb41 - Irene, 4 days ago : fixed some documentation
+a486f91 - Irene, 4 days ago : got rid of useless functions lol
+8f168e1 - Liyin Li, 4 days ago : Update GameObject.java
+c51fd59 - Kenny Li, 4 days ago : update the update method which includes move and rotate methods
+4161d1f - Kenny Li, 5 days ago : add bitmap code for ship and asteroid code for drawing
+d30ee08 - Kenny Li, 5 days ago : add graphics for ship and large asteroid
+c49cfde - TimothyV97, 5 days ago : Refactored class name Projectile -> Bullet
+74448dc - Kenny Li, 5 days ago : modified setHitbox and formatting
+af2de1e - Kenny Li, 5 days ago : clean up the comments and farmatting
+e011a36 - TimothyV97, 6 days ago : double -> float
+754d3c8 - Kenny Li, 6 days ago : update the bitmap for drawing
+5e5740f - Liyin Li, 6 days ago : Update GameObject.java
+8227438 - Liyin Li, 6 days ago : Update Rocks.java
+20fe623 - Adrian Wang, 7 days ago : Create GameController
+da343a3 - Adrian Wang, 7 days ago : Game Loop started
+83ac8bd - mesagoh, 7 days ago : removed extra file used for testing
+4dd0fbb - mesagoh, 7 days ago : originally adapted from PongGame - modified to suit Ship
+8c88629 - Kenny Li, 7 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+bda806e - Kenny Li, 7 days ago : add methods for object ship
+e849a77 - Adrian Wang, 7 days ago : Changed to fullscreen layout Created temporary buttons Linked InputControl to buttons Began implementation of GameView Raised java level
+3eb72db - TimothyV97, 8 days ago : Refactored GameObject to include hitbox updater
+2fe5ed1 - TimothyV97, 9 days ago : Refactored code to include enum ObjectID for collision detection
+c81ed06 - TimothyV97, 9 days ago : created new function for setting and updating hitboxes
+ff16e33 - TimothyV97, 9 days ago : made a constructor for the bullet
+cbe91fa - TimothyV97, 9 days ago : change float -> double
+bdb0844 - TimothyV97, 9 days ago : Gave each asteroid size its own possible max speed, added comments
+19e69ed - TimothyV97, 9 days ago : Unabstracted move() and defined it, also added comments
+fe9262c - TimothyV97, 9 days ago : Added comments describing purpose of constructors, and added TODO
+7c85533 - TimothyV97, 9 days ago : Added 2 constuctors, one for Big Asteroid and one for its children
+574679b - TimothyV97, 9 days ago : Abstracted function prototypes and unprivatized attributes for now
+0f7ba5e - Irene, 9 days ago : updated functions
+e26de2e - Irene, 9 days ago : removed useless function
+ac63d9c - Irene, 9 days ago : made attributes private instead of protected
+032aae2 - Kenny Li, 9 days ago : update
+364dce6 - mesagoh, 9 days ago : progress
+7f80567 - Irene, 9 days ago : Update README.md
+6a79cb7 - Melissa Goh, 9 days ago : Updated acceptance tests for each sprint
+52b1bc1 - Irene, 12 days ago : added who's working on which classes
+891401f - Adrian Wang, 12 days ago : Create .gitignore
+591b57f - Adrian Wang, 13 days ago : changed classes from public to package local
+67b3ec9 - Melissa Goh, 12 days ago : Added CRC cards picture
+4b22210 - mesagoh, 12 days ago : crc cards picture
+865a2e2 - Adrian Wang, 13 days ago : removed .idea folder
+cd46718 - Adrian Wang, 12 days ago : Update .gitignore
+1acbdd8 - Adrian Wang, 13 days ago : refactored package names
+6b1a5f9 - Liyin Li, 12 days ago : Update README.md
+37ea1a0 - Irene, 12 days ago : Update StoryMapping.md
+c5cce1a - Timothy Van, 12 days ago : Update StoryMapping.md
+81d41fe - TimothyV97, 12 days ago : Added new Sprint Table
+caf2004 - Irene, 12 days ago : Update README.md
+8818665 - Irene, 12 days ago : Update README.md
+8817cf0 - mesagoh, 12 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+318b0a7 - mesagoh, 12 days ago : removed old table
+b37e6b9 - Liyin Li, 12 days ago : Update StoryMapping.md
+49bfc74 - Liyin Li, 12 days ago : Update StoryMapping.md
+6d0a943 - Liyin Li, 12 days ago : Update StoryMapping.md
+004de09 - Liyin Li, 12 days ago : Update StoryMapping.md
+da4aa61 - Liyin Li, 12 days ago : Update StoryMapping.md
+2b0fece - Liyin Li, 12 days ago : Update StoryMapping.md
+0c4570f - Liyin Li, 12 days ago : Update StoryMapping.md
+5ea819b - Liyin Li, 12 days ago : Update StoryMapping.md
+3b3d771 - Liyin Li, 12 days ago : Update README.md
+5d7388f - mesagoh, 12 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+2a99e62 - mesagoh, 12 days ago : added classes
+9442eb0 - Liyin Li, 12 days ago : Delete Project User Story Mapping.txt
+630a68e - Timothy Van, 12 days ago : Create README.md
+e123dae - Timothy Van, 12 days ago : Update and rename README.md to StoryMapping.md
+6807e66 - Liyin Li, 12 days ago : Add files via upload
+847ece5 - Irene, 12 days ago : Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+7e2086b - Liyin Li, 12 days ago : Update README.md
+6aba29a - Liyin Li, 12 days ago : Add files via upload
+2ecc992 - Irene, 12 days ago : initial commit (code for empty activity)
+cfe2aec - Liyin Li, 12 days ago : Update README.md
+394498c - Liyin Li, 12 days ago : Update README.md
+faaf177 - Liyin Li, 12 days ago : Update README.md
+4f0c0d9 - Liyin Li, 12 days ago : Update README.md
+ed07e32 - Liyin Li, 12 days ago : Update README.md
+fc2cbe7 - ahnaqvi, 13 days ago : Initial commit

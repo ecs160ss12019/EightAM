@@ -104,7 +104,9 @@ class Ship extends GameObject {
         canvas.drawBitmap(bitmap, matrix, paint);
     }
 
-    int getPosX(){
+    float getPosX(){
         return hitbox.centerX();
     }
+
+    float getPosY() { return hitbox.centerY(); }
 }

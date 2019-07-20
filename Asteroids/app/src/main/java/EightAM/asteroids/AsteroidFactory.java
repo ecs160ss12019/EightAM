@@ -1,6 +1,7 @@
 package EightAM.asteroids;
 
 import android.content.Context;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class AsteroidFactory extends Factory {
@@ -10,7 +11,7 @@ public class AsteroidFactory extends Factory {
         objectsToDelete = new ArrayDeque<Integer>();
     }
     
-    public GameObject create(Context context, GameObject object) {
+    public GameObject create(Context context) {
         return (new Asteroid(model, model.spaceWidth, model.spaceHeight, model.shipPosX, model.shipPosY, context));
     }
 }

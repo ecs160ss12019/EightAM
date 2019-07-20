@@ -58,6 +58,7 @@ class GameModel {
         this.asteroidBelt = new ArrayList<Asteroid>();
         this.bulletsFired = new ArrayList<Bullet>();
         this.playerShip = null;
+        this.alien = null;
     }
 
     // Indirection of input to update playerShip parameters
@@ -180,9 +181,11 @@ class GameModel {
     //    }
 
     void update(long timeInMillisecond) {
+        alien.update(spaceWidth, spaceHeight, timeInMillisecond);
         updateAsteroidBelt(timeInMillisecond);
         if (playerShip != null) playerShip.update(spaceWidth, spaceHeight, timeInMillisecond);
         detectShipCollision();
+
     }
 
     protected void removeEntity() {

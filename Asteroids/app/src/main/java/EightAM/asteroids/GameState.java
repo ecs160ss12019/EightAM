@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import static EightAM.asteroids.Constants.STARTING_LIVES;
 
-public class GameStatus {
+public class GameState {
 
     // ---------------Member variables-------------
 

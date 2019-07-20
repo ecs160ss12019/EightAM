@@ -17,6 +17,10 @@ abstract class Factory {
         }
     }
 
+    public void markToDeleteIndex(int i) {
+        objectsToDelete.push(i);
+    }
+
     public void destroy(ArrayList<GameObject> objects){
         while (objectsToDelete.size() > 0) {
             int objectIndex = objectsToDelete.pop();

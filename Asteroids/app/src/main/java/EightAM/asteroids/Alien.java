@@ -25,6 +25,9 @@ class Alien extends GameObject {
 
         int randX, randY;
         float speed, direction = 0;
+        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
+        hitboxWidth = bitmap.getWidth() * 0.5f;
+        hitboxHeight = bitmap.getHeight() * 0.5f;
 
         // spawn alien w/ random speed & direction
         // on either side of the screen
@@ -44,11 +47,16 @@ class Alien extends GameObject {
 
         // prepare bitmap
         // TODO: change alien pic based on size
-        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
+
     }
 
     protected void setHitBox(float posX, float posY) {
         hitbox = new RectF(posX, posY, posX, posY);
+
+        hitbox.left -= hitboxWidth /2 ;
+        hitbox.top -= hitboxHeight /2;
+        hitbox.right += hitboxWidth/2;
+        hitbox.bottom += hitboxHeight/2;
     }
 
     protected void draw(Canvas canvas, Paint paint) {
@@ -57,6 +65,7 @@ class Alien extends GameObject {
         matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f), hitbox.top - (hitboxHeight * 0.5f));
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(bitmap, matrix, paint);
+
         // TODO: idk why but the alien is sideways lol
     }
 

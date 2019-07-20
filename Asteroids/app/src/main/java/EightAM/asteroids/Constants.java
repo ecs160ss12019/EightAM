@@ -2,7 +2,7 @@ package EightAM.asteroids;
 
 final class Constants {
     static final float DEF_ANGULAR_VELOCITY = 0;
-    static final float DEF_ANGLE = (float) Math.PI / 2;
+    static final float DEF_ANGLE = 0;
     static final float MAX_SPEED = 2.0f;
     static final int STARTING_ASTEROIDS = 3;
     static final int STARTING_LIVES = 3;

@@ -69,9 +69,9 @@ class GameModel {
     /**
      * Creates/Initializes an Asteroid belt (array of asteroids).
      */
-    private void createAsteroidBelt(Context context /*, float shipPosX, float shipPosY*/) {
+    private void createAsteroidBelt(Context context) {
         for (int i = 0; i < numOfAsteroids; i++) {
-            asteroidBelt.add(new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
+            asteroidBelt.add(new Asteroid(this, spaceWidth, spaceHeight, this.playerShip, context));
         }
         Log.d("in gamemodel", "asteroidbelt has " + asteroidBelt.size() + " object id is " + asteroidBelt.get(0).objectID);
     }

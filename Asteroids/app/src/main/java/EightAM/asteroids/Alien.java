@@ -59,7 +59,7 @@ class Alien extends GameObject {
 
     protected void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(90 * Math.PI / 180), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f), hitbox.top - (hitboxHeight * 0.5f));
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(bitmap, matrix, paint);

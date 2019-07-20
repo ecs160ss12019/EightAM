@@ -17,6 +17,8 @@ class InputControl {
         buttonSet.up = activity.findViewById(R.id.up_button);
         buttonSet.down = activity.findViewById(R.id.down_button);
         buttonSet.shoot = activity.findViewById(R.id.shoot_button);
+        buttonSet.pause = activity.findViewById(R.id.pause_button);
+
         buttonSet.left.setOnTouchListener((View view, MotionEvent event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 Log.d("InputControl", "left_down");
@@ -65,6 +67,15 @@ class InputControl {
             }
             return true;
         });
+
+        buttonSet.pause.setOnTouchListener((View view, MotionEvent event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                playerInput.PAUSE = true;
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                playerInput.PAUSE = false;
+            }
+            return true;
+        });
     }
 
     static class Control {
@@ -73,6 +84,7 @@ class InputControl {
         boolean RIGHT = false;
         boolean LEFT = false;
         boolean SPECIAL_1 = false;
+        boolean PAUSE = false;
     }
 
     static class ButtonSet {
@@ -81,6 +93,7 @@ class InputControl {
         Button up;
         Button down;
         Button shoot;
+        Button pause;
     }
 
 }

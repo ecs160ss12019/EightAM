@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
+    GameState gameState;
     private boolean isPaused;
 
     @Override
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
+        gameState = new GameState(size.x, size.y, gameView.getContext());
         gameModel = new GameModel(size.x, size.y, gameView.getContext());
         gameController = new GameController(gameModel, size.x, size.y);
         gameView.setGameModel(gameModel);

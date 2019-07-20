@@ -1,33 +1,34 @@
 package EightAM.asteroids;
 
-
+import android.content.Context;
+import java.util.ArrayList;
 
 public class AsteroidFactory implements Factory {
     int spaceWidth;
     int spaceHeight;
     int numOfAsteroids;
 
-    AsteroidFactory(int screenWidth, int screenHeight, int initialAsteroids) {
+    public AsteroidFactory(int screenWidth, int screenHeight, int initialAsteroids) {
         spaceHeight = screenHeight;
         spaceWidth = screenWidth;
         numOfAsteroids = initialAsteroids;
     }
     
-    GameObject create(Context context, GameObject object) {
+    public GameObject create(Context context, GameObject object) {
         return (new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
     }
 
-    void createBelt(Context context, ArrayList <GameObject> objects){
+    public void createBelt(Context context, ArrayList<GameObject> objects){
         for (int i = 0; i < numOfAsteroids; i++) {
-            asteroidBelt.add(new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
+            objects.add(new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
         }
     }
 
-    void destroy(GameObject object){
+    public void destroy(GameObject object){
 
     }
 
-    void respawn(GameObject object){
+    public void respawn(GameObject object){
 
     }
 }

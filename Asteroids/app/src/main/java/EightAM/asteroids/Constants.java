@@ -18,4 +18,5 @@ final class Constants {
     static final int SHIP_INVINCIBILITY_DURATION = 5000;
     static final float ALIEN_MAXSPEED = 0.1f; // TODO: also subject to change
     static final int ALIEN_VALUE = 10;
+
 }

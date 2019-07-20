@@ -44,9 +44,8 @@ class GameModel {
         livesLeft = STARTING_LIVES;
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
+        // TODO: should use factories to create entities
         this.playerShip = new Ship(this, spaceWidth, spaceHeight, context);
-        // TODO: Tim idk how u wanna spawn aliens in Model so imma put there here for now
-        // change if u so desire
         this.alien = new BigAlien(spaceWidth, spaceHeight, context);
 
         //this.createAsteroidBelt(context);
@@ -148,7 +147,7 @@ class GameModel {
                 break;
             }
         }
-        // Add aliens collisions
+        // TODO: Add aliens collisions
     }
 
     private void bulletsCollision() {

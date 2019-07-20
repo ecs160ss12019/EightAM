@@ -10,8 +10,12 @@ public class AsteroidFactory extends Factory {
         model = gameModel;
         objectsToDelete = new ArrayDeque<Integer>();
     }
-    
+
     public GameObject create(Context context) {
         return (new Asteroid(model, model.spaceWidth, model.spaceHeight, model.ship, context));
+    }
+
+    public void addToBelt(Context context, ArrayList<GameObject> asteroidBelt, Asteroid asteroid) {
+        asteroidBelt.add(new Asteroid(asteroid, context));
     }
 }

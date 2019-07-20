@@ -12,6 +12,6 @@ public class AsteroidFactory extends Factory {
     }
     
     public GameObject create(Context context) {
-        return (new Asteroid(model, model.spaceWidth, model.spaceHeight, model.shipPosX, model.shipPosY, context));
+        return (new Asteroid(model, model.spaceWidth, model.spaceHeight, model.ship, context));
     }
 }

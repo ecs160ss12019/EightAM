@@ -14,7 +14,6 @@ import java.util.Random;
 class Alien extends GameObject {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
-    private Size size;
     static Bitmap bitmap;
 
     // denotes what kind of alien
@@ -25,6 +24,7 @@ class Alien extends GameObject {
 
         int randX, randY;
         float speed, direction = 0;
+        // prepare bitmap
         if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
         hitboxWidth = bitmap.getWidth() * 0.5f;
         hitboxHeight = bitmap.getHeight() * 0.5f;
@@ -45,9 +45,7 @@ class Alien extends GameObject {
         // might use later
         this.objectID = ObjectID.ALIEN;
 
-        // prepare bitmap
         // TODO: change alien pic based on size
-
     }
 
     protected void setHitBox(float posX, float posY) {
@@ -61,16 +59,9 @@ class Alien extends GameObject {
 
     protected void draw(Canvas canvas, Paint paint) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+        matrix.setRotate((float) Math.toDegrees(90 * Math.PI / 180), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f), hitbox.top - (hitboxHeight * 0.5f));
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(bitmap, matrix, paint);
-
-        // TODO: idk why but the alien is sideways lol
-    }
-
-    // ---------------Member variables ------------
-    enum Size {
-        SMALL, LARGE
     }
 }

@@ -1,6 +1,11 @@
 package EightAM.asteroids;
 
-public class BulletFactory implements Factory {
+import android.content.Context;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+
+public class BulletFactory extends Factory {
     GameObject lastShooter;
 
     public BulletFactory(GameModel gameModel) {
@@ -8,7 +13,7 @@ public class BulletFactory implements Factory {
         objectsToDelete = new ArrayDeque<Integer>();
     }
     public GameObject create(Context context) {
-        return (new Bullet(lastShooter));
+        return null; //(new Bullet(lastShooter));
     }
 
     public void fireBullet(Context context, ArrayList<GameObject> bulletsFired, GameObject shooter) {
@@ -18,7 +23,8 @@ public class BulletFactory implements Factory {
 
     private void deleteOutOfRange(ArrayList<GameObject> bulletsFired) {
         for (int i = 0; i < bulletsFired.size(); i++) {
-            if (bulletsFired.get(i).reachedMaxRange()) {
+            Bullet currBullet = (Bullet) bulletsFired.get(i);
+            if (currBullet.reachedMaxRange()) {
                 objectsToDelete.push(i);
             }
         }

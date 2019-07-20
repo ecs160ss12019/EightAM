@@ -12,10 +12,10 @@ public class AsteroidFactory extends Factory {
     }
 
     public GameObject create(Context context) {
-        return (new Asteroid(model, model.spaceWidth, model.spaceHeight, model.ship, context));
+        return null; //(new Asteroid(model, model.spaceWidth, model.spaceHeight, model.playerShip, context));
     }
 
     public void addToBelt(Context context, ArrayList<GameObject> asteroidBelt, Asteroid asteroid) {
-        asteroidBelt.add(new Asteroid(asteroid, context));
+        //asteroidBelt.add(new Asteroid(asteroid, context));
     }
 }

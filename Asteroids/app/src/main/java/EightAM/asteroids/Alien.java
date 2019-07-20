@@ -11,23 +11,20 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-class Alien extends GameObject {
+abstract class Alien extends GameObject {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     static Bitmap bitmap;
 
-    // denotes what kind of alien
     // ---------------Member methods --------------
-    protected Alien(int xTotalPix, int yTotalPix, Context context) {
-        // TODO: implement different alien sizes
-        // randomly choose if large or small alien?
 
+    /**
+     * Spawns alien either on left or right of the screen
+     * @param xTotalPix total pixels of screen (width)
+     * @param yTotalPix total pixels of the screen (height)
+     */
+    protected void spawn(int xTotalPix, int yTotalPix) {
         int randX, randY;
-        float speed, direction = 0;
-        // prepare bitmap
-        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
-        hitboxWidth = bitmap.getWidth() * 0.5f;
-        hitboxHeight = bitmap.getHeight() * 0.5f;
 
         // spawn alien w/ random speed & direction
         // on either side of the screen
@@ -36,20 +33,19 @@ class Alien extends GameObject {
         randX = rand.nextInt(((xTotalPix - 1) + 1) + 1) * rand.nextInt(2);
         randY = rand.nextInt(((yTotalPix - 1) + 1) + 1);
 
-        speed = 1 + rand.nextFloat() * ((ALIEN_MAXSPEED / 4) - 1);
-        this.vel = new Velocity(speed, direction);
         this.setHitBox(randX, randY);
+    }
 
-        //size = s; // set size of alien
-
-        // might use later
-        this.objectID = ObjectID.ALIEN;
-
-        // TODO: change alien pic based on size
+    @Override
+    protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+        move(spaceWidth, spaceHeight, timeInMillisecond);
     }
 
     protected void setHitBox(float posX, float posY) {
         hitbox = new RectF(posX, posY, posX, posY);
+
+        hitboxWidth = bitmap.getWidth() * 0.5f;
+        hitboxHeight = bitmap.getHeight() * 0.5f;
 
         hitbox.left -= hitboxWidth /2 ;
         hitbox.top -= hitboxHeight /2;

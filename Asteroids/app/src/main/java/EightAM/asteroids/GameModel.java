@@ -47,7 +47,7 @@ class GameModel {
         this.playerShip = new Ship(this, spaceWidth, spaceHeight, context);
         // TODO: Tim idk how u wanna spawn aliens in Model so imma put there here for now
         // change if u so desire
-        this.alien = new Alien(spaceWidth, spaceHeight, context);
+        this.alien = new BigAlien(spaceWidth, spaceHeight, context);
 
         //this.createAsteroidBelt(context);
         //this.asteroid = new Asteroid(spaceWidth, spaceHeight, playerShip.shipWidth, playerShip.shipHeight, context);

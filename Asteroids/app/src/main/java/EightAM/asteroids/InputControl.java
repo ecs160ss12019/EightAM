@@ -70,8 +70,10 @@ class InputControl {
 
         buttonSet.pause.setOnTouchListener((View view, MotionEvent event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                Log.d("InputControl", "pause_down");
                 playerInput.PAUSE = true;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                Log.d("InputControl", "pause_up");
                 playerInput.PAUSE = false;
             }
             return true;

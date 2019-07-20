@@ -21,6 +21,7 @@ class GameModel {
     int spaceHeight;
     int livesLeft;
     int score;
+    boolean isPaused;
 
     //temp
     float shipPosX, shipPosY;
@@ -44,6 +45,7 @@ class GameModel {
         livesLeft = STARTING_LIVES;
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
+        isPaused = false;
         this.playerShip = new Ship(this, spaceWidth, spaceHeight, context);
         // TODO: Tim idk how u wanna spawn aliens in Model so imma put there here for now
         // change if u so desire
@@ -61,9 +63,25 @@ class GameModel {
         this.alien = null;
     }
 
+    /**
+     *  TODO: change handle name to reflect functionality
+     *
+     * @param i input by user.
+     * @return if to pause game.
+     */
     // Indirection of input to update playerShip parameters
-    void input(InputControl.Control i) {
-        if (playerShip != null) playerShip.input(i.UP, i.LEFT, i.RIGHT, i.DOWN, i.SPECIAL_1);
+    boolean input(InputControl.Control i) {
+        if (i.PAUSE) {
+            Log.d("in gamemodel", "paused");
+            isPaused = true;
+            return true;
+        }
+        if (playerShip != null) {
+            playerShip.input(i.UP, i.LEFT, i.RIGHT, i.DOWN, i.SPECIAL_1);
+            return false;
+        }
+
+        return false;
     }
 
     /**

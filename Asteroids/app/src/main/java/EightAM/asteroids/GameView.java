@@ -22,6 +22,8 @@ class GameView extends SurfaceView implements Runnable {
     private boolean isRunning;
     private Thread thread;
     private GameModel model;
+    private Canvas canvas;
+
 
     // ---------------Member methods---------------
 
@@ -60,7 +62,7 @@ class GameView extends SurfaceView implements Runnable {
     public void run() {
         while (isRunning) {
             if (surfaceHolder.getSurface().isValid()) {
-                Canvas canvas = surfaceHolder.lockCanvas();
+                canvas = surfaceHolder.lockCanvas();
                 if (canvas == null) return;
 
                 // make a new playerShip just to test out drawing
@@ -68,6 +70,11 @@ class GameView extends SurfaceView implements Runnable {
                 canvas.drawColor(Color.BLACK);
                 model.lock.lock();
                 try {
+                    if (model.isPaused) {
+                        Log.d("in gameview","paused");
+                        drawPaused(canvas);
+                        onPause();
+                    }
                     drawShip(canvas, defaultPaint);
                     drawAsteroidBelt(canvas, defaultPaint);
                     if (model.alien != null) model.alien.draw(canvas, defaultPaint);
@@ -85,6 +92,10 @@ class GameView extends SurfaceView implements Runnable {
 
     void drawShip(Canvas canvas, Paint paint) {
         if (model.playerShip != null) model.playerShip.draw(canvas, paint);
+    }
+
+    void drawPaused(Canvas canvas) {
+        canvas.drawColor(Color.argb(0,0,0,0));
     }
 
     /**

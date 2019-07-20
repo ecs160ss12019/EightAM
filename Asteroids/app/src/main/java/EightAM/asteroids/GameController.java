@@ -1,6 +1,7 @@
 package EightAM.asteroids;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 final class GameController implements Runnable {
     private int width;
@@ -29,7 +30,7 @@ final class GameController implements Runnable {
                 model.lock.lock();
                 try {
                     // Get player input
-                    model.input(InputControl.playerInput);
+                    if (model.input(InputControl.playerInput)) pause();
                     // Update model
                     model.update(delta);
                 } finally {
@@ -42,6 +43,7 @@ final class GameController implements Runnable {
 
     public void pause() {
         isRunning = false;
+        Log.d("in game controller","paused game");
         try {
             thread.join();
         } catch (InterruptedException e) {

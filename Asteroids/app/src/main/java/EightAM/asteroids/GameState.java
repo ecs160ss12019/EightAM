@@ -62,11 +62,6 @@ public class GameState {
     }
 
     // ---------------Member methods---------------
-    void input(InputControl.Control i) {
-        if (i.PAUSE) {
-            // call pause on gameview + game view
-        }
-    }
 
     void updateScore() {
         score++;

@@ -46,8 +46,6 @@ class Asteroid extends GameObject {
      *
      * @param xTotalPix - total horizontal pixels
      * @param yTotalPix - total vertical pixels
-     * @param xShipPos  - Ship horizontal position
-     * @param yShipPos  - Ship vertical position
      * @param context   - Context for setting bitmap
      */
     protected Asteroid(GameModel gameModel, int xTotalPix, int yTotalPix, Ship ship, Context context) {

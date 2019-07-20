@@ -30,16 +30,35 @@ public class GameState {
 
     // for storing high score, cited: textbook Chapter 21
     SharedPreferences.Editor editor;
+
+    //
     Lock lock;
     Context context;
     int spaceWidth;
     int spaceHeight;
 
     protected GameState(int screenWidth, int screenHeight, Context context) {
+
+        //set game attributes
+        this.gameRunning = true;
+        this.score = 0;
+        this.livesLeft = STARTING_LIVES;
+
         lock = new ReentrantLock();
         this.context = context;
+        textFormatting = screenWidth / 50;
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
+
+        //get high score from the previous game
+        SharedPreferences prefs;
+        prefs = context.getSharedPreferences("High Score", Context.MODE_PRIVATE);
+
+        //set high score, zero if not available
+        this.highScore = prefs.getInt("High Score", 0);
+
+        //initialize editor
+        this.editor = prefs.edit();
     }
 
     // ---------------Member methods---------------
@@ -48,41 +67,6 @@ public class GameState {
             // call pause on gameview + game view
         }
     }
-
-
-    void ScoreAttributes(int screenX) {
-
-    }
-
-    /**
-     * Constructor
-     */
-//    void GameState(Context context, int screenWidth) {
-//
-//        //set game attributes
-//        this.gameRunning = true;
-//        this.score = 0;
-//        this.livesLeft = STARTING_LIVES;
-//        this.textFormatting = screenWidth / 50;
-//
-//        //get high score from the previous game
-//        SharedPreferences prefs;
-//        prefs = context.getSharedPreferences("High Score", Context.MODE_PRIVATE);
-//
-//        //set high score, zero if not available
-//        this.highScore = prefs.getInt("High Score", 0);
-//
-//        //initialize editor
-//        this.editor = prefs.edit();
-//    }
-
-    /**
-     *
-     */
-
-
-
-
 
     void updateScore() {
         score++;
@@ -95,7 +79,6 @@ public class GameState {
     void newGame() {
         score = 0;
         livesLeft = STARTING_LIVES;
-        mTextFormatting = screenX / 50;
     }
 
     /**

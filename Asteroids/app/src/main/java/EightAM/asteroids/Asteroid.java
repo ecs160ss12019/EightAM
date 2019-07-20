@@ -50,7 +50,7 @@ class Asteroid extends GameObject {
      * @param yShipPos  - Ship vertical position
      * @param context   - Context for setting bitmap
      */
-    protected Asteroid(GameModel gameModel, int xTotalPix, int yTotalPix, float xShipPos, float yShipPos, Context context) {
+    protected Asteroid(GameModel gameModel, int xTotalPix, int yTotalPix, Ship ship, Context context) {
         model = gameModel;
         float xRand, yRand;
         float xDistFromShip, yDistFromShip, DistFromShip;
@@ -76,8 +76,8 @@ class Asteroid extends GameObject {
         do {
             xRand = rand.nextInt(((xTotalPix - 1) + 1) + 1);
             yRand = rand.nextInt(((yTotalPix - 1) + 1) + 1);
-            xDistFromShip = Math.abs(xRand - xShipPos);
-            yDistFromShip = Math.abs(yRand - yShipPos);
+            xDistFromShip = Math.abs(xRand - ship.getPosX());
+            yDistFromShip = Math.abs(yRand - ship.getPosY());
             DistFromShip = (float) Math.sqrt(Math.pow(xDistFromShip, 2) + Math.pow(yDistFromShip, 2));
         } while (DistFromShip < SAFEDIST);
 

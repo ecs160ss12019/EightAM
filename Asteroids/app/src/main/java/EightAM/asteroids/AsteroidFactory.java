@@ -15,12 +15,12 @@ public class AsteroidFactory implements Factory {
     }
     
     public GameObject create(Context context, GameObject object) {
-        return (new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
+        return null; //(new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
     }
 
     public void createBelt(Context context, ArrayList<GameObject> objects){
         for (int i = 0; i < numOfAsteroids; i++) {
-            objects.add(new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
+            //objects.add(new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
         }
     }
 

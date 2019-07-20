@@ -1,4 +1,4 @@
 package EightAM.asteroids;
 
-public class BulletFactory implements Factory {
-}
+//public class BulletFactory implements Factory {
+//}

@@ -46,10 +46,10 @@ class GameModel {
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
         isPaused = false;
+
+        // TODO: should use factories to create entities
         this.playerShip = new Ship(this, spaceWidth, spaceHeight, context);
-        // TODO: Tim idk how u wanna spawn aliens in Model so imma put there here for now
-        // change if u so desire
-        this.alien = new Alien(spaceWidth, spaceHeight, context);
+        this.alien = new BigAlien(spaceWidth, spaceHeight, context);
 
         //this.createAsteroidBelt(context);
         //this.asteroid = new Asteroid(spaceWidth, spaceHeight, playerShip.shipWidth, playerShip.shipHeight, context);
@@ -87,9 +87,9 @@ class GameModel {
     /**
      * Creates/Initializes an Asteroid belt (array of asteroids).
      */
-    private void createAsteroidBelt(Context context /*, float shipPosX, float shipPosY*/) {
+    private void createAsteroidBelt(Context context) {
         for (int i = 0; i < numOfAsteroids; i++) {
-            asteroidBelt.add(new Asteroid(this, spaceWidth, spaceHeight, shipPosX, shipPosY, context));
+            asteroidBelt.add(new Asteroid(this, spaceWidth, spaceHeight, this.playerShip, context));
         }
         Log.d("in gamemodel", "asteroidbelt has " + asteroidBelt.size() + " object id is " + asteroidBelt.get(0).objectID);
     }
@@ -166,7 +166,7 @@ class GameModel {
                 break;
             }
         }
-        // Add aliens collisions
+        // TODO: Add aliens collisions
     }
 
     private void bulletsCollision() {

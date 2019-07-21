@@ -2,11 +2,29 @@ package EightAM.asteroids;
 
 import android.content.Context;
 
-public interface Factory {
-    GameObject create(Context context, GameObject object);
+import java.util.ArrayList;
+import java.util.Deque;
 
-    void destroy(GameObject object);
+abstract class Factory {
+    GameModel model;
+    Deque<Integer> objectsToDelete;
 
-    void respawn(GameObject object);
+    abstract GameObject create(Context context);
 
+    public void createObjectArray(Context context, ArrayList<GameObject> objects, int arraySize){
+        for (int i = 0; i < arraySize; i++) {
+            objects.add(this.create(context));
+        }
+    }
+
+    public void markToDeleteIndex(int i) {
+        objectsToDelete.push(i);
+    }
+
+    public void destroy(ArrayList<GameObject> objects){
+        while (objectsToDelete.size() > 0) {
+            int objectIndex = objectsToDelete.pop();
+            objects.remove(objectIndex);
+        }
+    }
 }

@@ -11,7 +11,7 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-abstract class Alien extends GameObject {
+abstract class Alien extends GameObject implements Shooter {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     static Bitmap bitmap;
@@ -60,4 +60,15 @@ abstract class Alien extends GameObject {
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(bitmap, matrix, paint);
     }
+
+    public float getPosX(){
+        return hitbox.centerX();
+    }
+
+    public float getPosY() { return hitbox.centerY(); }
+
+    public float getAngle() { return orientation; }
+
+    public ObjectID getID() { return objectID; }
+
 }

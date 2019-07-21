@@ -13,7 +13,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-class Ship extends GameObject {
+class Ship extends GameObject implements Shooter {
 
     // ---------------Member variables-------------
 
@@ -31,6 +31,8 @@ class Ship extends GameObject {
     Ship(GameModel gameModel, int screenX, int screenY, Context context) {
         if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
         this.model = gameModel;
+
+        objectID = ObjectID.SHIP;
 
         hitboxHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
         hitboxWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
@@ -104,9 +106,13 @@ class Ship extends GameObject {
         canvas.drawBitmap(bitmap, matrix, paint);
     }
 
-    float getPosX(){
+    public float getPosX(){
         return hitbox.centerX();
     }
 
-    float getPosY() { return hitbox.centerY(); }
+    public float getPosY() { return hitbox.centerY(); }
+
+    public float getAngle() { return orientation; }
+
+    public ObjectID getID() { return objectID; }
 }

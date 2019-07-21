@@ -23,15 +23,15 @@ class Bullet extends GameObject {
      * @param y       - vertical position of shooter
      * @param angle   - angle/ orientation of the shooter
      */
-    protected Bullet(ObjectID shooter, float x, float y, float angle) {
-        hitbox = new RectF(x, y, x, y);
+    protected Bullet(Shooter shooter) {
+        hitbox = new RectF(shooter.getPosX(), shooter.getPosY(), shooter.getPosX(), shooter.getPosY());
         this.objectID = ObjectID.BULLET;
-        this.owner = shooter;
+        this.owner = shooter.getID();
         distanceTraveled = 0;
         if (this.owner == ObjectID.SHIP) {
-            this.vel = new Velocity(bulletSpeed, angle);
+            this.vel = new Velocity(bulletSpeed, shooter.getAngle());
         } else {
-            this.vel = new Velocity(bulletSpeed / 2, angle);
+            this.vel = new Velocity(bulletSpeed / 2, shooter.getAngle());
         }
     }
 

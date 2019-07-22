@@ -12,22 +12,33 @@ public class BulletFactory extends Factory {
         model = gameModel;
         objectsToDelete = new ArrayDeque<Integer>();
     }
-    public GameObject create(Context context) {
+
+    public Bullet createNew() {
         return (new Bullet(lastShooter));
     }
 
-    public void fireBullet(Context context, ArrayList<GameObject> bulletsFired, Shooter shooter) {
+    public void fireBullet(Shooter shooter) {
         lastShooter = shooter;
-        bulletsFired.add(create(context));
+        model.bulletsFired.add(createNew());
     }
 
-    private void deleteOutOfRange(ArrayList<GameObject> bulletsFired) {
-        for (int i = 0; i < bulletsFired.size(); i++) {
-            Bullet currBullet = (Bullet) bulletsFired.get(i);
-            if (currBullet.reachedMaxRange()) {
+    public void removeAtIndex(int asteroidIndex) {
+        model.bulletsFired.remove(asteroidIndex);
+    }
+
+    public void deleteOutOfRange() {
+        for (int i = 0; i < model.bulletsFired.size(); i++) {
+            if (model.bulletsFired.get(i).reachedMaxRange()) {
                 objectsToDelete.push(i);
             }
         }
-        this.destroy(bulletsFired);
+        this.destroy(model.bulletsFired);
+    }
+
+    private void destroy(ArrayList<Bullet> objects){
+        while (objectsToDelete.size() > 0) {
+            int objectIndex = objectsToDelete.pop();
+            objects.remove(objectIndex);
+        }
     }
 }

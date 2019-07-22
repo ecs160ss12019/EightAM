@@ -9,23 +9,17 @@ abstract class Factory {
     GameModel model;
     Deque<Integer> objectsToDelete;
 
-    abstract GameObject create(Context context);
-
-    public void createObjectArray(Context context, ArrayList<GameObject> objects, int arraySize){
-        for (int i = 0; i < arraySize; i++) {
-            objects.add(this.create(context));
-        }
-    }
-
     // Do not need maybe
-    public void markToDeleteIndex(int i) {
+    abstract public void removeAtIndex(int i);
+
+    public void markToDelete(int i) {
         objectsToDelete.push(i);
     }
 
-    public void destroy(ArrayList<GameObject> objects){
+    public void removeMarked(){
         while (objectsToDelete.size() > 0) {
-            int objectIndex = objectsToDelete.pop();
-            objects.remove(objectIndex);
+            int i = objectsToDelete.pop();
+            this.removeAtIndex(i);
         }
     }
 }

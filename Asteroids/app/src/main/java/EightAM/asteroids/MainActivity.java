@@ -69,4 +69,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (gameView != null && !isPaused) gameView.onResume();
     }
+
+//    void playInputSound() {
+//        gameView.playInputSound();
+//    }
 }

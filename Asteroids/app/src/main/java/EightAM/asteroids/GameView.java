@@ -24,6 +24,9 @@ class GameView extends SurfaceView implements Runnable {
     private GameModel model;
     private Canvas canvas;
 
+    //for sounds
+    private AudioUtility sound;
+
 
     // ---------------Member methods---------------
 
@@ -56,6 +59,9 @@ class GameView extends SurfaceView implements Runnable {
         invulnerablePaint.setColor(Color.YELLOW);
         invulnerablePaint.setStyle(Paint.Style.FILL);
         invulnerablePaint.setAntiAlias(true);
+
+        //for sound
+        sound = new AudioUtility(getContext());
     }
 
     @Override
@@ -75,9 +81,16 @@ class GameView extends SurfaceView implements Runnable {
                         drawPaused(canvas);
                         onPause();
                     }
+                    // Drawings
                     drawShip(canvas, defaultPaint);
                     drawAsteroidBelt(canvas, defaultPaint);
                     if (model.alien != null) model.alien.draw(canvas, defaultPaint);
+
+                    // Sound
+                    sound.playShipshoot(InputControl.playerInput.SPECIAL_1);
+                    sound.playShipAccelerate(InputControl.playerInput.UP);
+                    Log.d("I am GameView", "sound testing");
+
                 } finally {
                     model.lock.unlock();
                 }
@@ -135,4 +148,6 @@ class GameView extends SurfaceView implements Runnable {
     void setGameModel(GameModel gameModel) {
         model = gameModel;
     }
+
+
 }

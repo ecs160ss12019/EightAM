@@ -1,6 +1,7 @@
 package EightAM.asteroids;
 
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     GameController gameController;
     GameModel gameModel;
     GameState gameState;
+    MediaPlayer backgroundMusic;
     private boolean isPaused;
 
     @Override
@@ -54,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
         // temporary until menu is created
         gameView.onResume();
         gameController.onResume();
+
+        backgroundMusic = MediaPlayer.create(MainActivity.this, R.raw.background_music);
+        backgroundMusic.setLooping(true);
+        backgroundMusic.start();
+        //gameView.sound.playBackground();
     }
 
     @Override
@@ -67,10 +74,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (gameView != null && !isPaused) gameView.onResume();
+        if (gameView != null && !isPaused) {
+            gameView.onResume();
+            backgroundMusic.stop();
+        }
+
     }
 
-//    void playInputSound() {
-//        gameView.playInputSound();
-//    }
 }

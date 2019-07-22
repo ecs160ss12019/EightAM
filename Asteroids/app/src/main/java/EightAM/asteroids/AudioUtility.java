@@ -19,6 +19,7 @@ public class AudioUtility {
     private int ship_accelerate_ID = -1;
     private int ship_shoot_ID = -1;
     private int ship_destroy_ID = -1;
+    private int background_music_ID = -1;
 
     // ---------------Member methods---------------
 
@@ -41,13 +42,29 @@ public class AudioUtility {
         ship_accelerate_ID = sounds.load(context, R.raw.ship_accelerate, 1);
         ship_shoot_ID = sounds.load(context, R.raw.ship_shoot, 1);
         ship_destroy_ID = sounds.load(context, R.raw.ship_destroy, 1);
+        background_music_ID = sounds.load(context, R.raw.background_music, 1);
     }
 
     void playShipshoot(Boolean bool) {
         if (bool)
-            sounds.play(ship_shoot_ID,1, 1, 0, 0, 1);
+            sounds.play(ship_shoot_ID,1, 1, 0, 0, 2);
+    }
 
-//        switch (view.getId()) {
+    void playShipAccelerate (Boolean bool) {
+        if (bool)
+            sounds.play(ship_accelerate_ID,1, 1, 0, 0, 2);
+    }
+
+    void playShipDestroy() {
+        sounds.play(ship_destroy_ID,1, 1, 0, 0, 1);
+    }
+
+    void playBackground() {
+            sounds.play(background_music_ID, 1,1,0,0,1);
+    }
+
+    // for optimization later
+    //        switch (view.getId()) {
 //            case R.id.shoot_button:
 //                sounds.play(ship_shoot_ID,1, 1, 0, 0, 1);
 //                break;
@@ -55,14 +72,4 @@ public class AudioUtility {
 //                sounds.play(ship_accelerate_ID,1, 1, 0, 0, 1);
 //                break;
 //        }
-    }
-
-    void playShipAccelerate (Boolean bool) {
-        if (bool)
-            sounds.play(ship_accelerate_ID,1, 1, 0, 0, 1);
-    }
-
-    void playShipDestroy() {
-        sounds.play(ship_destroy_ID,1, 1, 0, 0, 1);
-    }
 }

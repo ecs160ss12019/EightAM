@@ -9,6 +9,9 @@ import android.util.Log;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -26,8 +29,8 @@ class GameModel {
     //temp
     float shipPosX, shipPosY;
 
-    protected ArrayList<Asteroid> asteroidBelt;
-    protected ArrayList<Bullet> bulletsFired;
+    ArrayList<Asteroid> asteroidBelt;
+    ArrayList<Bullet> bulletsFired;
     protected Ship playerShip;
     protected Alien alien;
 
@@ -77,6 +80,10 @@ class GameModel {
             return true;
         }
         if (playerShip != null) {
+            if(i.SPECIAL_1 && playerShip.canShoot()){
+                Log.d("in gamemodel", "Fired");
+                createBullet(playerShip);
+            }
             playerShip.input(i.UP, i.LEFT, i.RIGHT, i.DOWN, i.SPECIAL_1);
             return false;
         }
@@ -99,12 +106,13 @@ class GameModel {
      *
      * @param shooter - ObjectID of the shooter i.e. who's shooting the bullet
      */
-    private void createBullet(GameObject.ObjectID shooter) {
+    private void createBullet(Shooter shooter) {
         //TODO: get Position and Angle/Orientation of the Shooter (Ship and Alien)
         //TODO: Consult with playerShip team to retrieve orientation and position
-        float shooterPosX, shooterPosY, shooterAngle;
-        //bulletsFired.add(new Bullet(shooter, shooterPosX, shooterPosY, shooterAngle));
+        Log.d("in gamemodel", "Creating Bullet");
+        bulletsFired.add(new Bullet(shooter));
     }
+
 
     private void updateAsteroidBelt(long timeInMillisecond) {
         for (int i = 0; i < asteroidBelt.size(); i++) {
@@ -170,14 +178,30 @@ class GameModel {
     }
 
     private void bulletsCollision() {
+        /*
+        Iterator <Bullet>bulletsFiredIter = bulletsFired.iterator();
+        Iterator <Asteroid>asteroidBeltIter = asteroidBelt.iterator();
+
+        while (bulletsFiredIter.hasNext()) {
+            while (asteroidBeltIter.hasNext()) {
+                if (bulletsFiredIter.next().detectCollisions(asteroidBeltIter.next())){
+                    bulletsFiredIter.remove();
+                    asteroidBeltIter.remove();
+                }
+            }
+        }
+        */
         Deque<Integer> bulletsToDelete = new ArrayDeque<>();
         Deque<Integer> asteroidsToDelete = new ArrayDeque<>();
-
+        HashSet<Integer> asteroidSet = new HashSet<>();
         for (int i = 0; i < bulletsFired.size(); i++) {
             for (int j = 0; j < asteroidBelt.size(); j++) {
                 if (bulletsFired.get(i).detectCollisions(asteroidBelt.get(j))) {
                     bulletsToDelete.push(i);
-                    asteroidsToDelete.push(j);
+                    if(!asteroidSet.contains(j)){
+                        asteroidSet.add(j);
+                        asteroidsToDelete.push(j);
+                    }
                 }
             }
         }
@@ -201,9 +225,10 @@ class GameModel {
     void update(long timeInMillisecond) {
         alien.update(spaceWidth, spaceHeight, timeInMillisecond);
         updateAsteroidBelt(timeInMillisecond);
+        updateBullets(timeInMillisecond);
         if (playerShip != null) playerShip.update(spaceWidth, spaceHeight, timeInMillisecond);
         detectShipCollision();
-
+        bulletsCollision();
     }
 
     protected void removeEntity() {

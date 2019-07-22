@@ -1,14 +1,15 @@
 package EightAM.asteroids;
 
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
 class Bullet extends GameObject {
 
     ObjectID owner;
-    private int bulletSpeed;
-    private float maxRange; // a cap on how far bullet can travel
+    private int bulletSpeed = 10;
+    private float maxRange = 1000; // a cap on how far bullet can travel
     private float distanceTraveled;
 
     /**
@@ -19,20 +20,24 @@ class Bullet extends GameObject {
      * time to react.
      *
      * @param shooter - denotes if fired from player (true) or alien (false)
-     * @param x       - horizontal position of shooter
-     * @param y       - vertical position of shooter
-     * @param angle   - angle/ orientation of the shooter
      */
-    protected Bullet(ObjectID shooter, float x, float y, float angle) {
-        hitbox = new RectF(x, y, x, y);
+    protected Bullet(Shooter shooter) {
+        hitbox = new RectF(shooter.getPosX() - 3, shooter.getPosY() -3, shooter.getPosX() + 3, shooter.getPosY() + 3);
         this.objectID = ObjectID.BULLET;
-        this.owner = shooter;
+        this.owner = shooter.getID();
         distanceTraveled = 0;
         if (this.owner == ObjectID.SHIP) {
-            this.vel = new Velocity(bulletSpeed, angle);
+            this.vel = new Velocity(bulletSpeed, shooter.getAngle());
         } else {
-            this.vel = new Velocity(bulletSpeed / 2, angle);
+            this.vel = new Velocity(bulletSpeed / 2, shooter.getAngle());
         }
+    }
+
+    @Override
+    void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+        rotate();
+        move(spaceWidth, spaceHeight, timeInMillisecond);
+        distanceTraveled(timeInMillisecond);
     }
 
     /**
@@ -60,7 +65,12 @@ class Bullet extends GameObject {
 
     @Override
     protected void draw(Canvas canvas, Paint paint) {
-
+        //Matrix matrix = new Matrix();
+        //matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+        //Log.d("in asteroid", "bitmap get width=" + bitmap.getWidth());
+        //matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f), hitbox.top - (hitboxHeight * 0.5f));
+        canvas.drawRect(this.hitbox, paint);
+        //canvas.drawBitmap(bitmap, matrix, paint);
     }
 
 }

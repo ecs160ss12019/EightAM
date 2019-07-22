@@ -76,7 +76,9 @@ class GameView extends SurfaceView implements Runnable {
                         onPause();
                     }
                     drawShip(canvas, defaultPaint);
+                    drawBullets(canvas, defaultPaint);
                     drawAsteroidBelt(canvas, defaultPaint);
+
                     if (model.alien != null) model.alien.draw(canvas, defaultPaint);
                 } finally {
                     model.lock.unlock();
@@ -86,6 +88,9 @@ class GameView extends SurfaceView implements Runnable {
         }
     }
 
+    void drawBullets(Canvas canvas, Paint paint) {
+        for (GameObject object : model.bulletsFired) object.draw(canvas, paint);
+    }
     void drawAsteroidBelt(Canvas canvas, Paint paint) {
         for (GameObject object : model.asteroidBelt) object.draw(canvas, paint);
     }

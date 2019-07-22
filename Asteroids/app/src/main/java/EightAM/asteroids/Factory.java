@@ -17,6 +17,7 @@ abstract class Factory {
         }
     }
 
+    // Do not need maybe
     public void markToDeleteIndex(int i) {
         objectsToDelete.push(i);
     }

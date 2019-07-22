@@ -21,6 +21,8 @@ class Ship extends GameObject implements Shooter {
     static Bitmap bitmap;
     boolean invincible = true;
     int invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
+    int shotDelayCounter = 0;
+    int shotDelay = 30;
 
     /**
      * Constructor constructs a static playerShip by setting up its size and hitbox.
@@ -38,7 +40,7 @@ class Ship extends GameObject implements Shooter {
         hitboxWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
 
         this.vel = new Velocity(0, 0);
-        this.orientation = 0;
+        this.orientation = 3f/2 * (float) Math.PI;
 
         // create playerShip in the middle of screen
         float left = ((float) screenX / 2) - (hitboxWidth / 2);
@@ -63,6 +65,7 @@ class Ship extends GameObject implements Shooter {
         if (invincibilityDuration <= 0) invincible = false;
         rotate();
         move(spaceWidth, spaceHeight, timeInMillisecond);
+        if (shotDelayCounter > 0) shotDelayCounter--;
     }
 
     @Override
@@ -92,9 +95,17 @@ class Ship extends GameObject implements Shooter {
             this.angularVel = 0;
         }
 
+        if (shoot) {
+            shotDelayCounter = shotDelay;
+        }
+
         if (down) {
             teleporting = true;
         }
+    }
+
+    boolean canShoot() {
+        return shotDelayCounter == 0;
     }
 
     @Override

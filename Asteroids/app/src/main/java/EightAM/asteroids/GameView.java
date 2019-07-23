@@ -25,7 +25,7 @@ class GameView extends SurfaceView implements Runnable {
     private Canvas canvas;
 
     //for sounds
-    public AudioUtility sound;
+    public AudioUtility audio;
 
     // ---------------Member methods---------------
 
@@ -59,8 +59,8 @@ class GameView extends SurfaceView implements Runnable {
         invulnerablePaint.setStyle(Paint.Style.FILL);
         invulnerablePaint.setAntiAlias(true);
 
-        //for sound
-        sound = new AudioUtility(getContext());
+        // For audio
+        audio = new AudioUtility(getContext());
     }
 
     @Override
@@ -88,15 +88,13 @@ class GameView extends SurfaceView implements Runnable {
                     drawAsteroidBelt(canvas, defaultPaint);
                     if (model.alien != null) model.alien.draw(canvas, defaultPaint);
 
-                    // Sound
-                    //sound.playBackground(start);
-                    sound.playShipshoot(InputControl.playerInput.SPECIAL_1);
-                    sound.playShipAccelerate(InputControl.playerInput.UP);
-
-
-                    // Debug
-                    Log.d("I am GameView", "sound testing");
-
+                    // Sound effects
+                    this.audio.playInputPress(
+                            InputControl.playerInput.UP,
+                            InputControl.playerInput.DOWN,
+                            InputControl.playerInput.LEFT,
+                            InputControl.playerInput.RIGHT,
+                            InputControl.playerInput.SPECIAL_1);
                 } finally {
                     model.lock.unlock();
                 }
@@ -108,6 +106,7 @@ class GameView extends SurfaceView implements Runnable {
     void drawBullets(Canvas canvas, Paint paint) {
         for (GameObject object : model.bulletsFired) object.draw(canvas, paint);
     }
+
     void drawAsteroidBelt(Canvas canvas, Paint paint) {
         for (GameObject object : model.asteroidBelt) object.draw(canvas, paint);
     }
@@ -148,16 +147,12 @@ class GameView extends SurfaceView implements Runnable {
     }
 
     void resume() {
-
         isRunning = true;
         thread = new Thread(this);
         thread.start();
     }
 
-
     void setGameModel(GameModel gameModel) {
         model = gameModel;
     }
-
-
 }

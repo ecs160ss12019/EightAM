@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     GameController gameController;
     GameModel gameModel;
     GameState gameState;
-    MediaPlayer backgroundMusic;
     private boolean isPaused;
 
     @Override
@@ -57,28 +56,23 @@ public class MainActivity extends AppCompatActivity {
         gameView.onResume();
         gameController.onResume();
 
-        backgroundMusic = MediaPlayer.create(MainActivity.this, R.raw.background_music);
-        backgroundMusic.setLooping(true);
-        backgroundMusic.start();
-        //gameView.sound.playBackground();
+        // Play background music
+        gameView.audio.playMusic(MainActivity.this);
     }
 
     @Override
     protected void onPause() {
-        if (gameView != null) {
-            gameView.onPause();
-        }
         super.onPause();
+        if (gameView != null)
+            gameView.onPause();
+        // Stop background music
+        gameView.audio.stopMusic();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (gameView != null && !isPaused) {
+        if (gameView != null && !isPaused)
             gameView.onResume();
-            backgroundMusic.stop();
-        }
-
     }
-
 }

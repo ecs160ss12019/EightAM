@@ -15,6 +15,7 @@ abstract class Alien extends GameObject implements Shooter {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     static Bitmap bitmap;
+    int distanceTraveled, maxRange;
 
     // ---------------Member methods --------------
 
@@ -25,6 +26,9 @@ abstract class Alien extends GameObject implements Shooter {
      */
     protected void spawn(int xTotalPix, int yTotalPix) {
         int randX, randY;
+
+        // set maxRange to be the width of the screen
+        maxRange = xTotalPix;
 
         // spawn alien w/ random speed & direction
         // on either side of the screen
@@ -39,6 +43,7 @@ abstract class Alien extends GameObject implements Shooter {
     @Override
     protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         move(spaceWidth, spaceHeight, timeInMillisecond);
+        distanceTraveled(timeInMillisecond);
     }
 
     protected void setHitBox(float posX, float posY) {
@@ -61,9 +66,41 @@ abstract class Alien extends GameObject implements Shooter {
         canvas.drawBitmap(bitmap, matrix, paint);
     }
 
-    public float getPosX(){
-        return hitbox.centerX();
+    /**
+     * Determines if the alien should continue to persist.
+     *
+     * @return true if the alien has exceeded its maximum range
+     */
+    protected boolean reachedMaxRange() {
+        return distanceTraveled > maxRange;
     }
+
+    /**
+     * Calculates how far the alien has traveled.
+     * (to be used in a super class to determine when the alien should die.)
+     *
+     * @param timeInMillisecond current time of the game in ms
+     */
+    private void distanceTraveled(long timeInMillisecond) {
+        distanceTraveled += timeInMillisecond * this.vel.magnitude();
+    }
+
+    /**
+     * Make the alien change its movement in the y direction.
+     */
+    protected void turn() {
+        float newY = -1 * this.vel.y;
+        this.vel.setY(newY);
+    }
+
+    /**
+     * Uses some probability function to determine whether alien should turn.
+     * @return determines whether alien should turn
+     */
+    protected abstract boolean shouldTurn();
+
+    // getter functions
+    public float getPosX(){ return hitbox.centerX(); }
 
     public float getPosY() { return hitbox.centerY(); }
 

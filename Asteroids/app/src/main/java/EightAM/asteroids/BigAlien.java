@@ -14,17 +14,39 @@ public class BigAlien extends Alien {
      * @param context context of the game (passed from game model)
      */
     protected BigAlien(int xTotalPix, int yTotalPix, Context context) {
-        float speed, direction = 0;
         // prepare bitmap
         if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
 
         spawn(xTotalPix, yTotalPix);
 
-        Random rand = new Random();
-        speed = 1 + rand.nextFloat() * ((ALIEN_MAXSPEED / 4) - 1);
-        this.vel = new Velocity(speed, direction);
+        // TODO: change behavior
+        this.setMoveBehavior();
 
         // might use later
         this.objectID = ObjectID.ALIEN;
+    }
+
+    /**
+     * Sets move behavior for this alien. Used in its constructor.
+     */
+    private void setMoveBehavior() {
+        float speed, direction;
+
+        Random rand = new Random();
+        speed = 1 + rand.nextFloat() * ((ALIEN_MAXSPEED / 4) - 1);
+        direction = 1 + (rand.nextFloat() * 360);
+        this.vel = new Velocity(speed, direction);
+
+        if(this.shouldTurn()) { this.turn(); }
+    }
+
+    /**
+     * Pretty simple probability function.
+     * @return true 50% of times.
+     */
+    protected boolean shouldTurn() {
+        Random rand = new Random();
+        float f = rand.nextFloat();
+        return (f > 0.01);
     }
 }

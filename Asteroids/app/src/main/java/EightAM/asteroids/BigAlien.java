@@ -1,6 +1,8 @@
 package EightAM.asteroids;
 
 import android.content.Context;
+import android.util.Log;
+
 import java.util.Random;
 import static EightAM.asteroids.Constants.ALIEN_MAXSPEED;
 
@@ -33,20 +35,20 @@ public class BigAlien extends Alien {
         float speed, direction;
 
         Random rand = new Random();
+        // TODO: change these #s later
         speed = 1 + rand.nextFloat() * ((ALIEN_MAXSPEED / 4) - 1);
         direction = 1 + (rand.nextFloat() * 360);
         this.vel = new Velocity(speed, direction);
-
-        if(this.shouldTurn()) { this.turn(); }
     }
 
     /**
      * Pretty simple probability function.
-     * @return true 50% of times.
+     * @return true sometimes
      */
     protected boolean shouldTurn() {
         Random rand = new Random();
         float f = rand.nextFloat();
-        return (f > 0.01);
+        Log.d("alien", "turning");
+        return (f > 0.5);
     }
 }

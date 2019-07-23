@@ -44,6 +44,7 @@ abstract class Alien extends GameObject implements Shooter {
     protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         move(spaceWidth, spaceHeight, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
+        if(this.shouldTurn()) { this.turn(); }
     }
 
     protected void setHitBox(float posX, float posY) {

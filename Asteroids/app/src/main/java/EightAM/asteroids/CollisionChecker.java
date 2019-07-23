@@ -1,8 +1,5 @@
 package EightAM.asteroids;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashSet;
 
 public class CollisionChecker {
@@ -17,6 +14,9 @@ public class CollisionChecker {
             if (model.playerShip.detectCollisions(model.asteroidBelt.get(i))) {
                 model.destroyShip();
                 model.asteroidFactory.removeAtIndex(i);
+                // for updating game stats
+                model.stats.updateScore();
+                model.stats.updateLive();
                 break;
             }
         }

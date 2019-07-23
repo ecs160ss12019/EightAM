@@ -1,19 +1,14 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
-import static EightAM.asteroids.Constants.STARTING_LIVES;
-
 import android.content.Context;
 import android.util.Log;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
+import static EightAM.asteroids.Constants.STARTING_LIVES;
 
 class GameModel {
 
@@ -28,6 +23,9 @@ class GameModel {
 
     //temp
     float shipPosX, shipPosY;
+
+    //player stats
+    PlayerStats stats;
 
     ArrayList<Asteroid> asteroidBelt;
     ArrayList<Bullet> bulletsFired;
@@ -53,6 +51,9 @@ class GameModel {
         resetGameParam();
         initFactories();
         createObjects();
+
+        // set player stats
+        this.stats = new PlayerStats(screenWidth, screenHeight, context);
     }
 
     private void resetGameParam() {

@@ -82,11 +82,14 @@ class GameView extends SurfaceView implements Runnable {
                         onPause();
                     }
 
-                    // Drawings
+                    // Drawing object
                     drawShip(canvas, defaultPaint);
                     drawBullets(canvas, defaultPaint);
                     drawAsteroidBelt(canvas, defaultPaint);
                     if (model.alien != null) model.alien.draw(canvas, defaultPaint);
+
+                    // Drawing hub
+                    model.stats.drawAttributes(canvas, defaultPaint, ship, surfaceHolder);
 
                     // Sound effects
                     this.audio.playInputPress(

@@ -2,17 +2,11 @@ package EightAM.asteroids;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import static EightAM.asteroids.Constants.STARTING_LIVES;
-import static EightAM.asteroids.InputControl.playerInput;
 
 public class PlayerStats {
 
@@ -84,7 +78,7 @@ public class PlayerStats {
      * Draw the HUD
      */
     void drawAttributes(Canvas canvas, Paint paint, Ship ship, SurfaceHolder sh){
-        paint.setColor(Color.argb(255,255,255,255));
+        //paint.setColor(Color.argb(255,225,20,147));
         paint.setTextSize(textFormatting);
         canvas.drawText("Score: " + score, textFormatting,textFormatting * 2,paint);
         canvas.drawText("Lives: " + livesLeft, textFormatting,textFormatting * 3,paint);

@@ -50,6 +50,7 @@ abstract class Alien extends GameObject implements Shooter {
             this.turn();
             this.setTimer();
         }
+
     }
 
     protected void setHitBox(float posX, float posY) {
@@ -88,6 +89,7 @@ abstract class Alien extends GameObject implements Shooter {
      * @param timeInMillisecond current time of the game in ms
      */
     private void distanceTraveled(long timeInMillisecond) {
+        // TODO: should probably base this off spawn location
         distanceTraveled += timeInMillisecond * this.vel.magnitude();
     }
 

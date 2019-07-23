@@ -1,6 +1,8 @@
 package EightAM.asteroids;
 
 import android.content.Context;
+import android.util.Log;
+
 import java.util.Random;
 import static EightAM.asteroids.Constants.ALIEN_MAXSPEED;
 
@@ -38,15 +40,15 @@ public class BigAlien extends Alien {
         float speed, direction;
 
         Random rand = new Random();
+        // TODO: change these #s later
         speed = 1 + rand.nextFloat() * ((ALIEN_MAXSPEED / 4) - 1);
         direction = 1 + (rand.nextFloat() * 360);
         this.vel = new Velocity(speed, direction);
-
-
     }
 
     /**
      * Set random max and min timer for Alien to change directions.
+
      */
     protected void setTimer() {
         Random rand = new Random();

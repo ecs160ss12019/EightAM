@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.util.Random;
 
@@ -15,7 +16,7 @@ abstract class Alien extends GameObject implements Shooter {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     static Bitmap bitmap;
-    int distanceTraveled, maxRange;
+    int distanceTraveled, maxRange, delay;
 
     // ---------------Member methods --------------
 
@@ -44,6 +45,11 @@ abstract class Alien extends GameObject implements Shooter {
     protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         move(spaceWidth, spaceHeight, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
+        delay--;
+        if (delay <= 0) {
+            this.turn();
+            this.setTimer();
+        }
     }
 
     protected void setHitBox(float posX, float posY) {
@@ -96,8 +102,9 @@ abstract class Alien extends GameObject implements Shooter {
     /**
      * Uses some probability function to determine whether alien should turn.
      * @return determines whether alien should turn
-     */
-    protected abstract boolean shouldTurn();
+
+    protected abstract boolean shouldTurn();*/
+    protected abstract void setTimer();
 
     // getter functions
     public float getPosX(){ return hitbox.centerX(); }

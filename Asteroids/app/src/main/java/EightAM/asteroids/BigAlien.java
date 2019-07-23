@@ -6,6 +6,7 @@ import static EightAM.asteroids.Constants.ALIEN_MAXSPEED;
 
 public class BigAlien extends Alien {
 
+
     /**
      * Spawns a new alien on the screen at a random y position on either
      * the left or the right of the screen
@@ -24,7 +25,11 @@ public class BigAlien extends Alien {
 
         // might use later
         this.objectID = ObjectID.ALIEN;
+        this.setTimer();
     }
+
+
+
 
     /**
      * Sets move behavior for this alien. Used in its constructor.
@@ -37,16 +42,16 @@ public class BigAlien extends Alien {
         direction = 1 + (rand.nextFloat() * 360);
         this.vel = new Velocity(speed, direction);
 
-        if(this.shouldTurn()) { this.turn(); }
+
     }
 
     /**
-     * Pretty simple probability function.
-     * @return true 50% of times.
+     * Set random max and min timer for Alien to change directions.
      */
-    protected boolean shouldTurn() {
+    protected void setTimer() {
         Random rand = new Random();
-        float f = rand.nextFloat();
-        return (f > 0.01);
+        //int randomNum = rand.nextInt((max - min) + 1) + min;
+        this.delay = rand.nextInt((3000 - 2000) + 1) + 50;
+
     }
 }

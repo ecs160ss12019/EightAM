@@ -1,5 +1,7 @@
 package EightAM.asteroids;
 
+// float random = min + r.nextFloat() * (max - min);
+//int randomNum = rand.nextInt((max - min) + 1) + min;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,6 +12,8 @@ import android.graphics.RectF;
 import android.util.Log;
 
 import java.util.Random;
+
+import static EightAM.asteroids.Constants.ALIEN_TARGET_ACCURACY;
 
 abstract class Alien extends GameObject implements Shooter {
     // ---------------Member statics --------------
@@ -64,8 +68,19 @@ abstract class Alien extends GameObject implements Shooter {
 
     protected void shoot(float targetX, float targetY) {
         this.canShoot = false;
-        float delX = targetX - getPosX();
-        float delY = targetY - getPosY();
+        Random randX = new Random();
+        Random randY = new Random();
+
+        float minX = targetX - ALIEN_TARGET_ACCURACY;
+        float maxX = targetX + ALIEN_TARGET_ACCURACY;
+        float minY = targetY - ALIEN_TARGET_ACCURACY;
+        float maxY = targetY + ALIEN_TARGET_ACCURACY;
+
+        float finalX = minX + randX.nextFloat() * (maxX - minX);
+        float finalY = minY + randY.nextFloat() * (maxY - minY);
+
+        float delX = finalX - getPosX();
+        float delY = finalY - getPosY();
 
         this.shotOrientation = (float) Math.atan2(delY, delX);
 

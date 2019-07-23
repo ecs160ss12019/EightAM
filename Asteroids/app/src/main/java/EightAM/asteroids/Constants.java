@@ -11,6 +11,8 @@ final class Constants {
     static final int ASTEROID_SMALL_RADIUS = 1;
     static final float ASTEROID_MAXSPEED = 0.5f; // TODO: subject to change
     static final double ASTEROID_MAXANGLE = 2 * Math.PI;
+    static final int BULLET_SPEED = 10;
+    static final float BULLET_MAX_RANGE = 800; // Max distance bullet travels
     static final float SHIP_ACCELERATION = 0.005f;
     static final float SHIP_DECELERATION = 0.9995f;
     static final float SHIP_ANGULARVELOCITY = 0.01f;
@@ -18,5 +20,6 @@ final class Constants {
     static final int SHIP_INVINCIBILITY_DURATION = 5000;
     static final float ALIEN_BIG_MAXSPEED = 0.1f; // TODO: also subject to change
     static final int ALIEN_VALUE = 10;
+    static final float ALIEN_TARGET_ACCURACY = 200f;
 
 }

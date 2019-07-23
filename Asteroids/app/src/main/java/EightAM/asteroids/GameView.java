@@ -78,7 +78,6 @@ class GameView extends SurfaceView implements Runnable {
                 try {
                     if (model.isPaused) {
                         Log.d("in gameview","paused");
-                        drawPaused(canvas);
                         onPause();
                     }
 
@@ -115,9 +114,6 @@ class GameView extends SurfaceView implements Runnable {
         if (model.playerShip != null) model.playerShip.draw(canvas, paint);
     }
 
-    void drawPaused(Canvas canvas) {
-        canvas.drawColor(Color.argb(0,0,0,0));
-    }
 
     /**
      * onPause stop the thread which controls when the run method execute

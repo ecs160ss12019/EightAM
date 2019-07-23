@@ -4,7 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.Random;
-import static EightAM.asteroids.Constants.ALIEN_MAXSPEED;
+
+import static EightAM.asteroids.Constants.ALIEN_BIG_MAXSPEED;
 
 public class BigAlien extends Alien {
 
@@ -28,6 +29,7 @@ public class BigAlien extends Alien {
         // might use later
         this.objectID = ObjectID.ALIEN;
         this.setTimer();
+        this.setShotDelay();
     }
 
 
@@ -41,7 +43,8 @@ public class BigAlien extends Alien {
 
         Random rand = new Random();
         // TODO: change these #s later
-        speed = 1 + rand.nextFloat() * ((ALIEN_MAXSPEED / 4) - 1);
+
+        speed = ALIEN_BIG_MAXSPEED;
         direction = 1 + (rand.nextFloat() * 360);
         this.vel = new Velocity(speed, direction);
     }
@@ -53,7 +56,13 @@ public class BigAlien extends Alien {
     protected void setTimer() {
         Random rand = new Random();
         //int randomNum = rand.nextInt((max - min) + 1) + min;
-        this.delay = rand.nextInt((3000 - 2000) + 1) + 50;
+        this.delay = rand.nextInt((6000 - 4000) + 1) + 50;
 
+    }
+
+
+    protected void setShotDelay(){
+        Random rand = new Random();
+        this.shotDelay = rand.nextInt((5000 - 3000) + 1) + 50;
     }
 }

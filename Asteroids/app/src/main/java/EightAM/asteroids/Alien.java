@@ -1,6 +1,5 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.ALIEN_MAXSPEED;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,6 +16,10 @@ abstract class Alien extends GameObject implements Shooter {
     static final int MAXSPEED = 3;
     static Bitmap bitmap;
     int distanceTraveled, maxRange, delay;
+    int shotDelayCounter = 0;
+    int shotDelay = 30;
+    float shotOrientation = 0;
+    boolean canShoot = false;
 
     // ---------------Member methods --------------
 
@@ -46,10 +49,25 @@ abstract class Alien extends GameObject implements Shooter {
         move(spaceWidth, spaceHeight, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
         delay--;
+        shotDelay--;
         if (delay <= 0) {
             this.turn();
             this.setTimer();
         }
+
+        if (shotDelay <= 0) {
+            this.canShoot = true;
+            this.setShotDelay();
+        }
+
+    }
+
+    protected void shoot(float targetX, float targetY) {
+        this.canShoot = false;
+        float delX = targetX - getPosX();
+        float delY = targetY - getPosY();
+
+        this.shotOrientation = (float) Math.atan2(delY, delX);
 
     }
 
@@ -108,12 +126,14 @@ abstract class Alien extends GameObject implements Shooter {
     protected abstract boolean shouldTurn();*/
     protected abstract void setTimer();
 
+    protected abstract void setShotDelay();
+
     // getter functions
     public float getPosX(){ return hitbox.centerX(); }
 
     public float getPosY() { return hitbox.centerY(); }
 
-    public float getAngle() { return orientation; }
+    public float getAngle() { return shotOrientation; }
 
     public ObjectID getID() { return objectID; }
 

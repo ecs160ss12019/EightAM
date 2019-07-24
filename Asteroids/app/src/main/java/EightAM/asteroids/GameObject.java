@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-abstract class GameObject {
+abstract class GameObject implements Drawable {
 
     // ---------------Member variables-------------
 
@@ -21,6 +21,7 @@ abstract class GameObject {
     float angularVel = DEF_ANGULAR_VELOCITY;
     float orientation = DEF_ANGLE;
     ObjectID objectID;
+    Paint paint;
 
     /**
      * Move an object according to their velocity
@@ -92,7 +93,7 @@ abstract class GameObject {
 
     // -----------Abstract member methods-----------
 
-    abstract void draw(Canvas canvas, Paint paint);
+    public abstract void draw(Canvas canvas);
 
     // ObjectID as Enum determines the type of object during collision detection.
     enum ObjectID {

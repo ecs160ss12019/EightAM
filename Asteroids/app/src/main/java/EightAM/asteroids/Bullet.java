@@ -1,12 +1,10 @@
 package EightAM.asteroids;
 
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.RectF;
-
 import static EightAM.asteroids.Constants.BULLET_MAX_RANGE;
 import static EightAM.asteroids.Constants.BULLET_SPEED;
+
+import android.graphics.Canvas;
+import android.graphics.RectF;
 
 class Bullet extends GameObject {
 
@@ -68,7 +66,7 @@ class Bullet extends GameObject {
     }
 
     @Override
-    protected void draw(Canvas canvas, Paint paint) {
+    public void draw(Canvas canvas) {
         canvas.drawRect(this.hitbox, paint);
 
         // some math stuff

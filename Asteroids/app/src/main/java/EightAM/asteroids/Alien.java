@@ -3,17 +3,14 @@ package EightAM.asteroids;
 // float random = min + r.nextFloat() * (max - min);
 //int randomNum = rand.nextInt((max - min) + 1) + min;
 
-import android.content.Context;
+import static EightAM.asteroids.Constants.ALIEN_TARGET_ACCURACY;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.Random;
-
-import static EightAM.asteroids.Constants.ALIEN_TARGET_ACCURACY;
 
 abstract class Alien extends GameObject implements Shooter {
     // ---------------Member statics --------------
@@ -98,7 +95,8 @@ abstract class Alien extends GameObject implements Shooter {
         hitbox.bottom += hitboxHeight/2;
     }
 
-    protected void draw(Canvas canvas, Paint paint) {
+    @Override
+    public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f), hitbox.top - (hitboxHeight * 0.5f));

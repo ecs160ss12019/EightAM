@@ -9,7 +9,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
 import java.util.Random;
@@ -159,7 +158,7 @@ class Asteroid extends GameObject {
     }
 
     @Override
-    protected void draw(Canvas canvas, Paint paint) {
+    public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         //Log.d("in asteroid", "bitmap get width=" + bitmap.getWidth());

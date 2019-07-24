@@ -4,8 +4,6 @@ import android.os.SystemClock;
 import android.util.Log;
 
 final class GameController implements Runnable {
-    private int width;
-    private int height;
     private long currentTick;
     private boolean isRunning;
     private GameModel model;
@@ -15,8 +13,6 @@ final class GameController implements Runnable {
         // Initialize objects here
         currentTick = 0;
         isRunning = false;
-        this.width = width;
-        this.height = height;
         model = gameModel;
     }
 

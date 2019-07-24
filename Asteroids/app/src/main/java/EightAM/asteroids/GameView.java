@@ -15,9 +15,7 @@ class GameView extends SurfaceView implements Runnable {
 
     // ---------------Member variables-------------
 
-    Ship ship;
     private Paint defaultPaint;
-    private Paint invulnerablePaint;
     private SurfaceHolder surfaceHolder;
     private boolean isRunning;
     private Thread thread;
@@ -54,10 +52,6 @@ class GameView extends SurfaceView implements Runnable {
         defaultPaint.setColor(colorPrimary);
         defaultPaint.setStyle(Paint.Style.FILL);
         defaultPaint.setAntiAlias(true);
-        invulnerablePaint = new Paint();
-        invulnerablePaint.setColor(Color.YELLOW);
-        invulnerablePaint.setStyle(Paint.Style.FILL);
-        invulnerablePaint.setAntiAlias(true);
 
         // For audio
         audio = new AudioUtility(getContext());
@@ -70,9 +64,6 @@ class GameView extends SurfaceView implements Runnable {
             if (surfaceHolder.getSurface().isValid()) {
                 canvas = surfaceHolder.lockCanvas();
                 if (canvas == null) return;
-
-                // make a new playerShip just to test out drawing
-                //                playerShip.draw(canvas, defaultPaint);
                 canvas.drawColor(Color.BLACK);
                 model.lock.lock();
                 try {
@@ -82,14 +73,14 @@ class GameView extends SurfaceView implements Runnable {
                         onPause();
                     }
 
-                    // Drawing object
-                    drawShip(canvas, defaultPaint);
-                    drawBullets(canvas, defaultPaint);
-                    drawAsteroidBelt(canvas, defaultPaint);
-                    if (model.alien != null) model.alien.draw(canvas, defaultPaint);
+                    // Drawings
+                    drawShip(canvas);
+                    drawBullets(canvas);
+                    drawAsteroidBelt(canvas);
+                    if (model.alien != null) model.alien.draw(canvas);
 
                     // Drawing hub
-                    model.stats.drawAttributes(canvas, defaultPaint, ship, surfaceHolder);
+//                    model.stats.drawAttributes(canvas, defaultPaint, ship, surfaceHolder);
 
                     // Sound effects
                     this.audio.playInputPress(
@@ -106,16 +97,16 @@ class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    void drawBullets(Canvas canvas, Paint paint) {
-        for (GameObject object : model.bulletsFired) object.draw(canvas, paint);
+    void drawBullets(Canvas canvas) {
+        for (GameObject object : model.bulletsFired) object.draw(canvas);
     }
 
-    void drawAsteroidBelt(Canvas canvas, Paint paint) {
-        for (GameObject object : model.asteroidBelt) object.draw(canvas, paint);
+    void drawAsteroidBelt(Canvas canvas) {
+        for (GameObject object : model.asteroidBelt) object.draw(canvas);
     }
 
-    void drawShip(Canvas canvas, Paint paint) {
-        if (model.playerShip != null) model.playerShip.draw(canvas, paint);
+    void drawShip(Canvas canvas) {
+        if (model.playerShip != null) model.playerShip.draw(canvas);
     }
 
     void drawPaused(Canvas canvas) {

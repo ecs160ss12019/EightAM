@@ -115,7 +115,13 @@ class GameModel {
         if (asteroidBelt.size() > 0) updateAsteroidBelt(timeInMillisecond);
         if (bulletsFired.size() > 0) updateBullets(timeInMillisecond);
         if (playerShip != null) playerShip.update(spaceWidth, spaceHeight, timeInMillisecond);
-        if (alien != null) alien.update(spaceWidth, spaceHeight, timeInMillisecond);
+        if (alien != null) {
+            alien.update(spaceWidth, spaceHeight, timeInMillisecond);
+            if(alien.canShoot) {
+                alien.shoot(playerShip.hitbox.centerX(), playerShip.hitbox.centerY());
+                bulletFactory.fireBullet(alien);
+            }
+        }
         collisionChecker.shipCollision();
         collisionChecker.bulletsCollision();
     }

@@ -1,12 +1,13 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.ALIEN_MAXSPEED;
+// float random = min + r.nextFloat() * (max - min);
+//int randomNum = rand.nextInt((max - min) + 1) + min;
 
-import android.content.Context;
+import static EightAM.asteroids.Constants.ALIEN_TARGET_ACCURACY;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
 import java.util.Random;
@@ -15,6 +16,11 @@ abstract class Alien extends GameObject implements Shooter {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     static Bitmap bitmap;
+    int distanceTraveled, maxRange, delay;
+    int shotDelayCounter = 0;
+    int shotDelay = 30;
+    float shotOrientation = 0;
+    boolean canShoot = false;
 
     // ---------------Member methods --------------
 
@@ -25,6 +31,9 @@ abstract class Alien extends GameObject implements Shooter {
      */
     protected void spawn(int xTotalPix, int yTotalPix) {
         int randX, randY;
+
+        // set maxRange to be the width of the screen
+        maxRange = xTotalPix;
 
         // spawn alien w/ random speed & direction
         // on either side of the screen
@@ -39,6 +48,39 @@ abstract class Alien extends GameObject implements Shooter {
     @Override
     protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         move(spaceWidth, spaceHeight, timeInMillisecond);
+        distanceTraveled(timeInMillisecond);
+        delay--;
+        shotDelay--;
+        if (delay <= 0) {
+            this.turn();
+            this.setTimer();
+        }
+
+        if (shotDelay <= 0) {
+            this.canShoot = true;
+            this.setShotDelay();
+        }
+
+    }
+
+    protected void shoot(float targetX, float targetY) {
+        this.canShoot = false;
+        Random randX = new Random();
+        Random randY = new Random();
+
+        float minX = targetX - ALIEN_TARGET_ACCURACY;
+        float maxX = targetX + ALIEN_TARGET_ACCURACY;
+        float minY = targetY - ALIEN_TARGET_ACCURACY;
+        float maxY = targetY + ALIEN_TARGET_ACCURACY;
+
+        float finalX = minX + randX.nextFloat() * (maxX - minX);
+        float finalY = minY + randY.nextFloat() * (maxY - minY);
+
+        float delX = finalX - getPosX();
+        float delY = finalY - getPosY();
+
+        this.shotOrientation = (float) Math.atan2(delY, delX);
+
     }
 
     protected void setHitBox(float posX, float posY) {
@@ -53,7 +95,8 @@ abstract class Alien extends GameObject implements Shooter {
         hitbox.bottom += hitboxHeight/2;
     }
 
-    protected void draw(Canvas canvas, Paint paint) {
+    @Override
+    public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f), hitbox.top - (hitboxHeight * 0.5f));
@@ -61,13 +104,49 @@ abstract class Alien extends GameObject implements Shooter {
         canvas.drawBitmap(bitmap, matrix, paint);
     }
 
-    public float getPosX(){
-        return hitbox.centerX();
+    /**
+     * Determines if the alien should continue to persist.
+     *
+     * @return true if the alien has exceeded its maximum range
+     */
+    protected boolean reachedMaxRange() {
+        return distanceTraveled > maxRange;
     }
+
+    /**
+     * Calculates how far the alien has traveled.
+     * (to be used in a super class to determine when the alien should die.)
+     *
+     * @param timeInMillisecond current time of the game in ms
+     */
+    private void distanceTraveled(long timeInMillisecond) {
+        // TODO: should probably base this off spawn location
+        distanceTraveled += timeInMillisecond * this.vel.magnitude();
+    }
+
+    /**
+     * Make the alien change its movement in the y direction.
+     */
+    protected void turn() {
+        float newY = -1 * this.vel.y;
+        this.vel.setY(newY);
+    }
+
+    /**
+     * Uses some probability function to determine whether alien should turn.
+     * @return determines whether alien should turn
+
+    protected abstract boolean shouldTurn();*/
+    protected abstract void setTimer();
+
+    protected abstract void setShotDelay();
+
+    // getter functions
+    public float getPosX(){ return hitbox.centerX(); }
 
     public float getPosY() { return hitbox.centerY(); }
 
-    public float getAngle() { return orientation; }
+    public float getAngle() { return shotOrientation; }
 
     public ObjectID getID() { return objectID; }
 

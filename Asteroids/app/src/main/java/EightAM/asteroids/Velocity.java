@@ -47,4 +47,13 @@ public class Velocity {
     protected float magnitude() {
         return (float) Math.hypot(x, y);
     }
+
+    // setter functions
+    protected void setX(float newX) {
+        x = newX;
+    }
+
+    protected void setY(float newY) {
+        y = newY;
+    }
 }

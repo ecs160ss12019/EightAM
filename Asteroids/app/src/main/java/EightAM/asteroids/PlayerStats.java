@@ -25,7 +25,7 @@ public class PlayerStats {
 
     protected PlayerStats(int screenWidth, int screenHeight, Context context) {
 
-        //set game attributes
+        // Set game attributes
         this.score = 0;
         this.livesLeft = STARTING_LIVES;
 
@@ -34,29 +34,21 @@ public class PlayerStats {
         spaceWidth = screenWidth;
         spaceHeight = screenHeight;
 
-        //get high score from the previous game
+        // Get high score from the previous game
         SharedPreferences prefs;
         prefs = context.getSharedPreferences("High Score", Context.MODE_PRIVATE);
 
-        //set high score, zero if not available
+        // Set high score, zero if not available
         this.highScore = prefs.getInt("High Score", 0);
 
-        //initialize editor
+        // Initialize editor
         this.editor = prefs.edit();
     }
 
     // ---------------Member methods---------------
 
-    void updateScore() {
-        score++;
-    }
-
-    void updateLive() {
-        livesLeft--;
-    }
-
     /**
-     * Get the high score
+     * Set the high score
      */
      void setHighScore() {
         // Edit high score if exists
@@ -72,6 +64,20 @@ public class PlayerStats {
     void resetScore() {
         score = 0;
         livesLeft = STARTING_LIVES;
+    }
+
+    /**
+     *
+     */
+    void updateScore() {
+        score++;
+    }
+
+    /**
+     *
+     */
+    void updateLive() {
+        livesLeft--;
     }
 
     /**

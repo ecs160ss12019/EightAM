@@ -1,12 +1,12 @@
 package EightAM.asteroids;
 
-import android.content.Context;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
+import EightAM.asteroids.interfaces.Shootable;
+
 public class BulletFactory extends Factory {
-    Shooter lastShooter;
+    Shootable lastShooter;
 
     public BulletFactory(GameModel gameModel) {
         model = gameModel;
@@ -17,7 +17,7 @@ public class BulletFactory extends Factory {
         return (new Bullet(lastShooter));
     }
 
-    public void fireBullet(Shooter shooter) {
+    public void fireBullet(Shootable shooter) {
         lastShooter = shooter;
         model.bulletsFired.add(createNew());
     }
@@ -35,7 +35,7 @@ public class BulletFactory extends Factory {
         this.destroy(model.bulletsFired);
     }
 
-    private void destroy(ArrayList<Bullet> objects){
+    private void destroy(ArrayList<Bullet> objects) {
         while (objectsToDelete.size() > 0) {
             int objectIndex = objectsToDelete.pop();
             objects.remove(objectIndex);

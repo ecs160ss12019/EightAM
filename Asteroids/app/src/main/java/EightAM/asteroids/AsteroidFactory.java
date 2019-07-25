@@ -1,6 +1,7 @@
 package EightAM.asteroids;
 
 import android.content.Context;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
@@ -13,10 +14,10 @@ public class AsteroidFactory extends Factory {
     }
 
     public Asteroid createNew() {
-        return (new Asteroid(model, model.spaceWidth, model.spaceHeight, model.playerShip, model.context));
+        return (new Asteroid(model, model.spaceWidth, model.spaceHeight, model.currPlayerShip, model.context));
     }
 
-    public void createAsteroidBelt(int arraySize){
+    public void createAsteroidBelt(int arraySize) {
         for (int i = 0; i < arraySize; i++) {
             model.asteroidBelt.add(createNew());
         }

@@ -17,10 +17,10 @@ import java.util.Random;
 
 class Asteroid extends GameObject {
 
+    static Bitmap bitmap;
     // ---------------Member variables-------------
     private Size rockSize;
-    private int SAFEDIST;  // TODO: Determine the safe distance from playerShip to spawn Asteroids
-    static Bitmap bitmap;
+    private int SAFEDIST;  // TODO: Determine the safe distance from currPlayerShip to spawn Asteroids
 
     /**
      * First constructor constructs the asteroid rocks when there are no asteroids in
@@ -30,7 +30,7 @@ class Asteroid extends GameObject {
      * Its velocity and position are random. However, its max possible velocity is
      * slower than that of smaller asteroids
      *
-     * These asteroids only spawn when the playerShip/player is a certain distance away
+     * These asteroids only spawn when the currPlayerShip/player is a certain distance away
      * from the spawn point.
      *
      * @param xTotalPix - total horizontal pixels
@@ -44,7 +44,6 @@ class Asteroid extends GameObject {
         Random rand = new Random();
 
         // might use later
-        this.objectID = ObjectID.ASTEROID;
 
         // create large rock only
         rockSize = Size.LARGE;
@@ -55,7 +54,7 @@ class Asteroid extends GameObject {
         hitboxHeight = bitmap.getHeight() * 0.5f;
 
 
-        // We only want to spawn asteroids we are a certain distance away from the playerShip
+        // We only want to spawn asteroids we are a certain distance away from the currPlayerShip
         // NOTE: May be inefficient, but more fair to the player.
         // Alternative: Only spawn asteroids close to the borders/outskirts of the
         // screen Alternative Implementation: new Random().nextInt((max-min+1))+min to
@@ -93,9 +92,7 @@ class Asteroid extends GameObject {
      * @param context    - Context for setting bitmap
      */
     protected Asteroid(float currentX, float currentY, Size parentSize, Context context) {
-        this.objectID = ObjectID.ASTEROID;
         this.paint = new Paint();
-
         Random rand = new Random();
         float direction = 1 + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - 1);
         float speed = Float.MIN_VALUE + rand.nextFloat() * ((ASTEROID_MAXSPEED / 4) - Float.MIN_VALUE);

@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import androidx.core.widget.ImageViewCompat;
-
-class InputControl {
-    static Control playerInput = new Control();
+public class InputControl {
+    static Input playerInput = new Input();
     static ButtonSet buttonSet = new ButtonSet();
 
     // Connects buttons
@@ -66,25 +63,25 @@ class InputControl {
             return true;
         });
 
-        buttonSet.shoot.setOnTouchListener((View view, MotionEvent event) ->  {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.d("InputControl", "shoot_down");
-                    playerInput.SHOOT= true;
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.d("InputControl", "shoot_up");
-                    playerInput.SHOOT= false;
-                }
-                return true;
+        buttonSet.shoot.setOnTouchListener((View view, MotionEvent event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                Log.d("InputControl", "shoot_down");
+                playerInput.SHOOT = true;
+            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                Log.d("InputControl", "shoot_up");
+                playerInput.SHOOT = false;
+            }
+            return true;
         });
     }
 
-    static class Control {
+    public static class Input {
         boolean UP = false;
         boolean DOWN = false;
         boolean RIGHT = false;
         boolean LEFT = false;
         boolean SHOOT = false;
-       // boolean PAUSE = false;
+        // boolean PAUSE = false;
     }
 
     static class ButtonSet {

@@ -4,10 +4,10 @@ import android.os.SystemClock;
 import android.util.Log;
 
 final class GameController implements Runnable {
+    private Thread thread;
     private long currentTick;
     private boolean isRunning;
     private GameModel model;
-    Thread thread;
 
     GameController(GameModel gameModel, int width, int height) {
         // Initialize objects here
@@ -19,7 +19,7 @@ final class GameController implements Runnable {
 
     @Override
     public void run() {
-        while (isRunning) {
+        while (isRunning && !model.gameOver) {
             long time = SystemClock.elapsedRealtime();
             long delta = time - currentTick;
             if (delta > 0) {
@@ -35,30 +35,35 @@ final class GameController implements Runnable {
                 currentTick = time;
             }
         }
+        isRunning = false;
     }
 
-    public void pause() {
+    EndGameStats outputStats() {
+        return model.endGameStats();
+    }
+
+    void pause() {
         isRunning = false;
-        Log.d("in game controller","paused game");
+        Log.d("in game controller", "paused game");
         try {
             thread.join();
         } catch (InterruptedException e) {
         }
     }
 
-    public void resume() {
+    void resume() {
         isRunning = true;
         thread = new Thread(this);
         thread.start();
     }
 
-    public void onPause() {
+    void onPause() {
         if (thread == null) return;
         pause();
         thread = null;
     }
 
-    public void onResume() {
+    void onResume() {
         if (thread != null) onPause();
         resume();
     }

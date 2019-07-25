@@ -1,11 +1,10 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.ALIEN_BIG_MAXSPEED;
+
 import android.content.Context;
-import android.util.Log;
 
 import java.util.Random;
-
-import static EightAM.asteroids.Constants.ALIEN_BIG_MAXSPEED;
 
 public class BigAlien extends Alien {
 
@@ -13,9 +12,10 @@ public class BigAlien extends Alien {
     /**
      * Spawns a new alien on the screen at a random y position on either
      * the left or the right of the screen
+     *
      * @param xTotalPix total x dimensions of the screen
      * @param yTotalPix total y dimensions of the screen
-     * @param context context of the game (passed from game model)
+     * @param context   context of the game (passed from game model)
      */
     protected BigAlien(int xTotalPix, int yTotalPix, Context context) {
         // prepare bitmap
@@ -27,12 +27,9 @@ public class BigAlien extends Alien {
         this.setMoveBehavior();
 
         // might use later
-        this.objectID = ObjectID.ALIEN;
         this.setTimer();
         this.setShotDelay();
     }
-
-
 
 
     /**
@@ -63,7 +60,7 @@ public class BigAlien extends Alien {
     /**
      * Sets a shot delay for Alien as to not shoot continuously.
      */
-    protected void setShotDelay(){
+    protected void setShotDelay() {
         Random rand = new Random();
         this.shotDelay = rand.nextInt((5000 - 3000) + 1) + 3000;
     }

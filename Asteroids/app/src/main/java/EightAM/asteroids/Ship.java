@@ -10,25 +10,28 @@ import static EightAM.asteroids.Constants.SHIP_RESTART_DURATION;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
-class Ship extends GameObject implements Shooter {
+import EightAM.asteroids.interfaces.Collideable;
+import EightAM.asteroids.interfaces.Controllable;
+import EightAM.asteroids.interfaces.Invulnerable;
+import EightAM.asteroids.interfaces.Shootable;
+
+class Ship extends GameObject implements Shootable, Controllable, Collideable, Invulnerable {
 
     // ---------------Member variables-------------
 
-    boolean teleporting = false;
     static Bitmap bitmap;
+    boolean teleporting = false;
     boolean invincible;
     int invincibilityDuration;
     int shotDelayCounter = 0;
     int shotDelay = 30;
 
     /**
-     * Constructor constructs a static playerShip by setting up its size and hitbox.
+     * Constructor constructs a static currPlayerShip by setting up its size and hitbox.
      *
      * @param screenX: width of screen
      * @param screenY: height of screen
@@ -37,15 +40,13 @@ class Ship extends GameObject implements Shooter {
         if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
         this.model = gameModel;
 
-        objectID = ObjectID.SHIP;
-
         hitboxHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
         hitboxWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
 
         this.vel = new Velocity(0, 0);
-        this.orientation = 3f/2 * (float) Math.PI;
+        this.orientation = 3f / 2 * (float) Math.PI;
 
-        // create playerShip in the middle of screen
+        // create currPlayerShip in the middle of screen
         float left = ((float) screenX / 2) - (hitboxWidth / 2);
         float right = ((float) screenX / 2) + (hitboxWidth / 2);
         float top = ((float) screenY / 2) - (hitboxHeight / 2);
@@ -60,7 +61,7 @@ class Ship extends GameObject implements Shooter {
     }
 
     /**
-     * Constructor helper sets the position of playerShip hitbox which would be called when game start.
+     * Constructor helper sets the position of currPlayerShip hitbox which would be called when game start.
      */
     @Override
     void setHitBox(float x, float y) {
@@ -76,38 +77,43 @@ class Ship extends GameObject implements Shooter {
         if (shotDelayCounter > 0) shotDelayCounter--;
     }
 
+    /**
+     * Collision detection method takes in the hitbox of approaching object, using intersection
+     * method to check of collision
+     *
+     * @param approachingObject the hitbox of approaching object,
+     * @return true for collision, otherwise false
+     */
     @Override
-    boolean detectCollisions(GameObject approachingObject) {
+    public boolean detectCollisions(GameObject approachingObject) {
         if (invincible) return false;
-        return super.detectCollisions(approachingObject);
+        return hitbox.intersect(approachingObject.hitbox);
     }
 
     /**
-     * Changes playerShip values with respect to user input
+     * Changes currPlayerShip values with respect to user input
      */
-    void input(boolean accelerate, boolean left, boolean right, boolean down, boolean shoot) {
-        //        if (lastLogMessage > 5000) {
-        //            Log.d("Ship", "up, left, right: " + accelerate + " " + left + " " + right);
-        //        }
-        if (accelerate) {
+    @Override
+    public void input(InputControl.Input i) {
+        if (i.UP) {
             this.vel.accelerate(SHIP_ACCELERATION, orientation);
         } else {
             this.vel.decelerate(SHIP_DECELERATION);  // velocity decay
         }
 
-        if (left) {
+        if (i.LEFT) {
             this.angularVel = -SHIP_ANGULARVELOCITY;
-        } else if (right) {
+        } else if (i.RIGHT) {
             this.angularVel = SHIP_ANGULARVELOCITY;
         } else {
             this.angularVel = 0;
         }
 
-        if (shoot) {
+        if (i.SHOOT) {
             shotDelayCounter = shotDelay;
         }
 
-        if (down) {
+        if (i.DOWN) {
             teleporting = true;
         }
     }
@@ -122,23 +128,26 @@ class Ship extends GameObject implements Shooter {
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - hitboxWidth * SHIP_BITMAP_HITBOX_SCALE, hitbox.top - hitboxHeight * SHIP_BITMAP_HITBOX_SCALE);
         canvas.drawRect(this.hitbox, paint);
-        if(!invincible) {
+        if (!invincible) {
             canvas.drawBitmap(bitmap, matrix, paint);
-        } else if((invincibilityDuration < (SHIP_INVINCIBILITY_DURATION - SHIP_RESTART_DURATION))
-                && invincibilityDuration % 2 == 0) {
+        } else if ((invincibilityDuration < (SHIP_INVINCIBILITY_DURATION - SHIP_RESTART_DURATION)) && invincibilityDuration % 2 == 0) {
             canvas.drawBitmap(bitmap, matrix, paint);
         }
 
 
     }
 
-    public float getPosX(){
-        return hitbox.centerX();
-    }
+    public float getPosX() { return hitbox.centerX();}
 
     public float getPosY() { return hitbox.centerY(); }
 
     public float getAngle() { return orientation; }
 
-    public ObjectID getID() { return objectID; }
+    @Override
+    public ObjectID getID() { return this.id;}
+
+    @Override
+    public boolean isInvulnerable() {
+        return invincible;
+    }
 }

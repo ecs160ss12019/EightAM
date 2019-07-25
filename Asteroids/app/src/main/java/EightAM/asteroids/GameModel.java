@@ -38,7 +38,9 @@ class GameModel implements GameListener {
     Set<ObjectID> bullets;
     ArrayList<Asteroid> asteroidBelt;
     ArrayList<Bullet> bulletsFired;
+
     ObjectID currPlayerShip;
+    ObjectID collisionID;
     AsteroidFactory asteroidFactory;
     BulletFactory bulletFactory;
 
@@ -176,6 +178,7 @@ class GameModel implements GameListener {
         for (GameObject o : objectMap.values()) {
             o.update(spaceWidth, spaceHeight, timeInMillisecond);
         }
+        /*
         getPlayerShip().update(spaceWidth, spaceHeight, timeInMillisecond);
         if (alien != null) {
             alien.update(spaceWidth, spaceHeight, timeInMillisecond);
@@ -184,9 +187,27 @@ class GameModel implements GameListener {
                 bulletFactory.fireBullet(alien);
             }
         }
+        */
         // Ship Collision
-        for (GameObject o : CollisionChecker.collidesWith(getPlayerShip(), objectMap.values())) {
-            onCollision(currPlayerShip, o.getID());
+        collisionID = CollisionChecker.collidesWith(getPlayerShip(), objectMap.values());
+        if (collisionID != null) {
+            onCollision(currPlayerShip, collisionID);
+        }
+        // Bullet Collision
+
+        for (ObjectID bulletID : bullets){
+            collisionID = CollisionChecker.collidesWith(objectMap.get(bulletID), objectMap.values());
+            if (collisionID != null) {
+                onCollision(bulletID, collisionID);
+            }
+        }
+
+        // Alien Collision
+        for (ObjectID alienID : aliens){
+            collisionID = CollisionChecker.collidesWith(objectMap.get(alienID), objectMap.values());
+            if (collisionID != null) {
+                onCollision(alienID, collisionID);
+            }
         }
         //        CollisionChecker.shipCollision(this);
         //        CollisionChecker.bulletsCollision(this);

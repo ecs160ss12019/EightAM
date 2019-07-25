@@ -7,14 +7,15 @@ import EightAM.asteroids.interfaces.Collideable;
 
 class CollisionChecker {
 
-    static Collection<GameObject> collidesWith(GameObject actor, Collection<GameObject> list) {
-        ArrayList<GameObject> ret = new ArrayList<>();
+    static ObjectID collidesWith(GameObject actor, Collection<GameObject> list) {
         for (GameObject o : list) {
             if (o instanceof Collideable && ((Collideable) o).detectCollisions(actor)) {
-                ret.add(o);
+                if (o.id.getFaction() != actor.id.getFaction()) {
+                    return o.id;
+                }
             }
         }
-        return ret;
+        return null;
     }
 
     //    static void shipCollision(GameModel model) {

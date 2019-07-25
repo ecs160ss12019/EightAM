@@ -88,5 +88,6 @@ public class PlayerStats {
         paint.setTextSize(textFormatting);
         canvas.drawText("Score: " + score, textFormatting,textFormatting * 2,paint);
         canvas.drawText("Lives: " + livesLeft, textFormatting,textFormatting * 3,paint);
+        canvas.drawText("High Score: " + highScore, textFormatting, textFormatting * 4, paint);
     }
 }

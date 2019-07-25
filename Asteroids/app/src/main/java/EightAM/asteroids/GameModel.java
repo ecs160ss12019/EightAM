@@ -60,9 +60,6 @@ class GameModel {
         score = 0;
         numOfAsteroids = STARTING_ASTEROIDS;
         livesLeft = STARTING_LIVES;
-
-        //Melissa's Code
-        isPaused = false;
     }
 
     private void initFactories() {
@@ -136,10 +133,10 @@ class GameModel {
      */
     // Indirection of input to update playerShip parameters
     void input(InputControl.Control i) {
-        if (i.PAUSE) {
+        /*if (i.PAUSE) {
             Log.d("in gamemodel", "paused");
             isPaused = true;
-        } else if (playerShip != null) {
+        } else*/ if (playerShip != null) {
             if(i.SHOOT && playerShip.canShoot()){
                 Log.d("in gamemodel", "Fired");
                 bulletFactory.fireBullet(playerShip);

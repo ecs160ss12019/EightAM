@@ -31,7 +31,6 @@ public class GameState {
     // for storing high score, cited: textbook Chapter 21
     SharedPreferences.Editor editor;
 
-    //
     Lock lock;
     Context context;
     int spaceWidth;

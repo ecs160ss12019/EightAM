@@ -61,24 +61,22 @@ public class PlayerStats {
     /**
      *
      */
-    void resetScore() {
+    void newGame() {
         score = 0;
         livesLeft = STARTING_LIVES;
     }
 
-    /**
-     *
-     */
-    void updateScore() {
+    void plusScore() {
         score++;
     }
 
-    /**
-     *
-     */
-    void updateLive() {
+    void plusLive() { livesLeft++; }
+
+    void subLive() {
         livesLeft--;
     }
+
+    int getLife () { return livesLeft; }
 
     /**
      * Draw the HUD

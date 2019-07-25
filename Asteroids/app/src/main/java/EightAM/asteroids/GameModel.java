@@ -17,8 +17,6 @@ class GameModel {
     int numOfAsteroids;
     int spaceWidth;
     int spaceHeight;
-    int livesLeft;
-    int score;
     boolean isPaused;
 
     //temp
@@ -57,9 +55,8 @@ class GameModel {
     }
 
     private void resetGameParam() {
-        score = 0;
+        stats.newGame();
         numOfAsteroids = STARTING_ASTEROIDS;
-        livesLeft = STARTING_LIVES;
     }
 
     private void initFactories() {
@@ -75,6 +72,7 @@ class GameModel {
     }
 
     private void resetObjects() {
+        this.stats = new PlayerStats(spaceWidth, spaceHeight, context);
         this.asteroidBelt = new ArrayList<Asteroid>();
         this.bulletsFired = new ArrayList<Bullet>();
         this.playerShip = null;
@@ -82,8 +80,8 @@ class GameModel {
     }
 
     protected void destroyShip() {
-        livesLeft--;
-        if (livesLeft > 0) {
+        stats.subLive();
+        if (stats.getLife() > 0) {
             respawnShip();
         } else {
             this.playerShip = null;
@@ -92,9 +90,7 @@ class GameModel {
     }
 
     private void respawnShip() {
-
         playerShip = new Ship(this, spaceWidth, spaceHeight, context);
-
     }
 
     private void updateAsteroidBelt(long timeInMillisecond) {
@@ -144,5 +140,4 @@ class GameModel {
             playerShip.input(i.UP, i.LEFT, i.RIGHT, i.DOWN, i.SHOOT);
         }
     }
-
 }

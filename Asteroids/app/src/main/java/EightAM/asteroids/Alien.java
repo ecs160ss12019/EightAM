@@ -134,11 +134,6 @@ abstract class Alien extends GameObject implements Shooter {
         this.vel.setY(newY);
     }
 
-    /**
-     * Uses some probability function to determine whether alien should turn.
-     * @return determines whether alien should turn
-
-    protected abstract boolean shouldTurn();*/
     protected abstract void setTimer();
 
     protected abstract void setShotDelay();

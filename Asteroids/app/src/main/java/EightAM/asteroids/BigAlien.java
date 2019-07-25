@@ -51,18 +51,20 @@ public class BigAlien extends Alien {
 
     /**
      * Set random max and min timer for Alien to change directions.
-
+     * max and min are in frames.
      */
     protected void setTimer() {
         Random rand = new Random();
         //int randomNum = rand.nextInt((max - min) + 1) + min;
-        this.delay = rand.nextInt((6000 - 4000) + 1) + 50;
+        this.delay = rand.nextInt((6000 - 4000) + 1) + 4000;
 
     }
 
-
+    /**
+     * Sets a shot delay for Alien as to not shoot continuously.
+     */
     protected void setShotDelay(){
         Random rand = new Random();
-        this.shotDelay = rand.nextInt((5000 - 3000) + 1) + 50;
+        this.shotDelay = rand.nextInt((5000 - 3000) + 1) + 3000;
     }
 }

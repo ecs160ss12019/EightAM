@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
-    GameState gameState;
     RelativeLayout startView;
     RelativeLayout buttonLayout;
     ImageView pauseButton;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        gameState = new GameState(size.x, size.y, gameView.getContext());
+        //gameState = new GameState(size.x, size.y, gameView.getContext());
         gameModel = new GameModel(size.x, size.y, gameView.getContext());
         gameController = new GameController(gameModel, size.x, size.y);
         gameView.setGameModel(gameModel);
@@ -112,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
         startView.setOnClickListener(view -> {
             startView.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
-            gameModel.currPlayerShip.invincible = true;
-            gameModel.currPlayerShip.invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
+            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincible = true;
+            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
         });
     }
 

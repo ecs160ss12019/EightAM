@@ -74,7 +74,7 @@ class GameView extends SurfaceView implements Runnable {
 
 
                     // Drawing hub
-                    model.stats.drawAttributes(canvas, defaultPaint, model.currPlayerShip, surfaceHolder);
+                    model.stats.drawAttributes(canvas, defaultPaint, surfaceHolder);
 
                     // Sound effects
                     this.audio.playInputPress(InputControl.playerInput.UP, InputControl.playerInput.DOWN, InputControl.playerInput.LEFT, InputControl.playerInput.RIGHT,
@@ -96,7 +96,7 @@ class GameView extends SurfaceView implements Runnable {
     }
 
     void drawShip(Canvas canvas) {
-        if (model.currPlayerShip != null) model.currPlayerShip.draw(canvas);
+        if (model.currPlayerShip != null) model.objectMap.get(model.currPlayerShip).draw(canvas);
     }
 
     void drawAlien(Canvas canvas) {

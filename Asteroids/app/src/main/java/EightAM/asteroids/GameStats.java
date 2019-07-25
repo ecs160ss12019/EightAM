@@ -89,7 +89,7 @@ public class GameStats {
     /**
      * Draw the HUD
      */
-    void drawAttributes(Canvas canvas, Paint paint, Ship ship, SurfaceHolder sh) {
+    void drawAttributes(Canvas canvas, Paint paint, SurfaceHolder sh) {
         //paint.setColor(Color.argb(255,225,20,147));
         paint.setTextSize(textFormatting);
         canvas.drawText("Score: " + score, textFormatting, textFormatting * 2, paint);

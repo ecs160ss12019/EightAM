@@ -14,7 +14,7 @@ public class AsteroidFactory extends Factory {
     }
 
     public Asteroid createNew() {
-        return (new Asteroid(model, model.spaceWidth, model.spaceHeight, model.currPlayerShip, model.context));
+        return (new Asteroid(model, model.spaceWidth, model.spaceHeight, (Ship)model.objectMap.get(model.currPlayerShip), model.context));
     }
 
     public void createAsteroidBelt(int arraySize) {

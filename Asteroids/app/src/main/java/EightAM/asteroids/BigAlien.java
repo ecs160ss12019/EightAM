@@ -24,7 +24,8 @@ public class BigAlien extends Alien {
     protected BigAlien(int xTotalPix, int yTotalPix, Context context) {
         super(xTotalPix, yTotalPix);
         // prepare bitmap
-        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_small_alien);
+        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
+        spawn(xTotalPix, yTotalPix);
     }
 
     /**

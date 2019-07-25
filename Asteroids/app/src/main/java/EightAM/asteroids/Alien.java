@@ -27,7 +27,6 @@ abstract class Alien extends GameObject implements Shooter {
     // ---------------Member methods --------------
 
     protected Alien(int xTotalPix, int yTotalPix) {
-        spawn(xTotalPix, yTotalPix);
         this.setMoveBehavior();
         this.setTimer();
         this.setShotDelay();

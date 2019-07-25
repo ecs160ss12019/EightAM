@@ -6,6 +6,10 @@ import android.util.Log;
 import java.util.Random;
 
 import static EightAM.asteroids.Constants.ALIEN_BIG_MAXSPEED;
+import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MAX;
+import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MIN;
+import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MAX;
+import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MIN;
 
 public class BigAlien extends Alien {
 
@@ -32,9 +36,6 @@ public class BigAlien extends Alien {
         this.setShotDelay();
     }
 
-
-
-
     /**
      * Sets move behavior for this alien. Used in its constructor.
      */
@@ -42,7 +43,6 @@ public class BigAlien extends Alien {
         float speed, direction;
 
         Random rand = new Random();
-        // TODO: change these #s later
 
         speed = ALIEN_BIG_MAXSPEED;
         direction = 1 + (rand.nextFloat() * 360);
@@ -56,7 +56,8 @@ public class BigAlien extends Alien {
     protected void setTimer() {
         Random rand = new Random();
         //int randomNum = rand.nextInt((max - min) + 1) + min;
-        this.delay = rand.nextInt((6000 - 4000) + 1) + 4000;
+        this.delay = rand.nextInt((BIGALIEN_TIMER_MAX - BIGALIEN_TIMER_MIN) + 1)
+                + BIGALIEN_TIMER_MIN;
 
     }
 
@@ -65,6 +66,7 @@ public class BigAlien extends Alien {
      */
     protected void setShotDelay(){
         Random rand = new Random();
-        this.shotDelay = rand.nextInt((5000 - 3000) + 1) + 3000;
+        this.shotDelay = rand.nextInt((BIGALIEN_SHOTDELAY_MAX - BIGALIEN_SHOTDELAY_MIN) + 1)
+                + BIGALIEN_SHOTDELAY_MIN;
     }
 }

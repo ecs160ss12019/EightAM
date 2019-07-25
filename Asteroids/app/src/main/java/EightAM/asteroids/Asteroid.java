@@ -12,26 +12,15 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import java.util.ArrayList;
 import java.util.Random;
-
-/**
- * Goals:
- * - Spawn on space outskirts
- * - rocks generates rocks in a collision
- * - rocks float in space
- * - rocks collide with everything other object except itself
- * - speed: constant and dependent on size
- *
- * Interact with:
- * - Space GameObject
- */
 
 class Asteroid extends GameObject {
 
+    static Bitmap bitmap;
     // ---------------Member variables-------------
     private Size rockSize;
-    private int SAFEDIST;  // TODO: Determine the safe distance from playerShip to spawn Asteroids
-    static Bitmap bitmap;
+    private int SAFEDIST;  // TODO: Determine the safe distance from currPlayerShip to spawn Asteroids
 
     /**
      * First constructor constructs the asteroid rocks when there are no asteroids in
@@ -41,7 +30,7 @@ class Asteroid extends GameObject {
      * Its velocity and position are random. However, its max possible velocity is
      * slower than that of smaller asteroids
      *
-     * These asteroids only spawn when the playerShip/player is a certain distance away
+     * These asteroids only spawn when the currPlayerShip/player is a certain distance away
      * from the spawn point.
      *
      * @param xTotalPix - total horizontal pixels
@@ -55,7 +44,6 @@ class Asteroid extends GameObject {
         Random rand = new Random();
 
         // might use later
-        this.objectID = ObjectID.ASTEROID;
 
         // create large rock only
         rockSize = Size.LARGE;
@@ -66,7 +54,7 @@ class Asteroid extends GameObject {
         hitboxHeight = bitmap.getHeight() * 0.5f;
 
 
-        // We only want to spawn asteroids we are a certain distance away from the playerShip
+        // We only want to spawn asteroids we are a certain distance away from the currPlayerShip
         // NOTE: May be inefficient, but more fair to the player.
         // Alternative: Only spawn asteroids close to the borders/outskirts of the
         // screen Alternative Implementation: new Random().nextInt((max-min+1))+min to
@@ -103,10 +91,8 @@ class Asteroid extends GameObject {
      * @param parentSize - Size of parent
      * @param context    - Context for setting bitmap
      */
-    protected Asteroid(int currentX, int currentY, Size parentSize, Context context) {
-        this.objectID = ObjectID.ASTEROID;
+    protected Asteroid(float currentX, float currentY, Size parentSize, Context context) {
         this.paint = new Paint();
-
         Random rand = new Random();
         float direction = 1 + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - 1);
         float speed = Float.MIN_VALUE + rand.nextFloat() * ((ASTEROID_MAXSPEED / 4) - Float.MIN_VALUE);
@@ -160,6 +146,23 @@ class Asteroid extends GameObject {
         }
     }
 
+    /**
+     * Got call when an asteroid explodes
+     */
+    void explode(Context context, ArrayList<Asteroid> asteroidsBelt) {
+        // Get size as int of the parent asteroid
+        float temp = 0.25f * 1;
+
+        // Call the asteroid constructor for explosion
+        Asteroid firstChild, secondChild;
+        firstChild = new Asteroid(this.hitbox.centerX() - temp, this.hitbox.centerY(), rockSize, context);
+        secondChild = new Asteroid(this.hitbox.centerX() + temp, this.hitbox.centerY(), rockSize, context);
+
+        // Add the children into the asteroid belt
+        asteroidsBelt.add(firstChild);
+        asteroidsBelt.add(secondChild);
+    }
+
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
@@ -168,7 +171,6 @@ class Asteroid extends GameObject {
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(bitmap, matrix, paint);
     }
-
 
     // enum size used to denote three size types of asteroid rock
     enum Size {

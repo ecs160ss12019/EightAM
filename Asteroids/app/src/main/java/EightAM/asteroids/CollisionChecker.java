@@ -1,46 +1,48 @@
 package EightAM.asteroids;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collection;
 
-public class CollisionChecker {
-    GameModel model;
+import EightAM.asteroids.interfaces.Collideable;
 
-    public CollisionChecker(GameModel gamemodel){
-        model = gamemodel;
-    }
+class CollisionChecker {
 
-    public void shipCollision() {
-        for (int i = 0; i < model.asteroidBelt.size(); i++) {
-            if (model.playerShip.detectCollisions(model.asteroidBelt.get(i))) {
-                model.destroyShip();
-                model.asteroidFactory.removeAtIndex(i);
-                // for updating game stats
-                model.stats.updateScore();
-                model.stats.updateLive();
-                break;
+    static Collection<GameObject> collidesWith(GameObject actor, Collection<GameObject> list) {
+        ArrayList<GameObject> ret = new ArrayList<>();
+        for (GameObject o : list) {
+            if (o instanceof Collideable && ((Collideable) o).detectCollisions(actor)) {
+                ret.add(o);
             }
         }
-        // TODO: Add aliens collisions
+        return ret;
     }
 
-    public void bulletsCollision() {
-        HashSet<Integer> asteroidSet = new HashSet<>();
-        for (int i = 0; i < model.bulletsFired.size(); i++) {
-            for (int j = 0; j < model.asteroidBelt.size(); j++) {
-                if (model.bulletsFired.get(i).detectCollisions(model.asteroidBelt.get(j))) {
-                    model.bulletFactory.markToDelete(i);
-                    if(!asteroidSet.contains(j)){
-                        asteroidSet.add(j);
-                        model.asteroidFactory.markToDelete(j);
-                    }
-                }
-            }
-        }
-
-        model.bulletFactory.removeMarked();
-        model.asteroidFactory.removeMarked();
-
-    }
+    //    static void shipCollision(GameModel model) {
+    //        Ship playerShip = model.getPlayerShip();
+    //        for (GameObject o : model.objectMap.values()) {
+    //            if (playerShip.detectCollisions(o)) {
+    //                model.onCollision(playerShip.getID(), o.getID());
+    //                break;
+    //            }
+    //        }
+    //    }
+    //
+    //    static void bulletsCollision(GameModel model) {
+    //        HashSet<Integer> asteroidSet = new HashSet<>();
+    //        for (int i = 0; i < model.bulletsFired.size(); i++) {
+    //            for (int j = 0; j < model.asteroidBelt.size(); j++) {
+    //                if (model.bulletsFired.get(i).detectCollisions(model.asteroidBelt.get(j))) {
+    //                    model.bulletFactory.markToDelete(i);
+    //                    if (!asteroidSet.contains(j)) {
+    //                        asteroidSet.add(j);
+    //                        model.asteroidFactory.markToDelete(j);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //        model.bulletFactory.removeMarked();
+    //        model.asteroidFactory.removeMarked();
+    //    }
 
     /*
     private void bulletsCollision2() {

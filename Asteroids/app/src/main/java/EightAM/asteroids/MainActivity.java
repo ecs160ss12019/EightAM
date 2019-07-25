@@ -1,7 +1,8 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.SHIP_INVINCIBILITY_DURATION;
+
 import android.graphics.Point;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,14 +15,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import static EightAM.asteroids.Constants.SHIP_INVINCIBILITY_DURATION;
-
 public class MainActivity extends AppCompatActivity {
 
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
-    GameState gameState;
     RelativeLayout startView;
     RelativeLayout buttonLayout;
     ImageView pauseButton;
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        gameState = new GameState(size.x, size.y, gameView.getContext());
+        //gameState = new GameState(size.x, size.y, gameView.getContext());
         gameModel = new GameModel(size.x, size.y, gameView.getContext());
         gameController = new GameController(gameModel, size.x, size.y);
         gameView.setGameModel(gameModel);
@@ -87,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (gameView != null)
-            gameView.onPause();
+        if (gameView != null) gameView.onPause();
 
         isPaused = true;
 
@@ -103,8 +100,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (gameView != null && !isPaused)
-            gameView.onResume();
+        if (gameView != null && !isPaused) gameView.onResume();
 
         isPaused = false;
     }
@@ -115,14 +111,14 @@ public class MainActivity extends AppCompatActivity {
         startView.setOnClickListener(view -> {
             startView.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
-            gameModel.playerShip.invincible = true;
-            gameModel.playerShip.invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
+            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincible = true;
+            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
         });
     }
 
     protected void onPauseScreen() {
         pauseButton.setOnClickListener(view -> {
-            Log.d("main activity","onpause");
+            Log.d("main activity", "onpause");
             startView.setVisibility(View.VISIBLE);
             buttonLayout.setVisibility(View.GONE);
             screenMsg.setText("Paused - Tap to Resume");

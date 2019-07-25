@@ -14,7 +14,10 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-abstract class Alien extends GameObject implements Shooter {
+import EightAM.asteroids.interfaces.Collideable;
+import EightAM.asteroids.interfaces.Shootable;
+
+abstract class Alien extends GameObject implements Shootable, Collideable {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     static Bitmap bitmap;
@@ -37,6 +40,7 @@ abstract class Alien extends GameObject implements Shooter {
 
     /**
      * Spawns alien either on left or right of the screen
+     *
      * @param xTotalPix total pixels of screen (width)
      * @param yTotalPix total pixels of the screen (height)
      */
@@ -103,10 +107,10 @@ abstract class Alien extends GameObject implements Shooter {
         hitboxWidth = bitmap.getWidth() * 0.5f;
         hitboxHeight = bitmap.getHeight() * 0.5f;
 
-        hitbox.left -= hitboxWidth /2 ;
-        hitbox.top -= hitboxHeight /2;
-        hitbox.right += hitboxWidth/2;
-        hitbox.bottom += hitboxHeight/2;
+        hitbox.left -= hitboxWidth / 2;
+        hitbox.top -= hitboxHeight / 2;
+        hitbox.right += hitboxWidth / 2;
+        hitbox.bottom += hitboxHeight / 2;
     }
 
     @Override
@@ -118,6 +122,17 @@ abstract class Alien extends GameObject implements Shooter {
         canvas.drawBitmap(bitmap, matrix, paint);
     }
 
+    /**
+     * Collision detection method takes in the hitbox of approaching object, using intersection
+     * method to check of collision
+     *
+     * @param approachingObject the hitbox of approaching object,
+     * @return true for collision, otherwise false
+     */
+    @Override
+    public boolean detectCollisions(GameObject approachingObject) {
+        return hitbox.intersect(approachingObject.hitbox);
+    }
     /**
      * Determines if the alien should continue to persist.
      *
@@ -153,12 +168,10 @@ abstract class Alien extends GameObject implements Shooter {
     protected abstract void setMoveBehavior();
 
     // getter functions
-    public float getPosX(){ return hitbox.centerX(); }
+    public float getPosX() { return hitbox.centerX(); }
 
     public float getPosY() { return hitbox.centerY(); }
 
     public float getAngle() { return shotOrientation; }
-
-    public ObjectID getID() { return objectID; }
 
 }

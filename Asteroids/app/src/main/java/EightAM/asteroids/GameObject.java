@@ -7,7 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-abstract class GameObject implements Drawable {
+import EightAM.asteroids.interfaces.Drawable;
+import EightAM.asteroids.interfaces.Identifiable;
+
+public abstract class GameObject implements Drawable, Identifiable {
 
     // ---------------Member variables-------------
 
@@ -20,8 +23,8 @@ abstract class GameObject implements Drawable {
     GameModel model;
     float angularVel = DEF_ANGULAR_VELOCITY;
     float orientation = DEF_ANGLE;
-    ObjectID objectID;
     Paint paint;
+    ObjectID id;
 
     /**
      * Move an object according to their velocity
@@ -75,15 +78,14 @@ abstract class GameObject implements Drawable {
         move(spaceWidth, spaceHeight, timeInMillisecond);
     }
 
-    /**
-     * Collision detection method takes in the hitbox of approaching object, using intersection
-     * method to check of collision
-     *
-     * @param approachingObject the hitbox of approaching object,
-     * @return true for collision, otherwise false
-     */
-    boolean detectCollisions(GameObject approachingObject) {
-        return hitbox.intersect(approachingObject.hitbox);
+
+    @Override
+    public ObjectID getID() { return id;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof GameObject)) return false;
+        return this.getID().equals(((GameObject) o).getID());
     }
 
     /**
@@ -95,8 +97,5 @@ abstract class GameObject implements Drawable {
 
     public abstract void draw(Canvas canvas);
 
-    // ObjectID as Enum determines the type of object during collision detection.
-    enum ObjectID {
-        SHIP, ALIEN, ASTEROID, BULLET
-    }
+
 }

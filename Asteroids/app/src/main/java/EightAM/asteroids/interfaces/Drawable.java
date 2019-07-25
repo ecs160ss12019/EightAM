@@ -1,7 +1,7 @@
-package EightAM.asteroids;
+package EightAM.asteroids.interfaces;
 
 import android.graphics.Canvas;
 
-interface Drawable {
+public interface Drawable {
     void draw(Canvas canvas);
 }

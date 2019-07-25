@@ -1,8 +1,5 @@
 package EightAM.asteroids;
 
-import android.content.Context;
-
-import java.util.ArrayList;
 import java.util.Deque;
 
 abstract class Factory {
@@ -16,7 +13,7 @@ abstract class Factory {
         objectsToDelete.push(i);
     }
 
-    public void removeMarked(){
+    public void removeMarked() {
         while (objectsToDelete.size() > 0) {
             int i = objectsToDelete.pop();
             this.removeAtIndex(i);

@@ -1,25 +1,30 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.ALIEN_BIG_MAXSPEED;
+
 import android.content.Context;
-import android.util.Log;
 
 import java.util.Random;
 
+<<<<<<< HEAD
 import static EightAM.asteroids.Constants.ALIEN_BIG_MAXSPEED;
 import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MAX;
 import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MIN;
 import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MAX;
 import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MIN;
 
+=======
+>>>>>>> aa67f831497358dccdb7a76bcd22d27a3c084322
 public class BigAlien extends Alien {
 
 
     /**
      * Spawns a new alien on the screen at a random y position on either
      * the left or the right of the screen
+     *
      * @param xTotalPix total x dimensions of the screen
      * @param yTotalPix total y dimensions of the screen
-     * @param context context of the game (passed from game model)
+     * @param context   context of the game (passed from game model)
      */
     protected BigAlien(int xTotalPix, int yTotalPix, Context context) {
         super(xTotalPix, yTotalPix);
@@ -56,7 +61,7 @@ public class BigAlien extends Alien {
     /**
      * Sets a shot delay for Alien as to not shoot continuously.
      */
-    protected void setShotDelay(){
+    protected void setShotDelay() {
         Random rand = new Random();
         this.shotDelay = rand.nextInt((BIGALIEN_SHOTDELAY_MAX - BIGALIEN_SHOTDELAY_MIN) + 1)
                 + BIGALIEN_SHOTDELAY_MIN;

@@ -15,15 +15,14 @@ class GameView extends SurfaceView implements Runnable {
 
     // ---------------Member variables-------------
 
+    //for sounds
+    public AudioUtility audio;
     private Paint defaultPaint;
     private SurfaceHolder surfaceHolder;
     private boolean isRunning;
     private Thread thread;
     private GameModel model;
     private Canvas canvas;
-
-    //for sounds
-    public AudioUtility audio;
 
     // ---------------Member methods---------------
 
@@ -75,15 +74,11 @@ class GameView extends SurfaceView implements Runnable {
 
 
                     // Drawing hub
-                    model.stats.drawAttributes(canvas, defaultPaint, model.playerShip, surfaceHolder);
+                    model.stats.drawAttributes(canvas, defaultPaint, surfaceHolder);
 
                     // Sound effects
-                    this.audio.playInputPress(
-                            InputControl.playerInput.UP,
-                            InputControl.playerInput.DOWN,
-                            InputControl.playerInput.LEFT,
-                            InputControl.playerInput.RIGHT,
-                            InputControl.playerInput.SHOOT);
+                    this.audio.playInputPress(InputControl.playerInput.UP, InputControl.playerInput.DOWN, InputControl.playerInput.LEFT, InputControl.playerInput.RIGHT,
+                                              InputControl.playerInput.SHOOT);
                 } finally {
                     model.lock.unlock();
                 }
@@ -101,7 +96,7 @@ class GameView extends SurfaceView implements Runnable {
     }
 
     void drawShip(Canvas canvas) {
-        if (model.playerShip != null) model.playerShip.draw(canvas);
+        if (model.currPlayerShip != null) model.objectMap.get(model.currPlayerShip).draw(canvas);
     }
 
     void drawAlien(Canvas canvas) {

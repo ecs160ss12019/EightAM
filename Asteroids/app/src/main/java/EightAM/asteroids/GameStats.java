@@ -1,14 +1,16 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.STARTING_LIVES;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.SurfaceHolder;
 
-import static EightAM.asteroids.Constants.STARTING_LIVES;
+import EightAM.asteroids.interfaces.Scoreable;
 
-public class PlayerStats {
+public class GameStats {
 
     // ---------------Member variables-------------
 
@@ -23,7 +25,7 @@ public class PlayerStats {
     int spaceWidth;
     int spaceHeight;
 
-    protected PlayerStats(int screenWidth, int screenHeight, Context context) {
+    protected GameStats(int screenWidth, int screenHeight, Context context) {
 
         // Set game attributes
         this.score = 0;
@@ -47,10 +49,11 @@ public class PlayerStats {
 
     // ---------------Member methods---------------
 
+
     /**
      * Set the high score
      */
-     void setHighScore() {
+    void setHighScore() {
         // Edit high score if exists
         if (score > highScore) {
             editor.putInt("High Score", highScore);
@@ -58,36 +61,39 @@ public class PlayerStats {
         }
     }
 
-    /**
-     *
-     */
-    void resetScore() {
+    void newGame() {
         score = 0;
         livesLeft = STARTING_LIVES;
     }
 
-    /**
-     *
-     */
-    void updateScore() {
-        score++;
+    void plusScore() {
+        plusScore(1);
     }
 
-    /**
-     *
-     */
-    void updateLive() {
-        livesLeft--;
+    void plusScore(int i) {
+        score += i;
+    }
+
+    void plusLive(int i) { livesLeft += i; }
+
+    void subLive() { subLive(1);}
+
+    void subLive(int i) { livesLeft -= i;}
+
+    int getLife() { return livesLeft; }
+
+    void score(GameObject object) {
+        if (object instanceof Scoreable) plusScore(((Scoreable) object).score());
     }
 
     /**
      * Draw the HUD
      */
-    void drawAttributes(Canvas canvas, Paint paint, Ship ship, SurfaceHolder sh){
+    void drawAttributes(Canvas canvas, Paint paint, SurfaceHolder sh) {
         //paint.setColor(Color.argb(255,225,20,147));
         paint.setTextSize(textFormatting);
-        canvas.drawText("Score: " + score, textFormatting,textFormatting * 2,paint);
-        canvas.drawText("Lives: " + livesLeft, textFormatting,textFormatting * 3,paint);
+        canvas.drawText("Score: " + score, textFormatting, textFormatting * 2, paint);
+        canvas.drawText("Lives: " + livesLeft, textFormatting, textFormatting * 3, paint);
         canvas.drawText("High Score: " + highScore, textFormatting, textFormatting * 4, paint);
     }
 }

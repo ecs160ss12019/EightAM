@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import EightAM.asteroids.interfaces.Drawable;
+
+// In game messages given by GameController to be rendered by GameView
 class Messages implements Drawable {
     private final static long DEFAULT_FADE_TIME = 500;
     private final static long DEFAULT_DURATION_MS = 5000;
@@ -60,6 +63,7 @@ class Messages implements Drawable {
         lastDrawTime = System.currentTimeMillis();
     }
 
+    // Used by Messages
     static class Message implements Drawable {
         String message;
         long durationMS;
@@ -76,7 +80,7 @@ class Messages implements Drawable {
 
         @Override
         public void draw(Canvas canvas) {
-            if (x < 0 || y < 0) { // default drawing in middle
+            if (x < 0 || y < 0 || x > canvas.getWidth() || y > canvas.getHeight()) { // default drawing in middle
                 canvas.drawText(message, (float) canvas.getWidth() / 2, (float) canvas.getHeight() / 2, paint);
             }
             canvas.drawText(message, x, y, paint);

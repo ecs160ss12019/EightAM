@@ -15,7 +15,7 @@ import android.graphics.RectF;
 import java.util.ArrayList;
 import java.util.Random;
 
-class Asteroid extends GameObject {
+public class Asteroid extends GameObject {
 
     static Bitmap bitmap;
     // ---------------Member variables-------------

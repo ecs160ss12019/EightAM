@@ -16,7 +16,7 @@ import java.util.Random;
 import EightAM.asteroids.interfaces.Collideable;
 import EightAM.asteroids.interfaces.Shootable;
 
-abstract class Alien extends GameObject implements Shootable, Collideable {
+public abstract class Alien extends GameObject implements Shootable, Collideable {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     static Bitmap bitmap;

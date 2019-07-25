@@ -10,10 +10,9 @@ import android.graphics.RectF;
 
 import EightAM.asteroids.interfaces.Shootable;
 
-class Bullet extends GameObject {
+public class Bullet extends GameObject {
 
     ObjectID owner;
-    Faction team;
     private float distanceTraveled;
     private float shooterAngle;
 
@@ -30,11 +29,10 @@ class Bullet extends GameObject {
         this.shooterAngle = shooter.getAngle();
         hitbox = new RectF(shooter.getPosX() - 3, shooter.getPosY() - 3, shooter.getPosX() + 3, shooter.getPosY() + 3);
         this.owner = shooter.getID();
-        this.team = shooter.getFaction();
         distanceTraveled = 0;
         this.paint = new Paint();
 
-        if (this.team == Faction.SHIP) {
+        if (this.owner.getFaction() == Faction.Player) {
             this.vel = new Velocity(BULLET_SPEED, shooter.getAngle());
         } else {
             this.vel = new Velocity(BULLET_SPEED / 2, shooter.getAngle());

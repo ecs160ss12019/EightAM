@@ -2,9 +2,12 @@ package EightAM.asteroids.specs;
 
 import android.graphics.Point;
 
+import androidx.annotation.DrawableRes;
+
 public abstract class BaseSpec {
     public String tag;
     public String bitMapName;
+    @DrawableRes
     public int bitMapResourceID;
     public Point dimensions;
     public float dimensionBitMapRatio;

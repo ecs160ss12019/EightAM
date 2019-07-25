@@ -19,7 +19,7 @@ import EightAM.asteroids.interfaces.Controllable;
 import EightAM.asteroids.interfaces.Invulnerable;
 import EightAM.asteroids.interfaces.Shootable;
 
-class Ship extends GameObject implements Shootable, Controllable, Collideable, Invulnerable {
+public class Ship extends GameObject implements Shootable, Controllable, Collideable, Invulnerable {
 
     // ---------------Member variables-------------
 

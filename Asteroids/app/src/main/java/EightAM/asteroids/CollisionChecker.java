@@ -17,6 +17,10 @@ public class CollisionChecker {
                 // for updating game stats
                 model.stats.plusScore();
                 model.stats.subLive();
+                // do explosion
+                // notes: explosion works but make program crash
+                // after a few explosion will look into it later
+                //model.asteroidBelt.get(i).explode(model.context, model.asteroidBelt);
                 break;
             }
         }

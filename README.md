@@ -55,7 +55,7 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 
 ##  Sprint 2
 ### 1) CRC Cards
-![Link to CRC Cards for Sprint 2](https://github.com/ecs160ss12019/EightAM/blob/master/crc_cards-s2.png)
+![Link to CRC Cards for Sprint 2](https://github.com/ecs160ss12019/EightAM/blob/master/Sprint3_CRC.png)
 ### 2) Division of Workload
 | Adrian         | Irene       | Tim        | Liyin        | Melissa    |
 | ---------------|-------------| -----------|--------------|------------|
@@ -83,6 +83,14 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 *  Test with bullet shot by player. The asteroid shot at should break into smaller pieces of same asteroids. (pass)
 
 ### 4) Screen Shots
+##### Start Screen 
+![Link to starting screen](https://github.com/ecs160ss12019/EightAM/blob/master/EightAM_S2-startscreen.png)
+##### Start Game 
+![Link to starting screen](https://github.com/ecs160ss12019/EightAM/blob/master/EightAM_S2-startgame.png)
+##### Paused screen 
+![Link to starting screen](https://github.com/ecs160ss12019/EightAM/blob/master/EightAM_S2-pausedscreen.png)
+##### Bullet Shooting 
+![Link to starting screen](https://github.com/ecs160ss12019/EightAM/blob/master/EightAM_S2-bullet.png)
 
 ## Sprint 3
 ### 1) CRC Cards

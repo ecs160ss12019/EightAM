@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout startView;
     RelativeLayout buttonLayout;
     ImageView pauseButton;
+    TextView screenMsg;
     private boolean isPaused;
 
     @Override
@@ -67,8 +69,19 @@ public class MainActivity extends AppCompatActivity {
         // Play background music
         gameView.audio.playMusic(MainActivity.this);
 
+        // Find Layout Elements to be used/manipulated
+        startView = findViewById(R.id.startView);
+        buttonLayout = findViewById(R.id.button_layout);
+        pauseButton = findViewById(R.id.pause_button);
+        screenMsg = findViewById(R.id.startText);
+
+
         // Start game on tap
         onTapScreen();
+
+        // Set Listener for Pause
+        onPauseScreen();
+
     }
 
     @Override
@@ -76,8 +89,15 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         if (gameView != null)
             gameView.onPause();
-        // Stop background music
-        gameView.audio.stopMusic();
+
+        isPaused = true;
+
+        startView.setOnClickListener(view -> {
+            startView.setVisibility(View.GONE);
+            buttonLayout.setVisibility(View.VISIBLE);
+            onResume();
+        });
+
     }
 
     @Override
@@ -85,15 +105,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (gameView != null && !isPaused)
             gameView.onResume();
+
+        isPaused = false;
     }
 
 
     // TODO: disable collision detection before user taps on screen
-
     protected void onTapScreen() {
-        startView = findViewById(R.id.startView);
-        buttonLayout = findViewById(R.id.button_layout);
-
         startView.setOnClickListener(view -> {
             startView.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
@@ -101,4 +119,16 @@ public class MainActivity extends AppCompatActivity {
             gameModel.playerShip.invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
         });
     }
+
+    protected void onPauseScreen() {
+        pauseButton.setOnClickListener(view -> {
+            Log.d("main activity","onpause");
+            startView.setVisibility(View.VISIBLE);
+            buttonLayout.setVisibility(View.GONE);
+            screenMsg.setText("Paused - Tap to Resume");
+            onPause();
+        });
+    }
+
+
 }

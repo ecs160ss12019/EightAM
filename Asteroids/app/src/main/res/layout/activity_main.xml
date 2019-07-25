@@ -17,16 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="327dp"
-        tools:layout_editor_absoluteY="229dp" />
-
     <RelativeLayout
         android:id="@+id/button_layout"
         android:visibility="gone"
@@ -154,7 +144,7 @@
 
         <TextView
             android:id="@+id/startText"
-            android:layout_width="220dp"
+            android:layout_width="485dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
@@ -162,11 +152,11 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="256dp"
-            android:layout_marginLeft="256dp"
+            android:layout_marginStart="131dp"
+            android:layout_marginLeft="131dp"
             android:layout_marginTop="169dp"
-            android:layout_marginEnd="254dp"
-            android:layout_marginRight="254dp"
+            android:layout_marginEnd="115dp"
+            android:layout_marginRight="115dp"
             android:layout_marginBottom="173dp"
             android:gravity="center"
             android:text="Tap to start"

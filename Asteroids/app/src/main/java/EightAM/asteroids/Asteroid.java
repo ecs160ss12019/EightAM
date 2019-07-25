@@ -164,7 +164,6 @@ class Asteroid extends GameObject {
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-        //Log.d("in asteroid", "bitmap get width=" + bitmap.getWidth());
         matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f), hitbox.top - (hitboxHeight * 0.5f));
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(bitmap, matrix, paint);

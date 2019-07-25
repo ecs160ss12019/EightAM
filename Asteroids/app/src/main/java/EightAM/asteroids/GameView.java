@@ -71,10 +71,11 @@ class GameView extends SurfaceView implements Runnable {
                     drawShip(canvas);
                     drawBullets(canvas);
                     drawAsteroidBelt(canvas);
-                    if (model.alien != null) model.alien.draw(canvas);
+                    drawAlien(canvas);
+
 
                     // Drawing hub
-//                    model.stats.drawAttributes(canvas, defaultPaint, ship, surfaceHolder);
+                    model.stats.drawAttributes(canvas, defaultPaint, model.playerShip, surfaceHolder);
 
                     // Sound effects
                     this.audio.playInputPress(
@@ -101,6 +102,10 @@ class GameView extends SurfaceView implements Runnable {
 
     void drawShip(Canvas canvas) {
         if (model.playerShip != null) model.playerShip.draw(canvas);
+    }
+
+    void drawAlien(Canvas canvas) {
+        if (model.alien != null) model.alien.draw(canvas);
     }
 
 

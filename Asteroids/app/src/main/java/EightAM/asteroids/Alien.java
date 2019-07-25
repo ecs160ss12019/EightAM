@@ -17,7 +17,7 @@ abstract class Alien extends GameObject implements Shooter {
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     static Bitmap bitmap;
-    int distanceTraveled, maxRange, delay;
+    int distanceTraveled, maxRange, turnDelay;
     int shotDelayCounter = 0;
     int shotDelay = 30;
     float shotOrientation = 0;
@@ -51,14 +51,15 @@ abstract class Alien extends GameObject implements Shooter {
     protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         move(spaceWidth, spaceHeight, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
-        delay--;
-        shotDelay--;
-        if (delay <= 0) {
+        // decrement timers
+        this.turnDelay--;
+        this.shotDelay--;
+        if (this.turnDelay <= 0) {
             this.turn();
             this.setTimer();
         }
 
-        if (shotDelay <= 0) {
+        if (this.shotDelay <= 0) {
             this.canShoot = true;
             this.setShotDelay();
         }
@@ -70,6 +71,7 @@ abstract class Alien extends GameObject implements Shooter {
         Random randX = new Random();
         Random randY = new Random();
 
+        // TODO: change shooting behavior based on alien type
         float minX = targetX - ALIEN_TARGET_ACCURACY;
         float maxX = targetX + ALIEN_TARGET_ACCURACY;
         float minY = targetY - ALIEN_TARGET_ACCURACY;

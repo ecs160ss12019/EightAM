@@ -56,7 +56,7 @@ public class BigAlien extends Alien {
     protected void setTimer() {
         Random rand = new Random();
         //int randomNum = rand.nextInt((max - min) + 1) + min;
-        this.delay = rand.nextInt((BIGALIEN_TIMER_MAX - BIGALIEN_TIMER_MIN) + 1)
+        this.turnDelay = rand.nextInt((BIGALIEN_TIMER_MAX - BIGALIEN_TIMER_MIN) + 1)
                 + BIGALIEN_TIMER_MIN;
 
     }

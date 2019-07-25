@@ -10,7 +10,7 @@ public class BasicShipSpec extends BaseShipSpec {
     public static int resID = R.drawable.ic_ship;
     public static Point dimensions = new Point(16, 16);
     public static float dbmRatio = 2f;
-    public static String paintName = "default";
+    public static String paintName = "ship";
 
     public BasicShipSpec() {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);

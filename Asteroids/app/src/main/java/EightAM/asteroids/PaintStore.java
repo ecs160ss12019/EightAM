@@ -26,9 +26,9 @@ final class PaintStore {
 
     Paint getPaint(String name) {
         if (sPaintMap.containsKey(name)) {
-            return new Paint(sPaintMap.get(name));
+            return sPaintMap.get(name);
         }
-        return new Paint(defaultPaint);
+        return defaultPaint;
     }
 
     void addPaint(String name, Paint p) {

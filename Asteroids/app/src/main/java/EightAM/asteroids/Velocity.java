@@ -10,6 +10,7 @@ import static EightAM.asteroids.Constants.MAX_SPEED;
 public class Velocity {
     float x;
     float y;
+    float maxSpeed;
 
     /**
      * Creates an instance of Velocity.
@@ -19,10 +20,21 @@ public class Velocity {
      * @param angle - Direction of velocity
      */
 
-    protected Velocity(float speed, float angle) {
-        if (speed > MAX_SPEED) speed = MAX_SPEED;
+    protected Velocity(float speed, float angle, float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+        if (speed > maxSpeed) speed = maxSpeed;
         x = speed * (float) Math.cos(angle);
         y = speed * (float) Math.sin(angle);
+    }
+
+    Velocity(Velocity velocity) {
+        this.maxSpeed = velocity.maxSpeed;
+        this.x = velocity.x;
+        this.y = velocity.y;
+        if (magnitude() > maxSpeed) {
+            x = MAX_SPEED * (float) Math.cos(Math.atan2(y, x));
+            y = MAX_SPEED * (float) Math.sin(Math.atan2(y, x));
+        }
     }
 
     /**
@@ -33,7 +45,7 @@ public class Velocity {
     protected void accelerate(float magnitude, float orientation) {
         x += (float) Math.cos(orientation) * magnitude;
         y += (float) Math.sin(orientation) * magnitude;
-        if (magnitude() > MAX_SPEED) {
+        if (magnitude() > maxSpeed) {
             x = MAX_SPEED * (float) Math.cos(Math.atan2(y, x));
             y = MAX_SPEED * (float) Math.sin(Math.atan2(y, x));
         }

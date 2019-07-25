@@ -6,7 +6,8 @@ import android.util.Pair;
 public abstract class BaseAsteroidSpec extends BaseSpec {
     public Pair<Float, Float> speedRange;
     public Pair<Float, Float> spinSpeedRange;
-    public String breaksInto;
+    public BaseAsteroidSpec breaksInto;
+    public int breakCount;
     public int pointValue = 10;
     public int hitPoints = 1;
 
@@ -14,9 +15,10 @@ public abstract class BaseAsteroidSpec extends BaseSpec {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
     }
 
-    void setBreaksInto(String breaksInto) {
-        this.breaksInto = breaksInto;
-    }
+
+    void setBreakCount(int breakCount) { this.breakCount = breakCount;}
+
+    void setBreaksInto(BaseAsteroidSpec breaksInto) { this.breaksInto = breaksInto;}
 
     void setPointValue(int pointValue) {
         this.pointValue = pointValue;

@@ -20,7 +20,6 @@ public abstract class GameObject implements Drawable, Identifiable {
     float hitboxWidth;
     float hitboxHeight;
     // Reference to the model holding the object
-    GameModel model;
     float angularVel = DEF_ANGULAR_VELOCITY;
     float orientation = DEF_ANGLE;
     Paint paint;

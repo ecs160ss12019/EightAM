@@ -2,7 +2,7 @@ package EightAM.asteroids.specs;
 
 import android.graphics.Point;
 
-public class BaseShipSpec extends BaseSpec {
+public abstract class BaseShipSpec extends BaseSpec {
     public float maxSpeed = 2f;
     public float rotationSpeed = 0.01f;
     public float acceleration = 0.005f;

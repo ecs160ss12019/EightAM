@@ -11,10 +11,10 @@ public class SmallAsteroidSpec extends BaseAsteroidSpec {
     public static int resID = R.drawable.asteroid_small;
     public static Point dimensions = new Point(10, 10);
     public static float dbmRatio = 2f;
-    public static String paintName = "default";
+    public static String paintName = "asteroid";
     public static Pair<Float, Float> speed = new Pair<>(0.5f, 1.0f);
     public static Pair<Float, Float> spin = new Pair<>(0f, 0.01f);
-    public static String breaksInto = "none";
+    public static BaseAsteroidSpec breaksInto = null;
     public static int pointValue = 15;
 
     public SmallAsteroidSpec() {

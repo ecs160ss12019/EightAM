@@ -6,15 +6,11 @@ import android.content.Context;
 
 import java.util.Random;
 
-<<<<<<< HEAD
-import static EightAM.asteroids.Constants.ALIEN_BIG_MAXSPEED;
 import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MAX;
 import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MIN;
 import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MAX;
 import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MIN;
 
-=======
->>>>>>> aa67f831497358dccdb7a76bcd22d27a3c084322
 public class BigAlien extends Alien {
 
 

@@ -15,8 +15,8 @@ public class CollisionChecker {
                 model.destroyShip();
                 model.asteroidFactory.removeAtIndex(i);
                 // for updating game stats
-                model.stats.updateScore();
-                model.stats.updateLive();
+                model.stats.plusScore();
+                model.stats.subLive();
                 break;
             }
         }
@@ -36,10 +36,8 @@ public class CollisionChecker {
                 }
             }
         }
-
         model.bulletFactory.removeMarked();
         model.asteroidFactory.removeMarked();
-
     }
 
     /*

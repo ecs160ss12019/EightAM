@@ -58,9 +58,6 @@ public class PlayerStats {
         }
     }
 
-    /**
-     *
-     */
     void newGame() {
         score = 0;
         livesLeft = STARTING_LIVES;

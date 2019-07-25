@@ -12,19 +12,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import java.util.ArrayList;
 import java.util.Random;
-
-/**
- * Goals:
- * - Spawn on space outskirts
- * - rocks generates rocks in a collision
- * - rocks float in space
- * - rocks collide with everything other object except itself
- * - speed: constant and dependent on size
- *
- * Interact with:
- * - Space GameObject
- */
 
 class Asteroid extends GameObject {
 
@@ -103,7 +92,7 @@ class Asteroid extends GameObject {
      * @param parentSize - Size of parent
      * @param context    - Context for setting bitmap
      */
-    protected Asteroid(int currentX, int currentY, Size parentSize, Context context) {
+    protected Asteroid(float currentX, float currentY, Size parentSize, Context context) {
         this.objectID = ObjectID.ASTEROID;
         this.paint = new Paint();
 
@@ -160,6 +149,23 @@ class Asteroid extends GameObject {
         }
     }
 
+    /**
+     * Got call when an asteroid explodes
+     */
+    void explode(Context context, ArrayList<Asteroid> asteroidsBelt) {
+        // Get size as int of the parent asteroid
+        float temp = 0.25f * 1;
+
+        // Call the asteroid constructor for explosion
+        Asteroid firstChild, secondChild;
+        firstChild = new Asteroid(this.hitbox.centerX() - temp, this.hitbox.centerY(), rockSize, context);
+        secondChild = new Asteroid(this.hitbox.centerX() + temp, this.hitbox.centerY(), rockSize, context);
+
+        // Add the children into the asteroid belt
+        asteroidsBelt.add(firstChild);
+        asteroidsBelt.add(secondChild);
+    }
+
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
@@ -168,7 +174,6 @@ class Asteroid extends GameObject {
         canvas.drawRect(this.hitbox, paint);
         canvas.drawBitmap(bitmap, matrix, paint);
     }
-
 
     // enum size used to denote three size types of asteroid rock
     enum Size {

@@ -86,7 +86,26 @@ Team EightAM will create a 2019 version of the classic multidirectional shooter 
 
 ## Sprint 3
 ### 1) CRC Cards
+![Link to CRC Cards for Sprint 2](https://github.com/ecs160ss12019/EightAM/blob/master/crc_cards-s2.png)
 ### 2) Division of Workload
+| Adrian             | Irene       | Tim            | Liyin        | Melissa        |
+| -------------------|-------------| ---------------|--------------|----------------|
+| GameController     | GameModel   | GameModel      | AudioUtility | ParticleEffect |
+| GameView           | GameObject  | Wavegeneration | GameStats    | BigAlien       | 
+| CollisionChecker   | Velocity    | GameObject     | GameModel    | SmallAlien     |
+| BaseSpec           | Ship        | Asteroid       | GameObject   | GameModel      | 
+| SmallAlienSpec     | Bullet      | Bullet         | Asteroid     | Ship           | 
+| BigAlienSpec       | Alien       | ParticleEffect | Asteroid     | GameObejct     | 
+| SmallAsteroidSpec  | BigAlien    |                |              | Menu           | 
+| MediumAsteroidSpec | SmallAlien  |                |              |                | 
+| LargeAsteroidSpec  |             |                |              |                |
+| ShipSpec           |             |                |              |                | 
+| BulletSpec         |             |                |              |                | 
+| BaseFactory        |             |                |              |                | 
+| AsteroidFactory    |             |                |              |                | 
+| BulletFactory      |             |                |              |                | 
+| ShipFactory        |             |                |              |                | 
+| AlienFactory       |             |                |              |                | 
 ### 3) Acceptance Tests
 ##### _**Game**_
 * Test with the option for a new game appearing as the player runs out of lives. (pass)

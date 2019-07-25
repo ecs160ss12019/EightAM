@@ -95,7 +95,9 @@ class GameModel {
     }
 
     private void respawnShip() {
+
         playerShip = new Ship(this, spaceWidth, spaceHeight, context);
+
     }
 
     private void updateAsteroidBelt(long timeInMillisecond) {
@@ -133,22 +135,17 @@ class GameModel {
      * @return if to pause game.
      */
     // Indirection of input to update playerShip parameters
-    boolean input(InputControl.Control i) {
+    void input(InputControl.Control i) {
         if (i.PAUSE) {
             Log.d("in gamemodel", "paused");
             isPaused = true;
-            return true;
-        }
-        if (playerShip != null) {
-            if(i.SPECIAL_1 && playerShip.canShoot()){
+        } else if (playerShip != null) {
+            if(i.SHOOT && playerShip.canShoot()){
                 Log.d("in gamemodel", "Fired");
                 bulletFactory.fireBullet(playerShip);
             }
-            playerShip.input(i.UP, i.LEFT, i.RIGHT, i.DOWN, i.SPECIAL_1);
-            return false;
+            playerShip.input(i.UP, i.LEFT, i.RIGHT, i.DOWN, i.SHOOT);
         }
-
-        return false;
     }
 
 }

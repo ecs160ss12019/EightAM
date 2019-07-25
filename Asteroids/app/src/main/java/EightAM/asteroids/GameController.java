@@ -26,7 +26,7 @@ final class GameController implements Runnable {
                 model.lock.lock();
                 try {
                     // Get player input
-                    if (model.input(InputControl.playerInput)) pause();
+                    model.input(InputControl.playerInput);
                     // Update model
                     model.update(delta);
                 } finally {

@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import androidx.core.widget.ImageViewCompat;
 
 class InputControl {
     static Control playerInput = new Control();
@@ -39,6 +42,8 @@ class InputControl {
             }
             return true;
         });
+
+
         buttonSet.up.setOnTouchListener((View view, MotionEvent event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 Log.d("InputControl", "up_down");
@@ -49,6 +54,8 @@ class InputControl {
             }
             return true;
         });
+
+
         buttonSet.down.setOnTouchListener((View view, MotionEvent event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 Log.d("InputControl", "down_down");
@@ -59,13 +66,16 @@ class InputControl {
             }
             return true;
         });
-        buttonSet.shoot.setOnTouchListener((View view, MotionEvent event) -> {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                playerInput.SPECIAL_1 = true;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                playerInput.SPECIAL_1 = false;
-            }
-            return true;
+
+        buttonSet.shoot.setOnTouchListener((View view, MotionEvent event) ->  {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.d("InputControl", "shoot_down");
+                    playerInput.SHOOT= true;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.d("InputControl", "shoot_up");
+                    playerInput.SHOOT= false;
+                }
+                return true;
         });
 
         buttonSet.pause.setOnTouchListener((View view, MotionEvent event) -> {
@@ -85,17 +95,17 @@ class InputControl {
         boolean DOWN = false;
         boolean RIGHT = false;
         boolean LEFT = false;
-        boolean SPECIAL_1 = false;
+        boolean SHOOT = false;
         boolean PAUSE = false;
     }
 
     static class ButtonSet {
-        Button left;
-        Button right;
-        Button up;
-        Button down;
-        Button shoot;
-        Button pause;
+        ImageView left;
+        ImageView right;
+        ImageView up;
+        ImageView down;
+        ImageView shoot;
+        ImageView pause;
     }
 
 }

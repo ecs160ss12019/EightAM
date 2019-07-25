@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
 import java.util.Random;
@@ -82,6 +83,7 @@ class Asteroid extends GameObject {
         float direction = Float.MIN_VALUE + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - Float.MIN_VALUE);
         this.vel = new Velocity(speed, direction);
         this.setHitBox(xRand, yRand);
+        this.paint = new Paint();
     }
 
     // ---------------Member methods---------------
@@ -103,6 +105,7 @@ class Asteroid extends GameObject {
      */
     protected Asteroid(int currentX, int currentY, Size parentSize, Context context) {
         this.objectID = ObjectID.ASTEROID;
+        this.paint = new Paint();
 
         Random rand = new Random();
         float direction = 1 + rand.nextFloat() * (float) (ASTEROID_MAXANGLE - 1);

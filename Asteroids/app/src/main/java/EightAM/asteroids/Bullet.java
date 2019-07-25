@@ -4,6 +4,7 @@ import static EightAM.asteroids.Constants.BULLET_MAX_RANGE;
 import static EightAM.asteroids.Constants.BULLET_SPEED;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
 class Bullet extends GameObject {
@@ -27,6 +28,7 @@ class Bullet extends GameObject {
         this.objectID = ObjectID.BULLET;
         this.owner = shooter.getID();
         distanceTraveled = 0;
+        this.paint = new Paint();
 
         if (this.owner == ObjectID.SHIP) {
             this.vel = new Velocity(BULLET_SPEED, shooter.getAngle());

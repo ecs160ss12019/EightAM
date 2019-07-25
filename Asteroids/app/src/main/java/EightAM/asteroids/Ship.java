@@ -5,12 +5,16 @@ import static EightAM.asteroids.Constants.SHIP_ANGULARVELOCITY;
 import static EightAM.asteroids.Constants.SHIP_BITMAP_HITBOX_SCALE;
 import static EightAM.asteroids.Constants.SHIP_DECELERATION;
 import static EightAM.asteroids.Constants.SHIP_INVINCIBILITY_DURATION;
+import static EightAM.asteroids.Constants.SHIP_RESTART_DURATION;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 class Ship extends GameObject implements Shooter {
 
@@ -18,8 +22,8 @@ class Ship extends GameObject implements Shooter {
 
     boolean teleporting = false;
     static Bitmap bitmap;
-    boolean invincible = true;
-    int invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
+    boolean invincible;
+    int invincibilityDuration;
     int shotDelayCounter = 0;
     int shotDelay = 30;
 
@@ -48,6 +52,11 @@ class Ship extends GameObject implements Shooter {
         float bottom = ((float) screenY / 2) + (hitboxHeight / 2);
         this.hitbox = new RectF(left, top, right, bottom);
 
+
+        this.invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
+        invincible = true;
+        this.paint = new Paint();
+
     }
 
     /**
@@ -60,7 +69,7 @@ class Ship extends GameObject implements Shooter {
 
     @Override
     void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
-        if (invincibilityDuration > 0) invincibilityDuration -= timeInMillisecond;
+        if (invincibilityDuration > 0) invincibilityDuration--;
         if (invincibilityDuration <= 0) invincible = false;
         rotate();
         move(spaceWidth, spaceHeight, timeInMillisecond);
@@ -113,7 +122,14 @@ class Ship extends GameObject implements Shooter {
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - hitboxWidth * SHIP_BITMAP_HITBOX_SCALE, hitbox.top - hitboxHeight * SHIP_BITMAP_HITBOX_SCALE);
         canvas.drawRect(this.hitbox, paint);
-        canvas.drawBitmap(bitmap, matrix, paint);
+        if(!invincible) {
+            canvas.drawBitmap(bitmap, matrix, paint);
+        } else if((invincibilityDuration < (SHIP_INVINCIBILITY_DURATION - SHIP_RESTART_DURATION))
+                && invincibilityDuration % 2 == 0) {
+            canvas.drawBitmap(bitmap, matrix, paint);
+        }
+
+
     }
 
     public float getPosX(){

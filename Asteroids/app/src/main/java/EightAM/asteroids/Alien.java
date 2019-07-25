@@ -8,6 +8,7 @@ import static EightAM.asteroids.Constants.ALIEN_TARGET_ACCURACY;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
 import java.util.Random;
@@ -43,6 +44,7 @@ abstract class Alien extends GameObject implements Shooter {
         randY = rand.nextInt(((yTotalPix - 1) + 1) + 1);
 
         this.setHitBox(randX, randY);
+        this.paint = new Paint();
     }
 
     @Override

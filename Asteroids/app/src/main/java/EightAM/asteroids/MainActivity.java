@@ -4,11 +4,16 @@ import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import static EightAM.asteroids.Constants.SHIP_INVINCIBILITY_DURATION;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     GameController gameController;
     GameModel gameModel;
     GameState gameState;
+    RelativeLayout startView;
+    RelativeLayout buttonLayout;
+    ImageView pauseButton;
     private boolean isPaused;
 
     @Override
@@ -58,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Play background music
         gameView.audio.playMusic(MainActivity.this);
+
+        // Start game on tap
+        onTapScreen();
     }
 
     @Override
@@ -74,5 +85,20 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         if (gameView != null && !isPaused)
             gameView.onResume();
+    }
+
+
+    // TODO: disable collision detection before user taps on screen
+
+    protected void onTapScreen() {
+        startView = findViewById(R.id.startView);
+        buttonLayout = findViewById(R.id.button_layout);
+
+        startView.setOnClickListener(view -> {
+            startView.setVisibility(View.GONE);
+            buttonLayout.setVisibility(View.VISIBLE);
+            gameModel.playerShip.invincible = true;
+            gameModel.playerShip.invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
+        });
     }
 }

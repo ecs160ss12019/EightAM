@@ -5,6 +5,7 @@ package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.ALIEN_TARGET_ACCURACY;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -20,13 +21,22 @@ public abstract class Alien extends GameObject implements Shootable, Collideable
     // ---------------Member statics --------------
     static final int MAXSPEED = 3;
     static Bitmap bitmap;
-    int distanceTraveled, maxRange, delay;
+    int distanceTraveled, maxRange, turnDelay;
     int shotDelayCounter = 0;
     int shotDelay = 30;
     float shotOrientation = 0;
     boolean canShoot = false;
 
     // ---------------Member methods --------------
+
+    protected Alien(int xTotalPix, int yTotalPix) {
+        this.setMoveBehavior();
+        this.setTimer();
+        this.setShotDelay();
+
+        // might use later
+        this.objectID = ObjectID.ALIEN;
+    }
 
     /**
      * Spawns alien either on left or right of the screen
@@ -55,14 +65,15 @@ public abstract class Alien extends GameObject implements Shootable, Collideable
     protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
         move(spaceWidth, spaceHeight, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
-        delay--;
-        shotDelay--;
-        if (delay <= 0) {
+        // decrement timers
+        this.turnDelay--;
+        this.shotDelay--;
+        if (this.turnDelay <= 0) {
             this.turn();
             this.setTimer();
         }
 
-        if (shotDelay <= 0) {
+        if (this.shotDelay <= 0) {
             this.canShoot = true;
             this.setShotDelay();
         }
@@ -74,6 +85,7 @@ public abstract class Alien extends GameObject implements Shootable, Collideable
         Random randX = new Random();
         Random randY = new Random();
 
+        // TODO: change shooting behavior based on alien type
         float minX = targetX - ALIEN_TARGET_ACCURACY;
         float maxX = targetX + ALIEN_TARGET_ACCURACY;
         float minY = targetY - ALIEN_TARGET_ACCURACY;
@@ -152,6 +164,8 @@ public abstract class Alien extends GameObject implements Shootable, Collideable
     protected abstract void setTimer();
 
     protected abstract void setShotDelay();
+
+    protected abstract void setMoveBehavior();
 
     // getter functions
     public float getPosX() { return hitbox.centerX(); }

@@ -6,6 +6,11 @@ import android.content.Context;
 
 import java.util.Random;
 
+import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MAX;
+import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MIN;
+import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MAX;
+import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MIN;
+
 public class BigAlien extends Alien {
 
 
@@ -18,28 +23,19 @@ public class BigAlien extends Alien {
      * @param context   context of the game (passed from game model)
      */
     protected BigAlien(int xTotalPix, int yTotalPix, Context context) {
+        super(xTotalPix, yTotalPix);
         // prepare bitmap
         if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
-
         spawn(xTotalPix, yTotalPix);
-
-        // TODO: change behavior
-        this.setMoveBehavior();
-
-        // might use later
-        this.setTimer();
-        this.setShotDelay();
     }
-
 
     /**
      * Sets move behavior for this alien. Used in its constructor.
      */
-    private void setMoveBehavior() {
+    protected void setMoveBehavior() {
         float speed, direction;
 
         Random rand = new Random();
-        // TODO: change these #s later
 
         speed = ALIEN_BIG_MAXSPEED;
         direction = 1 + (rand.nextFloat() * 360);
@@ -53,7 +49,8 @@ public class BigAlien extends Alien {
     protected void setTimer() {
         Random rand = new Random();
         //int randomNum = rand.nextInt((max - min) + 1) + min;
-        this.delay = rand.nextInt((6000 - 4000) + 1) + 4000;
+        this.turnDelay = rand.nextInt((BIGALIEN_TIMER_MAX - BIGALIEN_TIMER_MIN) + 1)
+                + BIGALIEN_TIMER_MIN;
 
     }
 
@@ -62,6 +59,7 @@ public class BigAlien extends Alien {
      */
     protected void setShotDelay() {
         Random rand = new Random();
-        this.shotDelay = rand.nextInt((5000 - 3000) + 1) + 3000;
+        this.shotDelay = rand.nextInt((BIGALIEN_SHOTDELAY_MAX - BIGALIEN_SHOTDELAY_MIN) + 1)
+                + BIGALIEN_SHOTDELAY_MIN;
     }
 }

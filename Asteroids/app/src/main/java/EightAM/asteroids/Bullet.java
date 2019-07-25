@@ -4,6 +4,7 @@ import static EightAM.asteroids.Constants.BULLET_MAX_RANGE;
 import static EightAM.asteroids.Constants.BULLET_SPEED;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -78,6 +79,7 @@ class Bullet extends GameObject {
         float endX = hitbox.centerX() - dX;
         float endY = hitbox.centerY() - dY;
 
+        this.paint.setColor(Color.WHITE);
         canvas.drawLine(hitbox.centerX(), hitbox.centerY(), endX, endY, paint);
         //canvas.drawBitmap(bitmap, matrix, paint);
     }

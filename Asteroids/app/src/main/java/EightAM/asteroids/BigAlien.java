@@ -22,24 +22,15 @@ public class BigAlien extends Alien {
      * @param context context of the game (passed from game model)
      */
     protected BigAlien(int xTotalPix, int yTotalPix, Context context) {
+        super(xTotalPix, yTotalPix);
         // prepare bitmap
-        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
-
-        spawn(xTotalPix, yTotalPix);
-
-        // TODO: change behavior
-        this.setMoveBehavior();
-
-        // might use later
-        this.objectID = ObjectID.ALIEN;
-        this.setTimer();
-        this.setShotDelay();
+        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_small_alien);
     }
 
     /**
      * Sets move behavior for this alien. Used in its constructor.
      */
-    private void setMoveBehavior() {
+    protected void setMoveBehavior() {
         float speed, direction;
 
         Random rand = new Random();

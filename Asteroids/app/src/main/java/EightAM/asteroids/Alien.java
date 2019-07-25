@@ -5,6 +5,7 @@ package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.ALIEN_TARGET_ACCURACY;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -24,6 +25,16 @@ abstract class Alien extends GameObject implements Shooter {
     boolean canShoot = false;
 
     // ---------------Member methods --------------
+
+    protected Alien(int xTotalPix, int yTotalPix) {
+        spawn(xTotalPix, yTotalPix);
+        this.setMoveBehavior();
+        this.setTimer();
+        this.setShotDelay();
+
+        // might use later
+        this.objectID = ObjectID.ALIEN;
+    }
 
     /**
      * Spawns alien either on left or right of the screen
@@ -139,6 +150,8 @@ abstract class Alien extends GameObject implements Shooter {
     protected abstract void setTimer();
 
     protected abstract void setShotDelay();
+
+    protected abstract void setMoveBehavior();
 
     // getter functions
     public float getPosX(){ return hitbox.centerX(); }

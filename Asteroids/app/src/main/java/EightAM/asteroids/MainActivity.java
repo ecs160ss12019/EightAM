@@ -20,10 +20,9 @@ public class MainActivity extends AppCompatActivity {
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
-    RelativeLayout gauze;
-    RelativeLayout buttonLayout;
-    ImageView pauseButton;
-    TextView screenMsg;
+    Menu menu;
+
+
     private boolean isPaused;
 
     @Override
@@ -68,16 +67,14 @@ public class MainActivity extends AppCompatActivity {
         gameView.audio.playMusic(MainActivity.this);
 
         // Find Layout Elements to be used/manipulated
-        gauze = findViewById(R.id.view_gauze);
-        buttonLayout = findViewById(R.id.view_button);
-        pauseButton = findViewById(R.id.pause_button);
-        screenMsg = findViewById(R.id.startText);
+        menu.initLayout(this);
+
 
         // Start game on tap
-        onTapScreen();
+        menu.onStartScreen(gameModel);
 
         // Set Listener for Pause
-        onPauseScreen();
+        menu.onPauseScreen();
 
     }
 
@@ -104,18 +101,8 @@ public class MainActivity extends AppCompatActivity {
         isPaused = false;
     }
 
-
-    // TODO: disable collision detection before user taps on screen
-    protected void onTapScreen() {
-        gauze.setOnClickListener(view -> {
-            gauze.setVisibility(View.GONE);
-            buttonLayout.setVisibility(View.VISIBLE);
-            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincible = true;
-            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
-        });
-    }
-
     protected void onPauseScreen() {
+
         pauseButton.setOnClickListener(view -> {
             Log.d("main activity", "onpause");
             gauze.setVisibility(View.VISIBLE);

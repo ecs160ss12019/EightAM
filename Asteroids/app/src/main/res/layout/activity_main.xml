@@ -18,7 +18,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <RelativeLayout
-        android:id="@+id/button_layout"
+        android:id="@+id/view_button"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -134,7 +134,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/startView"
+        android:id="@+id/view_gauze"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#CC000000"

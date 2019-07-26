@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
-    RelativeLayout startView;
+    RelativeLayout gauze;
     RelativeLayout buttonLayout;
     ImageView pauseButton;
     TextView screenMsg;
@@ -68,11 +68,10 @@ public class MainActivity extends AppCompatActivity {
         gameView.audio.playMusic(MainActivity.this);
 
         // Find Layout Elements to be used/manipulated
-        startView = findViewById(R.id.startView);
-        buttonLayout = findViewById(R.id.button_layout);
+        gauze = findViewById(R.id.view_gauze);
+        buttonLayout = findViewById(R.id.view_button);
         pauseButton = findViewById(R.id.pause_button);
         screenMsg = findViewById(R.id.startText);
-
 
         // Start game on tap
         onTapScreen();
@@ -89,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
         isPaused = true;
 
-        startView.setOnClickListener(view -> {
-            startView.setVisibility(View.GONE);
+        gauze.setOnClickListener(view -> {
+            gauze.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
             onResume();
         });
@@ -108,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO: disable collision detection before user taps on screen
     protected void onTapScreen() {
-        startView.setOnClickListener(view -> {
-            startView.setVisibility(View.GONE);
+        gauze.setOnClickListener(view -> {
+            gauze.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
             ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincible = true;
             ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPauseScreen() {
         pauseButton.setOnClickListener(view -> {
             Log.d("main activity", "onpause");
-            startView.setVisibility(View.VISIBLE);
+            gauze.setVisibility(View.VISIBLE);
             buttonLayout.setVisibility(View.GONE);
             screenMsg.setText("Paused - Tap to Resume");
             onPause();

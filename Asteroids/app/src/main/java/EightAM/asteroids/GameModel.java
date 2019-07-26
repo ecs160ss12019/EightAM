@@ -5,7 +5,9 @@ import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -27,22 +29,15 @@ class GameModel implements GameListener {
     int spaceWidth;
     int spaceHeight;
     boolean isPaused;
-    //temp
-    float shipPosX, shipPosY;
-    //player stats
     GameStats stats;
     Map<ObjectID, GameObject> objectMap;
     Set<ObjectID> asteroids;
     Set<ObjectID> aliens;
-    //    Set<ObjectID> playerShips;
     Set<ObjectID> bullets;
-    ArrayList<Asteroid> asteroidBelt;
-    ArrayList<Bullet> bulletsFired;
-
+    Set<ObjectID> deleteSet;
+    Deque<ObjectID> deleteQueue;
     ObjectID currPlayerShip;
     ObjectID collisionID;
-    AsteroidFactory asteroidFactory;
-    BulletFactory bulletFactory;
 
     EndGameStats endStats;
 
@@ -59,11 +54,11 @@ class GameModel implements GameListener {
         asteroids = new HashSet<>();
         aliens = new HashSet<>();
         bullets = new HashSet<>();
-        //        playerShips = new HashSet<>();
+        deleteSet = new HashSet<>();
+        deleteQueue = new ArrayDeque<>();
 
         resetObjects();
         resetGameParam();
-        initFactories();
         createObjects();
 
         this.gameOver = false;
@@ -76,16 +71,9 @@ class GameModel implements GameListener {
         numOfAsteroids = STARTING_ASTEROIDS;
     }
 
-    private void initFactories() {
-        asteroidFactory = new AsteroidFactory(this);
-        bulletFactory = new BulletFactory(this);
-    }
-
     private void createObjects() {
-        Ship ship = new Ship(this, spaceWidth, spaceHeight, context);
-        objectMap.put(ship.getID(), ship);
+        respawnShip();
         this.alien = new BigAlien(spaceWidth, spaceHeight, context);
-        asteroidFactory.createAsteroidBelt(numOfAsteroids);
     }
 
     private void resetObjects() {
@@ -94,15 +82,11 @@ class GameModel implements GameListener {
         asteroids.clear();
         aliens.clear();
         bullets.clear();
-        //        playerShips.clear();
-        this.asteroidBelt = new ArrayList<Asteroid>();
-        this.bulletsFired = new ArrayList<Bullet>();
         this.currPlayerShip = null;
         this.alien = null;
     }
 
     protected void destroyShip() {
-        //        playerShips.remove(currPlayerShip);
         objectMap.remove(currPlayerShip);
         stats.subLive();
         //TODO: push currPlayerShip explosion event
@@ -110,49 +94,53 @@ class GameModel implements GameListener {
 
     private void respawnShip() {
         Ship ship = new Ship(this, spaceWidth, spaceHeight, context);
+        currPlayerShip = ship.getID();
+        objectMap.put(ship.getID(), ship);
     }
 
-    private void updateAsteroidBelt(long timeInMillisecond) {
-        for (int i = 0; i < asteroidBelt.size(); i++) {
-            asteroidBelt.get(i).update(spaceWidth, spaceHeight, timeInMillisecond);
+    private boolean isInvulnerable(GameObject gameObject) {
+        if (gameObject instanceof Invulnerable){
+            if (((Invulnerable) gameObject).isInvulnerable()) return true;
         }
+        return false;
     }
-
-    private void updateBullets(long timeInMillisecond) {
-        bulletFactory.deleteOutOfRange();
-        for (int i = 0; i < bulletsFired.size(); i++) {
-            bulletsFired.get(i).update(spaceWidth, spaceHeight, timeInMillisecond);
-        }
-    }
-
 
     @Override
     public void onCollision(ObjectID actorID, ObjectID targetID) {
         GameObject target = objectMap.get(targetID);
+        GameObject actor = objectMap.get(actorID);
         if (target == null) return;
-        if (target instanceof Invulnerable) {
-            if (((Invulnerable) target).isInvulnerable()) return;
-        }
+        if (isInvulnerable(target) || isInvulnerable(actor)) return;
         // if target is not invulnerable, destroy it
         if (actorID.getFaction() == Faction.Player) stats.score(target);
         // destruction side effect
         if (target instanceof Destructable) ((Destructable) target).destruct();
-        if (target instanceof Asteroid) {
-            asteroids.remove(targetID);
-        } else if (target instanceof Alien) {
-            aliens.remove(targetID);
-        } else if (target instanceof Bullet) {
-            bullets.remove(targetID);
-        } else if (target instanceof Ship) {
-            //            playerShips.remove(targetID);
-            onDeath();
-            return;
-        } else {
-            throw new AssertionError("Unrecognized GameObject type");
+        if (!deleteSet.contains(targetID)) {
+            deleteSet.add(targetID);
+            deleteQueue.push(targetID);
         }
-        objectMap.remove(targetID);
+        if (actorID == currPlayerShip ) onDeath();
     }
 
+    public void removeObjects(){
+        GameObject objectToDel;
+        ObjectID objectID;
+        while(deleteQueue.size() > 0){
+            objectID = deleteQueue.pop();
+            deleteSet.remove(objectID);
+            objectToDel = objectMap.get(objectID);
+            if (objectToDel instanceof Asteroid) {
+                asteroids.remove(objectID);
+            } else if (objectToDel instanceof Alien) {
+                aliens.remove(objectID);
+            } else if (objectToDel instanceof Bullet) {
+                bullets.remove(objectID);
+            } else {
+                throw new AssertionError("Unrecognized GameObject type");
+            }
+            objectMap.remove(objectID);
+        }
+    }
 
     @Override
     public void onGameEnd() {
@@ -178,39 +166,25 @@ class GameModel implements GameListener {
         for (GameObject o : objectMap.values()) {
             o.update(spaceWidth, spaceHeight, timeInMillisecond);
         }
-        /*
-        getPlayerShip().update(spaceWidth, spaceHeight, timeInMillisecond);
-        if (alien != null) {
-            alien.update(spaceWidth, spaceHeight, timeInMillisecond);
-            if (alien.canShoot) {
-                alien.shoot(getPlayerShip().hitbox.centerX(), getPlayerShip().hitbox.centerY());
-                bulletFactory.fireBullet(alien);
-            }
-        }
-        */
-        // Ship Collision
-        collisionID = CollisionChecker.collidesWith(getPlayerShip(), objectMap.values());
+        //Collisions
+        computeCollision(currPlayerShip);
+        enumerateCollision(bullets);
+        enumerateCollision(aliens);
+        //Remove Collided Objects
+        removeObjects();
+    }
+
+    private void computeCollision(ObjectID objectID) {
+        collisionID = CollisionChecker.collidesWith(objectMap.get(objectID), objectMap.values());
         if (collisionID != null) {
-            onCollision(currPlayerShip, collisionID);
+            onCollision(objectID, collisionID);
         }
-        // Bullet Collision
+    }
 
-        for (ObjectID bulletID : bullets){
-            collisionID = CollisionChecker.collidesWith(objectMap.get(bulletID), objectMap.values());
-            if (collisionID != null) {
-                onCollision(bulletID, collisionID);
-            }
+    private void enumerateCollision(Set<ObjectID> objectIDSet){
+        for (ObjectID objectID : objectIDSet){
+            computeCollision(objectID);
         }
-
-        // Alien Collision
-        for (ObjectID alienID : aliens){
-            collisionID = CollisionChecker.collidesWith(objectMap.get(alienID), objectMap.values());
-            if (collisionID != null) {
-                onCollision(alienID, collisionID);
-            }
-        }
-        //        CollisionChecker.shipCollision(this);
-        //        CollisionChecker.bulletsCollision(this);
     }
 
     /**
@@ -224,7 +198,7 @@ class GameModel implements GameListener {
         if (currPlayerShip != null) {
             if (i.SHOOT && getPlayerShip().canShoot()) {
                 Log.d("in gamemodel", "Fired");
-                bulletFactory.fireBullet(getPlayerShip());
+                //TODO:Fire Bullet
             }
             getPlayerShip().input(i);
         }

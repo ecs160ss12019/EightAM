@@ -1,0 +1,1637 @@
+commit ebf8092f389c27c397853b5313111a9a1648e852
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Thu Jul 25 18:33:12 2019 -0700
+
+    Collision Detection should now work for all Collidable Game Objects in theory
+
+commit 3039071347f3c39314d3ce0a9baa4bde7067ee1d
+Merge: fd1e193 383d2cb
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Thu Jul 25 16:42:32 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+commit fd1e19368b15ca0529247dedda9deba135a23a97
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Thu Jul 25 16:42:23 2019 -0700
+
+    Asteroid Factory
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 383d2cbf54b69b0da0c694649a6c01108d751650
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Thu Jul 25 15:48:00 2019 -0700
+
+    Modified Collision Checker to accomodate IFF checking
+
+commit 405449539b8d7c6cb1c9c94caca7fa3a18476413
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Thu Jul 25 13:57:06 2019 -0700
+
+    modified the CRC
+
+commit 438c8787262846f29de389295af6074e0bc0df77
+Author: Melissa Goh <mesagoh@gmail.com>
+Date:   Thu Jul 25 13:38:02 2019 -0700
+
+    Fixed typo in README
+
+commit 1df7c80c899f3e9ba9df884ab3b3e3e5e49c2c0e
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Thu Jul 25 13:33:24 2019 -0700
+
+    add links
+
+commit 9a47f0e0a9f3269088a69b3e11390da2588238dd
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Thu Jul 25 13:29:28 2019 -0700
+
+    CRC card and screenshots
+
+commit 5db2aafa157ad4b38c95468b0dbd56fecef63cca
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Thu Jul 25 13:26:50 2019 -0700
+
+    Update README.md
+
+commit 48f658120867af74900a710fa150f562532cca11
+Merge: 5762c23 d31b29c
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Thu Jul 25 13:03:39 2019 -0700
+
+    Added BitMapStore
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 5762c2319d3f60895bdbf600d1d8c7ade2a72691
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Thu Jul 25 13:03:25 2019 -0700
+
+    Added BitMapStore, Added Factory interfaces
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit d31b29c51693ed249a33de993786af3bd895db02
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Thu Jul 25 12:22:55 2019 -0700
+
+    bye bye more merge conflicts
+
+commit a53b52b4bae1540c281d2cee4d441db627887b2d
+Merge: 8e56803 aa67f83
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Thu Jul 25 12:22:15 2019 -0700
+
+    bye bye merge conflict
+
+commit 8e5680373984a8649dbb5c8e924898ac2bd48616
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Thu Jul 25 12:19:48 2019 -0700
+
+    fixed null reference error
+
+commit aa67f831497358dccdb7a76bcd22d27a3c084322
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Thu Jul 25 09:58:12 2019 -0700
+
+    Resolved some errors in referencing ship object
+
+commit 7c913f8990ff493e68fca3d1e3f6bf9dd6566a54
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Thu Jul 25 05:44:16 2019 -0700
+
+    Separated all the functions of objects to separate interfaces. Implemented GameSpecs to be used with GameObject generators. Gave ObjectID to objects. Implemented GameListener
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 7776674a76f3dd466e30bd38177262b2e9a52207
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Thu Jul 25 01:12:49 2019 -0700
+
+    put duplicated code from big and small aliens into alien + put small alien xml
+
+commit 65695d0050f205c704ef7b13295e58ea802bc73c
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Thu Jul 25 00:27:11 2019 -0700
+
+    changed some variable name + added comments to make more legible
+
+commit 67db11ef069f715ff28bfef2f620609cd4793f04
+Author: kennyli <knyli@ucdavis.edu>
+Date:   Thu Jul 25 00:07:08 2019 -0700
+
+    add explosion
+
+commit 76584da370800f8d5d38e678151b7cce844c5082
+Author: kennyli <knyli@ucdavis.edu>
+Date:   Wed Jul 24 23:56:35 2019 -0700
+
+    mod player stats and explosion
+
+commit 6f33bd694fdb2728fc059830a380cb83fdc3c4dd
+Author: kennyli <knyli@ucdavis.edu>
+Date:   Wed Jul 24 23:50:16 2019 -0700
+
+    update player stats
+
+commit fa113d0f94ac11df997157d78ae1c006b47a131b
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 24 23:34:40 2019 -0700
+
+    got rid of magic numbers in big alien and put them into constants.java
+
+commit 17fa137b7acf4bfda40c242c702f3e67383e29e6
+Merge: 30db5d9 812c2c0
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 24 23:26:24 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 30db5d93d21b8db46e27fa71f8451bd14d4ba2e1
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 24 23:14:47 2019 -0700
+
+    cleaned up some alien code + documentation
+
+commit 812c2c076baf0fbb23e349473aa4002882f68ab1
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Wed Jul 24 23:10:20 2019 -0700
+
+    pause and start
+
+commit 1a39cebfa619e47dfe8a6d3488642a11482b6dea
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 24 23:08:15 2019 -0700
+
+    changed max bullet range bc 800 is too long
+
+commit 2ad02ae5a4a917becd52d9c56e0061374bee5a33
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 24 23:07:34 2019 -0700
+
+    drew the bullet
+
+commit 5704196c8ee085a610c46da5e7d8d1f0dd7f809e
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Wed Jul 24 22:40:58 2019 -0700
+
+    fixed values for start screen to show
+
+commit 8c917dbc8d27a57c1330fbf138c12415d2896562
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Wed Jul 24 22:15:33 2019 -0700
+
+    implemented start screen - temp Paint added
+
+commit 778e302fd91512a05c4ee4a73f7bad3b5ae44ddc
+Merge: fa3ef4c 0a3bc47
+Author: kennyli <knyli@ucdavis.edu>
+Date:   Tue Jul 23 21:53:05 2019 -0700
+
+    player stats
+    
+    Signed-off-by: kennyli <knyli@ucdavis.edu>
+
+commit fa3ef4c32c17db790df8e8fcef9f47633d1eaf86
+Author: kennyli <knyli@ucdavis.edu>
+Date:   Tue Jul 23 21:37:50 2019 -0700
+
+    modified game state to game stats
+
+commit 0a3bc475f90447189525daad28b3cfc8e93fa25d
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Tue Jul 23 17:24:49 2019 -0700
+
+    Added Drawable interface
+    Added PaintStore
+    Added Messages, used for displaying messages
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 8e95c8fa3fca39aa21857a94f31490038e2652db
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 23 16:59:48 2019 -0700
+
+    draw lines as bullets
+
+commit 357394121a1c5433d96463426a655e9e007c9b45
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 23 14:51:03 2019 -0700
+
+    updated alien movement and random shooting at ship
+
+commit bf938b94951bf790faa71e5fa0cc8f4efbf45b51
+Merge: 7e4b663 e6dc011
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 23 13:22:54 2019 -0700
+
+    added alien's change of dir
+
+commit 7e4b663c7f53fda849eda4b069848257f23474e5
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 23 13:20:16 2019 -0700
+
+    added alien's random change of directions
+
+commit e6dc011f6c08f0e2265cf23ea9b98eb70eadec45
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Tue Jul 23 12:53:23 2019 -0700
+
+    made note to change how alien measures distance traveled
+
+commit 97a11e0c9276592e47c393a26ad7f9aa9ae4f606
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Tue Jul 23 12:52:18 2019 -0700
+
+    added movement and turning for alien
+
+commit d688bcfd552ad30fc2f51d28fde2d0fa07e6dad4
+Author: Kenny Li <kennyli@campus-005-132.ucdavis.edu>
+Date:   Tue Jul 23 12:42:34 2019 -0700
+
+    finish update score and live
+
+commit 2a9839928bf59c2f5cf4f21277b5f512e2eee1ff
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Tue Jul 23 12:38:10 2019 -0700
+
+    added probability function + movement + turning; not sure if works yet tho
+
+commit fe14ae741be6e90214065b3c4829a11c0701ae69
+Author: Kenny Li <kennyli@campus-023-192.ucdavis.edu>
+Date:   Tue Jul 23 12:24:11 2019 -0700
+
+    refactor game status to player stats
+
+commit 114ed4a62f73ee2b893a540c9420b43bcc96f968
+Author: Kenny Li <kennyli@KennydeMacBook-Pro.local>
+Date:   Tue Jul 23 01:22:58 2019 -0700
+
+    refactor audio in mainactivity and gameview
+
+commit 6c5a16393a7079fc098d81b8d0f15c9d717ed1ed
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 22 14:09:19 2019 -0700
+
+    Collision and Object Generator in own classes, need to rename Factory to Generator/Handler
+
+commit d2d5e298cda9f8e8ce9d002558cb6de5d0c07abd
+Author: Kenny Li <kennyli@campus-023-192.ucdavis.edu>
+Date:   Mon Jul 22 13:41:22 2019 -0700
+
+    add background music
+
+commit 61cf513b60e079d368cbe88a848b0b1f2c9caa77
+Merge: 72844b0 04f0acd
+Author: Kenny Li <kennyli@campus-023-192.ucdavis.edu>
+Date:   Mon Jul 22 12:51:45 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 72844b01b5f2225d8662c61fc5593d58b5a039c2
+Author: Kenny Li <kennyli@campus-023-192.ucdavis.edu>
+Date:   Mon Jul 22 12:51:07 2019 -0700
+
+    add sound effects
+
+commit 04f0acd6aff0c3eda004eea423be6af244ce4c9c
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 22 12:34:37 2019 -0700
+
+    Shooting is integrated, not yet drawn
+
+commit 4e7b09c0c8cae7e9ff75b210d3e3ea76e0694657
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 20:25:28 2019 -0700
+
+    Alien now accomodates Shooter interface
+
+commit 55e1dc3253d5b617cab7950ee9f89645e3b69d3a
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 20:24:29 2019 -0700
+
+    Refactored code to accommodate Factory classes
+
+commit c869f889fcd577e33d4cee038306c24e7df00206
+Merge: d910063 7697757
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sat Jul 20 17:03:00 2019 -0700
+
+    pause game
+
+commit d910063ec7d52601a5b70abd3e54c74f687af82e
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sat Jul 20 16:55:18 2019 -0700
+
+    pause game - need to rethink flow
+
+commit 7697757360b4f2ec134a577d86bd96fc9d3bef92
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 14:22:32 2019 -0700
+
+    lol more fixing tim's syntax errors cuz he's using a text editor that DOESN'T destroy his battery
+
+commit 9379b870e3d95635020a55e0e3abf72928267e5d
+Merge: a9cddca 26e294e
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 14:17:36 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit a9cddca2cfbb72bdedbaaf60eb6278b364b70e1e
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 14:13:10 2019 -0700
+
+    put BigAlien into Model instead of regular alien and added some TODO's
+
+commit 59b21df3e3ce301632f6fad92349653f55846289
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 14:10:09 2019 -0700
+
+    made alien into abstract class and created a BigAlien class that extends Alien
+
+commit 26e294e9b681559d086939df43c6ac345866791f
+Merge: 84500a7 4e07439
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 13:57:47 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 84500a7d242cfc85355119057ec6e4d42cfb4e93
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 13:56:29 2019 -0700
+
+    Created Bullet Factory, add functionality to other Factories
+
+commit 4e07439f2d22c955f66fdb19824231b9873154ce
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 13:31:38 2019 -0700
+
+    forgot to take out unused params lol
+
+commit 6da79a216b3728b8766ab86fa17fa16c51d551ac
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 13:29:57 2019 -0700
+
+    changed asteroid constructor to use ship instead of x,y
+
+commit 9a5002309e7e2e3dcc57002418774277c3aeca6b
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 13:25:23 2019 -0700
+
+    corrected AsteroidFactory create()
+
+commit 253b5f2d96d5c296c2751a9bb03e44c69a879841
+Merge: ab028ef 4ca0ab1
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 13:16:03 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit ab028efa89a3772be95dbaad8a1795b29def775c
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 13:15:57 2019 -0700
+
+    refactored Asteroid Constructor
+
+commit 4ca0ab18a7f2e51d2ab35ebb1a23fda096c3c90b
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 13:10:46 2019 -0700
+
+    added center y pos getter function + fixed getter for x center
+
+commit 557fd17ffe9a031bad6c1ab2f2e8b18ecc014c0e
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 13:09:55 2019 -0700
+
+    modified parameters to functions as to not take object
+
+commit b9b3045a38356234ab0709ea0267ff1ea4152156
+Merge: 9848edb 6b3db84
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 13:07:55 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 6b3db840c225c5e40b8642a44fb1dc85175bb2dd
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 13:07:39 2019 -0700
+
+    Changed Factory to abstract class, trimmed AsteroidFactory
+
+commit 9848edb7e21037a1aa18ea881bb5cada2cddbe85
+Merge: 869d444 5ec1d2b
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 13:05:35 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 5ec1d2b13fb474674da24b61707df79a707d894d
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 13:03:25 2019 -0700
+
+    added position getter for ship
+
+commit d6415acbbc9251bd56d30474714a2cb2a963ba04
+Author: Kenny Li <kennyli@campus-108-182.ucdavis.edu>
+Date:   Sat Jul 20 12:47:13 2019 -0700
+
+    merge class gameState
+
+commit 0f02e13f4c9df302658af9bc213e7ee8a681a7c1
+Author: Kenny Li <kennyli@campus-108-182.ucdavis.edu>
+Date:   Sat Jul 20 12:42:29 2019 -0700
+
+    Merge branch 'master' of /Users/kennyli/Desktop/2019summer/git/EightAM with conflicts.
+
+commit c36fcfb9144cf71012b75a9d3fb6859c4580a0b0
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sat Jul 20 12:38:22 2019 -0700
+
+    added pause button
+
+commit cf67b299406cc6abfad51321846f4d0f3438cfa3
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sat Jul 20 12:33:39 2019 -0700
+
+    commented out stuff to run
+
+commit 869d44460c520d3159c5782b7f3e15b603e61086
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 12:17:41 2019 -0700
+
+    orientation fix
+
+commit 0154cf63f0574b4f1416d806e3be8c6404501a4e
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 12:12:00 2019 -0700
+
+    fixed some syntax stuff
+
+commit 234c7568aed07ccf9c71c3939c93bf32b6c6a1b9
+Merge: ded7fc0 e8e5113
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 12:02:22 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit ded7fc0ee81d67d4bd32b3b30492601c1ff88f79
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sat Jul 20 12:02:03 2019 -0700
+
+    removed size enum
+
+commit e8e51139adff731aa7c43f7779bbb7698fbc6626
+Merge: c47c6dc 6f01564
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 11:59:07 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit c47c6dcfc591df5856a47aa4c09016e103ff810e
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 20 11:59:01 2019 -0700
+
+    Adding functionality to Factories: create, destroy and respawn
+
+commit 6f015646a12d9b2a3230532498dd425a63757c03
+Author: Kenny Li <kennyli@campus-108-182.ucdavis.edu>
+Date:   Sat Jul 20 11:31:24 2019 -0700
+
+    refactor gamestate
+
+commit 108d6aa8503041c4ddae591cd2d37809fcdafa15
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sat Jul 20 11:20:22 2019 -0700
+
+    alien - resized hitbox && fixed orientation
+
+commit 4b03a41d2e126afb92b361c730d71ab1a5e60167
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Fri Jul 19 23:15:33 2019 -0700
+
+    Added Factory classes for object generation in Game Model
+
+commit 8dc2c7c995a62e07e94e4ef2c1a90fe2428c3699
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Fri Jul 19 15:05:23 2019 -0700
+
+    Upgrade gradle version
+    Refactored some names
+    Status bar stays hidden now.
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 0def387e9f667dbe85e2ff373539957b7e1f9b9c
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Fri Jul 19 11:12:13 2019 -0700
+
+    Delete group_log1.txt
+
+commit 3f4b36a2c71ff64bdab362288f05bc37e3825ff0
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Fri Jul 19 11:11:39 2019 -0700
+
+    added group log for sprint 1 (different format; no args)
+
+commit aabd2a47d20116b7f6093dd5bd739c2e37115aa2
+Merge: 0a9f14d 5225d90
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Fri Jul 19 11:08:43 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 0a9f14d8a2dc7d6ad3855f745a9c80ac90a70fc0
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Fri Jul 19 11:08:13 2019 -0700
+
+    added group log for sprint 1
+
+commit 5225d90e5a72bb0063f22274067be7dce4be5acd
+Author: Kenny Li <kennyli@campus-108-182.ucdavis.edu>
+Date:   Fri Jul 19 10:52:59 2019 -0700
+
+    move game attibutes in to new class
+
+commit 416cd4105a99aff6871cbca6bb30402380d0d988
+Author: Kenny Li <kennyli@campus-108-182.ucdavis.edu>
+Date:   Fri Jul 19 10:51:44 2019 -0700
+
+    add new class for game state
+
+commit 0b71e35b2121d737708bf0c0ff902f48d2d63c3d
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Thu Jul 18 14:59:02 2019 -0700
+
+    Begin work on collisions, death, and respawn
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit fe70a0319d2eedaa1ac5d1237ba254f81c4eb761
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 17 20:45:04 2019 -0700
+
+    alien is drawn and moves but is sideways??
+
+commit 18e9fda732aec6aaadea49ce9e3e6e2891a7f1c8
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 17 20:25:42 2019 -0700
+
+    added alien max speed
+
+commit 05acc7c3b84a0d1a1cd0273fb9d20557cdb57838
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 17 20:19:59 2019 -0700
+
+    drew alien
+
+commit 12143e878a778f3dcdfa36fec5b24d216f5f39e1
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 17 19:55:26 2019 -0700
+
+    took out unused variable
+
+commit dddd9b735047e6be521b9411a73ed4d163f2c426
+Merge: e593225 1c0c148
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 17 19:47:43 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit e59322524f2f0f2b3170b89c2592c048055e3175
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 17 19:32:31 2019 -0700
+
+    added draw functions for alien
+
+commit 081144efec29cc435b6a4fee8f253ac340881318
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 17 19:18:56 2019 -0700
+
+    took out unused functions
+
+commit 1c0c14843f17143c996821af959096255237676c
+Author: Melissa Goh <mesagoh@gmail.com>
+Date:   Wed Jul 17 19:11:36 2019 -0700
+
+    Formatted README
+
+commit 11df897ec85ac49939efb14b90457a019b351e21
+Author: Melissa Goh <mesagoh@gmail.com>
+Date:   Wed Jul 17 19:01:21 2019 -0700
+
+    Updated for Sprint 2
+
+commit 2d909d5967dd7509d65c03fbd3fdd6a2dd3a7e55
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 17 18:54:02 2019 -0700
+
+    took out private height and width and used GameObject's attributes instead
+
+commit 31e3ce5de466c193ee03ba45ffc2acbfad93a34b
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Wed Jul 17 18:51:52 2019 -0700
+
+    moved bitmap width and height into GameObject; modified Ship to reflect changes
+
+commit 4b5d942d802d1b5b46b3a250a38dcf692a994fbd
+Author: Melissa Goh <mbgoh@ucdavis.edu>
+Date:   Wed Jul 17 18:33:45 2019 -0700
+
+    added screenshots for sprint1 + crc cards for sprint 2
+
+commit b8953aaabc4771b3a1f7a2e9b720d8001c81c013
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Wed Jul 17 17:34:32 2019 -0700
+
+    Update README.md
+    
+    changed division of workload to reflect sprint 1
+
+commit 42cf65038d655a96059dfef59c0f81d3d0df5062
+Author: Kenny Li <kennyli@KennydeMacBook-Pro.local>
+Date:   Wed Jul 17 15:03:28 2019 -0700
+
+    modified layout/buttons
+
+commit 18b4a8db1ab2e7288a603c5a80adce8638c554a1
+Author: Kenny Li <kennyli@KennydeMacBook-Pro.local>
+Date:   Wed Jul 17 15:01:37 2019 -0700
+
+    added image for buttons
+
+commit 16b2fab7811c922491113e568e26244f88b07af5
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Wed Jul 17 13:03:49 2019 -0700
+
+    repositioned/resized hitbox - added width/height from bitmap
+
+commit b4f6dc5a19196baa33e09dcec790e849fbce96ab
+Merge: a2d216d 4adca9f
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Wed Jul 17 11:07:23 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+commit a2d216de4654ffb34f56f7f8bd43a130efa4b750
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Wed Jul 17 11:06:09 2019 -0700
+
+    modified xml for hud
+
+commit 4adca9fa235b17c6c2f0f332a21f71228bf3f2db
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Wed Jul 17 11:01:42 2019 -0700
+
+    moving asteroids - asteroidbelt integrated
+
+commit 4f695cd9448df4ce076b43a99a94c2c3f60caf46
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Wed Jul 17 09:15:45 2019 -0700
+
+    display 1 asteroid on screen
+
+commit b8b4032718e1839c86775c45850b15307bedab67
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Wed Jul 17 09:14:18 2019 -0700
+
+    added asteroid in xml
+
+commit 88c23108e84a9f014db723c50980fbccadd5b915
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Tue Jul 16 20:28:51 2019 -0700
+
+    affectVelocity -> accelerate
+
+commit a7bf69e070c153a7c45a159cdff26694ed0c0fad
+Merge: bdcdfb8 25cef25
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Tue Jul 16 20:26:46 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit bdcdfb8bb46d59e1d67bd104f70c6f73533a8807
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Tue Jul 16 20:26:42 2019 -0700
+
+    Merge Ship
+
+commit 25cef25ade5503c179877a2655b41b50873172ca
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Tue Jul 16 20:13:56 2019 -0700
+
+    Make ship align correctly with hitbox
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 8ad18508d4157ed7a6ceccc53e6d9024d80935e6
+Merge: 93c0bf5 5a6f389
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Tue Jul 16 20:11:41 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       Asteroids/app/src/main/java/EightAM/asteroids/Ship.java
+
+commit 93c0bf502cfc3040fec33c31c1025231b31ad384
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Tue Jul 16 20:09:19 2019 -0700
+
+    Make ship align correctly with hitbox
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 5a6f389e47195779b085212338bd2723a9bfeb1a
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Tue Jul 16 20:08:13 2019 -0700
+
+    Slight refactor to Velocity class to make it more intuitive
+
+commit f4fcbdd1565a49676553a7c701a8776a120df0fb
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Tue Jul 16 19:40:01 2019 -0700
+
+    Fixed ship orientation and controls
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit fa703dc12998d1168ade49f7d0df2d8fd0a9058f
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Tue Jul 16 19:26:59 2019 -0700
+
+    ITS NOW MOVING
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit e8b39917fb7d15d1718a059d2c3d1c267abacb60
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Tue Jul 16 19:13:21 2019 -0700
+
+    ITS SPINNING
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 7d449b68c9cc3ede83b64099c507ed5a78a8323d
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Tue Jul 16 17:55:00 2019 -0700
+
+    Modified orientation, angle convention. Updated Velocity class. Ship now changes direction.
+
+commit e3b0b7ba7190c61cc4c274ad6eb6a02ca2b39276
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Tue Jul 16 17:22:17 2019 -0700
+
+    Modified Velocity, removed private protection and getter. Corrected updateVelocity
+
+commit a53a0abaaf7e753e6149b7db263679bf61cbe1ec
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Tue Jul 16 16:56:43 2019 -0700
+
+    add comments
+
+commit bfa9c5e62c0384c6997e6a883575a53bd8b9b310
+Merge: 6c5059e 20b5685
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Tue Jul 16 16:34:12 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+    
+    # Conflicts:
+    #       Asteroids/app/src/main/java/EightAM/asteroids/GameView.java
+
+commit 20b568577e4357f3556913220cc2d5f01e25f745
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 15:57:50 2019 -0700
+
+    initialize screen width and height
+
+commit fd82667f76eecb29c2109786d71190ad52c20adb
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 15:52:37 2019 -0700
+
+    used display to get window size
+
+commit a68d801c9b6c246d5e66fa06c3f74625205ff2ac
+Merge: 0a03a28 7767466
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 15:51:34 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 0a03a28a43a70c36008e4496497d9f016f5681e0
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 15:50:47 2019 -0700
+
+    used display to get window size - ship at middle of screen
+
+commit 7767466889ea68547c347b60e14efe772a9cf1a7
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Tue Jul 16 15:47:23 2019 -0700
+
+    commented out asteroids stuff bc we just want to test ship
+
+commit e00f304980d79acbc5c3d1645c92d6152bd6bb3e
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 15:45:45 2019 -0700
+
+    fixed outofbound error for rand
+
+commit 49d13a3d24d9dc45593d798cbe214bb4d09e23f4
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 13:30:42 2019 -0700
+
+    control ship function
+
+commit 6c5059e106608f88d4b2d3240c75557f6f3eab08
+Merge: d3c5acd 28c7602
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Tue Jul 16 12:49:29 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       Asteroids/app/src/main/java/EightAM/asteroids/GameView.java
+
+commit 28c76028264dd89540451bb0f905cfabde282586
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Tue Jul 16 12:37:29 2019 -0700
+
+    FUCK
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 2c903028a8d798836134ffa1bb01c8ec4704e246
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Tue Jul 16 11:59:21 2019 -0700
+
+    Started collision detection
+
+commit 4e9a42cb08bfcdc9cfe85d9727e3e55a8f081095
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Tue Jul 16 11:00:41 2019 -0700
+
+    took out unused import statement
+
+commit 8e29caad98ee67e6f1778dfb99bc91b17a75827b
+Merge: d74126e b3d19f4
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Tue Jul 16 10:59:54 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit d74126eea6387c150ba69278ed4bbc6d19a96e9d
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Tue Jul 16 10:59:37 2019 -0700
+
+    added constructor and methods
+
+commit b3d19f4e1f8b2a4247a59241f520fd8d66dda9b2
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 10:45:14 2019 -0700
+
+    added object id for ship
+
+commit aa60a31f9b6c56b17bad89fa55c7a16894b18b1e
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Tue Jul 16 10:39:54 2019 -0700
+
+    set size and ID
+
+commit d3c5acde2cb07401df541c6d41e10b2b89ec9cf1
+Merge: ad41b40 9420446
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Tue Jul 16 10:24:41 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 9420446326071ecb04293b4658fa9c2de52d685a
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 01:35:26 2019 -0700
+
+    drew a cute ship inside gameview lol
+
+commit bab9b926858b889a78bce337d2485dfdfa894af3
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 01:31:04 2019 -0700
+
+    resized ship
+
+commit 7cbd2b7dd3f6be8746459306c0a7a0064ced5aae
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Tue Jul 16 01:27:10 2019 -0700
+
+    drew a huge ship but at least something is on the screen LOL
+
+commit 06432fb7bef364ee69a8ccb45261771dda081c39
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Mon Jul 15 23:56:05 2019 -0700
+
+    added sethitbox
+
+commit 689c95981a2238f171e0a774df04ba9dd69e2416
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 19:14:13 2019 -0700
+
+    Added comments and TODO, added resetObjects() to constructor, and started controlShip()
+
+commit 5b28c802f22cac88a10693f611604bc67a13008f
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 18:37:54 2019 -0700
+
+    Initial Commit of Model, update and constructor functions mostly implemented
+
+commit 76e539431315e8909f5e74cedc50473b8363c1fc
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 17:30:47 2019 -0700
+
+    Removed logic from rotate. Changes in angularVel should be set within Ship not GameObject
+
+commit ad41b404378c992dd0cf968e34dd6acb20486e26
+Merge: 1e03495 5ce7340
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Mon Jul 15 16:54:53 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 1e03495e26de370892996c2567b4422cf0f68eee
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Mon Jul 15 16:54:02 2019 -0700
+
+    added debugging code and comments
+
+commit 5ce7340a564c5b8ea9c35ababa808eaaf1866e55
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 16:08:43 2019 -0700
+
+    updated rotate() to function properly with all objects
+
+commit 7a785a6252f794804ec5ef5d979a901efa98c21d
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 15:44:13 2019 -0700
+
+    Added magnitude() getter for bullet
+
+commit 3e054f39b43c89bd2943b24b62d4df7545f186d9
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 15:43:26 2019 -0700
+
+    added parameters for setHitBox()
+
+commit 59f91fc55d5fce8f3754780a3c75727087e471e0
+Merge: 0636575 6828062
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 15:35:59 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 063657535cf69a285eabcb09d08f97fac88e9cb0
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 15:35:40 2019 -0700
+
+    refactored Bullet to accomodate Velocity class
+
+commit 6828062bcca4001d5352dbeec8c24cc553ff1220
+Merge: 00395f9 8765618
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 15:35:18 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 00395f962d26d460e49a84fad66961adf6b48ab2
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 15:35:04 2019 -0700
+
+    reversed accidental rewrite of move()
+
+commit 8765618adf3a594be2863a07b89aaf55f21b6780
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Mon Jul 15 15:23:09 2019 -0700
+
+    refactored space to GameModel
+
+commit aea384f2c479b1c621d542d8a9b8ad5f5618aa8a
+Merge: 2d05399 190a615
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Mon Jul 15 15:21:04 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 2d053991b4b6ec45085ee2a98236978ed58dbd34
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Mon Jul 15 15:20:33 2019 -0700
+
+    refactored ship to GameModel
+
+commit 190a615ba4443fee0a830763223ca5a9ea4e96f4
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 15:14:54 2019 -0700
+
+    Refactored Asteroid to accomodate Velocity Class
+
+commit 664342ca97949edbb4c710f38c0e7fc4f36354b9
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 14:54:11 2019 -0700
+
+    minor change to attribute calling in move()
+
+commit feed9a2909c4ad0fa2f6974682a72e2cdc7e3cbc
+Merge: 6edd53f 99feea5
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 14:49:16 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 6edd53fb038afd3e22d877ba3a473ee41c730d02
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 14:48:49 2019 -0700
+
+    updated Velocity class to contain magnitude and direction
+
+commit 2cb39d137035bf869fddf72c8949fdec6ac89510
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Mon Jul 15 14:48:47 2019 -0700
+
+    updated Velocity class to contain magnitude and direction
+
+commit 99feea58d9b032c5c2597693b3b816964f4a7810
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Mon Jul 15 14:47:27 2019 -0700
+
+    removed pos and spawn, declared velocity
+
+commit 3ff458834c3435ba97fcea6ef2b053e13b910136
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Mon Jul 15 14:46:05 2019 -0700
+
+    initialized ship velocity
+
+commit fd5023be74e6a7116330e417bd20b02569f7c325
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 14:06:47 2019 -0700
+
+    added documentation
+
+commit 6f026dcb19086d7bed6c1996b6a24ee27073dd14
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 14:03:38 2019 -0700
+
+    renamed class
+
+commit c6e43d0e7f152e79b5c0812b406da1c88d5a72b1
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 14:02:55 2019 -0700
+
+    finished method to calculate velocity
+
+commit c6a8102ac27211124090b81456cf6cb7bf466c86
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 14:00:48 2019 -0700
+
+    fixed documentation typo
+
+commit 15ca870a657319f4ea996ade4ee043f452cef598
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 13:59:57 2019 -0700
+
+    added constructor
+
+commit dfa0098b45250cd03ff42dda542992bc7864a3fb
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 13:59:15 2019 -0700
+
+    began velocity class
+
+commit f381f38a81355e6345d52efaaf246abd36d702df
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Mon Jul 15 13:28:39 2019 -0700
+
+    modified update method
+
+commit daec9ce5245496b12ed61d7fdf21eb44deebfbff
+Merge: fc1d29a 1bcb4b2
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Mon Jul 15 13:26:01 2019 -0700
+
+    modified update function
+
+commit fc1d29ab38cbd2ef6850396aff4ba946456ca04d
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Mon Jul 15 13:25:34 2019 -0700
+
+    modified update function
+
+commit 1bcb4b2bc5c2ef2ff8059303fa7cc550a793da50
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 11:59:21 2019 -0700
+
+    simplified move method
+
+commit 7e716fd6b26b85aa4c8cc512f46e62382f86f49c
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 11:45:55 2019 -0700
+
+    changed name from aliens to alien
+
+commit 2a1f1f537d662632dba533ab2c4ba15ae91ec616
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 11:42:25 2019 -0700
+
+    added method to see if bullet should die
+
+commit f97f89757e5ea44aa106c015367ee25e293346aa
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 11:38:46 2019 -0700
+
+    added way to calculate distance traveled
+
+commit 65ffb41dee8402304f9432274896aa525aadf87a
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 11:21:21 2019 -0700
+
+    fixed some documentation
+
+commit a486f914e15540c55251940d06b49be8218c7ed1
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Mon Jul 15 11:10:50 2019 -0700
+
+    got rid of useless functions lol
+
+commit 8f168e1378b8564233aae615b784a8bf0c48f88a
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Mon Jul 15 09:46:20 2019 -0700
+
+    Update GameObject.java
+    
+    added update method which includes move and rotate methods
+
+commit c51fd59e16267df94f19ea539595d1d183be904e
+Author: Kenny Li <kennyli@desktop-q96hrro.ucdavis.edu>
+Date:   Mon Jul 15 09:41:04 2019 -0700
+
+    update the update method which includes move and rotate methods
+
+commit 4161d1f61ae5cd7db8e1f44a88bd81a55059faf0
+Author: Kenny Li <kennyli@KennydeMacBook-Pro.local>
+Date:   Sun Jul 14 15:28:07 2019 -0700
+
+    add bitmap code for ship and asteroid code for drawing
+
+commit d30ee0828e504e8d4e62068bad9734572b26bfdc
+Author: Kenny Li <kennyli@KennydeMacBook-Pro.local>
+Date:   Sun Jul 14 15:11:26 2019 -0700
+
+    add graphics for ship and large asteroid
+
+commit c49cfde3e4dfc5de531f8dac8ed94b232329460c
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sun Jul 14 15:09:53 2019 -0700
+
+    Refactored class name Projectile -> Bullet
+
+commit 74448dcf96e2b7e173326dce5a559b77c1fd5566
+Author: Kenny Li <kennyli@KennydeMacBook-Pro.local>
+Date:   Sun Jul 14 14:49:48 2019 -0700
+
+    modified setHitbox and formatting
+
+commit af2de1e27e86bfedbf9b17aa7145554793e51eaa
+Author: Kenny Li <kennyli@KennydeMacBook-Pro.local>
+Date:   Sun Jul 14 14:22:20 2019 -0700
+
+    clean up the comments and farmatting
+
+commit e011a36ef7fcb83f137b4553186cfe27faa6ea33
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sat Jul 13 17:28:20 2019 -0700
+
+    double -> float
+
+commit 754d3c87b77c3fb62ce85a4333aa8ce846f35f3d
+Author: Kenny Li <kennyli@campus-005-132.ucdavis.edu>
+Date:   Sat Jul 13 17:25:14 2019 -0700
+
+    update the bitmap for drawing
+
+commit 5e5740f0f5d99027b8e89746ecb3e8c3a4e0ffb7
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sat Jul 13 17:01:27 2019 -0700
+
+    Update GameObject.java
+    
+    modified hitbox and collision detection
+
+commit 82274387b1d73a5ab55002a8d3c67c348c966c7b
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sat Jul 13 17:00:38 2019 -0700
+
+    Update Rocks.java
+    
+    modified hitbox and collision detection
+
+commit 20fe623c1d224c5fec1410def5d8bb8bc7e9f809
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Fri Jul 12 18:51:46 2019 -0700
+
+    Create GameController
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit da343a303eaa1744c9704942ea1d30e92c343b7d
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Fri Jul 12 16:28:46 2019 -0700
+
+    Game Loop started
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 83ac8bd0df830e46cd62fbc6feebf8b7ad808c12
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Fri Jul 12 16:05:56 2019 -0700
+
+    removed extra file used for testing
+
+commit 4dd0fbb4d938f7fed640fc7b8bcd5c003af64a33
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Fri Jul 12 15:50:36 2019 -0700
+
+    originally adapted from PongGame - modified to suit Ship
+
+commit 8c8862902dfc13cec1b1e891ac5c6a757ca61a2b
+Merge: bda806e e849a77
+Author: Kenny Li <kennyli@KennydeMacBook-Pro.local>
+Date:   Fri Jul 12 13:36:02 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit bda806e96b1d14e6d74a6e510ffb5678aad692da
+Author: Kenny Li <kennyli@KennydeMacBook-Pro.local>
+Date:   Fri Jul 12 13:33:51 2019 -0700
+
+    add methods for object ship
+
+commit e849a777242752c98a2790b61a281e7125a14a44
+Author: Adrian Wang <atwang9503@github.com>
+Date:   Fri Jul 12 10:06:05 2019 -0700
+
+    Changed to fullscreen layout
+    Created temporary buttons
+    Linked InputControl to buttons
+    Began implementation of GameView
+    Raised java level
+    
+    Signed-off-by: Adrian Wang <atwang@ucdavis.edu>
+
+commit 3eb72db1f597dd8676524f833dad44d0a50df585
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Thu Jul 11 10:01:05 2019 -0700
+
+    Refactored GameObject to include hitbox updater
+
+commit 2fe5ed1d594fd2f56156dc5ba41fe22b7784ec27
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Wed Jul 10 22:32:05 2019 -0700
+
+    Refactored code to include enum ObjectID for collision detection
+
+commit c81ed06e7b519eab3c89fa9fd13031153c1216fa
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Wed Jul 10 22:09:01 2019 -0700
+
+    created new function for setting and updating hitboxes
+
+commit ff16e33d35b70e678267ba92bb25a8c5246be0dc
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Wed Jul 10 21:52:56 2019 -0700
+
+    made a constructor for the bullet
+
+commit cbe91fad9c4e8a053fbcb56ede974e7b76d0ecf1
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Wed Jul 10 21:52:13 2019 -0700
+
+    change float -> double
+
+commit bdb084409236c3b6c0281cfc467767ed46a98fe5
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Wed Jul 10 21:30:55 2019 -0700
+
+    Gave each asteroid size its own possible max speed, added comments
+
+commit 19e69edbab5b116d325e1497fdbec9823467430a
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Wed Jul 10 21:29:28 2019 -0700
+
+    Unabstracted move() and defined it, also added comments
+
+commit fe9262c7be5fc2251e7bbd7b70a99186ee5d055a
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Wed Jul 10 20:59:40 2019 -0700
+
+    Added comments describing purpose of constructors, and added TODO
+
+commit 7c85533eedeb61e77aea49231d0117a7e8ad2228
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Wed Jul 10 20:30:23 2019 -0700
+
+    Added 2 constuctors, one for Big Asteroid and one for its children
+
+commit 574679be73cc80e4c632a097b37e55d82a84a8df
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Wed Jul 10 20:28:17 2019 -0700
+
+    Abstracted function prototypes and unprivatized attributes for now
+
+commit 0f7ba5e3de4d080fc910c43e2d8da855163ae173
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Wed Jul 10 12:47:59 2019 -0700
+
+    updated functions
+    
+    changed empty functions into function prototypes; changed function description comments into javadoc comments
+
+commit e26de2e237449b160f4384d972c59b9ff719acd1
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Wed Jul 10 12:44:17 2019 -0700
+
+    removed useless function
+
+commit ac63d9ceb79c05a570400b9a177515d2aba81759
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Wed Jul 10 12:43:59 2019 -0700
+
+    made attributes private instead of protected
+
+commit 032aae2635a93c8fef7ec6158286631c8f264d95
+Author: Kenny Li <kennyli@campus-021-075.ucdavis.edu>
+Date:   Wed Jul 10 12:27:46 2019 -0700
+
+    update
+
+commit 364dce656619eca2d3918b02c2dc2cda445d03d6
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Wed Jul 10 12:16:34 2019 -0700
+
+    progress
+
+commit 7f80567552104a56384958006cb5ee08fac92b22
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Wed Jul 10 11:22:08 2019 -0700
+
+    Update README.md
+
+commit 6a79cb7bba2069347b0e23ed3a086ae007b37d60
+Author: Melissa Goh <mesagoh@gmail.com>
+Date:   Wed Jul 10 11:21:02 2019 -0700
+
+    Updated acceptance tests for each sprint
+
+commit 52b1bc1061df5792810f12eaa9e333474c0e9331
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Sun Jul 7 15:13:02 2019 -0700
+
+    added who's working on which classes
+
+commit 891401f6938f0e72525d15fa1ff88f45566dd483
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Sun Jul 7 15:12:44 2019 -0700
+
+    Create .gitignore
+
+commit 591b57f63a9f8507a5c226cefc68e434bc15fe03
+Author: Adrian Wang <atwang@ucdavis.edu>
+Date:   Sat Jul 6 21:05:08 2019 -0700
+
+    changed classes from public to package local
+
+commit 67b3ec94873a5fafe4b0321677a938c57b846f7c
+Author: Melissa Goh <mesagoh@gmail.com>
+Date:   Sun Jul 7 15:10:16 2019 -0700
+
+    Added CRC cards picture
+
+commit 4b222102ddd9f5928b46d934b200efd51690be03
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sun Jul 7 15:04:15 2019 -0700
+
+    crc cards picture
+
+commit 865a2e2a09b965cbf832960d141edf75983ffa50
+Author: Adrian Wang <atwang9503@github.com>
+Date:   Sat Jul 6 20:50:33 2019 -0700
+
+    removed .idea folder
+
+commit cd46718d88a96a0c5f20613369fe7228e47f7179
+Author: Adrian Wang <atwang9503@github.com>
+Date:   Sun Jul 7 14:50:36 2019 -0700
+
+    Update .gitignore
+
+commit 1acbdd8de02c38bd595cfeb71c37d2f13b6efc75
+Author: Adrian Wang <adrianwang@live.com>
+Date:   Sat Jul 6 20:35:56 2019 -0700
+
+    refactored package names
+
+commit 6b1a5f971ed28cbc6b5a6a559e67ff68c9a8465a
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:38:08 2019 -0700
+
+    Update README.md
+
+commit 37ea1a0cf7af1ddd71b1b20baff052fc94ac94fe
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Sun Jul 7 14:32:05 2019 -0700
+
+    Update StoryMapping.md
+
+commit c5cce1ac8fa47a82a91ac8e25233ffcc4695ba25
+Author: Timothy Van <timothyvan97@gmail.com>
+Date:   Sun Jul 7 14:28:27 2019 -0700
+
+    Update StoryMapping.md
+
+commit 81d41fe0929ba5696f82bef93bc8789afc5e6b84
+Author: TimothyV97 <timothyvan97@gmail.com>
+Date:   Sun Jul 7 14:26:47 2019 -0700
+
+    Added new Sprint Table
+
+commit caf200424638ab7f20f9f98b49629172a09ba1b6
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Sun Jul 7 14:23:47 2019 -0700
+
+    Update README.md
+
+commit 8818665cf8df0a800998d62854c108b951764387
+Author: Irene <spinetaneous@users.noreply.github.com>
+Date:   Sun Jul 7 14:22:53 2019 -0700
+
+    Update README.md
+
+commit 8817cf02285ff9fcbaff61eba9d1935056ba4795
+Merge: 318b0a7 b37e6b9
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sun Jul 7 14:19:37 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 318b0a75dfc80d136937b68e0078b678332206df
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sun Jul 7 14:19:24 2019 -0700
+
+    removed old table
+
+commit b37e6b9e0bb1481e6319a85de5b40877f3027015
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:18:35 2019 -0700
+
+    Update StoryMapping.md
+
+commit 49bfc740291b8dd7be6f7556972e29858a6eb822
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:18:09 2019 -0700
+
+    Update StoryMapping.md
+
+commit 6d0a943f253af1db3b1414a33b4a36693f2619e1
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:17:33 2019 -0700
+
+    Update StoryMapping.md
+
+commit 004de09e59bbfd9e7d771de52cad67b1aaadc0ed
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:17:18 2019 -0700
+
+    Update StoryMapping.md
+
+commit da4aa614f7af118718f8fe0dcefbda33163fc983
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:16:21 2019 -0700
+
+    Update StoryMapping.md
+
+commit 2b0fece1afa2a85c10f920a439b9a3fda343ca4f
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:16:00 2019 -0700
+
+    Update StoryMapping.md
+
+commit 0c4570fcd1a474e83e669e160a21bc7861338da5
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:15:31 2019 -0700
+
+    Update StoryMapping.md
+
+commit 5ea819bac440c7c27619bb981410265539dcea66
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:14:54 2019 -0700
+
+    Update StoryMapping.md
+
+commit 3b3d7713a0b4f36339c4c43d4a2f4f56abc4c807
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 14:11:38 2019 -0700
+
+    Update README.md
+
+commit 5d7388f1993952b8cb6feeea87478796b68a1f98
+Merge: 2a99e62 9442eb0
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sun Jul 7 13:55:46 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 2a99e623442b695a3e9da2675aab62dd9b7048c4
+Author: mesagoh <mesagoh@gmail.com>
+Date:   Sun Jul 7 13:55:25 2019 -0700
+
+    added classes
+
+commit 9442eb09cb71f0001596392f0e853b9d979260aa
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 13:54:38 2019 -0700
+
+    Delete Project User Story Mapping.txt
+
+commit 630a68e1a398ff4dcdcac75ffb901a79a04422c2
+Author: Timothy Van <timothyvan97@gmail.com>
+Date:   Sun Jul 7 13:52:29 2019 -0700
+
+    Create README.md
+
+commit e123daeb1bd2c009157e7988b4b0e2fb978325f9
+Author: Timothy Van <timothyvan97@gmail.com>
+Date:   Sun Jul 7 13:52:07 2019 -0700
+
+    Update and rename README.md to StoryMapping.md
+
+commit 6807e66e7dc2dacd757e394fcac98af23b4babb6
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 13:50:56 2019 -0700
+
+    Add files via upload
+
+commit 847ece5fbd12c25a37b0a5f7c65bebfdb14555d7
+Merge: 2ecc992 7e2086b
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sun Jul 7 13:47:40 2019 -0700
+
+    Merge branch 'master' of https://github.com/ecs160ss12019/EightAM
+
+commit 7e2086b82982e03b29842dfc5e2d3cc2a7e3827d
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 13:47:19 2019 -0700
+
+    Update README.md
+
+commit 6aba29a7a54c85ecc33e241e61184eadcb8243bc
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 13:46:59 2019 -0700
+
+    Add files via upload
+
+commit 2ecc9922869f2f142ec702998cc255f3e88ccc46
+Author: Irene <ireneho.imyh@gmail.com>
+Date:   Sun Jul 7 13:46:55 2019 -0700
+
+    initial commit (code for empty activity)
+
+commit cfe2aecebea404c897265d4c8fac2ba4b8fdddd5
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 13:46:33 2019 -0700
+
+    Update README.md
+
+commit 394498cb4a3dcf2d934dd5bdfddd933011fbb8c7
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 13:44:48 2019 -0700
+
+    Update README.md
+
+commit faaf177903814a5f9dcd03eedf023ec253c89693
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 13:44:28 2019 -0700
+
+    Update README.md
+
+commit 4f0c0d914b47ac980512c90b2c40c3526a1e5924
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 13:39:42 2019 -0700
+
+    Update README.md
+
+commit ed07e32405116387730163f53bc2bbd22093bd6c
+Author: Liyin Li <46338317+kennylee9672@users.noreply.github.com>
+Date:   Sun Jul 7 13:16:51 2019 -0700
+
+    Update README.md
+
+commit fc2cbe74fa8b54d82d76b4413a55ca67104a3f5e
+Author: ahnaqvi <ahnaqvi@ucdavis.edu>
+Date:   Sat Jul 6 21:00:57 2019 -0700
+
+    Initial commit

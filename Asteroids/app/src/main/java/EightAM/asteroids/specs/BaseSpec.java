@@ -13,7 +13,7 @@ public abstract class BaseSpec {
     public float dimensionBitMapRatio;
     public String paintName;
     public Point initialPosition = new Point(0, 0);
-    public float initialOrientation = 0f;
+    public float initialOrientation = 3f/2 * (float) Math.PI;
 
     public BaseSpec(String tag, String bitMapName, int resID, Point dimensions, float dbmRatio, String paintName) {
         this.tag = tag;

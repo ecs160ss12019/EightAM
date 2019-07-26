@@ -12,6 +12,7 @@ class BaseFactory implements Factory {
         if (instance == null) instance = new BaseFactory();
         BaseAsteroidFactory.init();
         BaseAlienFactory.init();
+        BaseShipFactory.init();
     }
 
     static BaseFactory getInstance() {

@@ -1,10 +1,6 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.SHIP_ACCELERATION;
-import static EightAM.asteroids.Constants.SHIP_ANGULARVELOCITY;
 import static EightAM.asteroids.Constants.SHIP_BITMAP_HITBOX_SCALE;
-import static EightAM.asteroids.Constants.SHIP_DECELERATION;
-import static EightAM.asteroids.Constants.SHIP_INVINCIBILITY_DURATION;
 import static EightAM.asteroids.Constants.SHIP_RESTART_DURATION;
 
 import android.content.Context;
@@ -18,6 +14,7 @@ import EightAM.asteroids.interfaces.Collideable;
 import EightAM.asteroids.interfaces.Controllable;
 import EightAM.asteroids.interfaces.Invulnerable;
 import EightAM.asteroids.interfaces.Shootable;
+import EightAM.asteroids.specs.BaseShipSpec;
 
 public class Ship extends GameObject implements Shootable, Controllable, Collideable, Invulnerable {
 
@@ -28,36 +25,58 @@ public class Ship extends GameObject implements Shootable, Controllable, Collide
     boolean invincible;
     int invincibilityDuration;
     int shotDelayCounter = 0;
-    int shotDelay = 30;
+    int shotDelay;
+    float rotationSpeed;
+    float acceleration;
+    float deceleration;
 
-    /**
-     * Constructor constructs a static currPlayerShip by setting up its size and hitbox.
+
+    /*
+     * How Dimensions were previously set:
      *
-     * @param screenX: width of screen
-     * @param screenY: height of screen
+     * hitboxHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
+     * hitboxWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
+     *
+     * float left = ((float) screenX / 2) - (hitboxWidth / 2);
+     * float right = ((float) screenX / 2) + (hitboxWidth / 2);
+     * float top = ((float) screenY / 2) - (hitboxHeight / 2);
+     * float bottom = ((float) screenY / 2) + (hitboxHeight / 2);
+     * this.hitbox = new RectF(left, top, right, bottom);
      */
-    Ship(GameModel gameModel, int screenX, int screenY, Context context) {
-        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_ship);
-        this.model = gameModel;
+    Ship(BaseShipSpec spec) {
+        //General
+        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
+        this.bitmap = BitmapStore.getBitmap(spec.bitMapName);
+        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y, spec.dimensions.x, spec.dimensions.y);
+        this.orientation = spec.initialOrientation;
+        this.vel = new Velocity(0, 0, spec.maxSpeed);
 
-        hitboxHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
-        hitboxWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
+        //Ship specific
+        this.id = ObjectID.getNewID(Faction.Player);
+        this.invincibilityDuration = spec.invincibilityDuration;
+        this.invincible = true;
+        this.shotDelay = spec.reloadTime;
+        this.rotationSpeed = spec.rotationSpeed;
+        this.acceleration = spec.acceleration;
+        this.deceleration = spec.deceleration;
+    }
 
-        this.vel = new Velocity(0, 0);
-        this.orientation = 3f / 2 * (float) Math.PI;
+    Ship(Ship ship) {
+        //General
+        this.paint = ship.paint;
+        this.bitmap = ship.bitmap;
+        this.hitbox = ship.hitbox;
+        this.orientation = ship.orientation;
+        this.vel = ship.vel;
 
-        // create currPlayerShip in the middle of screen
-        float left = ((float) screenX / 2) - (hitboxWidth / 2);
-        float right = ((float) screenX / 2) + (hitboxWidth / 2);
-        float top = ((float) screenY / 2) - (hitboxHeight / 2);
-        float bottom = ((float) screenY / 2) + (hitboxHeight / 2);
-        this.hitbox = new RectF(left, top, right, bottom);
-
-
-        this.invincibilityDuration = SHIP_INVINCIBILITY_DURATION;
-        invincible = true;
-        this.paint = new Paint();
-
+        //Ship specific
+        this.id = ship.id;
+        this.invincibilityDuration = ship.invincibilityDuration;
+        this.invincible = true;
+        this.shotDelay = ship.shotDelay;
+        this.rotationSpeed = ship.rotationSpeed;
+        this.acceleration = ship.acceleration;
+        this.deceleration = ship.deceleration;
     }
 
     /**
@@ -96,15 +115,15 @@ public class Ship extends GameObject implements Shootable, Controllable, Collide
     @Override
     public void input(InputControl.Input i) {
         if (i.UP) {
-            this.vel.accelerate(SHIP_ACCELERATION, orientation);
+            this.vel.accelerate(acceleration, orientation);
         } else {
-            this.vel.decelerate(SHIP_DECELERATION);  // velocity decay
+            this.vel.decelerate(deceleration);  // velocity decay
         }
 
         if (i.LEFT) {
-            this.angularVel = -SHIP_ANGULARVELOCITY;
+            this.angularVel = -rotationSpeed;
         } else if (i.RIGHT) {
-            this.angularVel = SHIP_ANGULARVELOCITY;
+            this.angularVel = rotationSpeed;
         } else {
             this.angularVel = 0;
         }
@@ -130,7 +149,7 @@ public class Ship extends GameObject implements Shootable, Controllable, Collide
         canvas.drawRect(this.hitbox, paint);
         if (!invincible) {
             canvas.drawBitmap(bitmap, matrix, paint);
-        } else if ((invincibilityDuration < (SHIP_INVINCIBILITY_DURATION - SHIP_RESTART_DURATION)) && invincibilityDuration % 2 == 0) {
+        } else if ((invincibilityDuration < (invincibilityDuration - SHIP_RESTART_DURATION)) && invincibilityDuration % 2 == 0) {
             canvas.drawBitmap(bitmap, matrix, paint);
         }
 

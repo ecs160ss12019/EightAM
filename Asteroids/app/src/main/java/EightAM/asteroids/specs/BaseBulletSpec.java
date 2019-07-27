@@ -11,7 +11,6 @@ public abstract class BaseBulletSpec extends BaseSpec {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
     }
 
-
     void setDamage(int damage) {
         this.damage = damage;
     }

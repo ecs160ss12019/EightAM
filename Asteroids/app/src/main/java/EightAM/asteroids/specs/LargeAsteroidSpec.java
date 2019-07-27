@@ -14,7 +14,7 @@ public class LargeAsteroidSpec extends BaseAsteroidSpec {
     public static String paintName = "asteroid";
     public static Pair<Float, Float> speed = new Pair<>(0.05f, 0.5f);
     public static Pair<Float, Float> spin = new Pair<>(0f, 0.002f);
-    public static BaseAsteroidSpec breaksInto = new SmallAsteroidSpec();
+    public static BaseAsteroidSpec breaksInto = new MediumAsteroidSpec();
     public static int pointValue = 10;
     public static int hitPoints = 1;
 

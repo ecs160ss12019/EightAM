@@ -32,7 +32,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     float deceleration;
     ShotListener shotListener;
 
-
     /*
      * How Dimensions were previously set:
      *
@@ -159,8 +158,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         } else if ((invincibilityDuration < (invincibilityDuration - SHIP_RESTART_DURATION)) && invincibilityDuration % 2 == 0) {
             canvas.drawBitmap(bitmap, matrix, paint);
         }
-
-
     }
 
     public float getPosX() { return hitbox.centerX();}
@@ -170,9 +167,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     public float getAngle() { return orientation; }
 
     @Override
-    public void shoot() {
-
-    }
+    public void shoot() { }
 
     @Override
     public PointF getShotOrigin() {

@@ -42,7 +42,6 @@ public class AsteroidGenerator {
         return new Point(randX, randY);
     }
 
-
     public void createBelt(Set<ObjectID> asteroids, Map<ObjectID, GameObject> objectMap, Point spaceSize, Point shipPos) {
         Point randPoint;
 

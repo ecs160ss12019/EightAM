@@ -12,7 +12,6 @@ public abstract class BaseAlienSpec extends BaseSpec {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
     }
 
-
     public void setHitPoints(int hitPoints) {
         this.hitPoints = hitPoints;
     }

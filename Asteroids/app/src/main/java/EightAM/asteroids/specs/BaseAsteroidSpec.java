@@ -15,7 +15,6 @@ public abstract class BaseAsteroidSpec extends BaseSpec {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
     }
 
-
     void setBreakCount(int breakCount) { this.breakCount = breakCount;}
 
     void setBreaksInto(BaseAsteroidSpec breaksInto) { this.breaksInto = breaksInto;}

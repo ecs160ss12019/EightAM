@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.util.Pair;
 
 import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
@@ -157,6 +158,8 @@ public class Asteroid extends GameObject implements Destructable {
     private Size rockSize;
     public BaseAsteroidSpec breaksInto;
     DestructListener destructListener;
+    Pair<Float, Float> speedRange;
+    Pair<Float, Float> spinRange;
 
     // ---------------Member methods----------------
 
@@ -173,6 +176,8 @@ public class Asteroid extends GameObject implements Destructable {
         this.orientation = spec.initialOrientation;
         this.vel = new Velocity(0, 0, spec.speedRange.second);
         this.angularVel = spec.spinSpeedRange.second;
+        this.speedRange = spec.speedRange;
+        this.spinRange = spec.spinSpeedRange;
         this.breaksInto = spec.breaksInto;
     }
 
@@ -185,6 +190,8 @@ public class Asteroid extends GameObject implements Destructable {
         this.orientation = asteroid.orientation;
         this.vel = new Velocity(asteroid.vel);
         this.angularVel = asteroid.angularVel;
+        this.speedRange = asteroid.speedRange;
+        this.spinRange = asteroid.spinRange;
         this.breaksInto = asteroid.breaksInto;
     }
 

@@ -87,6 +87,10 @@ public abstract class GameObject implements Drawable, Identifiable {
         return this.getID().equals(((GameObject) o).getID());
     }
 
+    public Point getObjPos() {
+        return new Point((int)hitbox.centerX(), (int)hitbox.centerY());
+    }
+
     /**
      * Set hitbox, object has its own version of hotbox
      */

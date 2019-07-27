@@ -90,7 +90,7 @@ public abstract class GameObject implements Drawable, Identifiable {
     /**
      * Set hitbox, object has its own version of hotbox
      */
-    abstract void setHitBox(float posX, float posY);
+    //abstract void setHitBox(float posX, float posY);
 
     // -----------Abstract member methods-----------
 

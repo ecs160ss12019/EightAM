@@ -17,6 +17,7 @@ public class Asteroid extends GameObject implements Destructable {
     Bitmap bitmap;
     // ---------------Member variables-------------
     private Size rockSize;
+    public BaseAsteroidSpec breaksInto;
 
     //    /**
     //     * First constructor constructs the asteroid rocks when there are no asteroids in
@@ -107,7 +108,7 @@ public class Asteroid extends GameObject implements Destructable {
     //            // TODO: this asteroid figure subject to change
     //            bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_asteroid_large);
     //        }
-    //        this.vel = new Velocity(speed, direction);
+    //        thstatic final intis.vel = new Velocity(speed, direction);
     //        this.setHitBox(currentX, currentY);
     //    }
 
@@ -117,10 +118,12 @@ public class Asteroid extends GameObject implements Destructable {
             this.rockSize = Size.LARGE;
         }
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
-        this.bitmap = BitmapStore.getBitmap(spec.bitMapName);
+        bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
         this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y, spec.dimensions.x, spec.dimensions.y);
         this.orientation = spec.initialOrientation;
         this.vel = new Velocity(0, 0, spec.speedRange.second);
+        this.angularVel = spec.spinSpeedRange.second;
+        this.breaksInto = spec.breaksInto;
     }
 
     Asteroid(Asteroid asteroid) {
@@ -131,6 +134,8 @@ public class Asteroid extends GameObject implements Destructable {
         this.hitbox = new RectF(asteroid.hitbox);
         this.orientation = asteroid.orientation;
         this.vel = new Velocity(asteroid.vel);
+        this.angularVel = asteroid.angularVel;
+        this.breaksInto = asteroid.breaksInto;
     }
 
     // ---------------Member methods---------------

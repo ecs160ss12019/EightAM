@@ -3,10 +3,10 @@ package EightAM.asteroids;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.util.Log;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,17 +17,17 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.GameListener;
+import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.interfaces.Invulnerable;
 
-class GameModel implements GameListener {
+public class GameModel implements GameListener, GameState {
 
     protected Alien alien;
     boolean gameOver;
     Lock lock;
     Context context;
     int numOfAsteroids;
-    int spaceWidth;
-    int spaceHeight;
+    Point spaceSize;
     boolean isPaused;
     GameStats stats;
     Map<ObjectID, GameObject> objectMap;
@@ -44,12 +44,11 @@ class GameModel implements GameListener {
     /**
      * Main Constructor of the Model. Called at the start of every game session.
      */
-    protected GameModel(int screenWidth, int screenHeight, Context context) {
+    protected GameModel(Point screenSize, Context context) {
         //TODO: Initialize Grid... Maybe?
         lock = new ReentrantLock();
         this.context = context;
-        spaceWidth = screenWidth;
-        spaceHeight = screenHeight;
+        spaceSize = screenSize;
         objectMap = new HashMap<>();
         asteroids = new HashSet<>();
         aliens = new HashSet<>();
@@ -63,7 +62,7 @@ class GameModel implements GameListener {
 
         this.gameOver = false;
         // set player stats
-        this.stats = new GameStats(screenWidth, screenHeight, context);
+        this.stats = new GameStats(spaceSize, context);
     }
 
     private void resetGameParam() {
@@ -73,11 +72,11 @@ class GameModel implements GameListener {
 
     private void createObjects() {
         respawnShip();
-        this.alien = new BigAlien(spaceWidth, spaceHeight, context);
+        this.alien = new BigAlien(spaceSize, context);
     }
 
     private void resetObjects() {
-        this.stats = new GameStats(spaceWidth, spaceHeight, context);
+        this.stats = new GameStats(spaceSize, context);
         objectMap.clear();
         asteroids.clear();
         aliens.clear();
@@ -93,14 +92,14 @@ class GameModel implements GameListener {
     }
 
     private void respawnShip() {
-        Ship ship = new Ship(this, spaceWidth, spaceHeight, context);
+        Ship ship = new Ship(this, spaceSize, context);
         currPlayerShip = ship.getID();
         objectMap.put(ship.getID(), ship);
     }
 
     private boolean isInvulnerable(GameObject gameObject) {
         if (gameObject instanceof Invulnerable){
-            if (((Invulnerable) gameObject).isInvulnerable()) return true;
+            return ((Invulnerable) gameObject).isInvulnerable();
         }
         return false;
     }
@@ -164,7 +163,7 @@ class GameModel implements GameListener {
 
     void update(long timeInMillisecond) {
         for (GameObject o : objectMap.values()) {
-            o.update(spaceWidth, spaceHeight, timeInMillisecond);
+            o.update(spaceSize, timeInMillisecond);
         }
         //Collisions
         computeCollision(currPlayerShip);
@@ -204,7 +203,7 @@ class GameModel implements GameListener {
         }
     }
 
-    Ship getPlayerShip() {
+    public Ship getPlayerShip() {
         if (currPlayerShip != null && objectMap.containsKey(currPlayerShip)) {
             return (Ship) objectMap.get(currPlayerShip);
         } else {

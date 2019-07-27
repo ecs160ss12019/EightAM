@@ -8,7 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-import EightAM.asteroids.interfaces.Shootable;
+import EightAM.asteroids.interfaces.Shooter;
 
 public class Bullet extends GameObject {
 
@@ -25,17 +25,17 @@ public class Bullet extends GameObject {
      *
      * @param shooter - denotes if fired from player (true) or alien (false)
      */
-    protected Bullet(Shootable shooter) {
-        this.shooterAngle = shooter.getAngle();
+    protected Bullet(Shooter shooter) {
+        this.shooterAngle = shooter.getShotAngle();
         hitbox = new RectF(shooter.getPosX() - 3, shooter.getPosY() - 3, shooter.getPosX() + 3, shooter.getPosY() + 3);
         this.owner = shooter.getID();
         distanceTraveled = 0;
         this.paint = new Paint();
 
         if (this.owner.getFaction() == Faction.Player) {
-            this.vel = new Velocity(BULLET_SPEED, shooter.getAngle());
+            this.vel = new Velocity(BULLET_SPEED, shooter.getShotAngle());
         } else {
-            this.vel = new Velocity(BULLET_SPEED / 2, shooter.getAngle());
+            this.vel = new Velocity(BULLET_SPEED / 2, shooter.getShotAngle());
         }
     }
 

@@ -1,17 +1,12 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.SHIP_INVINCIBILITY_DURATION;
 
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -52,11 +47,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        AssetLoader.load(gameView.getContext());
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         //gameState = new GameState(size.x, size.y, gameView.getContext());
-        gameModel = new GameModel(size.x, size.y, gameView.getContext());
+        gameModel = new GameModel(size, gameView.getContext());
         gameController = new GameController(gameModel, size.x, size.y);
         gameView.setGameModel(gameModel);
         // temporary until menu is created
@@ -85,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
         isPaused = true;
 
-        gauze.setOnClickListener(view -> {
-            gauze.setVisibility(View.GONE);
-            buttonLayout.setVisibility(View.VISIBLE);
-            onResume();
-        });
+//        gauze.setOnClickListener(view -> {
+//            gauze.setVisibility(View.GONE);
+//            buttonLayout.setVisibility(View.VISIBLE);
+//            onResume();
+//        });
 
     }
 
@@ -101,16 +97,16 @@ public class MainActivity extends AppCompatActivity {
         isPaused = false;
     }
 
-    protected void onPauseScreen() {
-
-        pauseButton.setOnClickListener(view -> {
-            Log.d("main activity", "onpause");
-            gauze.setVisibility(View.VISIBLE);
-            buttonLayout.setVisibility(View.GONE);
-            screenMsg.setText("Paused - Tap to Resume");
-            onPause();
-        });
-    }
+//    protected void onPauseScreen() {
+//
+//        pauseButton.setOnClickListener(view -> {
+//            Log.d("main activity", "onpause");
+//            gauze.setVisibility(View.VISIBLE);
+//            buttonLayout.setVisibility(View.GONE);
+//            screenMsg.setText("Paused - Tap to Resume");
+//            onPause();
+//        });
+//    }
 
 
 }

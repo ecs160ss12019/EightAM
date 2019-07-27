@@ -3,9 +3,6 @@ package EightAM.asteroids;
 // float random = min + r.nextFloat() * (max - min);
 //int randomNum = rand.nextInt((max - min) + 1) + min;
 
-import static EightAM.asteroids.Constants.ALIEN_TARGET_ACCURACY;
-
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -14,29 +11,28 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-import EightAM.asteroids.interfaces.Collideable;
-import EightAM.asteroids.interfaces.Shootable;
+import EightAM.asteroids.interfaces.AIModule;
+import EightAM.asteroids.interfaces.Collision;
 
-public abstract class Alien extends GameObject implements Shootable, Collideable {
+public abstract class Alien extends GameObject implements Collision, AIModule {
     // ---------------Member statics --------------
-    static final int MAXSPEED = 3;
-    static Bitmap bitmap;
+    Bitmap bitmap;
     int distanceTraveled, maxRange, turnDelay;
     int shotDelayCounter = 0;
     int shotDelay = 30;
-    float shotOrientation = 0;
+    float shotAngle = 0;
     boolean canShoot = false;
 
     // ---------------Member methods --------------
 
-    protected Alien(int xTotalPix, int yTotalPix) {
-        this.setMoveBehavior();
-        this.setTimer();
-        this.setShotDelay();
-
-        // might use later
-        this.objectID = ObjectID.ALIEN;
-    }
+    //    protected Alien(int xTotalPix, int yTotalPix) {
+    //        this.setMoveBehavior();
+    //        this.setTimer();
+    //        this.setShotDelay();
+    //
+    //        // might use later
+    //        this.objectID = ObjectID.ALIEN;
+    //    }
 
     /**
      * Spawns alien either on left or right of the screen
@@ -80,26 +76,26 @@ public abstract class Alien extends GameObject implements Shootable, Collideable
 
     }
 
-    protected void shoot(float targetX, float targetY) {
-        this.canShoot = false;
-        Random randX = new Random();
-        Random randY = new Random();
-
-        // TODO: change shooting behavior based on alien type
-        float minX = targetX - ALIEN_TARGET_ACCURACY;
-        float maxX = targetX + ALIEN_TARGET_ACCURACY;
-        float minY = targetY - ALIEN_TARGET_ACCURACY;
-        float maxY = targetY + ALIEN_TARGET_ACCURACY;
-
-        float finalX = minX + randX.nextFloat() * (maxX - minX);
-        float finalY = minY + randY.nextFloat() * (maxY - minY);
-
-        float delX = finalX - getPosX();
-        float delY = finalY - getPosY();
-
-        this.shotOrientation = (float) Math.atan2(delY, delX);
-
-    }
+//    protected void shoot(float targetX, float targetY) {
+//        this.canShoot = false;
+//        Random randX = new Random();
+//        Random randY = new Random();
+//
+//        // TODO: change shooting behavior based on alien type
+//        float minX = targetX - ALIEN_TARGET_ACCURACY;
+//        float maxX = targetX + ALIEN_TARGET_ACCURACY;
+//        float minY = targetY - ALIEN_TARGET_ACCURACY;
+//        float maxY = targetY + ALIEN_TARGET_ACCURACY;
+//
+//        float finalX = minX + randX.nextFloat() * (maxX - minX);
+//        float finalY = minY + randY.nextFloat() * (maxY - minY);
+//
+//        float delX = finalX - getPosX();
+//        float delY = finalY - getPosY();
+//
+//        this.shotAngle = (float) Math.atan2(delY, delX);
+//
+//    }
 
     protected void setHitBox(float posX, float posY) {
         hitbox = new RectF(posX, posY, posX, posY);
@@ -133,6 +129,7 @@ public abstract class Alien extends GameObject implements Shootable, Collideable
     public boolean detectCollisions(GameObject approachingObject) {
         return hitbox.intersect(approachingObject.hitbox);
     }
+
     /**
      * Determines if the alien should continue to persist.
      *
@@ -167,11 +164,8 @@ public abstract class Alien extends GameObject implements Shootable, Collideable
 
     protected abstract void setMoveBehavior();
 
-    // getter functions
-    public float getPosX() { return hitbox.centerX(); }
-
-    public float getPosY() { return hitbox.centerY(); }
-
-    public float getAngle() { return shotOrientation; }
+    public float getShotAngle() {
+        return shotAngle;
+    }
 
 }

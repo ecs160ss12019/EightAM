@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.view.SurfaceHolder;
 
 import EightAM.asteroids.interfaces.Scoreable;
@@ -22,19 +23,17 @@ public class GameStats {
     // for storing high score, cited: textbook Chapter 21
     SharedPreferences.Editor editor;
     Context context;
-    int spaceWidth;
-    int spaceHeight;
+    Point spaceSize;
 
-    protected GameStats(int screenWidth, int screenHeight, Context context) {
+    protected GameStats(Point spaceSize, Context context) {
 
         // Set game attributes
         this.score = 0;
         this.livesLeft = STARTING_LIVES;
 
         this.context = context;
-        this.textFormatting = screenWidth / 40;
-        spaceWidth = screenWidth;
-        spaceHeight = screenHeight;
+        this.textFormatting = spaceSize.x / 40;
+        this.spaceSize = spaceSize;
 
         // Get high score from the previous game
         SharedPreferences prefs;

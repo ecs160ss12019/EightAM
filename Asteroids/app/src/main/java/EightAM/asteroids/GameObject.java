@@ -5,6 +5,7 @@ import static EightAM.asteroids.Constants.DEF_ANGULAR_VELOCITY;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.RectF;
 
 import EightAM.asteroids.interfaces.Drawable;
@@ -28,11 +29,10 @@ public abstract class GameObject implements Drawable, Identifiable {
     /**
      * Move an object according to their velocity
      *
-     * @param spaceWidth        width of space (canvas)
-     * @param spaceHeight       height of space (canvas)
+     * @param spaceSize        size of space (canvas)
      * @param timeInMillisecond moving distance calculated base on this input time
      */
-    void move(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+    void move(Point spaceSize, long timeInMillisecond) {
         // Move the ball based upon the
         // horizontal (mXVelocity) and
         // vertical(mYVelocity) speed
@@ -44,15 +44,15 @@ public abstract class GameObject implements Drawable, Identifiable {
         float cx = hitbox.centerX();
         float cy = hitbox.centerY();
         // if the center passes the boundary, wrap around the hitbox
-        if (cx > spaceWidth) {
-            hitbox.offset(-(float) spaceWidth, 0);
+        if (cx > spaceSize.x) {
+            hitbox.offset(-(float) spaceSize.x, 0);
         } else if (cx < 0) {
-            hitbox.offset((float) spaceWidth, 0);
+            hitbox.offset((float) spaceSize.x, 0);
         }
-        if (cy > spaceHeight) {
-            hitbox.offset(0, -(float) spaceHeight);
+        if (cy > spaceSize.y) {
+            hitbox.offset(0, -(float) spaceSize.y);
         } else if (cy < 0) {
-            hitbox.offset(0, (float) spaceHeight);
+            hitbox.offset(0, (float) spaceSize.y);
         }
     }
 
@@ -72,9 +72,9 @@ public abstract class GameObject implements Drawable, Identifiable {
     /**
      * Update method means rotating and moving the calling object.
      */
-    void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+    void update(Point spaceSize, long timeInMillisecond) {
         rotate();
-        move(spaceWidth, spaceHeight, timeInMillisecond);
+        move(spaceSize, timeInMillisecond);
     }
 
 

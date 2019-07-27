@@ -1,15 +1,14 @@
 package EightAM.asteroids;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-import EightAM.asteroids.interfaces.Collideable;
+import EightAM.asteroids.interfaces.Collision;
 
 class CollisionChecker {
 
     static ObjectID collidesWith(GameObject actor, Collection<GameObject> list) {
         for (GameObject o : list) {
-            if (o instanceof Collideable && ((Collideable) o).detectCollisions(actor)) {
+            if (o instanceof Collision && ((Collision) o).detectCollisions(actor)) {
                 if (o.id.getFaction() != actor.id.getFaction()) {
                     return o.id;
                 }

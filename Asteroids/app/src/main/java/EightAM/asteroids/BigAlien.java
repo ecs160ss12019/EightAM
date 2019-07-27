@@ -1,32 +1,46 @@
 package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.ALIEN_BIG_MAXSPEED;
-
-import android.content.Context;
-
-import java.util.Random;
-
 import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MAX;
 import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MIN;
 import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MAX;
 import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MIN;
 
+import android.graphics.RectF;
+
+import java.util.Random;
+
 public class BigAlien extends Alien {
 
 
-    /**
-     * Spawns a new alien on the screen at a random y position on either
-     * the left or the right of the screen
-     *
-     * @param xTotalPix total x dimensions of the screen
-     * @param yTotalPix total y dimensions of the screen
-     * @param context   context of the game (passed from game model)
-     */
-    protected BigAlien(int xTotalPix, int yTotalPix, Context context) {
-        super(xTotalPix, yTotalPix);
-        // prepare bitmap
-        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
-        spawn(xTotalPix, yTotalPix);
+//    /**
+//     * Spawns a new alien on the screen at a random y position on either
+//     * the left or the right of the screen
+//     *
+//     * @param xTotalPix total x dimensions of the screen
+//     * @param yTotalPix total y dimensions of the screen
+//     * @param context   context of the game (passed from game model)
+//     */
+//    protected BigAlien(int xTotalPix, int yTotalPix, Context context) {
+//        super(xTotalPix, yTotalPix);
+//        // prepare bitmap
+//        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
+//        spawn(xTotalPix, yTotalPix);
+//    }
+
+    BigAlien(BigAlien alien) {
+        this.id = ObjectID.getNewID(Faction.Alien);
+        this.bitmap = alien.bitmap;
+        this.paint = alien.paint;
+        this.canShoot = false;
+        this.hitbox = new RectF(alien.hitbox);
+        this.angularVel = alien.angularVel;
+        this.orientation = alien.orientation;
+        this.turnDelay = alien.turnDelay;
+        this.vel = new Velocity(alien.vel);
+        this.shotAngle = 0;
+        this.shotDelayCounter = 0;
+        this.distanceTraveled = 0;
     }
 
     /**
@@ -39,7 +53,7 @@ public class BigAlien extends Alien {
 
         speed = ALIEN_BIG_MAXSPEED;
         direction = 1 + (rand.nextFloat() * 360);
-        this.vel = new Velocity(speed, direction);
+        this.vel = new Velocity(speed, direction, speed);
     }
 
     /**

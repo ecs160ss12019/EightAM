@@ -6,9 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -48,11 +48,11 @@ public final class ImageUtils {
         return result;
     }
 
-    public static Bitmap getHitboxScaledBitmap(Bitmap bm, RectF hitbox, float scale) {
+    public static Bitmap getHitboxScaledBitmap(Bitmap bm, Point dimensions, float scale) {
         int width = bm.getWidth();
         int height = bm.getHeight();
-        float newWidth = hitbox.width() * scale;
-        float newHeight = hitbox.height() * scale;
+        float newWidth = dimensions.x * scale;
+        float newHeight = dimensions.y * scale;
         float scaleWidth = newWidth / width;
         float scaleHeight = newHeight / height;
         // CREATE A MATRIX FOR THE MANIPULATION

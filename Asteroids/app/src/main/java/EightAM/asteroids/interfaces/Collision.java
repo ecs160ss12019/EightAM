@@ -2,7 +2,7 @@ package EightAM.asteroids.interfaces;
 
 import EightAM.asteroids.GameObject;
 
-public interface Collideable {
+public interface Collision {
 
     /**
      * Collision detection method takes in the hitbox of approaching object, using intersection
@@ -12,4 +12,6 @@ public interface Collideable {
      * @return true for collision, otherwise false
      */
     boolean detectCollisions(GameObject approachingObject);
+
+    boolean canCollide();
 }

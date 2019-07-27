@@ -2,7 +2,7 @@ package EightAM.asteroids;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.RectF;
+import android.graphics.Point;
 
 import androidx.annotation.DrawableRes;
 
@@ -11,17 +11,19 @@ import java.util.Map;
 
 final class BitmapStore {
     private static Map<String, Bitmap> mBitmapsMap;
-    private static Context context;
+    private static BitmapStore instance;
 
-    private BitmapStore() { }
-
-    // Calling this method is the only way to get a BitmapStore
-    static void initialize(Context context) {
-        BitmapStore.context = context;
+    private BitmapStore() {
         mBitmapsMap = new HashMap<>();
     }
 
-    static Bitmap getBitmap(String bitmapName) {
+    // Calling this method is the only way to get a BitmapStore
+    static BitmapStore getInstance() {
+        if (instance == null) instance = new BitmapStore();
+        return instance;
+    }
+
+    Bitmap getBitmap(String bitmapName) {
         if (mBitmapsMap.containsKey(bitmapName)) {
             return mBitmapsMap.get(bitmapName);
         } else {
@@ -29,7 +31,8 @@ final class BitmapStore {
         }
     }
 
-    static void addVectorBitmap(Context c, String bitmapName, @DrawableRes int id, RectF objectSize, int scale) {
+    void addVectorBitmap(Context c, String bitmapName, @DrawableRes int id, Point objectSize,
+            float scale) {
         Bitmap bitmap;
         // Make a resource id out of the string of the file name
         bitmap = ImageUtils.getVectorBitmap(c, id);
@@ -38,7 +41,7 @@ final class BitmapStore {
         mBitmapsMap.put(bitmapName, bitmap);
     }
 
-    static void clearStore() {
+    void clearStore() {
         for (Bitmap bm : mBitmapsMap.values()) {
             bm.recycle();
         }

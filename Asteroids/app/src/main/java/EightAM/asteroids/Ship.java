@@ -3,20 +3,21 @@ package EightAM.asteroids;
 import static EightAM.asteroids.Constants.SHIP_BITMAP_HITBOX_SCALE;
 import static EightAM.asteroids.Constants.SHIP_RESTART_DURATION;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.RectF;
 
-import EightAM.asteroids.interfaces.Collideable;
+import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Controllable;
 import EightAM.asteroids.interfaces.Invulnerable;
-import EightAM.asteroids.interfaces.Shootable;
+import EightAM.asteroids.interfaces.Shooter;
+import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseShipSpec;
 
-public class Ship extends GameObject implements Shootable, Controllable, Collideable, Invulnerable {
+public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable {
 
     // ---------------Member variables-------------
 
@@ -29,6 +30,7 @@ public class Ship extends GameObject implements Shootable, Controllable, Collide
     float rotationSpeed;
     float acceleration;
     float deceleration;
+    ShotListener shotListener;
 
 
     /*
@@ -46,7 +48,7 @@ public class Ship extends GameObject implements Shootable, Controllable, Collide
     Ship(BaseShipSpec spec) {
         //General
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
-        this.bitmap = BitmapStore.getBitmap(spec.bitMapName);
+        bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
         this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y, spec.dimensions.x, spec.dimensions.y);
         this.orientation = spec.initialOrientation;
         this.vel = new Velocity(0, 0, spec.maxSpeed);
@@ -64,7 +66,7 @@ public class Ship extends GameObject implements Shootable, Controllable, Collide
     Ship(Ship ship) {
         //General
         this.paint = ship.paint;
-        this.bitmap = ship.bitmap;
+        bitmap = bitmap;
         this.hitbox = ship.hitbox;
         this.orientation = ship.orientation;
         this.vel = ship.vel;
@@ -88,11 +90,11 @@ public class Ship extends GameObject implements Shootable, Controllable, Collide
     }
 
     @Override
-    void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
+    void update(Point spaceSize, long timeInMillisecond) {
         if (invincibilityDuration > 0) invincibilityDuration--;
         if (invincibilityDuration <= 0) invincible = false;
         rotate();
-        move(spaceWidth, spaceHeight, timeInMillisecond);
+        move(spaceSize, timeInMillisecond);
         if (shotDelayCounter > 0) shotDelayCounter--;
     }
 
@@ -107,6 +109,11 @@ public class Ship extends GameObject implements Shootable, Controllable, Collide
     public boolean detectCollisions(GameObject approachingObject) {
         if (invincible) return false;
         return hitbox.intersect(approachingObject.hitbox);
+    }
+
+    @Override
+    public boolean canCollide() {
+        return !invincible;
     }
 
     /**
@@ -163,7 +170,27 @@ public class Ship extends GameObject implements Shootable, Controllable, Collide
     public float getAngle() { return orientation; }
 
     @Override
+    public void shoot() {
+
+    }
+
+    @Override
+    public PointF getShotOrigin() {
+        return new PointF(hitbox.centerX(), hitbox.centerY());
+    }
+
+    @Override
+    public float getShotAngle() {
+        return orientation;
+    }
+
+    @Override
     public ObjectID getID() { return this.id;}
+
+    @Override
+    public void linkShotListener(ShotListener listener) {
+        this.shotListener = listener;
+    }
 
     @Override
     public boolean isInvulnerable() {

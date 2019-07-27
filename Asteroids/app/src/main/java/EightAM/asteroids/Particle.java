@@ -30,6 +30,16 @@ public class Particle extends GameObject implements Destructable {
         this.vel = new Velocity(0, 0, spec.speed);
     }
 
+    Particle(Particle particle) {
+        this.id = particle.id;
+        this.duration = particle.duration;
+        this.paint = particle.paint;
+        this.bitmap = particle.bitmap;
+        this.hitbox = particle.hitbox;
+        this.orientation = particle.orientation;
+        this.vel = particle.vel;
+    }
+
     @Override
     void update(Point spaceSize, long timeInMillisecond) {
         super.update(spaceSize, timeInMillisecond);

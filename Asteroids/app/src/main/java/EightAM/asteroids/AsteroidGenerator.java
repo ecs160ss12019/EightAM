@@ -3,6 +3,7 @@ package EightAM.asteroids;
 import android.graphics.Point;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -42,29 +43,26 @@ public class AsteroidGenerator {
     }
 
 
-    public Set<GameObject> createBelt(Point spaceSize, Point shipPos) {
-        Set<GameObject> asteroidBelt = new HashSet<>();
+    public void createBelt(Set<ObjectID> asteroids, Map<ObjectID, GameObject> objectMap, Point spaceSize, Point shipPos) {
         Point randPoint;
 
         for (int i = 0; i < numOfAsteroids; i++){
             GameObject asteroid = BaseFactory.getInstance().create(new LargeAsteroidSpec());
             randPoint = getRandomPosition(spaceSize, shipPos);
             asteroid.hitbox.offset(randPoint.x, randPoint.y);
-            asteroidBelt.add(asteroid);
+
+            asteroids.add(asteroid.getID());
+            objectMap.put(asteroid.getID(), asteroid);
         }
 
-        return asteroidBelt;
     }
 
-    public Set<GameObject> createAsteroid(Asteroid parentAsteroid) {
-        Set<GameObject> asteroidBelt = new HashSet<>();
-
-        for (int i = 0; i < numOfAsteroids; i++){
+    public void breakUpAsteroid(Asteroid parentAsteroid, Set<ObjectID> asteroids, Map<ObjectID, GameObject> objectMap) {
+        for (int i = 0; i < 2; i++){
             GameObject asteroid = BaseFactory.getInstance().create(parentAsteroid.breaksInto);
             asteroid.hitbox.offset(parentAsteroid.hitbox.centerX(), parentAsteroid.hitbox.centerY());
-            asteroidBelt.add(asteroid);
+            asteroids.add(asteroid.getID());
+            objectMap.put(asteroid.getID(), asteroid);
         }
-
-        return asteroidBelt;
     }
 }

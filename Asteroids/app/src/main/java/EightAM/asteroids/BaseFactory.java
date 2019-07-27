@@ -1,6 +1,10 @@
 package EightAM.asteroids;
 
 import EightAM.asteroids.interfaces.Factory;
+import EightAM.asteroids.specs.BaseAlienSpec;
+import EightAM.asteroids.specs.BaseAsteroidSpec;
+import EightAM.asteroids.specs.BaseBulletSpec;
+import EightAM.asteroids.specs.BaseShipSpec;
 import EightAM.asteroids.specs.BaseSpec;
 
 class BaseFactory implements Factory {
@@ -22,6 +26,18 @@ class BaseFactory implements Factory {
 
     @Override
     public GameObject create(BaseSpec spec) {
-        return null;
+        if (spec instanceof BaseAsteroidSpec) {
+            return BaseAsteroidFactory.getInstance().createAsteroid((BaseAsteroidSpec) spec);
+        }
+        if (spec instanceof BaseAlienSpec) {
+            return BaseAlienFactory.getInstance().createAlien((BaseAlienSpec) spec);
+        }
+        if (spec instanceof BaseShipSpec) {
+            return BaseShipFactory.getInstance().createShip((BaseShipSpec) spec);
+        }
+        if (spec instanceof BaseBulletSpec) {
+            return BaseBulletFactory.getInstance().createBullet((BaseBulletSpec) spec);
+        }
+        // other factory methods
     }
 }

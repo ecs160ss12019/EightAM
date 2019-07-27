@@ -5,6 +5,7 @@ import java.util.Map;
 
 import EightAM.asteroids.interfaces.AlienFactory;
 import EightAM.asteroids.specs.BaseAlienSpec;
+import EightAM.asteroids.specs.BigAlienSpec;
 
 class BaseAlienFactory implements AlienFactory {
     static BaseAlienFactory instance;
@@ -25,12 +26,14 @@ class BaseAlienFactory implements AlienFactory {
 
     @Override
     public Alien createAlien(BaseAlienSpec spec) {
-        Alien ret;
-        if (prototypes.containsKey(spec)) {
-            ret = new BigAlien(prototypes.get(spec));
-        } else {
-
+        Alien alien;
+        alien = prototypes.get(spec);
+        if (alien == null) {
+            if (spec instanceof BigAlienSpec) {
+                alien = new BigAlien((BigAlienSpec) spec);
+            }
+            prototypes.put(spec, alien);
         }
-        return ret;
+        return alien;
     }
 }

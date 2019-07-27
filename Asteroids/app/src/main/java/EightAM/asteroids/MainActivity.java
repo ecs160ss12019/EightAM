@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +18,12 @@ public class MainActivity extends AppCompatActivity {
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
-    Menu menu;
+
+    RelativeLayout msgLayout;
+    RelativeLayout buttonLayout;
+    ImageView pauseButton;
+    TextView screenMsg;
+
 
 
     private boolean isPaused;
@@ -63,14 +71,17 @@ public class MainActivity extends AppCompatActivity {
         gameView.audio.playMusic(MainActivity.this);
 
         // Find Layout Elements to be used/manipulated
-        menu.initLayout(this);
 
+        msgLayout = findViewById(R.id.view_gauze);
+        buttonLayout = findViewById(R.id.view_button);
+        pauseButton = findViewById(R.id.pause_button);
+        screenMsg = findViewById(R.id.startText);
 
         // Start game on tap
-        menu.onStartScreen(gameModel);
+        onStartScreen();
 
         // Set Listener for Pause
-        menu.onPauseScreen();
+        onPauseScreen();
 
     }
 
@@ -81,14 +92,23 @@ public class MainActivity extends AppCompatActivity {
 
         isPaused = true;
 
-//        gauze.setOnClickListener(view -> {
-//            gauze.setVisibility(View.GONE);
-//            buttonLayout.setVisibility(View.VISIBLE);
-//            onResume();
-//        });
+        msgLayout.setOnClickListener(view -> {
+            msgLayout.setVisibility(View.GONE);
+            buttonLayout.setVisibility(View.VISIBLE);
+            onResume();
+        });
 
     }
 
+    // TODO: disable collision detection before user taps on screen
+    protected void onStartScreen() {
+        msgLayout.setOnClickListener(view -> {
+            msgLayout.setVisibility(View.GONE);
+            buttonLayout.setVisibility(View.VISIBLE);
+            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincible = true;
+            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincibilityDuration = 500;
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -97,16 +117,14 @@ public class MainActivity extends AppCompatActivity {
         isPaused = false;
     }
 
-//    protected void onPauseScreen() {
-//
-//        pauseButton.setOnClickListener(view -> {
-//            Log.d("main activity", "onpause");
-//            gauze.setVisibility(View.VISIBLE);
-//            buttonLayout.setVisibility(View.GONE);
-//            screenMsg.setText("Paused - Tap to Resume");
-//            onPause();
-//        });
-//    }
+    protected void onPauseScreen() {
+        pauseButton.setOnClickListener(view -> {
+            msgLayout.setVisibility(View.VISIBLE);
+            buttonLayout.setVisibility(View.GONE);
+            screenMsg.setText("Paused - Tap to Resume");
+            onPause();
+        });
+    }
 
 
 }

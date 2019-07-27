@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.RectF;
 
 import java.util.Random;
@@ -58,8 +59,8 @@ public abstract class Alien extends GameObject implements Collision, AIModule {
     }
 
     @Override
-    protected void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
-        move(spaceWidth, spaceHeight, timeInMillisecond);
+    protected void update(Point spaceSize, long timeInMillisecond) {
+        move(spaceSize, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
         // decrement timers
         this.turnDelay--;

@@ -1,35 +1,72 @@
 package EightAM.asteroids;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.RectF;
+import EightAM.asteroids.interfaces.DestructListener;
+import EightAM.asteroids.interfaces.Destructable;
+import EightAM.asteroids.specs.ParticleSpec;
 
-import java.util.Random;
+public class Particle extends GameObject implements Destructable {
 
-protected class Particle extends GameObject {
-    //Velocity vel;
-    //RectF hitbox;
-    float speed = 1;
-    float angle;
+    // ---------------Member variables-------------
 
-    public Particle(float x, float y, float angle) {
-        this.vel = new Velocity(speed, angle);
-        setHitBox(x, y);
-        this.paint = new Paint();
+    Bitmap bitmap;
+    int duration;
+    DestructListener destructListener;
 
-        Random rand = new Random();
+    // ---------------Member methods---------------
 
-        paint.setARGB(255,
-                rand.nextInt(256),
-                rand.nextInt(256),
-                rand.nextInt(256));
+    Particle(ParticleSpec spec) {
+        this.id = ObjectID.getNewID(Faction.Neutral);
+        this.duration = spec.duration;
+        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
+        this.bitmap = BitmapStore.getBitmap(spec.bitMapName);
+        this.hitbox = new RectF(spec.initialPosition.x,
+                spec.initialPosition.y,
+                spec.initialPosition.x + spec.dimensions.x,
+                spec.initialPosition.y + spec.dimensions.y);
+        this.orientation = spec.initialOrientation;
+        this.vel = new Velocity(0, 0, spec.speed);
     }
 
-    protected void setHitBox(float posX, float posY) {
-        // temp size of a particle
-        this.hitbox = new RectF(posX-50, posY-50, posX+50, posY+50);
+    Particle(Particle particle) {
+        this.id = particle.id;
+        this.duration = particle.duration;
+        this.paint = particle.paint;
+        this.bitmap = particle.bitmap;
+        this.hitbox = particle.hitbox;
+        this.orientation = particle.orientation;
+        this.vel = particle.vel;
     }
+
+    @Override
+    void update(Point spaceSize, long timeInMillisecond) {
+        super.update(spaceSize, timeInMillisecond);
+        duration -= timeInMillisecond;
+        if (duration <= 0) {
+            this.destruct();
+        }
+    }
+
+    @Override
+    public void setHitBox(float x, float y) {
+        this.hitbox.offsetTo(x, y);
+    }
+
+    @Override
     public void draw(Canvas canvas) {
-        canvas.drawRect(this.hitbox, paint);
+        canvas.drawRect(this.hitbox, this.paint);
+    }
+
+    @Override
+    public void destruct() {
+        this.destructListener.OnDestruct(this);
+    }
+
+    @Override
+    public void linkDestructListener(DestructListener listener) {
+        this.destructListener = listener;
     }
 }

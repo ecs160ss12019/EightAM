@@ -8,16 +8,12 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 
+import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseAsteroidSpec;
 import EightAM.asteroids.specs.LargeAsteroidSpec;
 
 public class Asteroid extends GameObject implements Destructable {
-
-    Bitmap bitmap;
-    // ---------------Member variables-------------
-    private Size rockSize;
-
     //    /**
     //     * First constructor constructs the asteroid rocks when there are no asteroids in
     //     * space, i.e. when there's a new game or when all asteroids in the field are
@@ -109,59 +105,34 @@ public class Asteroid extends GameObject implements Destructable {
     //        }
     //        this.vel = new Velocity(speed, direction);
     //        this.setHitBox(currentX, currentY);
+    //    }    /**
+    //     * Sets and/or updates the position of the hitbox of the asteroid
+    //     */
+    //
+    //    // TODO: Set RecF dependent on size of screen and position of Asteroid
+    //    protected void setHitBox(float posX, float posY) {
+    //        hitbox = new RectF(posX, posY, posX, posY);
+    //        switch (rockSize) {
+    //            case LARGE:
+    //                hitbox.left -= hitboxWidth / 2;
+    //                hitbox.top -= hitboxHeight / 2;
+    //                hitbox.right += hitboxWidth / 2;
+    //                hitbox.bottom += hitboxHeight / 2;
+    //                break;
+    //            case MEDIUM:
+    //                hitbox.left -= ASTEROID_MEDIUM_RADIUS;
+    //                hitbox.top -= ASTEROID_MEDIUM_RADIUS;
+    //                hitbox.right += ASTEROID_MEDIUM_RADIUS;
+    //                hitbox.bottom += ASTEROID_MEDIUM_RADIUS;
+    //                break;
+    //            case SMALL:
+    //                hitbox.left -= ASTEROID_SMALL_RADIUS;
+    //                hitbox.top -= ASTEROID_SMALL_RADIUS;
+    //                hitbox.right += ASTEROID_SMALL_RADIUS;
+    //                hitbox.bottom += ASTEROID_SMALL_RADIUS;
+    //                break;
+    //        }
     //    }
-
-    Asteroid(BaseAsteroidSpec spec) {
-        this.id = ObjectID.getNewID(Faction.Neutral);
-        if (spec instanceof LargeAsteroidSpec) {
-            this.rockSize = Size.LARGE;
-        }
-        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
-        this.bitmap = BitmapStore.getBitmap(spec.bitMapName);
-        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y, spec.dimensions.x, spec.dimensions.y);
-        this.orientation = spec.initialOrientation;
-        this.vel = new Velocity(0, 0, spec.speedRange.second);
-    }
-
-    Asteroid(Asteroid asteroid) {
-        this.id = ObjectID.getNewID(Faction.Neutral);
-        this.rockSize = asteroid.rockSize;
-        this.paint = asteroid.paint;
-        this.bitmap = asteroid.bitmap;
-        this.hitbox = new RectF(asteroid.hitbox);
-        this.orientation = asteroid.orientation;
-        this.vel = new Velocity(asteroid.vel);
-    }
-
-    // ---------------Member methods---------------
-
-    /**
-     * Sets and/or updates the position of the hitbox of the asteroid
-     */
-    // TODO: Set RecF dependent on size of screen and position of Asteroid
-    protected void setHitBox(float posX, float posY) {
-        hitbox = new RectF(posX, posY, posX, posY);
-        switch (rockSize) {
-            case LARGE:
-                hitbox.left -= hitboxWidth / 2;
-                hitbox.top -= hitboxHeight / 2;
-                hitbox.right += hitboxWidth / 2;
-                hitbox.bottom += hitboxHeight / 2;
-                break;
-            case MEDIUM:
-                hitbox.left -= ASTEROID_MEDIUM_RADIUS;
-                hitbox.top -= ASTEROID_MEDIUM_RADIUS;
-                hitbox.right += ASTEROID_MEDIUM_RADIUS;
-                hitbox.bottom += ASTEROID_MEDIUM_RADIUS;
-                break;
-            case SMALL:
-                hitbox.left -= ASTEROID_SMALL_RADIUS;
-                hitbox.top -= ASTEROID_SMALL_RADIUS;
-                hitbox.right += ASTEROID_SMALL_RADIUS;
-                hitbox.bottom += ASTEROID_SMALL_RADIUS;
-                break;
-        }
-    }
 
     //    /**
     //     * Got call when an asteroid explodes
@@ -180,18 +151,63 @@ public class Asteroid extends GameObject implements Destructable {
     //        asteroidsBelt.add(secondChild);
     //    }
 
+    // ---------------Member variable---------------
+
+    Bitmap bitmap;
+    private Size rockSize;
+    public BaseAsteroidSpec breaksInto;
+    DestructListener destructListener;
+
+    // ---------------Member methods----------------
+
+    Asteroid(BaseAsteroidSpec spec) {
+        this.id = ObjectID.getNewID(Faction.Neutral);
+        if (spec instanceof LargeAsteroidSpec) {
+            this.rockSize = Size.LARGE;
+        }
+        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
+        this.bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
+        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
+                spec.initialPosition.x + spec.dimensions.x,
+                spec.initialPosition.y + spec.dimensions.y);
+        this.orientation = spec.initialOrientation;
+        this.vel = new Velocity(0, 0, spec.speedRange.second);
+        this.angularVel = spec.spinSpeedRange.second;
+        this.breaksInto = spec.breaksInto;
+    }
+
+    Asteroid(Asteroid asteroid) {
+        this.id = ObjectID.getNewID(Faction.Neutral);
+        this.rockSize = asteroid.rockSize;
+        this.paint = asteroid.paint;
+        this.bitmap = asteroid.bitmap;
+        this.hitbox = new RectF(asteroid.hitbox);
+        this.orientation = asteroid.orientation;
+        this.vel = new Velocity(asteroid.vel);
+        this.angularVel = asteroid.angularVel;
+        this.breaksInto = asteroid.breaksInto;
+    }
+
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-        matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f), hitbox.top - (hitboxHeight * 0.5f));
-        canvas.drawRect(this.hitbox, paint);
+        matrix.setRotate((float) Math.toDegrees(orientation),
+                (float) bitmap.getWidth() / 2,
+                (float) bitmap.getHeight() / 2);
+        matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f),
+                hitbox.top - (hitboxHeight * 0.5f));
+        canvas.drawRect(this.hitbox, this.paint);
         canvas.drawBitmap(bitmap, matrix, paint);
     }
 
     @Override
     public void destruct() {
         // implement destruction effects here.
+    }
+
+    @Override
+    public void linkDestructListener(DestructListener listener) {
+        this.destructListener = listener;
     }
 
     // enum size used to denote three size types of asteroid rock

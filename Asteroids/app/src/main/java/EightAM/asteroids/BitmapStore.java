@@ -23,7 +23,7 @@ final class BitmapStore {
         return instance;
     }
 
-    static Bitmap getBitmap(String bitmapName) {
+    Bitmap getBitmap(String bitmapName) {
         if (mBitmapsMap.containsKey(bitmapName)) {
             return mBitmapsMap.get(bitmapName);
         } else {

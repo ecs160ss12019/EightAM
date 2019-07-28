@@ -83,7 +83,5 @@ public abstract class GameObject implements Drawable, Identifiable {
         return this.getID().equals(((GameObject) o).getID());
     }
 
-    public abstract void setHitBox(float posX, float posY);
-
     public abstract void draw(Canvas canvas);
 }

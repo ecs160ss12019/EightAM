@@ -6,16 +6,16 @@ import java.util.Map;
 import EightAM.asteroids.interfaces.ParticleFactory;
 import EightAM.asteroids.specs.ParticleSpec;
 
-public class BasicParticleFactory implements ParticleFactory {
-    static BasicParticleFactory instance;
+public class BaseParticleFactory implements ParticleFactory {
+    static BaseParticleFactory instance;
     private Map<ParticleSpec, Particle> prototypes;
 
-    private BasicParticleFactory() {
+    private BaseParticleFactory() {
         prototypes = new HashMap<>();
     }
 
     static void init() {
-        if (instance == null) instance = new BasicParticleFactory();
+        if (instance == null) instance = new BaseParticleFactory();
     }
 
     @Override
@@ -34,5 +34,4 @@ public class BasicParticleFactory implements ParticleFactory {
         // Position of collision will be set by generator
         return ret;
     }
-
 }

@@ -20,7 +20,6 @@ class BaseFactory implements Factory {
         return instance;
     }
 
-    @Override
     public GameObject create(BaseSpec spec) {
         return null;
     }

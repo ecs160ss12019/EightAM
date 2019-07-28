@@ -29,19 +29,6 @@ public class AsteroidGenerator {
         return instance;
     }
 
-    private Point getRandomPosition(Point spaceSize, Point shipPos){
-        Random rand = new Random();
-        int randX;
-        int randY;
-
-        do{
-            randX = rand.nextInt(spaceSize.x) - shipPos.x;
-            randY = rand.nextInt(spaceSize.y) - shipPos.y;
-        } while (Math.hypot(randX - shipPos.x, randY - shipPos.y) < SAFE_DISTANCE);
-
-        return new Point(randX, randY);
-    }
-
     public void createBelt(Set<ObjectID> asteroids, Map<ObjectID, GameObject> objectMap, Point spaceSize, Point shipPos) {
         Point randPoint;
 
@@ -53,7 +40,6 @@ public class AsteroidGenerator {
             asteroids.add(asteroid.getID());
             objectMap.put(asteroid.getID(), asteroid);
         }
-
     }
 
     public void breakUpAsteroid(Asteroid parentAsteroid, Set<ObjectID> asteroids, Map<ObjectID, GameObject> objectMap) {
@@ -63,5 +49,18 @@ public class AsteroidGenerator {
             asteroids.add(asteroid.getID());
             objectMap.put(asteroid.getID(), asteroid);
         }
+    }
+
+    private Point getRandomPosition(Point spaceSize, Point shipPos){
+        Random rand = new Random();
+        int randX;
+        int randY;
+
+        do{
+            randX = rand.nextInt(spaceSize.x) - shipPos.x;
+            randY = rand.nextInt(spaceSize.y) - shipPos.y;
+        } while (Math.hypot(randX - shipPos.x, randY - shipPos.y) < SAFE_DISTANCE);
+
+        return new Point(randX, randY);
     }
 }

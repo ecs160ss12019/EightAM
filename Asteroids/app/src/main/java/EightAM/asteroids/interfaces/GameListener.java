@@ -9,7 +9,6 @@ public interface GameListener {
 
     void onGameEnd();
 
-
     // Not yet implemented
     //    void onPowerUp(PowerUp powerUp);
 

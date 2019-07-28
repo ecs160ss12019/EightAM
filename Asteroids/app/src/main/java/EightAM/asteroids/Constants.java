@@ -6,9 +6,6 @@ final class Constants {
     static final float DEF_ANGLE = 0;
     static final float MAX_SPEED = 2.0f;
     // ASTEROID
-
-    static final int STARTING_ASTEROIDS = 3;
-    static final int STARTING_LIVES = 3;
     static final int ASTEROID_LARGE_RADIUS = 3;
     static final int ASTEROID_MEDIUM_RADIUS = 2;
     static final int ASTEROID_SMALL_RADIUS = 1;
@@ -36,5 +33,12 @@ final class Constants {
     static final int EFFECT_NUM = 5;
     static final int EFFECT_RADIUS = 8;
 
+    // wave info
 
+    static final int STARTING_ASTEROIDS = 3;
+    static final float alienProbInc = .1f;
+    static final int asteroidIncWave = 1;
+
+    // player info
+    static final int STARTING_LIVES = 3;
 }

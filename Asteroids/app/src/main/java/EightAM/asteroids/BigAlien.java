@@ -1,32 +1,21 @@
 package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.ALIEN_BIG_MAXSPEED;
-import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MAX;
-import static EightAM.asteroids.Constants.BIGALIEN_SHOTDELAY_MIN;
-import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MAX;
-import static EightAM.asteroids.Constants.BIGALIEN_TIMER_MIN;
 
 import android.graphics.RectF;
+import android.util.Pair;
 
 import java.util.Random;
 
+import EightAM.asteroids.specs.BaseAlienSpec;
+import EightAM.asteroids.specs.BigAlienSpec;
+
 public class BigAlien extends Alien {
 
-
-//    /**
-//     * Spawns a new alien on the screen at a random y position on either
-//     * the left or the right of the screen
-//     *
-//     * @param xTotalPix total x dimensions of the screen
-//     * @param yTotalPix total y dimensions of the screen
-//     * @param context   context of the game (passed from game model)
-//     */
-//    protected BigAlien(int xTotalPix, int yTotalPix, Context context) {
-//        super(xTotalPix, yTotalPix);
-//        // prepare bitmap
-//        if (bitmap == null) bitmap = ImageUtils.getVectorBitmap(context, R.drawable.ic_alien);
-//        spawn(xTotalPix, yTotalPix);
-//    }
+    Pair<Integer, Integer> shotDelayRange;
+    Pair<Integer, Integer> turnDelayRange;
+    private int turnDelay;
+    private int shotDelay;
 
     BigAlien(BigAlien alien) {
         this.id = ObjectID.getNewID(Faction.Alien);
@@ -36,11 +25,24 @@ public class BigAlien extends Alien {
         this.hitbox = new RectF(alien.hitbox);
         this.angularVel = alien.angularVel;
         this.orientation = alien.orientation;
-        this.turnDelay = alien.turnDelay;
+        this.turnDelayRange = alien.turnDelayRange;
         this.vel = new Velocity(alien.vel);
-        this.shotAngle = 0;
-        this.shotDelayCounter = 0;
-        this.distanceTraveled = 0;
+        this.shotDelayRange = alien.shotDelayRange;
+    }
+
+    BigAlien(BigAlienSpec spec) {
+        this.id = ObjectID.getNewID(Faction.Alien);
+        this.bitmap = BitmapStore.getInstance().getBitmap(((BaseAlienSpec) spec).bitMapName);
+        this.paint = PaintStore.getInstance().getPaint(((BaseAlienSpec) spec).paintName);
+        this.canShoot = false;
+        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
+                spec.initialPosition.x + ((BaseAlienSpec) spec).dimensions.x,
+                spec.initialPosition.y + ((BaseAlienSpec) spec).dimensions.y);
+        this.angularVel = 0;
+        this.orientation = spec.initialOrientation;
+        this.turnDelayRange = spec.turnDelayRange;
+        this.vel = new Velocity(0, 0, ((BaseAlienSpec) spec).maxSpeed);
+        this.shotDelayRange = spec.shotDelayRange;
     }
 
     /**
@@ -63,8 +65,8 @@ public class BigAlien extends Alien {
     protected void setTimer() {
         Random rand = new Random();
         //int randomNum = rand.nextInt((max - min) + 1) + min;
-        this.turnDelay = rand.nextInt((BIGALIEN_TIMER_MAX - BIGALIEN_TIMER_MIN) + 1)
-                + BIGALIEN_TIMER_MIN;
+        this.turnDelay = rand.nextInt((turnDelayRange.second - turnDelayRange.first) + 1)
+                + turnDelayRange.first;
 
     }
 
@@ -73,7 +75,12 @@ public class BigAlien extends Alien {
      */
     protected void setShotDelay() {
         Random rand = new Random();
-        this.shotDelay = rand.nextInt((BIGALIEN_SHOTDELAY_MAX - BIGALIEN_SHOTDELAY_MIN) + 1)
-                + BIGALIEN_SHOTDELAY_MIN;
+        this.shotDelay = rand.nextInt((shotDelayRange.second - shotDelayRange.first) + 1)
+                + shotDelayRange.first;
+    }
+
+    @Override
+    public boolean canCollide() {
+        return true;
     }
 }

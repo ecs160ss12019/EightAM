@@ -32,4 +32,9 @@ final class Constants {
     static final int BIGALIEN_SHOTDELAY_MIN = 3000;
     static final int BIGALIEN_SHOTDELAY_MAX = 5000;
 
+    //PARTICLE EFFECT
+    static final int EFFECT_NUM = 5;
+    static final int EFFECT_RADIUS = 8;
+
+
 }

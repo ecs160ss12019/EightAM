@@ -12,28 +12,18 @@ import android.graphics.RectF;
 
 import java.util.Random;
 
-import EightAM.asteroids.interfaces.AIModule;
 import EightAM.asteroids.interfaces.Collision;
 
-public abstract class Alien extends GameObject implements Collision, AIModule {
+public abstract class Alien extends GameObject implements Collision {
     // ---------------Member statics --------------
     Bitmap bitmap;
-    int distanceTraveled, maxRange, turnDelay;
+    int distanceTraveled;
+    int maxRange;
     int shotDelayCounter = 0;
-    int shotDelay = 30;
     float shotAngle = 0;
     boolean canShoot = false;
 
     // ---------------Member methods --------------
-
-    //    protected Alien(int xTotalPix, int yTotalPix) {
-    //        this.setMoveBehavior();
-    //        this.setTimer();
-    //        this.setShotDelay();
-    //
-    //        // might use later
-    //        this.objectID = ObjectID.ALIEN;
-    //    }
 
     /**
      * Spawns alien either on left or right of the screen
@@ -63,18 +53,6 @@ public abstract class Alien extends GameObject implements Collision, AIModule {
         move(spaceSize, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
         // decrement timers
-        this.turnDelay--;
-        this.shotDelay--;
-        if (this.turnDelay <= 0) {
-            this.turn();
-            this.setTimer();
-        }
-
-        if (this.shotDelay <= 0) {
-            this.canShoot = true;
-            this.setShotDelay();
-        }
-
     }
 
 //    protected void shoot(float targetX, float targetY) {

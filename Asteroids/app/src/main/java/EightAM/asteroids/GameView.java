@@ -67,11 +67,7 @@ class GameView extends SurfaceView implements Runnable {
                 model.lock.lock();
                 try {
                     // Drawings
-                    drawShip(canvas);
-                    drawBullets(canvas);
-                    drawAsteroidBelt(canvas);
-                    drawAlien(canvas);
-
+                    drawShit(canvas);
 
                     // Drawing hub
                     model.stats.drawAttributes(canvas, defaultPaint, surfaceHolder);
@@ -87,20 +83,8 @@ class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    void drawBullets(Canvas canvas) {
-        for (GameObject object : model.bulletsFired) object.draw(canvas);
-    }
-
-    void drawAsteroidBelt(Canvas canvas) {
-        for (GameObject object : model.asteroidBelt) object.draw(canvas);
-    }
-
-    void drawShip(Canvas canvas) {
-        if (model.currPlayerShip != null) model.objectMap.get(model.currPlayerShip).draw(canvas);
-    }
-
-    void drawAlien(Canvas canvas) {
-        if (model.alien != null) model.alien.draw(canvas);
+    void drawShit(Canvas canvas) {
+        for (GameObject object : model.objectMap.values()) object.draw(canvas);
     }
 
 

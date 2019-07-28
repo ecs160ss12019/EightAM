@@ -6,7 +6,7 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
-import EightAM.asteroids.specs.ParticleSpec;
+import EightAM.asteroids.specs.BaseParticleSpec;
 
 public class Particle extends GameObject implements Destructable {
 
@@ -18,11 +18,11 @@ public class Particle extends GameObject implements Destructable {
 
     // ---------------Member methods---------------
 
-    Particle(ParticleSpec spec) {
+    Particle(BaseParticleSpec spec) {
         this.id = ObjectID.getNewID(Faction.Neutral);
         this.duration = spec.duration;
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
-        this.bitmap = BitmapStore.getBitmap(spec.bitMapName);
+        this.bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
         this.hitbox = new RectF(spec.initialPosition.x,
                 spec.initialPosition.y,
                 spec.initialPosition.x + spec.dimensions.x,
@@ -50,10 +50,6 @@ public class Particle extends GameObject implements Destructable {
         }
     }
 
-    @Override
-    public void setHitBox(float x, float y) {
-        this.hitbox.offsetTo(x, y);
-    }
 
     @Override
     public void draw(Canvas canvas) {

@@ -63,7 +63,6 @@ public class AsteroidGenerator extends GameObjectGenerator{
             asteroid = setVelocity((Asteroid) asteroid);
             addToMap(asteroid, asteroids, objectMap);
         }
-
     }
 
     public void breakUpAsteroid(Asteroid parentAsteroid, Set<ObjectID> asteroids, Map<ObjectID, GameObject> objectMap) {

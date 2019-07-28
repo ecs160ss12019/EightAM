@@ -80,7 +80,10 @@ public class Bullet extends GameObject implements Collision {
     @Override
     public boolean canCollide() {
         return true;
-    } // IMPLEMENT COLLISION INTERFACE
+    }
+
+    // TODO: implement onCollide
+    // IMPLEMENT COLLISION INTERFACE
 
     protected void setFaction(Faction newFaction) {
         faction = newFaction;

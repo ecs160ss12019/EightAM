@@ -25,34 +25,12 @@ public abstract class Alien extends GameObject implements Collision {
 
     // ---------------Member methods --------------
 
-    /**
-     * Spawns alien either on left or right of the screen
-     *
-     * @param xTotalPix total pixels of screen (width)
-     * @param yTotalPix total pixels of the screen (height)
-     */
-    protected void spawn(int xTotalPix, int yTotalPix) {
-        int randX, randY;
-
-        // set maxRange to be the width of the screen
-        maxRange = xTotalPix;
-
-        // spawn alien w/ random speed & direction
-        // on either side of the screen
-        Random rand = new Random();
-        // randX will either be 0 or xTotalPix
-        randX = rand.nextInt(((xTotalPix - 1) + 1) + 1) * rand.nextInt(2);
-        randY = rand.nextInt(((yTotalPix - 1) + 1) + 1);
-
-        this.setHitBox(randX, randY);
-        this.paint = new Paint();
-    }
 
     @Override
     protected void update(Point spaceSize, long timeInMillisecond) {
         move(spaceSize, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
-        // decrement timers
+        // set timers
     }
 
 //    protected void shoot(float targetX, float targetY) {
@@ -75,18 +53,6 @@ public abstract class Alien extends GameObject implements Collision {
 //        this.shotAngle = (float) Math.atan2(delY, delX);
 //
 //    }
-
-    protected void setHitBox(float posX, float posY) {
-        hitbox = new RectF(posX, posY, posX, posY);
-
-        hitboxWidth = bitmap.getWidth() * 0.5f;
-        hitboxHeight = bitmap.getHeight() * 0.5f;
-
-        hitbox.left -= hitboxWidth / 2;
-        hitbox.top -= hitboxHeight / 2;
-        hitbox.right += hitboxWidth / 2;
-        hitbox.bottom += hitboxHeight / 2;
-    }
 
     @Override
     public void draw(Canvas canvas) {
@@ -136,12 +102,6 @@ public abstract class Alien extends GameObject implements Collision {
         float newY = -1 * this.vel.y;
         this.vel.setY(newY);
     }
-
-    protected abstract void setTimer();
-
-    protected abstract void setShotDelay();
-
-    protected abstract void setMoveBehavior();
 
     public float getShotAngle() {
         return shotAngle;

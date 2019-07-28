@@ -6,13 +6,16 @@ final class Constants {
     static final float DEF_ANGLE = 0;
     static final float MAX_SPEED = 2.0f;
     // ASTEROID
+
     static final int STARTING_ASTEROIDS = 3;
     static final int STARTING_LIVES = 3;
     static final int ASTEROID_LARGE_RADIUS = 3;
     static final int ASTEROID_MEDIUM_RADIUS = 2;
     static final int ASTEROID_SMALL_RADIUS = 1;
+    static final float SAFE_DISTANCE = 800;
     static final float ASTEROID_MAXSPEED = 0.5f; // TODO: subject to change
     static final double ASTEROID_MAXANGLE = 2 * Math.PI;
+
     // BULLET
     static final int BULLET_SPEED = 10;
     static final float BULLET_MAX_RANGE = 400; // Max distance bullet travels

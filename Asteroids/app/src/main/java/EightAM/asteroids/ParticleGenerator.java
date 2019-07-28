@@ -23,19 +23,19 @@ public class ParticleGenerator {
         return instance;
     }
 
-    public void createParticles(Map<ObjectID, GameObject> objectMap, Point spaceSize, Point shipPos) {
+    public void createParticles(Map<ObjectID, GameObject> objectMap, Point spaceSize, Point objectPos) {
         Point randPoint;
         for (int i = 0; i < numOfParticles; i++) {
             GameObject particle = BaseFactory.getInstance().create(new ParticleSpec());
-            randPoint = getRandomPosition(spaceSize, shipPos);
+            randPoint = getRandomPosition(spaceSize, objectPos);
             particle.hitbox.offset(randPoint.x, randPoint.y);
             objectMap.put(particle.getID(), particle);
         }
     }
 
-    private Point getRandomPosition(Point spaceSize, Point shipPos) {
+    private Point getRandomPosition(Point size, Point pos) {
         double angle = Math.random() * Math.PI * 2;
-        int offSet = spaceSize.x - shipPos.x;
+        int offSet = size.x - pos.x;
         int x = (int)Math.cos(angle) * EFFECT_RADIUS + offSet;
         int y = (int)Math.sin(angle) * EFFECT_RADIUS + offSet;
         return new Point(x, y);

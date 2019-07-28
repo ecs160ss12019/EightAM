@@ -1,9 +1,10 @@
 package EightAM.asteroids;
 
+import java.util.Map;
 import EightAM.asteroids.interfaces.Shooter;
-import EightAM.asteroids.interfaces.ShotListener;
+import EightAM.asteroids.specs.BasicBulletSpec;
 
-public class BulletGenerator extends GameObjectGenerator implements ShotListener {
+public class BulletGenerator extends GameObjectGenerator {
     static BulletGenerator instance;
 
     private BulletGenerator() {}
@@ -15,8 +16,19 @@ public class BulletGenerator extends GameObjectGenerator implements ShotListener
         return instance;
     }
 
-    @Override
-    public void onShotFired(Shooter shooter) {
+    public void createBullet(Map<ObjectID, GameObject> objectMap, Shooter shooter) {
+        BasicBulletSpec spec = prepareSpec(shooter);
 
+        GameObject bullet = BaseFactory.getInstance().create(spec);
+        objectMap.put(bullet.getID(), bullet);
+    }
+
+    private BasicBulletSpec prepareSpec(Shooter shooter) {
+        // prepare the bullet spec
+        BasicBulletSpec spec = new BasicBulletSpec();
+        spec.initialPosition = shooter.getShotOrigin();
+        spec.initialOrientation = shooter.getShotAngle();
+
+        return spec;
     }
 }

@@ -17,6 +17,11 @@ public class BaseShipFactory implements ShipFactory {
         if (instance == null) instance = new BaseShipFactory();
     }
 
+    static BaseShipFactory getInstance() {
+        if (instance == null) init();
+        return instance;
+    }
+
     @Override
     public Ship createShip(BaseShipSpec spec) {
         Ship ret;

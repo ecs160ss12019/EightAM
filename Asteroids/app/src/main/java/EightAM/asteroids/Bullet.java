@@ -3,47 +3,87 @@ package EightAM.asteroids;
 import static EightAM.asteroids.Constants.BULLET_MAX_RANGE;
 import static EightAM.asteroids.Constants.BULLET_SPEED;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.RectF;
 
+import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Shooter;
+import EightAM.asteroids.specs.BaseBulletSpec;
 
-public class Bullet extends GameObject {
-
-    ObjectID owner;
-    private float distanceTraveled;
+public class Bullet extends GameObject implements Collision {
+    // set by generator
+    private Faction faction;
     private float shooterAngle;
 
-    /**
-     * Constructs projectile, i.e. shoots projectile in the orientation/angle
-     * of the shooter.
-     *
-     * Alien shots are slower than the player's. This is to give the player
-     * time to react.
-     *
-     * @param shooter - denotes if fired from player (true) or alien (false)
-     */
-    protected Bullet(Shooter shooter) {
-        this.shooterAngle = shooter.getShotAngle();
-        hitbox = new RectF(shooter.getPosX() - 3, shooter.getPosY() - 3, shooter.getPosX() + 3, shooter.getPosY() + 3);
-        this.owner = shooter.getID();
-        distanceTraveled = 0;
-        this.paint = new Paint();
+    Bitmap bitmap;
+    private float distanceTraveled;
 
-        if (this.owner.getFaction() == Faction.Player) {
-            this.vel = new Velocity(BULLET_SPEED, shooter.getShotAngle());
-        } else {
-            this.vel = new Velocity(BULLET_SPEED / 2, shooter.getShotAngle());
-        }
+//    * OLD CONSTRUCTOR
+//     * Constructs projectile, i.e. shoots projectile in the orientation/angle
+//     * of the shooter.
+//     *
+//     * Alien shots are slower than the player's. This is to give the player
+//     * time to react.
+//     *
+//     * @param shooter - denotes if fired from player (true) or alien (false)
+//
+//    protected Bullet(Shooter shooter) {
+//        this.shooterAngle = shooter.getShotAngle();
+//        hitbox = new RectF(shooter.getPosX() - 3, shooter.getPosY() - 3, shooter.getPosX() + 3, shooter.getPosY() + 3);
+//        this.owner = shooter.getID();
+//        distanceTraveled = 0;
+//        this.paint = new Paint();
+//
+//        if (this.owner.getFaction() == Faction.Player) {
+//            this.vel = new Velocity(BULLET_SPEED, shooter.getShotAngle());
+//        } else {
+//            this.vel = new Velocity(BULLET_SPEED / 2, shooter.getShotAngle());
+//        }
+//    }
+    Bullet(BaseBulletSpec spec) {
+        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
+        // TODO: draw bullet
+        //this.bitmap = BitmapStore.getBitmap(spec.bitMapName);
+        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
+                spec.dimensions.x, spec.dimensions.y);
+        this.orientation = spec.initialOrientation;
+        this.vel = new Velocity(spec.speed, this.orientation, spec.speed);
+    }
+
+    Bullet(Bullet bullet) {
+        this.paint = bullet.paint;
+        // TODO: draw bullet
+        //this.bitmap = bullet.bitmap;
+        this.hitbox = bullet.hitbox;
+        this.orientation = bullet.orientation;
+        this.vel = bullet.vel;
+    }
+
+
+    @Override
+    void update(Point spaceSize, long timeInMillisecond) {
+        rotate();
+        move(spaceSize, timeInMillisecond);
+        distanceTraveled(timeInMillisecond);
+    }
+
+    // IMPLEMENT COLLISION INTERFACE
+    @Override
+    public boolean detectCollisions(GameObject approachingObject) {
+        return hitbox.intersect(approachingObject.hitbox);
     }
 
     @Override
-    void update(int spaceWidth, int spaceHeight, long timeInMillisecond) {
-        rotate();
-        move(spaceWidth, spaceHeight, timeInMillisecond);
-        distanceTraveled(timeInMillisecond);
+    public boolean canCollide() {
+        return true;
+    } // IMPLEMENT COLLISION INTERFACE
+
+    protected void setFaction(Faction newFaction) {
+        faction = newFaction;
     }
 
     /**

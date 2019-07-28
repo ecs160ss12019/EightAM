@@ -105,10 +105,6 @@ public class Bullet extends GameObject implements Collision {
         return distanceTraveled > BULLET_MAX_RANGE;
     }
 
-    public void setHitBox(float posX, float posY) {
-        hitbox = new RectF(posX, posY, posX, posY);
-    }
-
     @Override
     public void draw(Canvas canvas) {
         canvas.drawRect(this.hitbox, paint);

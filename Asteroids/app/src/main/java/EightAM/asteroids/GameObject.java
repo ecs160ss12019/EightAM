@@ -26,6 +26,8 @@ public abstract class GameObject implements Drawable, Identifiable {
     Paint paint;
     ObjectID id;
 
+    // ---------------Member methods---------------
+
     /**
      * Move an object according to their velocity
      *
@@ -33,11 +35,6 @@ public abstract class GameObject implements Drawable, Identifiable {
      * @param timeInMillisecond moving distance calculated base on this input time
      */
     void move(Point spaceSize, long timeInMillisecond) {
-        // Move the ball based upon the
-        // horizontal (mXVelocity) and
-        // vertical(mYVelocity) speed
-        // and the current frame rate(fps)
-        // Move the top left corner
         float dx = vel.x * timeInMillisecond;
         float dy = vel.y * timeInMillisecond;
         hitbox.offset(dx, dy);
@@ -77,7 +74,6 @@ public abstract class GameObject implements Drawable, Identifiable {
         move(spaceSize, timeInMillisecond);
     }
 
-
     @Override
     public ObjectID getID() { return id;}
 
@@ -91,14 +87,7 @@ public abstract class GameObject implements Drawable, Identifiable {
         return new Point((int)hitbox.centerX(), (int)hitbox.centerY());
     }
 
-    /**
-     * Set hitbox, object has its own version of hotbox
-     */
-    //abstract void setHitBox(float posX, float posY);
-
-    // -----------Abstract member methods-----------
+    public abstract void setHitBox(float posX, float posY);
 
     public abstract void draw(Canvas canvas);
-
-
 }

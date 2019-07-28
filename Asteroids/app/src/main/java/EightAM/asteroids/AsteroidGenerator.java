@@ -45,7 +45,6 @@ public class AsteroidGenerator extends GameObjectGenerator{
     }
 
 
-
     private GameObject setVelocity(Asteroid asteroid){
         float randSpeed = GameRandom.randomFloat(asteroid.speedRange.first, asteroid.speedRange.second);
         float randAngle = GameRandom.randomFloat(Float.MIN_VALUE, (float)Math.PI * 2);

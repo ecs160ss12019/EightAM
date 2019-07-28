@@ -86,8 +86,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     void update(Point spaceSize, long timeInMillisecond) {
         if (invincibilityDuration > 0) invincibilityDuration--;
         if (invincibilityDuration <= 0) invincible = false;
-        rotate();
-        move(spaceSize, timeInMillisecond);
+        super.update(spaceSize, timeInMillisecond);
         if (shotDelayCounter > 0) shotDelayCounter--;
     }
 

@@ -2,7 +2,7 @@ package EightAM.asteroids;
 
 import java.util.Map;
 import android.graphics.Point;
-import EightAM.asteroids.specs.ParticleSpec;
+import EightAM.asteroids.specs.BaseParticleSpec;
 import static EightAM.asteroids.Constants.EFFECT_NUM;
 import static EightAM.asteroids.Constants.EFFECT_RADIUS;
 
@@ -26,7 +26,7 @@ public class ParticleGenerator {
     public void createParticles(Map<ObjectID, GameObject> objectMap, Point spaceSize, Point objectPos) {
         Point randPoint;
         for (int i = 0; i < numOfParticles; i++) {
-            GameObject particle = BaseFactory.getInstance().create(new ParticleSpec());
+            GameObject particle = BaseFactory.getInstance().create(new BaseParticleSpec());
             randPoint = getRandomPosition(spaceSize, objectPos);
             particle.hitbox.offset(randPoint.x, randPoint.y);
             objectMap.put(particle.getID(), particle);

@@ -19,6 +19,7 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.GameListener;
 import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.interfaces.Invulnerable;
+import EightAM.asteroids.specs.BasicShipSpec;
 
 public class GameModel implements GameListener, GameState {
 
@@ -72,7 +73,8 @@ public class GameModel implements GameListener, GameState {
 
     private void createObjects() {
         respawnShip();
-        this.alien = new BigAlien(spaceSize, context);
+        AsteroidGenerator.getInstance().createBelt(asteroids, objectMap, spaceSize, getPlayerShip());
+        //this.alien = new BigAlien(spaceSize, context);
     }
 
     private void resetObjects() {
@@ -92,7 +94,7 @@ public class GameModel implements GameListener, GameState {
     }
 
     private void respawnShip() {
-        Ship ship = new Ship(this, spaceSize, context);
+        GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
         currPlayerShip = ship.getID();
         objectMap.put(ship.getID(), ship);
     }
@@ -114,19 +116,19 @@ public class GameModel implements GameListener, GameState {
         if (actorID.getFaction() == Faction.Player) stats.score(target);
         // destruction side effect
         if (target instanceof Destructable) ((Destructable) target).destruct();
+        if (actorID == currPlayerShip || targetID == currPlayerShip) onDeath();
         if (!deleteSet.contains(targetID)) {
             deleteSet.add(targetID);
             deleteQueue.push(targetID);
         }
-        if (actorID == currPlayerShip ) onDeath();
     }
 
     public void removeObjects(){
         GameObject objectToDel;
         ObjectID objectID;
+        deleteSet.clear();
         while(deleteQueue.size() > 0){
             objectID = deleteQueue.pop();
-            deleteSet.remove(objectID);
             objectToDel = objectMap.get(objectID);
             if (objectToDel instanceof Asteroid) {
                 asteroids.remove(objectID);

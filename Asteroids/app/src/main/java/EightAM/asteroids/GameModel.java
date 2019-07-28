@@ -200,7 +200,7 @@ public class GameModel implements GameListener, GameState {
     private void computeCollision(ObjectID objectID) {
         collisionID = CollisionChecker.collidesWith(objectMap.get(objectID), objectMap.values());
         if (collisionID != null) {
-            ((Collision) objectMap.get(objectID)).
+            //((Collision) objectMap.get(objectID)).
                     onCollision(objectID, collisionID);
         }
     }

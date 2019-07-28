@@ -23,6 +23,18 @@ class BaseAsteroidFactory implements AsteroidFactory {
         return instance;
     }
 
+    private void setUniqueAttributes(Asteroid ret) {
+        float randSpeed = GameRandom.randomFloat(ret.speedRange.first, ret.speedRange.second);
+        float randAngle = GameRandom.randomFloat(Float.MIN_VALUE, (float) Math.PI * 2);
+        float randSpin = GameRandom.randomFloat(ret.spinRange.first, ret.spinRange.second);
+        float rand = GameRandom.randomFloat(0, 1);
+        if (rand > 0.5) {
+            randSpin = -randSpin;
+        }
+        ret.vel.accelerate(randSpeed, randAngle);
+        ret.angularVel = randSpin;
+    }
+
     @Override
     public Asteroid createAsteroid(BaseAsteroidSpec spec) {
         Asteroid ret;
@@ -33,14 +45,7 @@ class BaseAsteroidFactory implements AsteroidFactory {
             prototypes.put(spec, asteroid);
             ret = new Asteroid(asteroid);
         }
-        float randSpin = (float) Math.random() * (spec.spinSpeedRange.second - spec.spinSpeedRange.first) + spec.spinSpeedRange.first;
-        if (Math.random() > 0.5) {
-            randSpin = -randSpin;
-        }
-        ret.angularVel = randSpin;
-        float randSpeed = (float) Math.random() * (spec.speedRange.second - spec.speedRange.first) + spec.speedRange.first;
-        float randDirection = (float) (Math.random() * Math.PI * 2);
-        ret.vel.accelerate(randSpeed, randDirection);
+        setUniqueAttributes(ret);
         return ret;
     }
 }

@@ -77,6 +77,10 @@ public class Bullet extends GameObject implements Collision {
         return hitbox.intersect(approachingObject.hitbox);
     }
 
+    public void onCollide(GameObject approachingObject){
+
+    }
+
     @Override
     public boolean canCollide() {
         return true;

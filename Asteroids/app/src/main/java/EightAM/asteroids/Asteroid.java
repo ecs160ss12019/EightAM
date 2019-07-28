@@ -68,7 +68,6 @@ public class Asteroid extends GameObject implements Destructable {
         canvas.drawBitmap(bitmap, matrix, paint);
     }
 
-    @Override
     public void destruct() {
         // implement destruction effects here.
     }

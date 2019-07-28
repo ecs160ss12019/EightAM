@@ -79,8 +79,5 @@ public class BigAlien extends Alien {
                 + shotDelayRange.first;
     }
 
-    @Override
-    public boolean canCollide() {
-        return true;
-    }
+
 }

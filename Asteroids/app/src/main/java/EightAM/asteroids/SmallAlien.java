@@ -1,4 +1,44 @@
 package EightAM.asteroids;
 
+import android.graphics.RectF;
+import android.util.Pair;
+
+import EightAM.asteroids.specs.BaseAlienSpec;
+import EightAM.asteroids.specs.SmallAlienSpec;
+
 public class SmallAlien extends Alien {
+    private Pair<Integer, Integer> shotDelayRange;
+    private Pair<Integer, Integer> turnDelayRange;
+    private int turnDelay;
+    private int shotDelay;
+
+    SmallAlien(SmallAlienSpec spec) {
+        this.id = ObjectID.getNewID(Faction.Alien);
+        this.bitmap = BitmapStore.getInstance().getBitmap(
+                ((BaseAlienSpec) spec).bitMapName);
+        this.paint = PaintStore.getInstance().getPaint(
+                ((BaseAlienSpec) spec).paintName);
+        this.canShoot = false;
+        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
+                spec.initialPosition.x + ((BaseAlienSpec) spec).dimensions.x,
+                spec.initialPosition.y + ((BaseAlienSpec) spec).dimensions.y);
+        this.angularVel = 0;
+        this.orientation = spec.initialOrientation;
+        this.turnDelayRange = spec.turnDelayRange;
+        this.vel = new Velocity(0, 0, ((BaseAlienSpec) spec).maxSpeed);
+        this.shotDelayRange = spec.shotDelayRange;
+    }
+
+    SmallAlien(SmallAlien alien) {
+        this.id = ObjectID.getNewID(Faction.Alien);
+        this.bitmap = alien.bitmap;
+        this.paint = alien.paint;
+        this.canShoot = false;
+        this.hitbox = new RectF(alien.hitbox);
+        this.angularVel = alien.angularVel;
+        this.orientation = alien.orientation;
+        this.turnDelayRange = alien.turnDelayRange;
+        this.vel = new Velocity(alien.vel);
+        this.shotDelayRange = alien.shotDelayRange;
+    }
 }

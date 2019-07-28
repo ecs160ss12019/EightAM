@@ -75,17 +75,4 @@ public class AsteroidGenerator extends GameObjectGenerator{
             addToMap(asteroid, asteroids, objectMap);
         }
     }
-
-    private Point getRandomPosition(Point spaceSize, Point shipPos){
-        Random rand = new Random();
-        int randX;
-        int randY;
-
-        do{
-            randX = rand.nextInt(spaceSize.x) - shipPos.x;
-            randY = rand.nextInt(spaceSize.y) - shipPos.y;
-        } while (Math.hypot(randX - shipPos.x, randY - shipPos.y) < SAFE_DISTANCE);
-
-        return new Point(randX, randY);
-    }
 }

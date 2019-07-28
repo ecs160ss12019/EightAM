@@ -173,10 +173,11 @@ public class GameModel implements GameListener, GameState {
             o.update(spaceSize, timeInMillisecond);
         }
         //Collisions
-        computeCollision(currPlayerShip);
+        //TODO: Fix this shit
+        //computeCollision(currPlayerShip);
 //        enumerateCollision(bullets);
 //        enumerateCollision(aliens);
-        enumerateCollision(collidables);
+        //enumerateCollision(collidables);
 
         if (asteroids.size() == 0 && aliens.size() == 0) {
             // wave update
@@ -200,6 +201,7 @@ public class GameModel implements GameListener, GameState {
     private void computeCollision(ObjectID objectID) {
         collisionID = CollisionChecker.collidesWith(objectMap.get(objectID), objectMap.values());
         if (collisionID != null) {
+            //TODO: FIX THIS GARBAGE
             //((Collision) objectMap.get(objectID)).
                     onCollision(objectID, collisionID);
         }

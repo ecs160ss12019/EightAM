@@ -22,11 +22,12 @@ public class BulletGenerator extends GameObjectGenerator {
      * @param objectMap the map of object IDs and object instances from GameModel
      * @param shooter the one who is shooting the bullet
      */
+    //TODO: Implement prepareSpec;
     public void createBullet(Map<ObjectID, GameObject> objectMap, Shooter shooter) {
-        BaseBulletSpec spec = prepareSpec(shooter);
+        //BaseBulletSpec spec = prepareSpec(shooter);
 
-        GameObject bullet = BaseFactory.getInstance().create(spec);
-        objectMap.put(bullet.getID(), bullet);
+        //GameObject bullet = BaseFactory.getInstance().create(spec);
+        //objectMap.put(bullet.getID(), bullet);
     }
 
     /**
@@ -34,6 +35,8 @@ public class BulletGenerator extends GameObjectGenerator {
      * @param shooter the one shooting the bullet
      * @return a basic bullet spec
      */
+    //TODO: Implement Bullet spec in bullet
+    /*
     private BaseBulletSpec prepareSpec(Shooter shooter) {
         // prepare the bullet spec
         BaseBulletSpec spec = shooter.getBulletSpec();
@@ -42,4 +45,5 @@ public class BulletGenerator extends GameObjectGenerator {
 
         return spec;
     }
+    */
 }

@@ -182,9 +182,15 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
     @Override
-    public void destruct(GameModel model) {
+    public void destruct(/*GameModel model*/) {
+        /*
         ParticleGenerator.getInstance().createParticles(alskdfjasdkljf);
         destructlistener.onDestruct()
+        */
+    }
+
+    public void onCollide(GameObject approachingObject){
+
     }
 
     @Override

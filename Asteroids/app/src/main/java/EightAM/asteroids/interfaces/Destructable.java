@@ -4,7 +4,7 @@ import EightAM.asteroids.GameModel;
 import EightAM.asteroids.ObjectID;
 
 public interface Destructable {
-    void destruct(GameModel model);
+    void destruct();
 
     void linkDestructListener(DestructListener listener);
 

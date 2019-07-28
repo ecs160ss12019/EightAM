@@ -1,13 +1,13 @@
 package EightAM.asteroids.interfaces;
 
-import android.graphics.PointF;
+import android.graphics.Point;
 
 import EightAM.asteroids.ObjectID;
 
 public interface Shooter {
     void shoot();
 
-    PointF getShotOrigin();
+    Point getShotOrigin();
 
     float getShotAngle();
 

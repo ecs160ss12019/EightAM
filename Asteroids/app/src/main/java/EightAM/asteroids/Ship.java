@@ -163,8 +163,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     public void shoot() { }
 
     @Override
-    public PointF getShotOrigin() {
-        return new PointF(hitbox.centerX(), hitbox.centerY());
+    public Point getShotOrigin() {
+        return new Point((int)hitbox.centerX(), (int)hitbox.centerY());
     }
 
     @Override

@@ -4,6 +4,7 @@ import static EightAM.asteroids.Constants.SHIP_RESTART_DURATION;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -51,7 +52,10 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         //General
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
         bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
-        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y, spec.dimensions.x, spec.dimensions.y);
+        this.hitbox = new RectF(spec.initialPosition.x,
+                spec.initialPosition.y,
+                spec.dimensions.x + spec.initialPosition.x ,
+                spec.dimensions.y + spec.initialPosition.y);
         this.orientation = spec.initialOrientation;
         this.vel = new Velocity(0, 0, spec.maxSpeed);
         this.bitmapHitboxRatio = spec.dimensionBitMapRatio;
@@ -73,9 +77,9 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.bitmap = ship.bitmap;
         this.bitmapHitboxRatio = ship.bitmapHitboxRatio;
 
-        this.hitbox = ship.hitbox;
+        this.hitbox = new RectF(ship.hitbox);
         this.orientation = ship.orientation;
-        this.vel = ship.vel;
+        this.vel = new Velocity(ship.vel);
 
         //Ship specific
         this.id = ship.id;
@@ -154,6 +158,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - hitboxWidth / this.bitmapHitboxRatio,
                 hitbox.top - hitboxHeight / this.bitmapHitboxRatio);
+        // debug purpose
+        this.paint.setColor(Color.GREEN);
         canvas.drawRect(this.hitbox, paint);
         if (!invincible) {
             canvas.drawBitmap(bitmap, matrix, paint);

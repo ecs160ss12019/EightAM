@@ -2,16 +2,18 @@ package EightAM.asteroids;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.util.Pair;
 
+import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseAsteroidSpec;
 import EightAM.asteroids.specs.LargeAsteroidSpec;
 
-public class Asteroid extends GameObject implements Destructable {
+public class Asteroid extends GameObject implements Destructable, Collision {
 
     // ---------------Member variable---------------
 
@@ -64,6 +66,7 @@ public class Asteroid extends GameObject implements Destructable {
                 (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f),
                 hitbox.top - (hitboxHeight * 0.5f));
+        this.paint.setColor(Color.GREEN);
         canvas.drawRect(this.hitbox, this.paint);
         canvas.drawBitmap(bitmap, matrix, paint);
     }
@@ -75,6 +78,21 @@ public class Asteroid extends GameObject implements Destructable {
     @Override
     public void linkDestructListener(DestructListener listener) {
         this.destructListener = listener;
+    }
+
+    @Override
+    public boolean detectCollisions(GameObject approachingObject) {
+        return this.hitbox.intersect(approachingObject.hitbox);
+    }
+
+    @Override
+    public void onCollide(GameObject gameObject) {
+
+    }
+
+    @Override
+    public boolean canCollide() {
+        return true;
     }
 
     // enum size used to denote three size types of asteroid rock

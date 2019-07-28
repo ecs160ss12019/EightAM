@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         gameController.onResume();
 
         // Play background music
-        gameView.audio.playMusic(MainActivity.this);
+        //gameView.audio.playMusic(MainActivity.this);
 
         // Find Layout Elements to be used/manipulated
 

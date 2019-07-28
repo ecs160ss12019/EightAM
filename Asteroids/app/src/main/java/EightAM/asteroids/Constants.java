@@ -39,5 +39,5 @@ final class Constants {
     static final int asteroidIncWave = 1;
 
     // player info
-    static final int STARTING_LIVES = 3;
+    static final int STARTING_LIVES = 4;
 }

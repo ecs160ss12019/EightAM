@@ -100,6 +100,9 @@ public class GameModel implements GameListener, GameState {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
         currPlayerShip = ship.getID();
         objectMap.put(ship.getID(), ship);
+
+        Log.d("respawn ship" , "hitboxX:" + ship.getObjPos().x);
+        Log.d("respawn ship" , "hitboxY:" + ship.getObjPos().y);
     }
 
     private boolean isInvulnerable(GameObject gameObject) {
@@ -174,9 +177,9 @@ public class GameModel implements GameListener, GameState {
         }
         //Collisions
         //TODO: Fix this shit
-        //computeCollision(currPlayerShip);
-//        enumerateCollision(bullets);
-//        enumerateCollision(aliens);
+        computeCollision(currPlayerShip);
+        enumerateCollision(bullets);
+        enumerateCollision(aliens);
         //enumerateCollision(collidables);
 
         if (asteroids.size() == 0 && aliens.size() == 0) {

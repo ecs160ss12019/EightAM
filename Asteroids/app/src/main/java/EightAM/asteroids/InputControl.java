@@ -20,20 +20,20 @@ public class InputControl {
 
         buttonSet.left.setOnTouchListener((View view, MotionEvent event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Log.d("InputControl", "left_down");
+                //Log.d("InputControl", "left_down");
                 playerInput.LEFT = true;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                Log.d("InputControl", "left_up");
+                //Log.d("InputControl", "left_up");
                 playerInput.LEFT = false;
             }
             return true;
         });
         buttonSet.right.setOnTouchListener((View view, MotionEvent event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Log.d("InputControl", "right_down");
+                //Log.d("InputControl", "right_down");
                 playerInput.RIGHT = true;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                Log.d("InputControl", "right_up");
+                //Log.d("InputControl", "right_up");
                 playerInput.RIGHT = false;
             }
             return true;
@@ -42,10 +42,10 @@ public class InputControl {
 
         buttonSet.up.setOnTouchListener((View view, MotionEvent event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Log.d("InputControl", "up_down");
+                //Log.d("InputControl", "up_down");
                 playerInput.UP = true;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                Log.d("InputControl", "up_up");
+                //Log.d("InputControl", "up_up");
                 playerInput.UP = false;
             }
             return true;
@@ -54,10 +54,10 @@ public class InputControl {
 
         buttonSet.down.setOnTouchListener((View view, MotionEvent event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Log.d("InputControl", "down_down");
+                //Log.d("InputControl", "down_down");
                 playerInput.DOWN = true;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                Log.d("InputControl", "down_up");
+                //Log.d("InputControl", "down_up");
                 playerInput.DOWN = false;
             }
             return true;
@@ -65,10 +65,10 @@ public class InputControl {
 
         buttonSet.shoot.setOnTouchListener((View view, MotionEvent event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Log.d("InputControl", "shoot_down");
+                //Log.d("InputControl", "shoot_down");
                 playerInput.SHOOT = true;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                Log.d("InputControl", "shoot_up");
+                //Log.d("InputControl", "shoot_up");
                 playerInput.SHOOT = false;
             }
             return true;

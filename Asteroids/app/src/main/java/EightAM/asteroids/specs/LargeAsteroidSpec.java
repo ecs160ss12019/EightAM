@@ -9,7 +9,7 @@ public class LargeAsteroidSpec extends BaseAsteroidSpec {
     public static String tag = "asteroid_large";
     public static String bitMapName = "asteroid_large";
     public static int resID = R.drawable.asteroid_large;
-    public static Point dimensions = new Point(20, 20);
+    public static Point dimensions = new Point(100, 100);
     public static float dbmRatio = 2f;
     public static String paintName = "asteroid";
     public static Pair<Float, Float> speed = new Pair<>(0.05f, 0.5f);

@@ -1,5 +1,7 @@
 package EightAM.asteroids;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +32,10 @@ public class BaseShipFactory implements ShipFactory {
         } else {
             Ship ship = new Ship(spec);
             prototypes.put(spec, ship);
-            ret = new Ship(spec);
+            ret = new Ship(prototypes.get(spec));
         }
         // Position (i.e. center of screen) will be set by generator
+        //ret = new Ship(spec);
         return ret;
     }
 }

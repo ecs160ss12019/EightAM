@@ -1,5 +1,7 @@
 package EightAM.asteroids;
 
+import android.util.Log;
+
 import java.util.Collection;
 
 import EightAM.asteroids.interfaces.Collision;
@@ -8,9 +10,11 @@ class CollisionChecker {
 
     static ObjectID collidesWith(GameObject actor, Collection<GameObject> list) {
         for (GameObject o : list) {
-            if (o instanceof Collision && ((Collision) o).detectCollisions(actor)) {
-                if (o.id.getFaction() != actor.id.getFaction()) {
-                    return o.id;
+            if (!o.getClass().equals(actor.getClass())) {
+                if ((o instanceof Collision) && ((Collision) actor).detectCollisions(o)) {
+                    if (o.id.getFaction() != actor.id.getFaction()) {
+                        return o.id;
+                    }
                 }
             }
         }

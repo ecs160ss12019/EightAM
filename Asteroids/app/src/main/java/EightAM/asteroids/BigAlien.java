@@ -12,8 +12,8 @@ import EightAM.asteroids.specs.BigAlienSpec;
 
 public class BigAlien extends Alien {
 
-    Pair<Integer, Integer> shotDelayRange;
-    Pair<Integer, Integer> turnDelayRange;
+    private Pair<Integer, Integer> shotDelayRange;
+    private Pair<Integer, Integer> turnDelayRange;
     private int turnDelay;
     private int shotDelay;
 

@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.GameListener;
 import EightAM.asteroids.interfaces.GameState;
@@ -36,6 +37,7 @@ public class GameModel implements GameListener, GameState {
     Set<ObjectID> aliens;
     Set<ObjectID> bullets;
     Set<ObjectID> deleteSet;
+    Set<ObjectID> collidables;
     Deque<ObjectID> deleteQueue;
     ObjectID currPlayerShip;
     ObjectID collisionID;
@@ -73,7 +75,8 @@ public class GameModel implements GameListener, GameState {
 
     private void createObjects() {
         respawnShip();
-        AsteroidGenerator.getInstance().createBelt(asteroids, objectMap, spaceSize, getPlayerShip());
+        AsteroidGenerator.getInstance().createBelt(asteroids, objectMap, spaceSize,
+                getPlayerShip());
         //this.alien = new BigAlien(spaceSize, context);
     }
 
@@ -100,7 +103,7 @@ public class GameModel implements GameListener, GameState {
     }
 
     private boolean isInvulnerable(GameObject gameObject) {
-        if (gameObject instanceof Invulnerable){
+        if (gameObject instanceof Invulnerable) {
             return ((Invulnerable) gameObject).isInvulnerable();
         }
         return false;
@@ -123,11 +126,11 @@ public class GameModel implements GameListener, GameState {
         }
     }
 
-    public void removeObjects(){
+    public void removeObjects() {
         GameObject objectToDel;
         ObjectID objectID;
         deleteSet.clear();
-        while(deleteQueue.size() > 0){
+        while (deleteQueue.size() > 0) {
             objectID = deleteQueue.pop();
             objectToDel = objectMap.get(objectID);
             if (objectToDel instanceof Asteroid) {
@@ -160,7 +163,9 @@ public class GameModel implements GameListener, GameState {
         }
     }
 
-    EndGameStats endGameStats() { return endStats;}
+    EndGameStats endGameStats() {
+        return endStats;
+    }
 
 
     void update(long timeInMillisecond) {
@@ -169,21 +174,39 @@ public class GameModel implements GameListener, GameState {
         }
         //Collisions
         computeCollision(currPlayerShip);
-        enumerateCollision(bullets);
-        enumerateCollision(aliens);
+//        enumerateCollision(bullets);
+//        enumerateCollision(aliens);
+        enumerateCollision(collidables);
+
+        if (asteroids.size() == 0 && aliens.size() == 0) {
+            // wave update
+            onWaveComplete();
+            // might want to implement idle period to display messages
+            startNextWave();
+        }
+
         //Remove Collided Objects
         removeObjects();
+    }
+
+    private void startNextWave() {
+
+    }
+
+    private void onWaveComplete() {
+
     }
 
     private void computeCollision(ObjectID objectID) {
         collisionID = CollisionChecker.collidesWith(objectMap.get(objectID), objectMap.values());
         if (collisionID != null) {
-            onCollision(objectID, collisionID);
+            ((Collision) objectMap.get(objectID)).
+                    onCollision(objectID, collisionID);
         }
     }
 
-    private void enumerateCollision(Set<ObjectID> objectIDSet){
-        for (ObjectID objectID : objectIDSet){
+    private void enumerateCollision(Set<ObjectID> objectIDSet) {
+        for (ObjectID objectID : objectIDSet) {
             computeCollision(objectID);
         }
     }

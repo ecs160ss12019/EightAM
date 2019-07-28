@@ -1,6 +1,5 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.SHIP_BITMAP_HITBOX_SCALE;
 import static EightAM.asteroids.Constants.SHIP_RESTART_DURATION;
 
 import android.graphics.Bitmap;
@@ -12,16 +11,19 @@ import android.graphics.RectF;
 
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Controllable;
+import EightAM.asteroids.interfaces.DestructListener;
+import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.Invulnerable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseShipSpec;
 
-public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable {
+public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
+        Destructable {
 
     // ---------------Member variables-------------
 
-    static Bitmap bitmap;
+    Bitmap bitmap;
     boolean teleporting = false;
     boolean invincible;
     int invincibilityDuration;
@@ -31,6 +33,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     float acceleration;
     float deceleration;
     ShotListener shotListener;
+    float bitmapHitboxRatio;
 
     /*
      * How Dimensions were previously set:
@@ -51,6 +54,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y, spec.dimensions.x, spec.dimensions.y);
         this.orientation = spec.initialOrientation;
         this.vel = new Velocity(0, 0, spec.maxSpeed);
+        this.bitmapHitboxRatio = spec.dimensionBitMapRatio;
 
         //Ship specific
         this.id = ObjectID.getNewID(Faction.Player);
@@ -60,12 +64,15 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
+
     }
 
     Ship(Ship ship) {
         //General
         this.paint = ship.paint;
-        bitmap = bitmap;
+        this.bitmap = ship.bitmap;
+        this.bitmapHitboxRatio = ship.bitmapHitboxRatio;
+
         this.hitbox = ship.hitbox;
         this.orientation = ship.orientation;
         this.vel = ship.vel;
@@ -78,6 +85,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = ship.rotationSpeed;
         this.acceleration = ship.acceleration;
         this.deceleration = ship.deceleration;
+
     }
 
 
@@ -144,7 +152,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
         matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-        matrix.postTranslate(hitbox.left - hitboxWidth * SHIP_BITMAP_HITBOX_SCALE, hitbox.top - hitboxHeight * SHIP_BITMAP_HITBOX_SCALE);
+        matrix.postTranslate(hitbox.left - hitboxWidth / this.bitmapHitboxRatio,
+                hitbox.top - hitboxHeight / this.bitmapHitboxRatio);
         canvas.drawRect(this.hitbox, paint);
         if (!invincible) {
             canvas.drawBitmap(bitmap, matrix, paint);
@@ -170,6 +179,17 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     public float getShotAngle() {
         return orientation;
+    }
+
+    @Override
+    public void destruct(GameModel model) {
+        ParticleGenerator.getInstance().createParticles(alskdfjasdkljf);
+        destructlistener.onDestruct()
+    }
+
+    @Override
+    public void linkDestructListener(DestructListener listener) {
+
     }
 
     @Override

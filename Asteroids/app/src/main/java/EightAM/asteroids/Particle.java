@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.RectF;
+
 import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseParticleSpec;
@@ -20,15 +21,15 @@ public class Particle extends GameObject implements Destructable {
 
     Particle(BaseParticleSpec spec) {
         this.id = ObjectID.getNewID(Faction.Neutral);
-        this.duration = spec.duration;
-        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
-        this.bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
+        this.duration = BaseParticleSpec.duration;
+        this.paint = PaintStore.getInstance().getPaint(BaseParticleSpec.paintName);
+        this.bitmap = BitmapStore.getInstance().getBitmap(BaseParticleSpec.bitMapName);
         this.hitbox = new RectF(spec.initialPosition.x,
                 spec.initialPosition.y,
-                spec.initialPosition.x + spec.dimensions.x,
-                spec.initialPosition.y + spec.dimensions.y);
+                spec.initialPosition.x + BaseParticleSpec.dimensions.x,
+                spec.initialPosition.y + BaseParticleSpec.dimensions.y);
         this.orientation = spec.initialOrientation;
-        this.vel = new Velocity(0, 0, spec.speed);
+        this.vel = new Velocity(0, 0, BaseParticleSpec.speed);
     }
 
     Particle(Particle particle) {
@@ -58,7 +59,7 @@ public class Particle extends GameObject implements Destructable {
 
     @Override
     public void destruct() {
-        this.destructListener.OnDestruct(this);
+        this.destructListener.onDestruct(this);
     }
 
     @Override

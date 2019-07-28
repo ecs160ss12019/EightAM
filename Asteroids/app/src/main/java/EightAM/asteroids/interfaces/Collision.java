@@ -13,5 +13,7 @@ public interface Collision {
      */
     boolean detectCollisions(GameObject approachingObject);
 
+    void onCollide(GameObject gameObject);
+
     boolean canCollide();
 }

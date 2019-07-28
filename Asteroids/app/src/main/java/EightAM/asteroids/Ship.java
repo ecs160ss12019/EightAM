@@ -80,13 +80,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.deceleration = ship.deceleration;
     }
 
-    /**
-     * Constructor helper sets the position of currPlayerShip hitbox which would be called when game start.
-     */
-    @Override
-    void setHitBox(float x, float y) {
-        this.hitbox.offsetTo(x, y);
-    }
+
 
     @Override
     void update(Point spaceSize, long timeInMillisecond) {

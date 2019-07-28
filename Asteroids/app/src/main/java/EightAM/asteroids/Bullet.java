@@ -105,7 +105,7 @@ public class Bullet extends GameObject implements Collision {
         return distanceTraveled > BULLET_MAX_RANGE;
     }
 
-    protected void setHitBox(float posX, float posY) {
+    public void setHitBox(float posX, float posY) {
         hitbox = new RectF(posX, posY, posX, posY);
     }
 

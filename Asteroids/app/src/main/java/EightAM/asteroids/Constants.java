@@ -27,11 +27,10 @@ final class Constants {
     static final int ALIEN_VALUE = 10;
     static final float ALIEN_TARGET_ACCURACY = 200f;
     // BIG ALIEN
-    static final int BIGALIEN_TIMER_MIN = 4000;
-    static final int BIGALIEN_TIMER_MAX = 6000;
-    static final int BIGALIEN_SHOTDELAY_MIN = 3000;
-    static final int BIGALIEN_SHOTDELAY_MAX = 5000;
+    static final float BIGALIEN_SPAWN_PROB = 0.7f;
 
+    // SMALL ALIEN
+    static final float SMALLALIEN_SPAWN_PROB = 0.3f;
     //PARTICLE EFFECT
     static final int EFFECT_NUM = 5;
     static final int EFFECT_RADIUS = 8;

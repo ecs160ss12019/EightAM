@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.util.Pair;
 
 import java.util.Random;
 
@@ -21,18 +22,72 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     Bitmap bitmap;
     int distanceTraveled;
     int maxRange;
-    int shotDelayCounter = 0;
     float shotAngle = 0;
-    boolean canShoot = false;
     DestructListener destructListener;
 
-    // ---------------Member methods --------------
+    // movement
+    Pair<Integer, Integer> turnDelayRange;
+    int turnDelay;
 
+    // shooting
+    Pair<Integer, Integer> shotDelayRange;
+    int shotDelay;
+    boolean canShoot = false;
+
+    // ---------------Member methods --------------
+    /**
+     * Sets move behavior, turn timer, and shot delay.
+     */
+    protected void setUp() {
+        setTurnDelay();
+        setShotDelay();
+    }
+
+    // ------------ BEGIN MOVEMENT METHODS ------------ //
+
+    /**
+     * Set random max and min timer for Alien to change directions.
+     * max and min are in frames.
+     */
+    protected void setTurnDelay() {
+        Random rand = new Random();
+        //int randomNum = rand.nextInt((max - min) + 1) + min;
+        this.turnDelay = rand.nextInt((turnDelayRange.second - turnDelayRange.first) + 1)
+                + turnDelayRange.first;
+
+    }
+
+    /**
+     * Updates the turn timer and turns the alien when necessary.
+     */
+    protected void updateTurnTimer() {
+        this.turnDelay--;
+        if (this.turnDelay <= 0) {
+            this.turn();
+            this.setTurnDelay();
+        }
+    }
+    // ------------ END MOVEMENT METHODS ------------ //
+
+    // ------------ BEGIN SHOOTING METHODS ------------ //
+    /**
+     * Sets a shot delay for Alien as to not shoot continuously.
+     */
+    protected void setShotDelay() {
+        Random rand = new Random();
+        this.shotDelay = rand.nextInt((shotDelayRange.second - shotDelayRange.first) + 1)
+                + shotDelayRange.first;
+    }
+
+    // ------------ END SHOOTING METHODS ------------ //
     @Override
     protected void update(Point spaceSize, long timeInMillisecond) {
         move(spaceSize, timeInMillisecond);
-        distanceTraveled(timeInMillisecond);
-        // set timers
+        updateDistance(timeInMillisecond);
+        // timer stuff
+        updateTurnTimer();
+        //this.shotDelay--;
+        // TODO: implement shooting
     }
 
 //    protected void shoot(float targetX, float targetY) {
@@ -80,7 +135,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      *
      * @param timeInMillisecond current time of the game in ms
      */
-    private void distanceTraveled(long timeInMillisecond) {
+    private void updateDistance(long timeInMillisecond) {
         // TODO: should probably base this off spawn location
         distanceTraveled += timeInMillisecond * this.vel.magnitude();
     }
@@ -130,6 +185,6 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     }
 
     // should be implemented by derived alien classes
-    public abstract ObjectID getID();
+    public ObjectID getID() { return this.id; }
     // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //
 }

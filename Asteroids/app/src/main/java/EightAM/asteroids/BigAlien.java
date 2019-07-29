@@ -79,5 +79,5 @@ public class BigAlien extends Alien {
                 + shotDelayRange.first;
     }
 
-
+    public ObjectID getID() { return this.id; }
 }

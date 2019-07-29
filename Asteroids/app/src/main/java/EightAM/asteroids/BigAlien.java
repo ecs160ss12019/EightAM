@@ -13,7 +13,8 @@ public class BigAlien extends Alien {
         this.bitmap = BitmapStore.getInstance().getBitmap(((BaseAlienSpec) spec).bitMapName);
         this.paint = PaintStore.getInstance().getPaint(((BaseAlienSpec) spec).paintName);
         this.canShoot = false;
-        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
+        this.hitbox = new RectF(spec.initialPosition.x - ((BaseAlienSpec) spec).dimensions.x,
+                spec.initialPosition.y - ((BaseAlienSpec) spec).dimensions.y,
                 spec.initialPosition.x + ((BaseAlienSpec) spec).dimensions.x,
                 spec.initialPosition.y + ((BaseAlienSpec) spec).dimensions.y);
         this.angularVel = 0;

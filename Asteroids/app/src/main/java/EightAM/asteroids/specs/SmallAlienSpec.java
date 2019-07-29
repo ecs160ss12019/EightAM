@@ -15,7 +15,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static int pointValue = 10;
     public static int hitPoints = 1;
     public static float reloadTime = 30;
-    public static float maxSpeed = 3f;
+    public static float maxSpeed = 0.3f;
 
     public Pair<Integer, Integer> turnDelayRange = new Pair<>(3000, 4000);
     public Pair<Integer, Integer> shotDelayRange = new Pair<>(2000, 3000);

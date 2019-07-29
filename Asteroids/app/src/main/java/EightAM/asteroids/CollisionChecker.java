@@ -1,5 +1,13 @@
 package EightAM.asteroids;
 
+import android.util.Pair;
+
+import androidx.collection.ArraySet;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.GameState;
 
@@ -36,18 +44,23 @@ class CollisionChecker {
         return null;
     }
 
-    public static void enumerateCollisions(GameState gameState) {
-
+    public static Collection<Pair<Collision, GameObject>> enumerateCollisions(GameState gameState) {
+        Collection<Pair<Collision, GameObject>> collisions= new ArraySet<Pair<Collision, GameObject>>();
         for (ObjectID objectID : gameState.getCollideableIDs()) {
-            computeCollision((Collision) gameState.getGameObject(objectID), gameState);
+            Pair<Collision, GameObject> temp = computeCollision((Collision) gameState.getGameObject(objectID), gameState);
+            if (temp != null) {
+                collisions.add(temp);
+            }
         }
+        return collisions;
     }
 
-    private static void computeCollision(Collision actor, GameState gameState) {
+    private static Pair<Collision, GameObject> computeCollision(Collision actor, GameState gameState) {
         GameObject gameObject = CollisionChecker.collidesWith(actor, gameState);
         if (gameObject != null) {
-            actor.onCollide(gameObject);
+            return  new Pair<>(actor, gameObject);
         }
+        return null;
     }
 
 }

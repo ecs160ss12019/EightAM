@@ -117,10 +117,17 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
-        matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f), hitbox.top - (hitboxHeight * 0.5f));
-        canvas.drawRect(this.hitbox, paint);
+
+
+        matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
+                this.hitbox.centerY() - (float)(bitmap.getHeight()/2));
+//        matrix.postRotate((float) Math.toDegrees(orientation),
+//                this.hitbox.centerX(),
+//                this.hitbox.centerY());
+
+
         canvas.drawBitmap(bitmap, matrix, paint);
+        canvas.drawRect(this.hitbox, paint);
     }
 
     /**

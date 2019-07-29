@@ -21,10 +21,7 @@ public class Velocity {
      */
 
     protected Velocity(float speed, float angle, float maxSpeed) {
-        this.maxSpeed = maxSpeed;
-        if (speed > maxSpeed) speed = maxSpeed;
-        x = speed * (float) Math.cos(angle);
-        y = speed * (float) Math.sin(angle);
+        this.resetVelocity(speed, angle, maxSpeed);
     }
 
     Velocity(Velocity velocity) {
@@ -40,7 +37,8 @@ public class Velocity {
     /**
      * Update Velocity
      * Increment Speed (Magnitude of velocity)
-     * Update Velocity by assignment. //<- subject to change, If you guys think its easier to increment angle
+     * Update Velocity by assignment. //<- subject to change, If you guys think its easier to
+     * increment angle
      */
     protected void accelerate(float magnitude, float orientation) {
         x += (float) Math.cos(orientation) * magnitude;
@@ -61,11 +59,19 @@ public class Velocity {
     }
 
     // setter functions
+
     protected void setX(float newX) {
         x = newX;
     }
 
     protected void setY(float newY) {
         y = newY;
+    }
+
+    void resetVelocity(float speed, float angle, float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+        if (speed > maxSpeed) speed = maxSpeed;
+        x = speed * (float) Math.cos(angle);
+        y = speed * (float) Math.sin(angle);
     }
 }

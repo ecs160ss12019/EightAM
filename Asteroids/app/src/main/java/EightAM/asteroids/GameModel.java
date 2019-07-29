@@ -6,8 +6,6 @@ import android.content.Context;
 import android.graphics.Point;
 import android.util.Log;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,13 +14,16 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import EightAM.asteroids.interfaces.Collision;
+import EightAM.asteroids.interfaces.DeathEvent;
+import EightAM.asteroids.interfaces.DeathHandler;
 import EightAM.asteroids.interfaces.Destructable;
-import EightAM.asteroids.interfaces.GameListener;
 import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.interfaces.Invulnerable;
+import EightAM.asteroids.interfaces.Shooter;
+import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BasicShipSpec;
 
-public class GameModel implements GameListener, GameState {
+public class GameModel implements GameState, DeathHandler, ShotListener {
 
     protected Alien alien;
     boolean gameOver;
@@ -37,8 +38,7 @@ public class GameModel implements GameListener, GameState {
     Set<ObjectID> aliens;
     Set<ObjectID> bullets;
     Set<ObjectID> deleteSet;
-    Set<ObjectID> collidables;
-    Deque<ObjectID> deleteQueue;
+    Set<ObjectID> collideables;
     ObjectID currPlayerShip;
     ObjectID collisionID;
 
@@ -57,7 +57,6 @@ public class GameModel implements GameListener, GameState {
         aliens = new HashSet<>();
         bullets = new HashSet<>();
         deleteSet = new HashSet<>();
-        deleteQueue = new ArrayDeque<>();
 
         resetObjects();
         resetGameParam();
@@ -101,8 +100,8 @@ public class GameModel implements GameListener, GameState {
         currPlayerShip = ship.getID();
         objectMap.put(ship.getID(), ship);
 
-        Log.d("respawn ship" , "hitboxX:" + ship.getObjPos().x);
-        Log.d("respawn ship" , "hitboxY:" + ship.getObjPos().y);
+        Log.d("respawn ship", "hitboxX:" + ship.getObjPos().x);
+        Log.d("respawn ship", "hitboxY:" + ship.getObjPos().y);
     }
 
     private boolean isInvulnerable(GameObject gameObject) {
@@ -112,7 +111,7 @@ public class GameModel implements GameListener, GameState {
         return false;
     }
 
-    @Override
+    @Deprecated
     public void onCollision(ObjectID actorID, ObjectID targetID) {
         GameObject target = objectMap.get(targetID);
         GameObject actor = objectMap.get(actorID);
@@ -123,39 +122,36 @@ public class GameModel implements GameListener, GameState {
         // destruction side effect
         if (target instanceof Destructable) ((Destructable) target).destruct();
         if (actorID == currPlayerShip || targetID == currPlayerShip) onDeath();
-        if (!deleteSet.contains(targetID)) {
-            deleteSet.add(targetID);
-            deleteQueue.push(targetID);
-        }
+        deleteSet.add(targetID);
     }
 
     public void removeObjects() {
         GameObject objectToDel;
-        ObjectID objectID;
         deleteSet.clear();
-        while (deleteQueue.size() > 0) {
-            objectID = deleteQueue.pop();
-            objectToDel = objectMap.get(objectID);
+        for (ObjectID id : deleteSet) {
+            deleteSet.remove(id);
+            objectToDel = objectMap.get(id);
+            if (objectToDel instanceof Collision) {
+                collideables.remove(id);
+            }
             if (objectToDel instanceof Asteroid) {
-                asteroids.remove(objectID);
+                asteroids.remove(id);
             } else if (objectToDel instanceof Alien) {
-                aliens.remove(objectID);
+                aliens.remove(id);
             } else if (objectToDel instanceof Bullet) {
-                bullets.remove(objectID);
+                bullets.remove(id);
             } else {
                 throw new AssertionError("Unrecognized GameObject type");
             }
-            objectMap.remove(objectID);
+            objectMap.remove(id);
         }
     }
 
-    @Override
     public void onGameEnd() {
         this.gameOver = true;
         endStats = new EndGameStats(stats);
     }
 
-    @Override
     public void onDeath() {
         destroyShip();
         currPlayerShip = null;
@@ -176,11 +172,10 @@ public class GameModel implements GameListener, GameState {
             o.update(spaceSize, timeInMillisecond);
         }
         //Collisions
-        //TODO: Fix this shit
         computeCollision(currPlayerShip);
-        enumerateCollision(bullets);
-        enumerateCollision(aliens);
-        //enumerateCollision(collidables);
+//        enumerateCollision(bullets);
+//        enumerateCollision(aliens);
+        enumerateCollision(collideables);
 
         if (asteroids.size() == 0 && aliens.size() == 0) {
             // wave update
@@ -204,9 +199,7 @@ public class GameModel implements GameListener, GameState {
     private void computeCollision(ObjectID objectID) {
         collisionID = CollisionChecker.collidesWith(objectMap.get(objectID), objectMap.values());
         if (collisionID != null) {
-            //TODO: FIX THIS GARBAGE
-            //((Collision) objectMap.get(objectID)).
-                    onCollision(objectID, collisionID);
+            ((Collision) objectMap.get(objectID)).onCollide(objectMap.get(collisionID));
         }
     }
 
@@ -239,5 +232,67 @@ public class GameModel implements GameListener, GameState {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Set<ObjectID> getCollideableIDs() {
+        return collideables;
+    }
+
+    @Override
+    public Set<ObjectID> getAsteroidIDs() {
+        return asteroids;
+    }
+
+    @Override
+    public Set<ObjectID> getAlienIDs() {
+        return aliens;
+    }
+
+    @Override
+    public Set<ObjectID> getBulletIDs() {
+        return bullets;
+    }
+
+    @Override
+    public GameObject getGameObject(ObjectID id) {
+        return objectMap.get(id);
+    }
+
+    @Override
+    public void processDeathEvent(DeathEvent event) {
+        for (GameObject o : event.createOnDeath()) {
+            this.addObject(o);
+        }
+    }
+
+    private void addObject(GameObject o) {
+        ObjectID id = o.getID();
+        if (!objectMap.containsKey(id)) {
+            objectMap.put(id, o);
+            if (o instanceof Collision) {
+                collideables.add(id);
+            }
+            if (o instanceof Alien) {
+                aliens.add(id);
+            } else if (o instanceof Asteroid) {
+                asteroids.add(id);
+            } else if (o instanceof Bullet) {
+                bullets.add(id);
+            } else if (o instanceof Ship) {
+                currPlayerShip = id;
+            }
+        }
+    }
+
+    @Override
+    public void onDestruct(Destructable destructable) {
+        ObjectID id = destructable.getID();
+        deleteSet.add(id);
+    }
+
+    @Override
+    public void onShotFired(Shooter shooter) {
+        BulletGenerator.getInstance().createBullet(objectMap, shooter, this);
     }
 }

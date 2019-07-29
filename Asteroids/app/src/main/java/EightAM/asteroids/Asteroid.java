@@ -76,7 +76,7 @@ public class Asteroid extends GameObject implements Destructable, Collision {
     }
 
     @Override
-    public void linkDestructListener(DestructListener listener) {
+    public void registerDestructListener(DestructListener listener) {
         this.destructListener = listener;
     }
 

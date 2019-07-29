@@ -6,9 +6,9 @@ import EightAM.asteroids.ObjectID;
 import EightAM.asteroids.specs.BaseBulletSpec;
 
 public interface Shooter {
-    void shoot();
+    void shoot(/*Weapon weapon (to be implemented...)*/);
 
-    //BaseBulletSpec getBulletSpec();
+    BaseBulletSpec getBulletSpec();
 
     Point getShotOrigin();
 

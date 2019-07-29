@@ -1,28 +1,28 @@
 package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.BULLET_MAX_RANGE;
-import static EightAM.asteroids.Constants.BULLET_SPEED;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 
 import EightAM.asteroids.interfaces.Collision;
-import EightAM.asteroids.interfaces.Shooter;
+import EightAM.asteroids.interfaces.DestructListener;
+import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseBulletSpec;
 
-public class Bullet extends GameObject implements Collision {
+public class Bullet extends GameObject implements Collision, Destructable {
     // set by generator
     private Faction faction;
     private float shooterAngle;
 
     Bitmap bitmap;
     private float distanceTraveled;
+    private DestructListener destructListener;
 
-//    * OLD CONSTRUCTOR
+    //    * OLD CONSTRUCTOR
 //     * Constructs projectile, i.e. shoots projectile in the orientation/angle
 //     * of the shooter.
 //     *
@@ -33,7 +33,8 @@ public class Bullet extends GameObject implements Collision {
 //
 //    protected Bullet(Shooter shooter) {
 //        this.shooterAngle = shooter.getShotAngle();
-//        hitbox = new RectF(shooter.getPosX() - 3, shooter.getPosY() - 3, shooter.getPosX() + 3, shooter.getPosY() + 3);
+//        hitbox = new RectF(shooter.getPosX() - 3, shooter.getPosY() - 3, shooter.getPosX() + 3,
+//        shooter.getPosY() + 3);
 //        this.owner = shooter.getID();
 //        distanceTraveled = 0;
 //        this.paint = new Paint();
@@ -49,7 +50,8 @@ public class Bullet extends GameObject implements Collision {
         // TODO: draw bullet
         //this.bitmap = BitmapStore.getBitmap(spec.bitMapName);
         this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
-                spec.dimensions.x, spec.dimensions.y);
+                spec.initialPosition.x + spec.dimensions.x,
+                spec.initialPosition.y + spec.dimensions.y);
         this.orientation = spec.initialOrientation;
         this.vel = new Velocity(spec.speed, this.orientation, spec.speed);
     }
@@ -77,7 +79,7 @@ public class Bullet extends GameObject implements Collision {
         return hitbox.intersect(approachingObject.hitbox);
     }
 
-    public void onCollide(GameObject approachingObject){
+    public void onCollide(GameObject approachingObject) {
 
     }
 
@@ -128,4 +130,13 @@ public class Bullet extends GameObject implements Collision {
         //canvas.drawBitmap(bitmap, matrix, paint);
     }
 
+    @Override
+    public void destruct() {
+        destructListener.onDestruct(this);
+    }
+
+    @Override
+    public void registerDestructListener(DestructListener listener) {
+        this.destructListener = listener;
+    }
 }

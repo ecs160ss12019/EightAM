@@ -7,26 +7,28 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.RectF;
+
+import java.util.Collection;
 
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Controllable;
+import EightAM.asteroids.interfaces.DeathEvent;
 import EightAM.asteroids.interfaces.DestructListener;
-import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.Invulnerable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
+import EightAM.asteroids.specs.BaseBulletSpec;
 import EightAM.asteroids.specs.BaseShipSpec;
 
 public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
-        Destructable {
+        DeathEvent {
 
     // ---------------Member variables-------------
 
     Bitmap bitmap;
     boolean teleporting = false;
-    boolean invincible;
+    boolean isInvincible;
     int invincibilityDuration;
     int shotDelayCounter = 0;
     int shotDelay;
@@ -35,6 +37,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     float deceleration;
     ShotListener shotListener;
     float bitmapHitboxRatio;
+    DestructListener destructListener;
+    BaseBulletSpec bulletSpec;
 
     /*
      * How Dimensions were previously set:
@@ -54,7 +58,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
         this.hitbox = new RectF(spec.initialPosition.x,
                 spec.initialPosition.y,
-                spec.dimensions.x + spec.initialPosition.x ,
+                spec.dimensions.x + spec.initialPosition.x,
                 spec.dimensions.y + spec.initialPosition.y);
         this.orientation = spec.initialOrientation;
         this.vel = new Velocity(0, 0, spec.maxSpeed);
@@ -63,7 +67,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         //Ship specific
         this.id = ObjectID.getNewID(Faction.Player);
         this.invincibilityDuration = spec.invincibilityDuration;
-        this.invincible = true;
+        this.isInvincible = true;
         this.shotDelay = spec.reloadTime;
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
@@ -84,7 +88,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         //Ship specific
         this.id = ship.id;
         this.invincibilityDuration = ship.invincibilityDuration;
-        this.invincible = true;
+        this.isInvincible = true;
         this.shotDelay = ship.shotDelay;
         this.rotationSpeed = ship.rotationSpeed;
         this.acceleration = ship.acceleration;
@@ -93,11 +97,10 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
 
-
     @Override
     void update(Point spaceSize, long timeInMillisecond) {
         if (invincibilityDuration > 0) invincibilityDuration--;
-        if (invincibilityDuration <= 0) invincible = false;
+        if (invincibilityDuration <= 0) isInvincible = false;
         super.update(spaceSize, timeInMillisecond);
         if (shotDelayCounter > 0) shotDelayCounter--;
     }
@@ -111,13 +114,18 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
      */
     @Override
     public boolean detectCollisions(GameObject approachingObject) {
-        if (invincible) return false;
+        if (isInvincible) return false;
         return hitbox.intersect(approachingObject.hitbox);
     }
 
     @Override
+    public void onCollide(GameObject gameObject) {
+
+    }
+
+    @Override
     public boolean canCollide() {
-        return !invincible;
+        return !isInvincible;
     }
 
     /**
@@ -155,31 +163,46 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2,
+                (float) bitmap.getHeight() / 2);
         matrix.postTranslate(hitbox.left - hitboxWidth / this.bitmapHitboxRatio,
                 hitbox.top - hitboxHeight / this.bitmapHitboxRatio);
         // debug purpose
         this.paint.setColor(Color.GREEN);
         canvas.drawRect(this.hitbox, paint);
-        if (!invincible) {
+        if (!isInvincible) {
             canvas.drawBitmap(bitmap, matrix, paint);
-        } else if ((invincibilityDuration < (invincibilityDuration - SHIP_RESTART_DURATION)) && invincibilityDuration % 2 == 0) {
+        } else if ((invincibilityDuration < (invincibilityDuration - SHIP_RESTART_DURATION))
+                && invincibilityDuration % 2 == 0) {
             canvas.drawBitmap(bitmap, matrix, paint);
         }
     }
 
-    public float getPosX() { return hitbox.centerX();}
+    public float getPosX() {
+        return hitbox.centerX();
+    }
 
-    public float getPosY() { return hitbox.centerY(); }
+    public float getPosY() {
+        return hitbox.centerY();
+    }
 
-    public float getAngle() { return orientation; }
+    public float getAngle() {
+        return orientation;
+    }
 
     @Override
-    public void shoot() { }
+    public void shoot() {
+        shotListener.onShotFired(this);
+    }
+
+    @Override
+    public BaseBulletSpec getBulletSpec() {
+        return bulletSpec;
+    }
 
     @Override
     public Point getShotOrigin() {
-        return new Point((int)hitbox.centerX(), (int)hitbox.centerY());
+        return new Point((int) hitbox.centerX(), (int) hitbox.centerY());
     }
 
     @Override
@@ -188,24 +211,19 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
     @Override
-    public void destruct(/*GameModel model*/) {
-        /*
-        ParticleGenerator.getInstance().createParticles(alskdfjasdkljf);
-        destructlistener.onDestruct()
-        */
-    }
-
-    public void onCollide(GameObject approachingObject){
-
+    public void destruct() {
+        destructListener.onDestruct(this);
     }
 
     @Override
-    public void linkDestructListener(DestructListener listener) {
-
+    public void registerDestructListener(DestructListener listener) {
+        this.destructListener = listener;
     }
 
     @Override
-    public ObjectID getID() { return this.id;}
+    public ObjectID getID() {
+        return this.id;
+    }
 
     @Override
     public void linkShotListener(ShotListener listener) {
@@ -214,6 +232,11 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     @Override
     public boolean isInvulnerable() {
-        return invincible;
+        return isInvincible;
+    }
+
+    @Override
+    public Collection<GameObject> createOnDeath() {
+        return null;
     }
 }

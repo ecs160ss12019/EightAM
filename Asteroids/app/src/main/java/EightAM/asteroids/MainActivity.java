@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         msgLayout.setOnClickListener(view -> {
             msgLayout.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
-            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincible = true;
+            ((Ship) gameModel.objectMap.get(gameModel.currPlayerShip)).isInvincible = true;
             ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincibilityDuration = 500;
         });
     }

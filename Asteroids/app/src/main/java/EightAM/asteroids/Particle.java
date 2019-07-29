@@ -24,8 +24,7 @@ public class Particle extends GameObject implements Destructable {
         this.duration = BaseParticleSpec.duration;
         this.paint = PaintStore.getInstance().getPaint(BaseParticleSpec.paintName);
         this.bitmap = BitmapStore.getInstance().getBitmap(BaseParticleSpec.bitMapName);
-        this.hitbox = new RectF(spec.initialPosition.x,
-                spec.initialPosition.y,
+        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
                 spec.initialPosition.x + BaseParticleSpec.dimensions.x,
                 spec.initialPosition.y + BaseParticleSpec.dimensions.y);
         this.orientation = spec.initialOrientation;
@@ -63,7 +62,7 @@ public class Particle extends GameObject implements Destructable {
     }
 
     @Override
-    public void linkDestructListener(DestructListener listener) {
+    public void registerDestructListener(DestructListener listener) {
         this.destructListener = listener;
     }
 }

@@ -23,8 +23,7 @@ public class BaseParticleFactory implements ParticleFactory {
     @Override
     public Particle createParticle(BaseParticleSpec spec) {
         Particle ret;
-        //TODO: Create another constructor in Particle class and modify
-        //      Existing one.
+
         if (prototypes.containsKey(spec)) {
             ret = new Particle(prototypes.get(spec));
         } else {
@@ -33,7 +32,8 @@ public class BaseParticleFactory implements ParticleFactory {
             ret = new Particle(spec);
         }
 
-        // Position of collision will be set by generator
+        //ret.vel.accelerate(0.1f,90);
+
         return ret;
     }
 }

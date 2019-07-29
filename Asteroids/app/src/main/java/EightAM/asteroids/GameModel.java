@@ -76,6 +76,8 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     private void createObjects() {
         respawnShip();
         AsteroidGenerator.getInstance().createBelt(this);
+        Point p = new Point(spaceSize.x/2, spaceSize.y/2);
+        ParticleGenerator.getInstance().createParticles(objectMap, spaceSize, p);
     }
 
     //Ship stuff *START*
@@ -92,6 +94,7 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     }
 
     public void onDeath() {
+
         destroyShip();
         currPlayerShip = null;
         if (stats.getLife() > 0) {

@@ -2,6 +2,7 @@ package EightAM.asteroids;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.RectF;
 
@@ -21,14 +22,14 @@ public class Particle extends GameObject implements Destructable {
 
     Particle(BaseParticleSpec spec) {
         this.id = ObjectID.getNewID(Faction.Neutral);
-        this.duration = BaseParticleSpec.duration;
-        this.paint = PaintStore.getInstance().getPaint(BaseParticleSpec.paintName);
-        this.bitmap = BitmapStore.getInstance().getBitmap(BaseParticleSpec.bitMapName);
+        this.duration = spec.duration;
+        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
+        this.bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
         this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
-                spec.initialPosition.x + BaseParticleSpec.dimensions.x,
-                spec.initialPosition.y + BaseParticleSpec.dimensions.y);
+                spec.initialPosition.x + spec.dimensions.x,
+                spec.initialPosition.y + spec.dimensions.y);
         this.orientation = spec.initialOrientation;
-        this.vel = new Velocity(0, 0, BaseParticleSpec.speed);
+        this.vel = new Velocity(0, 0, spec.speed);
     }
 
     Particle(Particle particle) {
@@ -36,23 +37,24 @@ public class Particle extends GameObject implements Destructable {
         this.duration = particle.duration;
         this.paint = particle.paint;
         this.bitmap = particle.bitmap;
-        this.hitbox = particle.hitbox;
+        this.hitbox = new RectF(particle.hitbox);
         this.orientation = particle.orientation;
-        this.vel = particle.vel;
+        this.vel = new Velocity(particle.vel);
     }
 
     @Override
     void update(Point spaceSize, long timeInMillisecond) {
         super.update(spaceSize, timeInMillisecond);
         duration -= timeInMillisecond;
-        if (duration <= 0) {
-            this.destruct();
-        }
+//        if (duration <= 0) {
+//            this.destruct();
+//        }
     }
 
 
     @Override
     public void draw(Canvas canvas) {
+        paint.setColor(Color.RED);
         canvas.drawRect(this.hitbox, this.paint);
     }
 

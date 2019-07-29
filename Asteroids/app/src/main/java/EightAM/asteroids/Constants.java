@@ -29,7 +29,7 @@ final class Constants {
     // SMALL ALIEN
     static final float SMALLALIEN_SPAWN_PROB = 0.3f;
     //PARTICLE EFFECT
-    static final int EFFECT_NUM = 5;
+    static final int EFFECT_NUM = 20;
     static final int EFFECT_RADIUS = 8;
 
     // wave info

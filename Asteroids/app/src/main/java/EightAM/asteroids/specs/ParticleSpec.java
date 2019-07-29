@@ -10,7 +10,7 @@ public class ParticleSpec extends BaseParticleSpec {
     public static float dbmRatio = 3f;
     public static String paintName = "particle";
     public static int speed = 10;
-    public static int duration = 1000;
+    public static int duration = 100;
 
     public ParticleSpec() {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);

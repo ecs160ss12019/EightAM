@@ -8,6 +8,7 @@ public abstract class BaseAlienSpec extends BaseSpec {
     public float reloadTime;
     public float maxSpeed;
     public static float initialOrientation = 0;
+    public float initialAngle;
 
     public BaseAlienSpec(String tag, String bitMapName, int resID, Point dimensions, float dbmRatio, String paintName) {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
@@ -29,5 +30,7 @@ public abstract class BaseAlienSpec extends BaseSpec {
     public void setReloadTime(float reloadTime) {
         this.reloadTime = reloadTime;
     }
+
+    public void setInitialAngle(float initialAngle) { this.initialAngle = initialAngle; }
 }
 

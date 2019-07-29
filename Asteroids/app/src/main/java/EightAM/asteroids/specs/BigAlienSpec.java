@@ -15,7 +15,8 @@ public class BigAlienSpec extends BaseAlienSpec {
     public static int pointValue = 10;
     public static int hitPoints = 1;
     public static float reloadTime = 30;
-    public static float maxSpeed = 3f;
+    public static float maxSpeed = 0.1f;
+    public static float initialAngle = (float)Math.PI * 0.25f;
 
     public Pair<Integer, Integer> turnDelayRange = new Pair<>(4000, 6000);
     public Pair<Integer, Integer> shotDelayRange = new Pair<>(3000, 5000);
@@ -26,6 +27,7 @@ public class BigAlienSpec extends BaseAlienSpec {
         setMaxSpeed(maxSpeed);
         setPointValue(pointValue);
         setReloadTime(reloadTime);
+        setInitialAngle(initialAngle);
     }
 
 }

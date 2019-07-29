@@ -7,9 +7,11 @@ public abstract class BaseAlienSpec extends BaseSpec {
     public int hitPoints;
     public float reloadTime;
     public float maxSpeed;
+    public static float initialOrientation = 0;
 
     public BaseAlienSpec(String tag, String bitMapName, int resID, Point dimensions, float dbmRatio, String paintName) {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
+        this.setInitialOrientation(initialOrientation);
     }
 
     public void setHitPoints(int hitPoints) {

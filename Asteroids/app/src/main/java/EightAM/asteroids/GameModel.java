@@ -235,7 +235,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private void createDebris(GameObject object) {
         if (!((object instanceof  Particle) || (object instanceof  Bullet))){
-            ParticleGenerator.getInstance().createParticles(objectMap, spaceSize, (object.getObjPos()));
+            addObject(ParticleGenerator.getInstance().createParticles(object.getObjPos()));
         }
     }
 

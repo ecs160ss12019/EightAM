@@ -12,7 +12,7 @@ public class ObjectID {
     }
 
     // Distributes a unique ID, for the purposes of the game anyway
-    static ObjectID getNewID(Faction type) {
+    public static ObjectID getNewID(Faction type) {
         currID++;
         return new ObjectID(currID, type);
     }

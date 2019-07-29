@@ -78,8 +78,7 @@ public class AsteroidGenerator extends CollidableObjectGenerator {
      * @return a collection of baby asteroids
      */
     // Asteroid breakage will now be implemented inside each Asteroid object
-    @Deprecated
-    public Collection<GameObject> breakUpAsteroid(Point spaceSize, Asteroid parentAsteroid) {
+    public Collection<GameObject> breakUpAsteroid(Asteroid parentAsteroid) {
         Collection<GameObject> babyAsteroids= new ArraySet<>();
         if (parentAsteroid.breaksInto != null) {
             for (int i = 0; i < 2; i++) {

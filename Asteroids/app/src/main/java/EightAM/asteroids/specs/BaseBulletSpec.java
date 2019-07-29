@@ -2,6 +2,7 @@ package EightAM.asteroids.specs;
 
 import android.graphics.Point;
 
+import EightAM.asteroids.Faction;
 import EightAM.asteroids.ObjectID;
 
 
@@ -9,7 +10,7 @@ public abstract class BaseBulletSpec extends BaseSpec {
     public int damage = 1;
     public float speed = 0.75f;
     public float maxDistance = 100;
-    public ObjectID owner;
+    public Faction owner = Faction.Neutral;
 
     public BaseBulletSpec(String tag, String bitMapName, int resID, Point dimensions,
             float dbmRatio, String paintName) {
@@ -28,7 +29,7 @@ public abstract class BaseBulletSpec extends BaseSpec {
         this.speed = speed;
     }
 
-    public void setOwner(ObjectID owner) {
+    public void setOwner(Faction owner) {
         this.owner = owner;
     }
 }

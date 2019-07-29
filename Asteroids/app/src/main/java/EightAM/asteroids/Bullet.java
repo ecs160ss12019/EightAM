@@ -15,7 +15,7 @@ import EightAM.asteroids.specs.BaseBulletSpec;
 
 public class Bullet extends GameObject implements Collision, Destructable {
     // set by generator
-    private ObjectID owner;
+    public ObjectID owner;
     private float shooterAngle;
 
     Bitmap bitmap;
@@ -23,7 +23,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
     private DestructListener destructListener;
 
     Bullet(BaseBulletSpec spec) {
-        this.id = ObjectID.getNewID(spec.owner.getFaction());
+        this.id = ObjectID.getNewID(spec.owner);
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
         this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
                 spec.initialPosition.x + spec.dimensions.x,

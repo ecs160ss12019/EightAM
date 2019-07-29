@@ -136,7 +136,7 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
     public void removeObjects() {
         for (ObjectID id : deleteSet) {
-            Log.d("deleteSet id",""+ id.getId());
+            //Log.d("deleteSet id",""+ id.getId());
         }
         Deque<ObjectID> deleteQueue = new ArrayDeque<>(deleteSet);
         while (!deleteQueue.isEmpty()) {
@@ -178,6 +178,7 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
     private void startNextWave() {
         AsteroidGenerator.getInstance().createBelt(this);
+        AlienGenerator.getInstance().createAlien(this);
     }
 
     private void onWaveComplete() {

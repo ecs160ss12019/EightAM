@@ -63,8 +63,8 @@ class GameView extends SurfaceView implements Runnable {
             if (surfaceHolder.getSurface().isValid()) {
                 canvas = surfaceHolder.lockCanvas();
                 if (canvas == null) return;
-                canvas.drawColor(Color.GRAY);
-                model.lock.lock();
+                canvas.drawColor(Color.BLACK);
+                model.getLock().lock();
                 try {
                     // Drawings
                     drawShit(canvas);
@@ -76,7 +76,7 @@ class GameView extends SurfaceView implements Runnable {
                     this.audio.playInputPress(InputControl.playerInput.UP, InputControl.playerInput.DOWN, InputControl.playerInput.LEFT, InputControl.playerInput.RIGHT,
                                               InputControl.playerInput.SHOOT);
                 } finally {
-                    model.lock.unlock();
+                    model.getLock().unlock();
                 }
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
@@ -84,16 +84,7 @@ class GameView extends SurfaceView implements Runnable {
     }
 
     void drawShit(Canvas canvas) {
-
-            for (GameObject object : model.objectMap.values()) {
-//                if (object instanceof Particle) {
-//                    Log.d(object.getID().toString(), object.getObjPos().toString());
-//                }
-//                Log.d("checking object map:", "type = "
-//                        + object.getID() + " == " + object.getClass().toString());
-                object.draw(canvas);
-            }
-
+        for (GameObject object : model.objectMap.values()) object.draw(canvas);
     }
 
 

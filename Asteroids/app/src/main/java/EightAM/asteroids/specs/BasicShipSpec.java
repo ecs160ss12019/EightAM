@@ -14,7 +14,10 @@ public class BasicShipSpec extends BaseShipSpec {
 
     public static String paintName = "ship";
 
+    public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
+
     public BasicShipSpec() {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
+        setBulletSpec(bulletSpec);
     }
 }

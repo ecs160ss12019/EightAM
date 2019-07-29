@@ -19,24 +19,24 @@ final class PaintStore {
         sPaintMap.put("default", defaultPaint);
     }
 
-    static PaintStore getInstance() {
+    static synchronized PaintStore getInstance() {
         if (instance == null) instance = new PaintStore();
         return instance;
     }
 
-    Paint getPaint(String name) {
+    synchronized Paint getPaint(String name) {
         if (sPaintMap.containsKey(name)) {
             return sPaintMap.get(name);
         }
         return defaultPaint;
     }
 
-    void addPaint(String name, Paint p) {
+    synchronized void addPaint(String name, Paint p) {
         Paint paint = new Paint(p);
         sPaintMap.put(name, paint);
     }
 
-    void clearStore() {
+    synchronized void clearStore() {
         sPaintMap.clear();
     }
 }

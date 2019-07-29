@@ -9,7 +9,7 @@ final class GameController implements Runnable {
     private boolean isRunning;
     private GameModel model;
 
-    GameController(GameModel gameModel, int width, int height) {
+    GameController(GameModel gameModel) {
         // Initialize objects here
         currentTick = 0;
         isRunning = false;
@@ -20,18 +20,18 @@ final class GameController implements Runnable {
     @Override
     public void run() {
         currentTick = SystemClock.elapsedRealtime();
-        while (isRunning && !model.gameOver) {
+        while (isRunning && !model.isGameOver()) {
             long time = SystemClock.elapsedRealtime();
             long delta = time - currentTick;
             if (delta > 0) {
-                model.lock.lock();
+                model.getLock().lock();
                 try {
                     // Get player input
                     model.input(InputControl.playerInput);
                     // Update model
                     model.update(delta);
                 } finally {
-                    model.lock.unlock();
+                    model.getLock().unlock();
                 }
                 currentTick = time;
             }

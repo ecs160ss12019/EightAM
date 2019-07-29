@@ -2,7 +2,7 @@ package EightAM.asteroids.interfaces;
 
 import EightAM.asteroids.GameObject;
 
-public interface Collision {
+public interface Collision extends Identifiable {
 
     /**
      * Collision detection method takes in the hitbox of approaching object, using intersection

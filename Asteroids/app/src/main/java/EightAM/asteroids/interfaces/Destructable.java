@@ -1,11 +1,7 @@
 package EightAM.asteroids.interfaces;
 
-import EightAM.asteroids.ObjectID;
-
-public interface Destructable {
+public interface Destructable extends Identifiable {
     void destruct();
 
     void registerDestructListener(DestructListener listener);
-
-    ObjectID getID();
 }

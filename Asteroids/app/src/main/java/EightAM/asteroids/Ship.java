@@ -4,17 +4,15 @@ import static EightAM.asteroids.Constants.SHIP_RESTART_DURATION;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
 
-import java.util.Collection;
-
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Controllable;
-import EightAM.asteroids.interfaces.DeathEvent;
 import EightAM.asteroids.interfaces.DestructListener;
+import EightAM.asteroids.interfaces.EventGenerator;
+import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.Invulnerable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
@@ -22,7 +20,7 @@ import EightAM.asteroids.specs.BaseBulletSpec;
 import EightAM.asteroids.specs.BaseShipSpec;
 
 public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
-        DeathEvent {
+        EventGenerator {
 
     // ---------------Member variables-------------
 
@@ -39,6 +37,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     private float bitmapHitboxRatio;
     private DestructListener destructListener;
     private BaseBulletSpec bulletSpec;
+    private EventHandler eventHandler;
 
     Ship(BaseShipSpec spec) {
         //General
@@ -63,7 +62,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
         this.bulletSpec = spec.bulletSpec;
-
     }
 
     Ship(Ship ship) {
@@ -211,7 +209,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
     @Override
-    public Collection<GameObject> createOnDeath() {
-        return null;
+    public void registerEventHandler(EventHandler handler) {
+        this.eventHandler = handler;
     }
 }

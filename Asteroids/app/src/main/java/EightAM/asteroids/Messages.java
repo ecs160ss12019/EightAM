@@ -6,61 +6,82 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import EightAM.asteroids.interfaces.Drawable;
 
 // In game messages given by GameController to be rendered by GameView
-class Messages implements Drawable {
+class Messages {
     private final static long DEFAULT_FADE_TIME = 500;
     private final static long DEFAULT_DURATION_MS = 5000;
-    private List<Message> messageList;
-    private long lastDrawTime;
+    private static List<Message> messageList = new ArrayList<>();
+    private static long lastDrawTime;
+    private static Lock lock = new ReentrantLock();
 
-    Messages() {
-        messageList = new ArrayList<>();
+    private Messages() {
     }
 
-    void addMessage(Message message) {
-        if (messageList.size() == 0) {
-            lastDrawTime = System.currentTimeMillis();
+    static void addMessage(Message message) {
+        lock.lock();
+        try {
+            if (messageList.size() == 0) {
+                lastDrawTime = System.currentTimeMillis();
+            }
+            messageList.add(message);
+        } finally {
+            lock.unlock();
         }
-        messageList.add(message);
     }
 
-    void clearMessages() {
-        messageList.clear();
+    static void clearMessages() {
+        lock.lock();
+        try {
+            messageList.clear();
+        } finally {
+            lock.unlock();
+        }
     }
 
     // Displays a message in the middle
-    void drawMessage(String message) {
+    static void drawMessage(String message) {
         drawMessage(message, DEFAULT_DURATION_MS);
     }
 
-    void drawMessage(String message, long durationMS) {
+    static void drawMessage(String message, long durationMS) {
         drawMessage(message, durationMS, -1, -1);
     }
 
-    void drawMessage(String message, long durationMS, float x, float y) {
+    static void drawMessage(String message, long durationMS, float x, float y) {
         drawMessage(message, durationMS, x, y, DEFAULT_FADE_TIME);
     }
 
-    void drawMessage(String message, long durationMS, float x, float y, long fadeTimeMS) {
-        Paint paint = PaintStore.getInstance().getPaint("default");
-        messageList.add(new MessageWithFade(message, paint, durationMS, x, y, fadeTimeMS));
+    static void drawMessage(String message, long durationMS, float x, float y, long fadeTimeMS) {
+        lock.lock();
+        try {
+            Paint paint = PaintStore.getInstance().getPaint("message");
+            messageList.add(new MessageWithFade(message, paint, durationMS, x, y, fadeTimeMS));
+        } finally {
+            lock.unlock();
+        }
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        long diff = Math.abs(System.currentTimeMillis() - lastDrawTime);
-        for (ListIterator<Message> it = messageList.listIterator(); it.hasNext(); ) {
-            Message element = it.next();
-            element.draw(canvas);
-            element.durationMS -= diff;
-            if (element.durationMS < 0) {
-                it.remove();
+    static void draw(Canvas canvas) {
+        lock.lock();
+        try {
+            long diff = Math.abs(System.currentTimeMillis() - lastDrawTime);
+            for (ListIterator<Message> it = messageList.listIterator(); it.hasNext(); ) {
+                Message element = it.next();
+                element.draw(canvas);
+                element.durationMS -= diff;
+                if (element.durationMS < 0) {
+                    it.remove();
+                }
             }
+            lastDrawTime = System.currentTimeMillis();
+        } finally {
+            lock.unlock();
         }
-        lastDrawTime = System.currentTimeMillis();
     }
 
     // Used by Messages
@@ -80,8 +101,10 @@ class Messages implements Drawable {
 
         @Override
         public void draw(Canvas canvas) {
-            if (x < 0 || y < 0 || x > canvas.getWidth() || y > canvas.getHeight()) { // default drawing in middle
-                canvas.drawText(message, (float) canvas.getWidth() / 2, (float) canvas.getHeight() / 2, paint);
+            if (x < 0 || y < 0 || x > canvas.getWidth()
+                    || y > canvas.getHeight()) { // default drawing in middle
+                canvas.drawText(message, (float) canvas.getWidth() / 2,
+                        (float) canvas.getHeight() / 2, paint);
             }
             canvas.drawText(message, x, y, paint);
         }
@@ -90,7 +113,8 @@ class Messages implements Drawable {
     static class MessageWithFade extends Message implements Drawable {
         long fadeTimeMS;
 
-        MessageWithFade(String message, Paint paint, long durationMS, float x, float y, long fadeTimeMS) {
+        MessageWithFade(String message, Paint paint, long durationMS, float x, float y,
+                long fadeTimeMS) {
             super(message, paint, durationMS, x, y);
             this.fadeTimeMS = fadeTimeMS;
         }
@@ -108,7 +132,8 @@ class Messages implements Drawable {
         int periodMS;
         long lastPeak;
 
-        PulsatingMessage(String message, Paint paint, long durationMS, float x, float y, int periodMS) {
+        PulsatingMessage(String message, Paint paint, long durationMS, float x, float y,
+                int periodMS) {
             super(message, paint, durationMS, x, y);
             this.periodMS = periodMS;
             lastPeak = System.currentTimeMillis();

@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     TextView screenMsg;
 
 
-
     private boolean isPaused;
 
     @Override
@@ -33,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // Hide the status bar.
         if (Build.VERSION.SDK_INT < 16) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
         } else {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
@@ -43,29 +43,32 @@ public class MainActivity extends AppCompatActivity {
 
         /*Temp solution to get screen width and height*/
         View decorView = getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                // Note that system bars will only be "visible" if none of the
-                // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
-                if (Build.VERSION.SDK_INT < 16) {
-                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                } else {
-                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-                }
-            }
-        });
+        decorView.setOnSystemUiVisibilityChangeListener(
+                new View.OnSystemUiVisibilityChangeListener() {
+                    @Override
+                    public void onSystemUiVisibilityChange(int visibility) {
+                        // Note that system bars will only be "visible" if none of the
+                        // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
+                        if (Build.VERSION.SDK_INT < 16) {
+                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        } else {
+                            getWindow().getDecorView().setSystemUiVisibility(
+                                    View.SYSTEM_UI_FLAG_FULLSCREEN);
+                        }
+                    }
+                });
         AssetLoader.load(gameView.getContext());
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         //gameState = new GameState(size.x, size.y, gameView.getContext());
         gameModel = new GameModel(size, gameView.getContext());
-        gameController = new GameController(gameModel, size.x, size.y);
+        gameController = new GameController(gameModel);
         gameView.setGameModel(gameModel);
         // temporary until menu is created
         gameView.onResume();
-        gameController.onResume();
+//        gameController.onResume();
 
         // Play background music
         //gameView.audio.playMusic(MainActivity.this);
@@ -106,10 +109,11 @@ public class MainActivity extends AppCompatActivity {
         msgLayout.setOnClickListener(view -> {
             msgLayout.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
-            ((Ship) gameModel.objectMap.get(gameModel.currPlayerShip)).isInvincible = true;
-            ((Ship)gameModel.objectMap.get(gameModel.currPlayerShip)).invincibilityDuration = 500;
+            gameModel.startGame();
+            gameController.onResume();
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();

@@ -19,7 +19,6 @@ public class Particle extends GameObject implements Destructable {
 
     Bitmap bitmap;
     long duration;
-
     DestructListener destructListener;
 
     // ---------------Member methods---------------
@@ -50,11 +49,11 @@ public class Particle extends GameObject implements Destructable {
     void update(Point spaceSize, long timeInMillisecond) {
         super.update(spaceSize, timeInMillisecond);
 
-
+//        this.duration -= timeInMillisecond;
         if (this.duration > timeInMillisecond) {
             this.duration -= timeInMillisecond;
         } else {
-
+            this.destruct();
             this.duration = 0;
             //Log.d(this.getClass().toString(), Long.toString(timeInMillisecond));
         }
@@ -67,11 +66,7 @@ public class Particle extends GameObject implements Destructable {
         //this.paint.setARGB(255, r.nextInt(256), r.nextInt(256), r.nextInt(256));
         canvas.drawRect(this.hitbox, this.paint);
 
-       // if (duration > 0)
-            this.paint.setARGB((int)duration, r.nextInt(256), r.nextInt(256), r.nextInt(256));
-        //else
-            //this.destruct();
-            //this.paint.setColor(Color.TRANSPARENT);
+        this.paint.setARGB(255, r.nextInt(256), r.nextInt(256), r.nextInt(256));
     }
 
     @Override

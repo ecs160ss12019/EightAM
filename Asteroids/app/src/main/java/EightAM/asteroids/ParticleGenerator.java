@@ -1,7 +1,11 @@
 package EightAM.asteroids;
 
+import java.util.Collection;
 import java.util.Map;
 import android.graphics.Point;
+
+import androidx.collection.ArraySet;
+
 import EightAM.asteroids.specs.ParticleSpec;
 import static EightAM.asteroids.Constants.EFFECT_NUM;
 
@@ -24,8 +28,9 @@ public class ParticleGenerator {
         return instance;
     }
 
-    public void createParticles(Map<ObjectID, GameObject> objectMap, Point spaceSize, Point objectPos) {
+    public Collection<GameObject> createParticles(Point objectPos) {
         ParticleSpec spec = new ParticleSpec();
+        Collection<GameObject> particlesEffect= new ArraySet<>();
         for (int i = 0; i < numOfParticles; i++) {
             GameObject particle = BaseFactory.getInstance().create(spec);
             // Get random position
@@ -35,8 +40,8 @@ public class ParticleGenerator {
             particle.vel.resetVelocity(randSpeed, randAngle, spec.speedRange.second);
             // Reset hit box position
             particle.hitbox.offsetTo(objectPos.x, objectPos.y);
-            // Put new objects into model's hash map
-            objectMap.put(particle.getID(), particle);
+            particlesEffect.add(particle);
         }
+        return particlesEffect;
     }
 }

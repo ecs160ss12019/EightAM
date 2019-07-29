@@ -14,12 +14,13 @@ import EightAM.asteroids.specs.BasicBulletSpec;
 import EightAM.asteroids.specs.BasicShipSpec;
 import EightAM.asteroids.specs.BigAlienSpec;
 import EightAM.asteroids.specs.LargeAsteroidSpec;
+import EightAM.asteroids.specs.MediumAsteroidSpec;
 import EightAM.asteroids.specs.SmallAsteroidSpec;
 
 final class AssetLoader {
     static final List<BaseSpec> specList = Collections.unmodifiableList(
             Arrays.asList(new BasicBulletSpec(), new BasicShipSpec(), new BigAlienSpec(),
-                    new LargeAsteroidSpec(), new SmallAsteroidSpec()));
+                    new LargeAsteroidSpec(), new MediumAsteroidSpec(),  new SmallAsteroidSpec()));
 
     static void load(Context c) {
         int colorPrimary = ContextCompat.getColor(c, R.color.colorPrimary);

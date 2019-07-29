@@ -19,11 +19,14 @@ public class MainActivity extends AppCompatActivity {
     GameController gameController;
     GameModel gameModel;
 
-    RelativeLayout msgLayout;
+    // For mane layout (play, pause)
+    RelativeLayout startLayout;
     RelativeLayout buttonLayout;
     ImageView pauseButton;
-    TextView screenMsg;
+    TextView messageText;
 
+    //Test for high score
+    int hightScore = 999;
 
     private boolean isPaused;
 
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        //gameState = new GameState(size.x, size.y, gameView.getContext());
+
         gameModel = new GameModel(size, gameView.getContext());
         gameController = new GameController(gameModel);
         gameView.setGameModel(gameModel);
@@ -74,41 +77,39 @@ public class MainActivity extends AppCompatActivity {
         //gameView.audio.playMusic(MainActivity.this);
 
         // Find Layout Elements to be used/manipulated
-
-        msgLayout = findViewById(R.id.view_gauze);
+        startLayout = findViewById(R.id.view_gauze);
         buttonLayout = findViewById(R.id.view_button);
         pauseButton = findViewById(R.id.pause_button);
-        screenMsg = findViewById(R.id.startText);
+        messageText = findViewById(R.id.startText);
 
         // Start game on tap
+        messageText.setText("Tap to start\n" + "High Score: " + hightScore);
         onStartScreen();
 
         // Set Listener for Pause
         onPauseScreen();
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (gameView != null) gameView.onPause();
-
+        if (gameView != null)
+            gameView.onPause();
         isPaused = true;
-
-        msgLayout.setOnClickListener(view -> {
-            msgLayout.setVisibility(View.GONE);
+        startLayout.setOnClickListener(view -> {
+            startLayout.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
             isPaused = false;
             onResume();
         });
-
     }
 
     // TODO: disable collision detection before user taps on screen
     protected void onStartScreen() {
-        msgLayout.setOnClickListener(view -> {
-            msgLayout.setVisibility(View.GONE);
+        startLayout.setOnClickListener(view -> {
+            startLayout.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
+            //messageText.setText("Tap to start\n" + "High Score: " + hightScore);
             gameModel.startGame();
             gameController.onResume();
         });
@@ -122,12 +123,10 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onPauseScreen() {
         pauseButton.setOnClickListener(view -> {
-            msgLayout.setVisibility(View.VISIBLE);
+            startLayout.setVisibility(View.VISIBLE);
             buttonLayout.setVisibility(View.GONE);
-            screenMsg.setText("Paused - Tap to Resume");
+            messageText.setText("Paused - Tap to Resume");
             onPause();
         });
     }
-
-
 }

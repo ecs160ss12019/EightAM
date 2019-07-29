@@ -4,9 +4,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.util.Log;
 
-import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,6 +14,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Destructable;
+import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.interfaces.Invulnerable;
@@ -67,7 +66,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private void createObjects() {
         respawnShip();
-        AsteroidGenerator.getInstance().createBelt(this);
+        addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
         // Testing for particle effect, wait for the onCollision to be completed
         Point p = new Point(spaceSize.x/2, spaceSize.y/2);
         ParticleGenerator.getInstance().createParticles(objectMap, spaceSize, p);
@@ -80,11 +79,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         this.currPlayerShip = null;
     }
 
-//    protected void destroyShip() {
-//        objectMap.remove(currPlayerShip);
-//        stats.subLive();
-//        //TODO: push currPlayerShip explosion event
-//    }
 
     private void respawnShip() {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
@@ -98,23 +92,12 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
     //Ship stuff *END*
 
-    private boolean isInvulnerable(GameObject gameObject) {
-        if (gameObject instanceof Invulnerable) {
-            return ((Invulnerable) gameObject).isInvulnerable();
-        }
-        return false;
-    }
 
     @Deprecated
     public void onCollision(ObjectID actorID, ObjectID targetID) {
         GameObject target = objectMap.get(targetID);
         GameObject actor = objectMap.get(actorID);
-        if (target == null) return;
-        if (isInvulnerable(target) || isInvulnerable(actor)) return;
-        // if target is not invulnerable, destroy it
         if (actorID.getFaction() == Faction.Player) stats.score(target);
-        if (actorID == currPlayerShip || targetID == currPlayerShip) onDeath();
-        deleteSet.add(targetID);
     }
 
     public void removeObjects() {
@@ -128,16 +111,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             if (id == currPlayerShip) onDeath();
         }
         deleteSet.clear();
-        /*
-        Deque<ObjectID> deleteQueue = new ArrayDeque<>(deleteSet);
-        while (!deleteQueue.isEmpty()) {
-            ObjectID id = deleteQueue.pop();
-            deleteSet.remove(id);
-            collideables.remove(id);
-            objectMap.remove(id);
-            if (id == currPlayerShip) onDeath();
-        }
-        */
     }
 
     public void onGameEnd() {
@@ -176,7 +149,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     private void startNextWave() {
-        AsteroidGenerator.getInstance().createBelt(this);
+        addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
         //AlienGenerator.getInstance().createAlien(this);
     }
 
@@ -222,11 +195,12 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             ObjectID id = o.getID();
             if (!objectMap.containsKey(id)) {
                 objectMap.put(id, o);
+                setListners(o);
                 if (o instanceof Collision) {
                     collideables.add(id);
                 }
-                if (o instanceof Bullet) {
-                    ((Bullet)o).registerDestructListener(this);
+                if (o instanceof Asteroid) {
+                    activeAsteroids++;
                 }
                 if (o instanceof Ship) {
                     currPlayerShip = id;
@@ -235,8 +209,21 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         }
     }
 
+    private void setListners(GameObject object){
+        if (object instanceof Destructable)
+            ((Destructable)object).registerDestructListener(this);
+        if (object instanceof Shooter)
+            ((Shooter)object).linkShotListener(this);
+        if (object instanceof EventGenerator)
+            ((EventGenerator)object).registerEventHandler(this);
+
+    }
+
     @Override
     public void onDestruct(Destructable destructable) {
+        if (destructable instanceof Asteroid){
+            activeAsteroids--;
+        }
         ObjectID id = destructable.getID();
         deleteSet.add(id);
     }

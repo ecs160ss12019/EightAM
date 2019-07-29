@@ -25,7 +25,7 @@ public class BulletGenerator extends CollidableObjectGenerator {
      */
     //TODO: Implement prepareSpec;
     public static Collection<GameObject> createBullets(Shooter shooter) {
-        GameObject bullet = BaseFactory.getInstance().create(prepareSpec(shooter));
+        GameObject bullet = BaseFactory.getInstance().create(shooter.getBulletSpec());
         positionBullet(shooter, bullet);
         debug((Bullet) bullet);
         return Collections.singleton(bullet);

@@ -76,7 +76,6 @@ public class Asteroid extends GameObject implements Destructable, Collision {
 
     public void destruct() {
         // implement destruction effects here.
-        ((GameModel)destructListener).activeAsteroids--;
         destructListener.onDestruct(this);
     }
 

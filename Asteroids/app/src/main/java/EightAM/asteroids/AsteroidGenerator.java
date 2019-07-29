@@ -4,6 +4,11 @@ import static EightAM.asteroids.Constants.SAFE_DISTANCE;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 
 import android.graphics.Point;
+
+
+import androidx.collection.ArraySet;
+
+import java.util.Collection;
 import java.util.Random;
 
 import EightAM.asteroids.specs.LargeAsteroidSpec;
@@ -38,30 +43,27 @@ public class AsteroidGenerator extends CollidableObjectGenerator {
         return new Point(randX, randY);
     }
 
-    private void placeAsteroid(GameObject asteroid, GameModel model){
-        ((Asteroid) asteroid).registerDestructListener(model);
-        addToMap(asteroid, model);
-        model.activeAsteroids++;
-    }
-
-    public void createBelt(GameModel model) {
+    public Collection<GameObject> createBelt(Point spaceSize, Ship ship) {
         Point randPoint;
-
+        Collection<GameObject> asteroidBelt= new ArraySet<>();
         for (int i = 0; i < numOfAsteroids; i++) {
             GameObject asteroid = BaseFactory.getInstance().create(new LargeAsteroidSpec());
-            randPoint = getRandomPosition(model.spaceSize, model.getPlayerShip().getObjPos());
+            randPoint = getRandomPosition(spaceSize, ship.getObjPos());
             asteroid.hitbox.offset(randPoint.x, randPoint.y);
-            placeAsteroid(asteroid, model);
+            asteroidBelt.add(asteroid);
         }
+        return asteroidBelt;
     }
 
-    public void breakUpAsteroid(Asteroid parentAsteroid, GameModel model) {
-        if (parentAsteroid.breaksInto == null) return;
-
-        for (int i = 0; i < 2; i++) {
-            GameObject asteroid = BaseFactory.getInstance().create(parentAsteroid.breaksInto);
-            asteroid.hitbox.offsetTo(parentAsteroid.getObjPos().x, parentAsteroid.getObjPos().y);
-            placeAsteroid(asteroid, model);
+    public Collection<GameObject> breakUpAsteroid(Point spaceSize, Asteroid parentAsteroid) {
+        Collection<GameObject> asteroidBelt= new ArraySet<>();
+        if (parentAsteroid.breaksInto != null) {
+            for (int i = 0; i < 2; i++) {
+                GameObject asteroid = BaseFactory.getInstance().create(parentAsteroid.breaksInto);
+                asteroid.hitbox.offsetTo(parentAsteroid.getObjPos().x, parentAsteroid.getObjPos().y);
+                asteroidBelt.add(asteroid);
+            }
         }
+        return asteroidBelt;
     }
 }

@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.util.Log;
+
+import java.util.Random;
 
 import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
@@ -33,7 +36,7 @@ public class Particle extends GameObject implements Destructable {
     }
 
     Particle(Particle particle) {
-        this.id = particle.id;
+        this.id = ObjectID.getNewID(Faction.Neutral); // Important
         this.duration = particle.duration;
         this.paint = particle.paint;
         this.bitmap = particle.bitmap;
@@ -46,15 +49,18 @@ public class Particle extends GameObject implements Destructable {
     void update(Point spaceSize, long timeInMillisecond) {
         super.update(spaceSize, timeInMillisecond);
         duration -= timeInMillisecond;
-//        if (duration <= 0) {
-//            this.destruct();
-//        }
+        Log.d("Particle update", "time left = " + duration);
+        if (duration <= 0) {
+            //this.destruct();
+            this.paint.setColor(Color.TRANSPARENT);
+        }
     }
 
 
     @Override
     public void draw(Canvas canvas) {
-        paint.setColor(Color.RED);
+        Random r = new Random();
+        this.paint.setARGB(255, r.nextInt(256), r.nextInt(256), r.nextInt(256));
         canvas.drawRect(this.hitbox, this.paint);
     }
 

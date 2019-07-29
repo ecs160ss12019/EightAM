@@ -1,6 +1,7 @@
 package EightAM.asteroids;
 
 import java.util.Map;
+
 import android.graphics.Point;
 import android.util.Log;
 
@@ -29,10 +30,15 @@ public class ParticleGenerator {
     public void createParticles(Map<ObjectID, GameObject> objectMap, Point spaceSize, Point objectPos) {
         Point randPoint;
         Log.d("map size", "size before:" + objectMap.size());
-        for (int i = 0; i < 20; i++) {
-            GameObject particle = BaseFactory.getInstance().create(new ParticleSpec());
+        ParticleSpec spec = new ParticleSpec();
+        for (int i = 0; i < numOfParticles; i++) {
+            GameObject particle = BaseFactory.getInstance().create(spec);
+            float angle = (float) (Math.random() * Math.PI * 2);
+            int x = (int) Math.cos(angle) * EFFECT_RADIUS + objectPos.x;
+            int y = (int) Math.sin(angle) * EFFECT_RADIUS + objectPos.y;
             randPoint = getRandomPosition(spaceSize, objectPos);
             particle.hitbox.offsetTo(randPoint.x, randPoint.y);
+            particle.vel.resetVelocity(spec.speed, angle, spec.speed);
             objectMap.put(particle.getID(), particle);
         }
         Log.d("map size", "size after:" + objectMap.size());
@@ -40,9 +46,8 @@ public class ParticleGenerator {
 
     private Point getRandomPosition(Point size, Point pos) {
         double angle = Math.random() * Math.PI * 2;
-        int offSet = size.x - pos.x;
-        int x = (int)Math.cos(angle) * EFFECT_RADIUS + offSet;
-        int y = (int)Math.sin(angle) * EFFECT_RADIUS + offSet;
+        int x = (int) Math.cos(angle) * EFFECT_RADIUS + pos.x;
+        int y = (int) Math.sin(angle) * EFFECT_RADIUS + pos.y;
         return new Point(x, y);
     }
 }

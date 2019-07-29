@@ -84,10 +84,16 @@ class GameView extends SurfaceView implements Runnable {
     }
 
     void drawShit(Canvas canvas) {
-        for (GameObject object : model.objectMap.values()){
-            //if (object instanceof Particle)
-            object.draw(canvas);
-        }
+
+            for (GameObject object : model.objectMap.values()) {
+//                if (object instanceof Particle) {
+//                    Log.d(object.getID().toString(), object.getObjPos().toString());
+//                }
+//                Log.d("checking object map:", "type = "
+//                        + object.getID() + " == " + object.getClass().toString());
+                object.draw(canvas);
+            }
+
     }
 
 

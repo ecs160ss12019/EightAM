@@ -4,7 +4,9 @@ import static EightAM.asteroids.Constants.SAFE_DISTANCE;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 
 import android.graphics.Point;
+
 import androidx.collection.ArraySet;
+
 import java.util.Collection;
 import java.util.Random;
 
@@ -41,9 +43,10 @@ public class AsteroidGenerator extends CollidableObjectGenerator {
         int randY;
 
         do {
-            randX = rand.nextInt(spaceSize.x) - shipPos.x;
-            randY = rand.nextInt(spaceSize.y) - shipPos.y;
-        } while (Math.hypot(randX - shipPos.x, randY - shipPos.y) < SAFE_DISTANCE);
+            randX = rand.nextInt(spaceSize.x);
+            randY = rand.nextInt(spaceSize.y);
+        } while (Math.hypot(Math.abs(randX - shipPos.x), Math.abs(randY - shipPos.y))
+                < SAFE_DISTANCE);
 
         return new Point(randX, randY);
     }
@@ -74,6 +77,8 @@ public class AsteroidGenerator extends CollidableObjectGenerator {
      * @param parentAsteroid - reference to parent asteroid to retrieve position
      * @return a collection of baby asteroids
      */
+    // Asteroid breakage will now be implemented inside each Asteroid object
+    @Deprecated
     public Collection<GameObject> breakUpAsteroid(Point spaceSize, Asteroid parentAsteroid) {
         Collection<GameObject> babyAsteroids= new ArraySet<>();
         if (parentAsteroid.breaksInto != null) {

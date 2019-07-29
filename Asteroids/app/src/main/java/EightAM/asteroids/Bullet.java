@@ -14,15 +14,17 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseBulletSpec;
 
 public class Bullet extends GameObject implements Collision, Destructable {
+    // set by generator
+    private ObjectID owner;
+    private float shooterAngle;
 
     Bitmap bitmap;
     private float distanceTraveled;
     private DestructListener destructListener;
 
     Bullet(BaseBulletSpec spec) {
+        this.id = ObjectID.getNewID(spec.owner.getFaction());
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
-        // TODO: draw bullet
-        //this.bitmap = BitmapStore.getBitmap(spec.bitMapName);
         this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
                 spec.initialPosition.x + spec.dimensions.x,
                 spec.initialPosition.y + spec.dimensions.y);
@@ -31,8 +33,8 @@ public class Bullet extends GameObject implements Collision, Destructable {
     }
 
     Bullet(Bullet bullet) {
+        this.id = ObjectID.getNewID(bullet.getID().getFaction());
         this.paint = bullet.paint;
-        // TODO: draw bullet
         //this.bitmap = bullet.bitmap;
         this.hitbox = new RectF(bullet.hitbox);
         this.orientation = bullet.orientation;
@@ -55,6 +57,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
     }
 
     public void onCollide(GameObject approachingObject) {
+        // TODO more stuff here
         destruct();
     }
 

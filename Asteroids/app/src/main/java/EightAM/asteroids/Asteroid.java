@@ -9,10 +9,12 @@ import android.util.Pair;
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
+import EightAM.asteroids.interfaces.EventGenerator;
+import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.specs.BaseAsteroidSpec;
 import EightAM.asteroids.specs.LargeAsteroidSpec;
 
-public class Asteroid extends GameObject implements Destructable, Collision {
+public class Asteroid extends GameObject implements Destructable, Collision, EventGenerator {
 
     // ---------------Member variable---------------
 
@@ -22,6 +24,7 @@ public class Asteroid extends GameObject implements Destructable, Collision {
     DestructListener destructListener;
     Pair<Float, Float> speedRange;
     Pair<Float, Float> spinRange;
+
 
     // ---------------Member methods----------------
 
@@ -95,6 +98,11 @@ public class Asteroid extends GameObject implements Destructable, Collision {
     @Override
     public boolean canCollide() {
         return true;
+    }
+
+    @Override
+    public void registerEventHandler(EventHandler handler) {
+
     }
 
     // enum size used to denote three size types of asteroid rock

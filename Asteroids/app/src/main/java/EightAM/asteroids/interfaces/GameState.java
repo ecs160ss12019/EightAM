@@ -11,11 +11,5 @@ public interface GameState {
 
     Set<ObjectID> getCollideableIDs();
 
-    Set<ObjectID> getAsteroidIDs();
-
-    Set<ObjectID> getAlienIDs();
-
-    Set<ObjectID> getBulletIDs();
-
     GameObject getGameObject(ObjectID id);
 }

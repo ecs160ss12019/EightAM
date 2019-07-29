@@ -3,6 +3,7 @@ package EightAM.asteroids;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.Log;
+import android.util.Pair;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -134,8 +135,10 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         for (GameObject o : objectMap.values()) {
             o.update(spaceSize, timeInMillisecond);
         }
-        //Collisions
-        CollisionChecker.enumerateCollisions(this);
+
+        for (Pair<Collision, GameObject> objectPair : CollisionChecker.enumerateCollisions(this)){
+            objectPair.first.onCollide(objectPair.second);
+        }
 
         if (activeAsteroids == 0 && activeAliens == 0) {
             onWaveComplete();
@@ -236,6 +239,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     private void createDebris(GameObject object) {
         if (!((object instanceof  Particle) || (object instanceof  Bullet))){
             addObject(ParticleGenerator.getInstance().createParticles(object.getObjPos()));
+        }
+        if (object instanceof Asteroid) {
+            addObject(AsteroidGenerator.getInstance().breakUpAsteroid((Asteroid) object));
         }
     }
 

@@ -13,18 +13,20 @@ import android.graphics.RectF;
 import java.util.Random;
 
 import EightAM.asteroids.interfaces.Collision;
+import EightAM.asteroids.interfaces.DestructListener;
+import EightAM.asteroids.interfaces.Destructable;
 
-public abstract class Alien extends GameObject implements Collision {
-    // ---------------Member statics --------------
+public abstract class Alien extends GameObject implements Destructable, Collision {
+    // --------------- Member variables --------------
     Bitmap bitmap;
     int distanceTraveled;
     int maxRange;
     int shotDelayCounter = 0;
     float shotAngle = 0;
     boolean canShoot = false;
+    DestructListener destructListener;
 
     // ---------------Member methods --------------
-
 
     @Override
     protected void update(Point spaceSize, long timeInMillisecond) {
@@ -64,27 +66,6 @@ public abstract class Alien extends GameObject implements Collision {
     }
 
     /**
-     * Collision detection method takes in the hitbox of approaching object, using intersection
-     * method to check of collision
-     *
-     * @param approachingObject the hitbox of approaching object,
-     * @return true for collision, otherwise false
-     */
-    @Override
-    public boolean detectCollisions(GameObject approachingObject) {
-        return hitbox.intersect(approachingObject.hitbox);
-    }
-
-    public void onCollide(GameObject approachingObject){
-
-    }
-
-    @Override
-    public boolean canCollide() {
-        return true;
-    }
-
-    /**
      * Determines if the alien should continue to persist.
      *
      * @return true if the alien has exceeded its maximum range
@@ -116,4 +97,39 @@ public abstract class Alien extends GameObject implements Collision {
         return shotAngle;
     }
 
+    // ------------ BEGIN COLLISION IMPLEMENTION ------------ //
+    /**
+     * Collision detection method takes in the hitbox of approaching object, using intersection
+     * method to check of collision
+     *
+     * @param approachingObject the hitbox of approaching object,
+     * @return true for collision, otherwise false
+     */
+    @Override
+    public boolean detectCollisions(GameObject approachingObject) {
+        return hitbox.intersect(approachingObject.hitbox);
+    }
+
+    @Override
+    public void onCollide(GameObject approachingObject){ destruct(); }
+
+    @Override
+    public boolean canCollide() {
+        return true;
+    }
+    // ------------ END COLLISION IMPLEMENTION ------------ //
+
+    // ------------ BEGIN DESTRUCTABLE IMPLEMENTION ------------ //
+    public void destruct() {
+        ((GameModel) destructListener).activeAliens--;
+        destructListener.onDestruct(this);
+    }
+
+    public void registerDestructListener(DestructListener listener) {
+        this.destructListener = listener;
+    }
+
+    // should be implemented by derived alien classes
+    public abstract ObjectID getID();
+    // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //
 }

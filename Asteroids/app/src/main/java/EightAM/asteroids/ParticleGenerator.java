@@ -38,7 +38,8 @@ public class ParticleGenerator {
             int y = (int) Math.sin(angle) * EFFECT_RADIUS + objectPos.y;
             randPoint = getRandomPosition(spaceSize, objectPos);
             particle.hitbox.offsetTo(randPoint.x, randPoint.y);
-            particle.vel.resetVelocity(spec.speed, angle, spec.speed);
+            float randSpeed = (float) Math.random() * (spec.speedRange.second - spec.speedRange.first) + spec.speedRange.first;
+            particle.vel.resetVelocity(randSpeed, angle, spec.speedRange.second);
             objectMap.put(particle.getID(), particle);
         }
         Log.d("map size", "size after:" + objectMap.size());

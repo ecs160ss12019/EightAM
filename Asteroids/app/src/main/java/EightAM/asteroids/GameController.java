@@ -19,6 +19,7 @@ final class GameController implements Runnable {
 
     @Override
     public void run() {
+        currentTick = SystemClock.elapsedRealtime();
         while (isRunning && !model.gameOver) {
             long time = SystemClock.elapsedRealtime();
             long delta = time - currentTick;

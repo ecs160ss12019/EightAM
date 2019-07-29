@@ -14,7 +14,7 @@ import static EightAM.asteroids.Constants.SMALLALIEN_SPAWN_PROB;
 
 public class AlienGenerator extends CollidableObjectGenerator {
     static AlienGenerator instance;
-    private boolean debug = true;
+    private boolean debug = false;
 
     private AlienGenerator() {}
 

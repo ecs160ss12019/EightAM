@@ -66,7 +66,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     private void createObjects() {
         addObject(respawnShip());
         addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
-        // Testing for particle effect, wait for the onCollision to be completed
     }
 
     //Ship stuff *START*
@@ -148,7 +147,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private void startNextWave() {
         addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
-        //AlienGenerator.getInstance().createAlien(this);
+        AlienGenerator.getInstance().createAlien(this);
     }
 
     private void onWaveComplete() {

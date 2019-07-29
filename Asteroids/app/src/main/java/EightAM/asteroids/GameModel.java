@@ -163,7 +163,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      */
     // Indirection of input to update currPlayerShip parameters
     void input(InputControl.Input i) {
-        Log.d("check ship id",""+currPlayerShip);
+        //Log.d("check ship id",""+currPlayerShip);
         if (currPlayerShip != null) {
             getPlayerShip().input(i);
         }

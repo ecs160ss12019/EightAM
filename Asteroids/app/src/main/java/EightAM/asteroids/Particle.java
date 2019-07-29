@@ -57,7 +57,6 @@ public class Particle extends GameObject implements Destructable {
             this.duration = 0;
             //Log.d(this.getClass().toString(), Long.toString(timeInMillisecond));
         }
-//        Log.d("Particle update", "time left = " + duration);
     }
 
 

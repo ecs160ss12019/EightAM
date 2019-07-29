@@ -18,4 +18,5 @@ public abstract class BaseParticleSpec extends BaseSpec {
     void setDuration(long duration) {
         this.duration = duration;
     }
+
 }

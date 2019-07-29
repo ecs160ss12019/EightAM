@@ -9,6 +9,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.util.Log;
 import android.util.Pair;
 
 import java.util.Random;
@@ -24,6 +25,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     int maxRange;
     float shotAngle = 0;
     DestructListener destructListener;
+    private boolean debug = true;
 
     // movement
     Pair<Integer, Integer> turnDelayRange;
@@ -62,6 +64,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      */
     protected void updateTurnTimer() {
         this.turnDelay--;
+        if (debug) { Log.d("alien", Integer.toString(this.turnDelay)); }
         if (this.turnDelay <= 0) {
             this.turn();
             this.setTurnDelay();

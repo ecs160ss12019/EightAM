@@ -7,10 +7,6 @@ import EightAM.asteroids.specs.BaseAlienSpec;
 import EightAM.asteroids.specs.SmallAlienSpec;
 
 public class SmallAlien extends Alien {
-    private Pair<Integer, Integer> shotDelayRange;
-    private Pair<Integer, Integer> turnDelayRange;
-    private int turnDelay;
-    private int shotDelay;
 
     public SmallAlien(SmallAlienSpec spec) {
         this.id = ObjectID.getNewID(Faction.Alien);
@@ -25,7 +21,9 @@ public class SmallAlien extends Alien {
         this.angularVel = 0;
         this.orientation = spec.initialOrientation;
         this.turnDelayRange = spec.turnDelayRange;
-        this.vel = new Velocity(0, 0, ((BaseAlienSpec) spec).maxSpeed);
+        this.vel = new Velocity(((BaseAlienSpec) spec).maxSpeed,
+                ((BaseAlienSpec) spec).initialAngle,
+                ((BaseAlienSpec) spec).maxSpeed);
         this.shotDelayRange = spec.shotDelayRange;
     }
 
@@ -42,5 +40,4 @@ public class SmallAlien extends Alien {
         this.shotDelayRange = alien.shotDelayRange;
     }
 
-    public ObjectID getID() { return this.id; }
 }

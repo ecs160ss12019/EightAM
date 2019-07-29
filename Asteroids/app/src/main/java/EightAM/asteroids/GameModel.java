@@ -174,11 +174,11 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     }
 
     private void startNextWave() {
-
+        AsteroidGenerator.getInstance().createBelt(this);
     }
 
     private void onWaveComplete() {
-
+        AsteroidGenerator.getInstance().numOfAsteroids++;
     }
 
 

@@ -13,12 +13,14 @@ import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseParticleSpec;
 
+import static EightAM.asteroids.Constants.DURATION;
+
 public class Particle extends GameObject implements Destructable {
 
     // ---------------Member variables-------------
 
     Bitmap bitmap;
-    int duration;
+    long duration;
     DestructListener destructListener;
 
     // ---------------Member methods---------------
@@ -32,7 +34,7 @@ public class Particle extends GameObject implements Destructable {
                 spec.initialPosition.x + spec.dimensions.x,
                 spec.initialPosition.y + spec.dimensions.y);
         this.orientation = spec.initialOrientation;
-        this.vel = new Velocity(0, 0, spec.speed);
+        this.vel = new Velocity(0, 0, spec.speedRange.second);
     }
 
     Particle(Particle particle) {
@@ -48,20 +50,30 @@ public class Particle extends GameObject implements Destructable {
     @Override
     void update(Point spaceSize, long timeInMillisecond) {
         super.update(spaceSize, timeInMillisecond);
-        duration -= timeInMillisecond;
-        Log.d("Particle update", "time left = " + duration);
-        if (duration <= 0) {
-            //this.destruct();
-            this.paint.setColor(Color.TRANSPARENT);
+
+//        this.duration -= timeInMillisecond;
+        if (this.duration > timeInMillisecond) {
+            this.duration -= timeInMillisecond;
+        } else {
+
+            this.duration = 0;
+            Log.d(this.getClass().toString(), Long.toString(timeInMillisecond));
         }
+//        Log.d("Particle update", "time left = " + duration);
     }
 
 
     @Override
     public void draw(Canvas canvas) {
         Random r = new Random();
-        this.paint.setARGB(255, r.nextInt(256), r.nextInt(256), r.nextInt(256));
+        //this.paint.setARGB(255, r.nextInt(256), r.nextInt(256), r.nextInt(256));
         canvas.drawRect(this.hitbox, this.paint);
+
+        if (duration > 0)
+            this.paint.setARGB(255, r.nextInt(256), r.nextInt(256), r.nextInt(256));
+        else
+            //this.destruct();
+            this.paint.setColor(Color.TRANSPARENT);
     }
 
     @Override

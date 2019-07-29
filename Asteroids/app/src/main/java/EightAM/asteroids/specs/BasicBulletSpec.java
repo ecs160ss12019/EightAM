@@ -10,11 +10,11 @@ public class BasicBulletSpec extends BaseBulletSpec {
     public static float dbmRatio = 0;
     public static String paintName = "bullet";
     public static int damage = 1;
-    public static int speed = 10;
-    public static int maxDistance = 400;
-    public static int _bulletTrail = 100;
+    public static float speed = 1.5f;
+    public static float maxDistance = 400;
+    public static float _bulletTrail = 100;
 
-    int bulletTrail;
+    float bulletTrail;
 
     public BasicBulletSpec() {
         super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
@@ -24,7 +24,7 @@ public class BasicBulletSpec extends BaseBulletSpec {
         setBulletTrail(_bulletTrail);
     }
 
-    void setBulletTrail(int bulletTrail) {
+    void setBulletTrail(float bulletTrail) {
         this.bulletTrail = bulletTrail;
     }
 }

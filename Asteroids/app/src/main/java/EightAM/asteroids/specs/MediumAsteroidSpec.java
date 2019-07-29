@@ -12,7 +12,7 @@ public class MediumAsteroidSpec extends BaseAsteroidSpec {
     public static Point dimensions = new Point(15, 15);
     public static float dbmRatio = 2f;
     public static String paintName = "asteroid";
-    public static Pair<Float, Float> speed = new Pair<>(0.5f, 1.0f);
+    public static Pair<Float, Float> speed = new Pair<>(0.02f, 0.2f);
     public static Pair<Float, Float> spin = new Pair<>(0f, 0.01f);
     public static BaseAsteroidSpec breaksInto = new SmallAsteroidSpec();
     public static int pointValue = 15;

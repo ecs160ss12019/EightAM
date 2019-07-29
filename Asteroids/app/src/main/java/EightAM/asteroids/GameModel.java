@@ -97,6 +97,7 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
     private void respawnShip() {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
+        ((Ship) ship).linkShotListener(this);
         currPlayerShip = ship.getID();
         objectMap.put(ship.getID(), ship);
 
@@ -127,12 +128,11 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
     public void removeObjects() {
         GameObject objectToDel;
-        deleteSet.clear();
         for (ObjectID id : deleteSet) {
             deleteSet.remove(id);
             objectToDel = objectMap.get(id);
             if (objectToDel instanceof Collision) {
-                collideables.remove(id);
+                //collideables.remove(id);
             }
             if (objectToDel instanceof Asteroid) {
                 asteroids.remove(id);
@@ -173,9 +173,9 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
         }
         //Collisions
         computeCollision(currPlayerShip);
-//        enumerateCollision(bullets);
-//        enumerateCollision(aliens);
-        enumerateCollision(collideables);
+        enumerateCollision(bullets);
+        enumerateCollision(aliens);
+        //enumerateCollision(collideables);
 
         if (asteroids.size() == 0 && aliens.size() == 0) {
             // wave update
@@ -199,7 +199,8 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     private void computeCollision(ObjectID objectID) {
         collisionID = CollisionChecker.collidesWith(objectMap.get(objectID), objectMap.values());
         if (collisionID != null) {
-            ((Collision) objectMap.get(objectID)).onCollide(objectMap.get(collisionID));
+            //((Collision) objectMap.get(objectID)).onCollide(objectMap.get(collisionID));
+            onCollision(objectID, collisionID);
         }
     }
 
@@ -293,6 +294,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
     @Override
     public void onShotFired(Shooter shooter) {
-        BulletGenerator.getInstance().createBullet(objectMap, shooter, this);
+        BulletGenerator.getInstance().createBullet(bullets, objectMap, shooter, this);
     }
 }

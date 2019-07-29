@@ -72,6 +72,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
+        this.bulletSpec = spec.bulletSpec;
 
     }
 
@@ -93,7 +94,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = ship.rotationSpeed;
         this.acceleration = ship.acceleration;
         this.deceleration = ship.deceleration;
-
+        this.bulletSpec = ship.bulletSpec;
     }
 
 
@@ -148,7 +149,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         }
 
         if (i.SHOOT) {
-            shotDelayCounter = shotDelay;
+            shoot();
         }
 
         if (i.DOWN) {
@@ -192,6 +193,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     @Override
     public void shoot() {
+        shotDelayCounter = shotDelay;
         shotListener.onShotFired(this);
     }
 

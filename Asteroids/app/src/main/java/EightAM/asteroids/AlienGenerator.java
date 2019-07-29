@@ -33,6 +33,10 @@ public class AlienGenerator extends CollidableObjectGenerator {
         BaseAlienSpec spec = getAlienSpec();
 
         GameObject alien = prepareAlien(spec, model.spaceSize);
+        if (debug) {
+            if (alien != null) { Log.d("ALIENGEN", "CREATED ALIEN"); }
+            else { Log.d("ALIENGEN", "FAILED"); }
+        }
         placeAlien(alien, model);
     }
 
@@ -40,6 +44,10 @@ public class AlienGenerator extends CollidableObjectGenerator {
         // change initial position in alien spec
         Point origin = getRandomPosition(spaceSize);
         spec.initialPosition = origin;
+        if (debug) {
+            Log.d("alien spawn pos x", Integer.toString(origin.x));
+            Log.d("alien spawn pos y", Integer.toString(origin.y));
+        }
 
         GameObject alien = BaseFactory.getInstance().create(spec);
         alien.hitbox.offsetTo(origin.x, origin.y);

@@ -202,7 +202,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
                 if (o instanceof Collision) collideables.add(id);
                 if (o instanceof Ship) currPlayerShip = id;
                 setListeners(o);
-                updateGameParam(o);
+                updateGameParam(o, 1);
             }
         }
     }
@@ -213,9 +213,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      *
      * @param object - the GameObject to check
      */
-    private void updateGameParam(GameObject object) {
-        if (object instanceof Asteroid) activeAsteroids++;
-        else if (object instanceof Alien) activeAliens++;
+    private void updateGameParam(GameObject object, int i) {
+        if (object instanceof Asteroid) activeAsteroids += i;
+        else if (object instanceof Alien) activeAliens += i;
     }
 
     /**
@@ -233,19 +233,16 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             ((EventGenerator)object).registerEventHandler(this);
     }
 
+    private void createDebris(GameObject object) {
+        if (!((object instanceof  Particle) || (object instanceof  Bullet))){
+            ParticleGenerator.getInstance().createParticles(objectMap, spaceSize, (object.getObjPos()));
+        }
+    }
+
     @Override
     public void onDestruct(Destructable destructable) {
-        if (destructable instanceof Asteroid){
-            activeAsteroids--;
-        }
-        else if (destructable instanceof Alien){
-            activeAliens--;
-        }
-
-        //TODO: Need better Solution Might switch over to event handler
-        if (!((destructable instanceof  Particle) || (destructable instanceof  Bullet))){
-            ParticleGenerator.getInstance().createParticles(objectMap, spaceSize, ((GameObject)destructable).getObjPos());
-        }
+        updateGameParam((GameObject) destructable, -1);
+        createDebris((GameObject) destructable);
         ObjectID id = destructable.getID();
         deleteSet.add(id);
     }

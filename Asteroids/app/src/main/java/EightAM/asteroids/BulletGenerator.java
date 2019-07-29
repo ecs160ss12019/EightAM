@@ -57,6 +57,7 @@ public class BulletGenerator extends CollidableObjectGenerator {
     private static BaseBulletSpec prepareSpec(Shooter shooter) {
         // prepare the bullet spec
         BaseBulletSpec spec = shooter.getBulletSpec();
+        spec.setOwner(shooter.getID());
         spec.initialPosition = shooter.getShotOrigin();
         spec.initialOrientation = shooter.getShotAngle();
         return spec;

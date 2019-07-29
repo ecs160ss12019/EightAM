@@ -1,11 +1,8 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
-
 import android.content.Context;
 import android.graphics.Point;
 import android.util.Log;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -14,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.DeathEvent;
 import EightAM.asteroids.interfaces.DeathHandler;
@@ -43,7 +39,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     int activeAliens;
 
     ObjectID currPlayerShip;
-
     EndGameStats endStats;
 
     /**
@@ -62,10 +57,8 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
         resetGameParam();
         createObjects();
 
-
-
+        // Set game stats
         this.gameOver = false;
-        // set player stats
         this.stats = new GameStats(spaceSize, context);
     }
 
@@ -76,6 +69,7 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     private void createObjects() {
         respawnShip();
         AsteroidGenerator.getInstance().createBelt(this);
+        // Testing for particle effect, wait for the onCollision to be completed
         Point p = new Point(spaceSize.x/2, spaceSize.y/2);
         ParticleGenerator.getInstance().createParticles(objectMap, spaceSize, p);
     }
@@ -94,7 +88,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     }
 
     public void onDeath() {
-
         destroyShip();
         currPlayerShip = null;
         if (stats.getLife() > 0) {
@@ -157,7 +150,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
         return endStats;
     }
 
-
     void update(long timeInMillisecond) {
         for (GameObject o : objectMap.values()) {
             o.update(spaceSize, timeInMillisecond);
@@ -183,8 +175,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     private void onWaveComplete() {
         AsteroidGenerator.getInstance().numOfAsteroids++;
     }
-
-
 
     /**
      * TODO: change handle name to reflect functionality

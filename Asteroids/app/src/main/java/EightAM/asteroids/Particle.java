@@ -13,8 +13,6 @@ import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseParticleSpec;
 
-import static EightAM.asteroids.Constants.DURATION;
-
 public class Particle extends GameObject implements Destructable {
 
     // ---------------Member variables-------------

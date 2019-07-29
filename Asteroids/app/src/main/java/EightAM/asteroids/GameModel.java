@@ -108,7 +108,7 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
         ((Ship) ship).linkShotListener(this);
         ((Ship) ship).registerDestructListener(this);
-        ship.hitbox.offset(spaceSize.x/2.0f, spaceSize.y/2.0f);
+        ship.hitbox.offsetTo(spaceSize.x/2.0f, spaceSize.y/2.0f);
         currPlayerShip = ship.getID();
         objectMap.put(ship.getID(), ship);
         collidables.add(ship.getID());

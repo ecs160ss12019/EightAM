@@ -3,6 +3,8 @@ package EightAM.asteroids;
 import android.content.Context;
 import android.graphics.Paint;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,13 +22,19 @@ final class AssetLoader {
                     new LargeAsteroidSpec(), new SmallAsteroidSpec()));
 
     static void load(Context c) {
+        int colorPrimary = ContextCompat.getColor(c, R.color.colorPrimary);
+        int colorAccent = ContextCompat.getColor(c, R.color.colorAccent);
+        Paint defaultPaint = new Paint();
+        defaultPaint.setColor(colorPrimary);
+        defaultPaint.setStyle(Paint.Style.FILL);
+        defaultPaint.setAntiAlias(true);
         BitmapStore bitmapStore = BitmapStore.getInstance();
         PaintStore paintStore = PaintStore.getInstance();
-        paintStore.addPaint("ship", new Paint());
-        paintStore.addPaint("asteroid", new Paint());
-        paintStore.addPaint("bullet", new Paint());
-        paintStore.addPaint("alien", new Paint());
-        paintStore.addPaint("message", new Paint());
+        paintStore.addPaint("ship", new Paint(defaultPaint));
+        paintStore.addPaint("asteroid", new Paint(defaultPaint));
+        paintStore.addPaint("bullet", new Paint(defaultPaint));
+        paintStore.addPaint("alien", new Paint(defaultPaint));
+        paintStore.addPaint("message", new Paint(defaultPaint));
         for (BaseSpec spec : specList) {
             if (spec.bitMapName == null || spec.bitMapResourceID == 0) {
                 continue; // some specs dont have bitmaps to load

@@ -60,9 +60,9 @@ public class Bullet extends GameObject implements Collision, Destructable {
         this.paint = bullet.paint;
         // TODO: draw bullet
         //this.bitmap = bullet.bitmap;
-        this.hitbox = bullet.hitbox;
+        this.hitbox = new RectF(bullet.hitbox);
         this.orientation = bullet.orientation;
-        this.vel = bullet.vel;
+        this.vel = new Velocity(bullet.vel);
     }
 
 
@@ -119,6 +119,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
         canvas.drawRect(this.hitbox, paint);
 
         // some math stuff
+        /*
         float dX = (float) Math.cos(shooterAngle) * 100;
         float dY = (float) Math.sin(shooterAngle) * 100;
 
@@ -127,6 +128,9 @@ public class Bullet extends GameObject implements Collision, Destructable {
 
         this.paint.setColor(Color.WHITE);
         canvas.drawLine(hitbox.centerX(), hitbox.centerY(), endX, endY, paint);
+        */
+        this.paint.setColor(Color.WHITE);
+        canvas.drawRect(this.hitbox, paint);
         //canvas.drawBitmap(bitmap, matrix, paint);
     }
 

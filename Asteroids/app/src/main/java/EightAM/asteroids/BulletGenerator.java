@@ -43,6 +43,8 @@ public class BulletGenerator extends GameObjectGenerator {
         bullet.hitbox.offsetTo(origin.x, origin.y);
         bullet.orientation = shooter.getShotAngle();
         bullet.vel.resetVelocity(bullet.vel.maxSpeed, shooter.getShotAngle(), bullet.vel.maxSpeed);
+        Log.d("Bullet", "Speed: "+ bullet.vel.maxSpeed);
+        Log.d("Bullet", "Magnitude: "+ bullet.vel.magnitude());
         ((Bullet) bullet).registerDestructListener(deathHandler);
         addToMap(bullet, bullets, objectMap);
     }

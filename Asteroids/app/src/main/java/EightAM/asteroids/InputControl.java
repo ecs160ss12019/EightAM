@@ -67,7 +67,8 @@ public class InputControl {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 //Log.d("InputControl", "shoot_down");
                 playerInput.SHOOT = true;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            }
+            else if (event.getAction() == MotionEvent.ACTION_UP) {
                 //Log.d("InputControl", "shoot_up");
                 playerInput.SHOOT = false;
             }

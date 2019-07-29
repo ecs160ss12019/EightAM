@@ -219,10 +219,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     // Indirection of input to update currPlayerShip parameters
     void input(InputControl.Input i) {
         if (currPlayerShip != null) {
-            if (i.SHOOT && getPlayerShip().canShoot()) {
-                Log.d("in gamemodel", "Fired");
-                //TODO:Fire Bullet
-            }
             getPlayerShip().input(i);
         }
     }
@@ -294,6 +290,7 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
     @Override
     public void onShotFired(Shooter shooter) {
-        BulletGenerator.getInstance().createBullet(bullets, objectMap, shooter, this);
+        if (getPlayerShip().canShoot())
+            BulletGenerator.getInstance().createBullet(bullets, objectMap, shooter, this);
     }
 }

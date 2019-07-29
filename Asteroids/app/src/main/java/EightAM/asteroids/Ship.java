@@ -150,6 +150,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
         if (i.SHOOT) {
             shoot();
+            shotDelayCounter = shotDelay;
         }
 
         if (i.DOWN) {
@@ -193,7 +194,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     @Override
     public void shoot() {
-        shotDelayCounter = shotDelay;
         shotListener.onShotFired(this);
     }
 

@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.util.Log;
 import android.util.Pair;
 
 import EightAM.asteroids.interfaces.Collision;
@@ -33,7 +34,8 @@ public class Asteroid extends GameObject implements Destructable, Collision {
         }
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
         this.bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
-        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
+        this.hitbox = new RectF(spec.initialPosition.x - spec.dimensions.x,
+                spec.initialPosition.y - spec.dimensions.y,
                 spec.initialPosition.x + spec.dimensions.x,
                 spec.initialPosition.y + spec.dimensions.y);
         this.orientation = spec.initialOrientation;
@@ -61,12 +63,13 @@ public class Asteroid extends GameObject implements Destructable, Collision {
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation),
-                (float) bitmap.getWidth() / 2,
-                (float) bitmap.getHeight() / 2);
-        matrix.postTranslate(hitbox.left - (hitboxWidth * 0.5f),
-                hitbox.top - (hitboxHeight * 0.5f));
-        this.paint.setColor(Color.GREEN);
+
+        matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
+                this.hitbox.centerY() - (float)(bitmap.getHeight()/3));
+        matrix.postRotate((float) Math.toDegrees(orientation),
+                this.hitbox.centerX(),
+                this.hitbox.centerY());
+
         canvas.drawRect(this.hitbox, this.paint);
         canvas.drawBitmap(bitmap, matrix, paint);
     }

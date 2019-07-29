@@ -56,10 +56,12 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         //General
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
         bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
-        this.hitbox = new RectF(spec.initialPosition.x,
-                spec.initialPosition.y,
-                spec.dimensions.x + spec.initialPosition.x,
-                spec.dimensions.y + spec.initialPosition.y);
+
+        this.hitbox = new RectF(spec.initialPosition.x - spec.dimensions.x,
+                spec.initialPosition.y - spec.dimensions.y,
+                spec.initialPosition.x + spec.dimensions.x,
+                spec.initialPosition.y + spec.dimensions.y);
+
         this.orientation = spec.initialOrientation;
         this.vel = new Velocity(0, 0, spec.maxSpeed);
         this.bitmapHitboxRatio = spec.dimensionBitMapRatio;
@@ -165,12 +167,13 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
-        matrix.setRotate((float) Math.toDegrees(orientation), (float) bitmap.getWidth() / 2,
-                (float) bitmap.getHeight() / 2);
-        matrix.postTranslate(hitbox.left - hitboxWidth / this.bitmapHitboxRatio,
-                hitbox.top - hitboxHeight / this.bitmapHitboxRatio);
-        // debug purpose
-        this.paint.setColor(Color.GREEN);
+
+        matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
+                this.hitbox.centerY() - (float)(bitmap.getHeight()/2));
+        matrix.postRotate((float) Math.toDegrees(orientation),
+                this.hitbox.centerX(),
+                this.hitbox.centerY());
+
         canvas.drawRect(this.hitbox, paint);
         if (!isInvincible) {
             canvas.drawBitmap(bitmap, matrix, paint);
@@ -178,6 +181,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
                 && invincibilityDuration % 2 == 0) {
             canvas.drawBitmap(bitmap, matrix, paint);
         }
+
     }
 
     public float getPosX() {

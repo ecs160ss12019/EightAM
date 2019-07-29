@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         msgLayout.setOnClickListener(view -> {
             msgLayout.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
+            isPaused = false;
             onResume();
         });
 
@@ -113,8 +114,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (gameView != null && !isPaused) gameView.onResume();
-
-        isPaused = false;
     }
 
     protected void onPauseScreen() {

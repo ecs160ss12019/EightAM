@@ -9,8 +9,8 @@ public class BigAlienSpec extends BaseAlienSpec {
     public static String tag = "big_alien";
     public static String bitMapName = "big_alien";
     public static int resID = R.drawable.ic_alien;
-    public static Point dimensions = new Point(20, 20);
-    public static float dbmRatio = 2f;
+    public static Point dimensions = new Point(30, 30);
+    public static float dbmRatio = 5f;
     public static String paintName = "alien";
     public static int pointValue = 10;
     public static int hitPoints = 1;

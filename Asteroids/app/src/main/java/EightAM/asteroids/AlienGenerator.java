@@ -13,7 +13,7 @@ import EightAM.asteroids.specs.SmallAlienSpec;
 import static EightAM.asteroids.Constants.BIGALIEN_SPAWN_PROB;
 import static EightAM.asteroids.Constants.SMALLALIEN_SPAWN_PROB;
 
-public class AlienGenerator extends GameObjectGenerator {
+public class AlienGenerator extends CollidableObjectGenerator {
     static AlienGenerator instance;
 
     private AlienGenerator() {}

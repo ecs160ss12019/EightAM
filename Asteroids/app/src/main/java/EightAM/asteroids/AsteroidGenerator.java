@@ -4,14 +4,11 @@ import static EightAM.asteroids.Constants.SAFE_DISTANCE;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 
 import android.graphics.Point;
-
-import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import EightAM.asteroids.specs.LargeAsteroidSpec;
 
-public class AsteroidGenerator extends GameObjectGenerator {
+public class AsteroidGenerator extends CollidableObjectGenerator {
     static AsteroidGenerator instance;
     int numOfAsteroids;
 
@@ -41,38 +38,29 @@ public class AsteroidGenerator extends GameObjectGenerator {
         return new Point(randX, randY);
     }
 
-
-    private void setVelocity(Asteroid asteroid) {
-        float randSpeed = GameRandom.randomFloat(asteroid.speedRange.first,
-                asteroid.speedRange.second);
-        float randAngle = GameRandom.randomFloat(Float.MIN_VALUE, (float) Math.PI * 2);
-        asteroid.vel = new Velocity(randSpeed, randAngle, asteroid.speedRange.second);
-        asteroid.angularVel = GameRandom.randomFloat(asteroid.spinRange.first,
-                asteroid.spinRange.second);
+    private void placeAsteroid(GameObject asteroid, GameModel model){
+        ((Asteroid) asteroid).registerDestructListener(model);
+        addToMap(asteroid, model);
     }
 
-    public void createBelt(Set<ObjectID> asteroids, Map<ObjectID, GameObject> objectMap,
-            Point spaceSize, Ship ship) {
+    public void createBelt(GameModel model) {
         Point randPoint;
 
         for (int i = 0; i < numOfAsteroids; i++) {
             GameObject asteroid = BaseFactory.getInstance().create(new LargeAsteroidSpec());
-            randPoint = getRandomPosition(spaceSize, ship.getObjPos());
+            randPoint = getRandomPosition(model.spaceSize, model.getPlayerShip().getObjPos());
             asteroid.hitbox.offset(randPoint.x, randPoint.y);
-            setVelocity((Asteroid) asteroid);
-            addToMap(asteroid, asteroids, objectMap);
+            placeAsteroid(asteroid, model);
         }
     }
 
-    public void breakUpAsteroid(Asteroid parentAsteroid, Set<ObjectID> asteroids,
-            Map<ObjectID, GameObject> objectMap) {
+    public void breakUpAsteroid(Asteroid parentAsteroid, GameModel model) {
         if (parentAsteroid.breaksInto == null) return;
 
         for (int i = 0; i < 2; i++) {
             GameObject asteroid = BaseFactory.getInstance().create(parentAsteroid.breaksInto);
             asteroid.hitbox.offsetTo(parentAsteroid.getObjPos().x, parentAsteroid.getObjPos().y);
-            setVelocity((Asteroid) asteroid);
-            addToMap(asteroid, asteroids, objectMap);
+            placeAsteroid(asteroid, model);
         }
     }
 }

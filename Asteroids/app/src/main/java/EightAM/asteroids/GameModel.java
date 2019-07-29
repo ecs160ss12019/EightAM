@@ -6,6 +6,8 @@ import android.content.Context;
 import android.graphics.Point;
 import android.util.Log;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -58,7 +60,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
         resetObjects();
         resetGameParam();
-        newWave();
         createObjects();
 
 
@@ -70,11 +71,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
     private void resetGameParam() {
         stats.newGame();
-    }
-
-    private void newWave(){
-        activeAsteroids = AsteroidGenerator.getInstance().numOfAsteroids++;
-        //Increment alien gen probability
     }
 
     private void createObjects() {
@@ -91,7 +87,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     }
 
     protected void destroyShip() {
-        objectMap.remove(currPlayerShip);
         stats.subLive();
         //TODO: push currPlayerShip explosion event
     }
@@ -110,8 +105,10 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
         ((Ship) ship).linkShotListener(this);
         ((Ship) ship).registerDestructListener(this);
+        ship.hitbox.offset(spaceSize.x/2.0f, spaceSize.y/2.0f);
         currPlayerShip = ship.getID();
         objectMap.put(ship.getID(), ship);
+        collidables.add(ship.getID());
     }
     //Ship stuff *END*
 
@@ -136,9 +133,15 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
     public void removeObjects() {
         for (ObjectID id : deleteSet) {
+            Log.d("deleteSet id",""+ id.getId());
+        }
+        Deque<ObjectID> deleteQueue = new ArrayDeque<>(deleteSet);
+        while (!deleteQueue.isEmpty()) {
+            ObjectID id = deleteQueue.pop();
             deleteSet.remove(id);
             collidables.remove(id);
             objectMap.remove(id);
+            if (id == currPlayerShip) onDeath();
         }
     }
 
@@ -167,15 +170,15 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
         }
 
         //Remove Collided Objects
-        removeObjects();
+        if(!deleteSet.isEmpty())removeObjects();
     }
 
     private void startNextWave() {
-
+        AsteroidGenerator.getInstance().createBelt(this);
     }
 
     private void onWaveComplete() {
-
+        AsteroidGenerator.getInstance().numOfAsteroids++;
     }
 
 

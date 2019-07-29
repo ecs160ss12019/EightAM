@@ -27,31 +27,19 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     // ---------------Member variables-------------
 
     Bitmap bitmap;
-    boolean teleporting = false;
+    private boolean teleporting = false;
     boolean isInvincible;
     int invincibilityDuration;
-    int shotDelayCounter = 0;
-    int shotDelay;
-    float rotationSpeed;
-    float acceleration;
-    float deceleration;
-    ShotListener shotListener;
-    float bitmapHitboxRatio;
-    DestructListener destructListener;
-    BaseBulletSpec bulletSpec;
+    private int shotDelayCounter = 0;
+    private int shotDelay;
+    private float rotationSpeed;
+    private float acceleration;
+    private float deceleration;
+    private ShotListener shotListener;
+    private float bitmapHitboxRatio;
+    private DestructListener destructListener;
+    private BaseBulletSpec bulletSpec;
 
-    /*
-     * How Dimensions were previously set:
-     *
-     * hitboxHeight = bitmap.getHeight() * SHIP_BITMAP_HITBOX_SCALE;
-     * hitboxWidth = bitmap.getWidth() * SHIP_BITMAP_HITBOX_SCALE;
-     *
-     * float left = ((float) screenX / 2) - (hitboxWidth / 2);
-     * float right = ((float) screenX / 2) + (hitboxWidth / 2);
-     * float top = ((float) screenY / 2) - (hitboxHeight / 2);
-     * float bottom = ((float) screenY / 2) + (hitboxHeight / 2);
-     * this.hitbox = new RectF(left, top, right, bottom);
-     */
     Ship(BaseShipSpec spec) {
         //General
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
@@ -108,13 +96,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         if (shotDelayCounter > 0) shotDelayCounter--;
     }
 
-    /**
-     * Collision detection method takes in the hitbox of approaching object, using intersection
-     * method to check of collision
-     *
-     * @param approachingObject the hitbox of approaching object,
-     * @return true for collision, otherwise false
-     */
     @Override
     public boolean detectCollisions(GameObject approachingObject) {
         if (isInvincible) return false;
@@ -123,7 +104,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     @Override
     public void onCollide(GameObject gameObject) {
-
+        destruct();
     }
 
     @Override
@@ -182,18 +163,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
             canvas.drawBitmap(bitmap, matrix, paint);
         }
 
-    }
-
-    public float getPosX() {
-        return hitbox.centerX();
-    }
-
-    public float getPosY() {
-        return hitbox.centerY();
-    }
-
-    public float getAngle() {
-        return orientation;
     }
 
     @Override

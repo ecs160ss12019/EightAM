@@ -41,6 +41,7 @@ public class AsteroidGenerator extends CollidableObjectGenerator {
     private void placeAsteroid(GameObject asteroid, GameModel model){
         ((Asteroid) asteroid).registerDestructListener(model);
         addToMap(asteroid, model);
+        model.activeAsteroids++;
     }
 
     public void createBelt(GameModel model) {

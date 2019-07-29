@@ -20,7 +20,7 @@ public class GameStats {
     int highScore;
     int textFormatting;
 
-    // for storing high score, cited: textbook Chapter 21
+    // For storing high score, cited: textbook Chapter 21
     SharedPreferences.Editor editor;
     Context context;
     Point spaceSize;
@@ -48,7 +48,6 @@ public class GameStats {
 
     // ---------------Member methods---------------
 
-
     /**
      * Set the high score
      */
@@ -58,6 +57,10 @@ public class GameStats {
             editor.putInt("High Score", highScore);
             editor.commit();
         }
+    }
+
+    int getHighScore() {
+        return this.highScore;
     }
 
     void newGame() {

@@ -84,7 +84,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
     //Ship stuff *END*
 
-
     @Deprecated
     public void onCollision(ObjectID actorID, ObjectID targetID) {
         GameObject target = objectMap.get(targetID);
@@ -107,6 +106,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     public void onGameEnd() {
         this.gameOver = true;
+        stats.setHighScore();
         endStats = new EndGameStats(stats);
     }
 
@@ -278,4 +278,5 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     Lock getLock() {
         return lock;
     }
+
 }

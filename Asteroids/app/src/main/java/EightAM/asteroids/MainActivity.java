@@ -25,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView pauseButton;
     TextView messageText;
 
-    //Test for high score
-    int hightScore = 999;
-
     private boolean isPaused;
 
     @Override
@@ -83,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
         messageText = findViewById(R.id.startText);
 
         // Start game on tap
-        messageText.setText("Tap to start\n" + "High Score: " + hightScore);
+        int highScore = this.gameModel.stats.getHighScore();
+        messageText.setText("Tap to start\n" + "High Score: " + highScore);
         onStartScreen();
 
         // Set Listener for Pause
@@ -109,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         startLayout.setOnClickListener(view -> {
             startLayout.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);
-            //messageText.setText("Tap to start\n" + "High Score: " + hightScore);
             gameModel.startGame();
             gameController.onResume();
         });

@@ -14,37 +14,11 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseBulletSpec;
 
 public class Bullet extends GameObject implements Collision, Destructable {
-    // set by generator
-    private Faction faction;
-    private float shooterAngle;
 
     Bitmap bitmap;
     private float distanceTraveled;
     private DestructListener destructListener;
 
-    //    * OLD CONSTRUCTOR
-//     * Constructs projectile, i.e. shoots projectile in the orientation/angle
-//     * of the shooter.
-//     *
-//     * Alien shots are slower than the player's. This is to give the player
-//     * time to react.
-//     *
-//     * @param shooter - denotes if fired from player (true) or alien (false)
-//
-//    protected Bullet(Shooter shooter) {
-//        this.shooterAngle = shooter.getShotAngle();
-//        hitbox = new RectF(shooter.getPosX() - 3, shooter.getPosY() - 3, shooter.getPosX() + 3,
-//        shooter.getPosY() + 3);
-//        this.owner = shooter.getID();
-//        distanceTraveled = 0;
-//        this.paint = new Paint();
-//
-//        if (this.owner.getFaction() == Faction.Player) {
-//            this.vel = new Velocity(BULLET_SPEED, shooter.getShotAngle());
-//        } else {
-//            this.vel = new Velocity(BULLET_SPEED / 2, shooter.getShotAngle());
-//        }
-//    }
     Bullet(BaseBulletSpec spec) {
         this.paint = PaintStore.getInstance().getPaint(spec.paintName);
         // TODO: draw bullet
@@ -74,7 +48,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
         if (reachedMaxRange()) destruct();
     }
 
-    // IMPLEMENT COLLISION INTERFACE
+    // COLLISION INTERFACE
     @Override
     public boolean detectCollisions(GameObject approachingObject) {
         return hitbox.intersect(approachingObject.hitbox);
@@ -89,12 +63,6 @@ public class Bullet extends GameObject implements Collision, Destructable {
         return true;
     }
 
-    // TODO: implement onCollide
-    // IMPLEMENT COLLISION INTERFACE
-
-    protected void setFaction(Faction newFaction) {
-        faction = newFaction;
-    }
 
     /**
      * Calculates how far the bullet has traveled.

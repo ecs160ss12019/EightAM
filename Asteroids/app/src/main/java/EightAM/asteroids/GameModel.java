@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.util.Log;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -17,7 +18,6 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.GameState;
-import EightAM.asteroids.interfaces.Invulnerable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BasicShipSpec;
@@ -26,7 +26,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     Context context;
 
     Point spaceSize;
-    boolean isPaused;
     GameStats stats;
     Map<ObjectID, GameObject> objectMap;
     Set<ObjectID> collideables;
@@ -65,11 +64,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     private void createObjects() {
-        respawnShip();
+        addObject(respawnShip());
         addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
         // Testing for particle effect, wait for the onCollision to be completed
-        Point p = new Point(spaceSize.x/2, spaceSize.y/2);
-        ParticleGenerator.getInstance().createParticles(objectMap, spaceSize, p);
     }
 
     //Ship stuff *START*
@@ -80,15 +77,10 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
 
-    private void respawnShip() {
+    private Collection<GameObject> respawnShip() {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
-        ((Ship) ship).linkShotListener(this);
-        ((Ship) ship).registerDestructListener(this);
-        ((Ship) ship).registerEventHandler(this);
         ship.hitbox.offsetTo(spaceSize.x/2.0f, spaceSize.y/2.0f);
-        currPlayerShip = ship.getID();
-        objectMap.put(ship.getID(), ship);
-        collideables.add(ship.getID());
+        return Collections.singleton(ship);
     }
     //Ship stuff *END*
 
@@ -122,7 +114,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         currPlayerShip = null;
         stats.subLive();
         if (stats.getLife() > 0) {
-            respawnShip();
+            addObject(respawnShip());
         } else {
             onGameEnd();
         }
@@ -132,6 +124,12 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         return endStats;
     }
 
+    /**
+     * Updates the Game, i.e. move objects, check collisions, create new waves
+     *
+     * @param timeInMillisecond - time interval between frames, to be used
+     *                            for moving objects.
+     */
     void update(long timeInMillisecond) {
         for (GameObject o : objectMap.values()) {
             o.update(spaceSize, timeInMillisecond);
@@ -190,39 +188,63 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         return objectMap.get(id);
     }
 
+    /**
+     * Adds objects the Object map, and adds IDs to their unique set
+     *
+     * @param objects - a collection of objects to be passed in by
+     *                  the generators
+     */
     private void addObject(Collection<GameObject> objects) {
         for (GameObject o : objects) {
             ObjectID id = o.getID();
             if (!objectMap.containsKey(id)) {
                 objectMap.put(id, o);
-                setListners(o);
-                if (o instanceof Collision) {
-                    collideables.add(id);
-                }
-                if (o instanceof Asteroid) {
-                    activeAsteroids++;
-                }
-                if (o instanceof Ship) {
-                    currPlayerShip = id;
-                }
+                if (o instanceof Collision) collideables.add(id);
+                if (o instanceof Ship) currPlayerShip = id;
+                setListeners(o);
+                updateGameParam(o);
             }
         }
     }
 
-    private void setListners(GameObject object){
+    /**
+     * Updates the parameters of the game depending on what object
+     * is add to the game.
+     *
+     * @param object - the GameObject to check
+     */
+    private void updateGameParam(GameObject object) {
+        if (object instanceof Asteroid) activeAsteroids++;
+        else if (object instanceof Alien) activeAliens++;
+    }
+
+    /**
+     * Links/Registers the listeners for the GameObject
+     * dependent on their Interfaces
+     *
+     * @param object - the GameObject to check
+     */
+    private void setListeners(GameObject object){
         if (object instanceof Destructable)
             ((Destructable)object).registerDestructListener(this);
         if (object instanceof Shooter)
             ((Shooter)object).linkShotListener(this);
         if (object instanceof EventGenerator)
             ((EventGenerator)object).registerEventHandler(this);
-
     }
 
     @Override
     public void onDestruct(Destructable destructable) {
         if (destructable instanceof Asteroid){
             activeAsteroids--;
+        }
+        else if (destructable instanceof Alien){
+            activeAliens--;
+        }
+
+        //TODO: Need better Solution Might switch over to event handler
+        if (!((destructable instanceof  Particle) || (destructable instanceof  Bullet))){
+            ParticleGenerator.getInstance().createParticles(objectMap, spaceSize, ((GameObject)destructable).getObjPos());
         }
         ObjectID id = destructable.getID();
         deleteSet.add(id);

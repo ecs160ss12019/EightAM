@@ -2,10 +2,8 @@ package EightAM.asteroids;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
-import android.util.Log;
 import android.util.Pair;
 
 import EightAM.asteroids.interfaces.Collision;

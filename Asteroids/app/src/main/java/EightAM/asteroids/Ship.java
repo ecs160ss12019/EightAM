@@ -11,6 +11,7 @@ import android.graphics.RectF;
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Controllable;
 import EightAM.asteroids.interfaces.DestructListener;
+import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.Invulnerable;
@@ -20,14 +21,14 @@ import EightAM.asteroids.specs.BaseBulletSpec;
 import EightAM.asteroids.specs.BaseShipSpec;
 
 public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
-        EventGenerator {
+        EventGenerator, Destructable {
 
     // ---------------Member variables-------------
 
     Bitmap bitmap;
     private boolean teleporting = false;
-    boolean isInvincible;
-    int invincibilityDuration;
+    private boolean isInvincible;
+    private int invincibilityDuration;
     private int shotDelayCounter = 0;
     private int shotDelay;
     private float rotationSpeed;

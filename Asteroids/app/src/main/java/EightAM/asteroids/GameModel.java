@@ -60,7 +60,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
         resetObjects();
         resetGameParam();
-        newWave();
         createObjects();
 
 
@@ -72,11 +71,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
 
     private void resetGameParam() {
         stats.newGame();
-    }
-
-    private void newWave(){
-        activeAsteroids = AsteroidGenerator.getInstance().numOfAsteroids++;
-        //Increment alien gen probability
     }
 
     private void createObjects() {
@@ -93,7 +87,6 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
     }
 
     protected void destroyShip() {
-        objectMap.remove(currPlayerShip);
         stats.subLive();
         //TODO: push currPlayerShip explosion event
     }
@@ -115,6 +108,7 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
         ship.hitbox.offset(spaceSize.x/2.0f, spaceSize.y/2.0f);
         currPlayerShip = ship.getID();
         objectMap.put(ship.getID(), ship);
+        collidables.add(ship.getID());
     }
     //Ship stuff *END*
 
@@ -144,10 +138,10 @@ public class GameModel implements GameState, DeathHandler, ShotListener {
         Deque<ObjectID> deleteQueue = new ArrayDeque<>(deleteSet);
         while (!deleteQueue.isEmpty()) {
             ObjectID id = deleteQueue.pop();
-            if (id == currPlayerShip) onDeath();
             deleteSet.remove(id);
             collidables.remove(id);
             objectMap.remove(id);
+            if (id == currPlayerShip) onDeath();
         }
     }
 

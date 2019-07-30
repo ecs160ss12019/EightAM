@@ -92,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (gameView != null)
+        if (gameView != null) {
             gameView.onPause();
+        }
         isPaused = true;
         startLayout.setOnClickListener(view -> {
             startLayout.setVisibility(View.GONE);

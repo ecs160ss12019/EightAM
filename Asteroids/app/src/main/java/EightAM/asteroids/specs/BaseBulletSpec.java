@@ -13,9 +13,9 @@ public abstract class BaseBulletSpec extends BaseObjectSpec {
     public ObjectID owner;
 
     public BaseBulletSpec(String tag, Point dimensions, Point initialPosition,
-            Velocity initialVelocity, Rotation initialRotation,
-            String paintName, int damage, float maxDistance, ObjectID owner) {
-        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, paintName);
+            Velocity initialVelocity, Rotation initialRotation, int damage, float maxDistance,
+            ObjectID owner) {
+        super(tag, dimensions, initialPosition, initialVelocity, initialRotation);
         this.damage = damage;
         this.maxDistance = maxDistance;
         this.owner = owner;

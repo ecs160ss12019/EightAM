@@ -16,12 +16,11 @@ public abstract class BaseShipSpec extends BaseBitmapSpec {
     public BaseBulletSpec bulletSpec;
 
     public BaseShipSpec(String tag, Point dimensions, Point initialPosition,
-            Velocity initialVelocity, Rotation initialRotation, String paintName, String bitMapName,
-            int bitMapResourceID, float dimensionBitMapRatio, int hitPoints, float maxSpeed,
-            float rotationSpeed, float acceleration, float deceleration, int reloadTime,
-            int invincibilityDuration, BaseBulletSpec bulletSpec) {
-        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, paintName,
-                bitMapName,
+            Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
+            float dimensionBitMapRatio, int hitPoints, float maxSpeed, float rotationSpeed,
+            float acceleration, float deceleration, int reloadTime, int invincibilityDuration,
+            BaseBulletSpec bulletSpec) {
+        super(tag, dimensions, initialPosition, initialVelocity, initialRotation,
                 bitMapResourceID, dimensionBitMapRatio);
         this.hitPoints = hitPoints;
         this.maxSpeed = maxSpeed;

@@ -43,7 +43,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     Ship(BaseShipSpec spec) {
         super(spec);
         //General
-        bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
+        bitmap = BitmapStore.getInstance().getBitmap(spec.tag);
         this.dbmRatio = spec.dimensionBitMapRatio;
 
         //Ship specific

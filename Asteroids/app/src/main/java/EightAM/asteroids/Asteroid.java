@@ -31,7 +31,7 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     Asteroid(BaseAsteroidSpec spec) {
         super(spec);
         this.id = ObjectID.getNewID(Faction.Neutral);
-        this.bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
+        this.bitmap = BitmapStore.getInstance().getBitmap(spec.tag);
         this.speedRange = spec.speedRange;
         this.spinRange = spec.spinSpeedRange;
         this.breaksInto = spec.breaksInto;

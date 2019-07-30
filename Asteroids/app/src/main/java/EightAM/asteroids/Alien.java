@@ -22,7 +22,7 @@ import EightAM.asteroids.specs.BaseAlienSpec;
 public abstract class Alien extends GameObject implements Destructable, Collision, EventGenerator {
     // --------------- Member variables --------------
     Bitmap bitmap;
-    private final float dbmRatio;
+    private float dbmRatio;
     int distanceTraveled;
     int maxRange;
     float shotAngle = 0;
@@ -49,7 +49,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         this.id = ObjectID.getNewID(Faction.Alien);
 
         // bitmap spec
-        this.bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
+        this.bitmap = BitmapStore.getInstance().getBitmap(spec.tag);
         this.dbmRatio = spec.dimensionBitMapRatio;
 
         // alien spec

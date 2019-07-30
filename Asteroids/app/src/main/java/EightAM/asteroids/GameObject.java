@@ -30,7 +30,7 @@ public abstract class GameObject implements Drawable, Identifiable {
                 spec.initialPosition.x + spec.dimensions.x,
                 spec.initialPosition.y + spec.dimensions.y);
         this.rotation = new Rotation(spec.initialRotation);
-        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
+        this.paint = PaintStore.getInstance().getPaint(spec.tag);
     }
 
     GameObject(GameObject object) {

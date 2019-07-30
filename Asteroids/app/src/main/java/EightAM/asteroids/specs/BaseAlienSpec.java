@@ -10,12 +10,11 @@ public abstract class BaseAlienSpec extends BaseBitmapSpec {
     public int hitPoints;
 
     public BaseAlienSpec(String tag, Point dimensions, Point initialPosition,
-            Velocity initialVelocity, Rotation initialRotation,
-            String paintName, String bitMapName, int bitMapResourceID, float dimensionBitMapRatio,
+            Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
+            float dimensionBitMapRatio,
             int pointValue, int hitPoints) {
-        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, paintName,
-                bitMapName,
-                bitMapResourceID, dimensionBitMapRatio);
+        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, bitMapResourceID,
+                dimensionBitMapRatio);
         this.pointValue = pointValue;
         this.hitPoints = hitPoints;
     }

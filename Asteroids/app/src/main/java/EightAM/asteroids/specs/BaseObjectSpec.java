@@ -11,16 +11,14 @@ public abstract class BaseObjectSpec {
     public Point initialPosition;
     public Velocity initialVelocity;
     public Rotation initialRotation;
-    public String paintName;
 
     public BaseObjectSpec(String tag, Point dimensions, Point initialPosition,
-            Velocity initialVelocity, Rotation initialRotation, String paintName) {
+            Velocity initialVelocity, Rotation initialRotation) {
         this.tag = tag;
         this.dimensions = dimensions;
         this.initialPosition = initialPosition;
         this.initialVelocity = initialVelocity;
         this.initialRotation = initialRotation;
-        this.paintName = paintName;
     }
 
     @Override

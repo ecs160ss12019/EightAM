@@ -11,9 +11,9 @@ public abstract class BaseParticleSpec extends BaseObjectSpec {
     public long duration;
 
     public BaseParticleSpec(String tag, Point dimensions, Point initialPosition,
-            Velocity initialVelocity, Rotation initialRotation,
-            String paintName, Pair<Float, Float> speedRange, long duration) {
-        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, paintName);
+            Velocity initialVelocity, Rotation initialRotation, Pair<Float, Float> speedRange,
+            long duration) {
+        super(tag, dimensions, initialPosition, initialVelocity, initialRotation);
         this.speedRange = speedRange;
         this.duration = duration;
     }

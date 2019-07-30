@@ -15,14 +15,12 @@ public abstract class BaseAsteroidSpec extends BaseBitmapSpec {
     public int hitPoints = 1;
 
     public BaseAsteroidSpec(String tag, Point dimensions, Point initialPosition,
-            Velocity initialVelocity, Rotation initialRotation,
-            String paintName, String bitMapName, int bitMapResourceID, float dimensionBitMapRatio,
-            Pair<Float, Float> speedRange,
+            Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
+            float dimensionBitMapRatio, Pair<Float, Float> speedRange,
             Pair<Float, Float> spinSpeedRange, BaseAsteroidSpec breaksInto, int breakCount,
             int pointValue, int hitPoints) {
-        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, paintName,
-                bitMapName,
-                bitMapResourceID, dimensionBitMapRatio);
+        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, bitMapResourceID,
+                dimensionBitMapRatio);
         this.speedRange = speedRange;
         this.spinSpeedRange = spinSpeedRange;
         this.breaksInto = breaksInto;

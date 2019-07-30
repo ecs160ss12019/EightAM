@@ -3,7 +3,6 @@ package EightAM.asteroids;
 import static EightAM.asteroids.Constants.BULLET_MAX_RANGE;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
 
 import EightAM.asteroids.interfaces.Collision;
@@ -78,7 +77,6 @@ public class Bullet extends GameObject implements Collision, Destructable {
 
     @Override
     public void draw(Canvas canvas) {
-        this.paint.setColor(Color.WHITE);
         canvas.drawRect(this.hitbox, paint);
     }
 

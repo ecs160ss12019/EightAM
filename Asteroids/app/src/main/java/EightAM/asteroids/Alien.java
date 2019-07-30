@@ -42,7 +42,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     // movement
     Pair<Integer, Integer> turnDelayRange;
     int turnDelay;
-    private boolean debug = true;
+    //private boolean debug = true;
 
     // shooting
     Pair<Integer, Integer> shotDelayRange;
@@ -90,11 +90,16 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         move(spaceSize, timeInMillisecond);
         updateDistance(timeInMillisecond);
 
-        if (debug) Log.d("distance", Float.toString(this.distanceTraveled));
+
+        //Let's Just Straight up not despawn it
+        //Player needs to GITGUD all kill the damn thing
+        /*
+        //if (debug) Log.d("distance", Float.toString(this.distanceTraveled));
         if (reachedMaxRange(spaceSize)) {
             //selfDestruct();
         }
-        if (debug) Log.d("alien", Float.toString(this.hitbox.left));
+        //if (debug) Log.d("alien", Float.toString(this.hitbox.left));
+        */
 
         // timer stuff
         updateTurnTimer();
@@ -153,6 +158,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      *
      * @return true if the alien has exceeded its maximum range
      */
+    @Deprecated
     protected boolean reachedMaxRange(Point spaceSize) {
         return distanceTraveled >= spaceSize.x;
     }

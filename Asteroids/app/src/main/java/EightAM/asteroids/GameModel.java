@@ -6,10 +6,12 @@ import android.content.Context;
 import android.graphics.Point;
 import android.util.Pair;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -33,7 +35,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     Map<ObjectID, GameObject> objectMap;
     Set<ObjectID> collideables;
     private boolean gameOver;
-    Set<ObjectID> deleteSet;
+    List<GameObject> createList;
+    List<ObjectID> deleteList;
     private Lock lock;
 
     int activeAsteroids;
@@ -55,8 +58,10 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         this.context = context;
         spaceSize = screenSize;
         objectMap = new HashMap<>();
-        deleteSet = new HashSet<>();
         collideables = new HashSet<>();
+
+        createList = new ArrayList<>();
+        deleteList = new ArrayList<>();
 
         this.gameOver = false;
         this.stats = new GameStats(spaceSize, context);
@@ -70,9 +75,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     private void createObjects() {
-        addObject(respawnShip());
-        //addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
-        addObject(AlienGenerator.getInstance().createAlien(spaceSize));
+        addObjects(respawnShip());
+        //addObjects(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
+        addObjects(AlienGenerator.getInstance().createAlien(spaceSize));
     }
 
     //Ship stuff *START*
@@ -101,7 +106,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     public void removeObjects() {
         GameObject objectToDel;
-        for (ObjectID id : deleteSet) {
+        for (ObjectID id : deleteList) {
             objectToDel = objectMap.get(id);
             if (objectToDel instanceof Collision) {
                 collideables.remove(id);
@@ -110,7 +115,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             if (id == currPlayerShip) onDeath();
             if (id == alienID) alienID = null;
         }
-        deleteSet.clear();
+        deleteList.clear();
     }
 
     public void onGameEnd() {
@@ -123,7 +128,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         currPlayerShip = null;
         stats.subLive();
         if (stats.getLife() > 0) {
-            addObject(respawnShip());
+            addObjects(respawnShip());
         } else {
             onGameEnd();
         }
@@ -146,7 +151,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
         if (alienID != null) getAlien().tryShoot(getPlayerShip().getObjPos());
 
-        for (Pair<Collision, GameObject> objectPair : CollisionChecker.enumerateCollisions(this)){
+        for (Pair<Collision, GameObject> objectPair : CollisionChecker.enumerateCollisions(this)) {
             objectPair.first.onCollide(objectPair.second);
         }
 
@@ -156,14 +161,15 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         }
 
         //Remove Collided Objects
-        if (!deleteSet.isEmpty()) removeObjects();
+        removeObjects();
+        putObjects();
     }
 
     private void startNextWave() {
-        addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
+        addObjects(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
 
         if (shouldSpawnAlien()) {
-            addObject(AlienGenerator.getInstance().createAlien(spaceSize));
+            addObjects(AlienGenerator.getInstance().createAlien(spaceSize));
         }
     }
 
@@ -227,13 +233,20 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     /**
-     * Adds objects the Object map, and adds IDs to their unique set
+     * Adds objects to the create list
      *
      * @param objects - a collection of objects to be passed in by
      *                the generators
      */
-    private void addObject(Collection<GameObject> objects) {
-        for (GameObject o : objects) {
+    private void addObjects(Collection<GameObject> objects) {
+        createList.addAll(objects);
+    }
+
+    /**
+     * Transfers the objects on the create list to objectMap
+     */
+    private void putObjects() {
+        for (GameObject o : createList) {
             ObjectID id = o.getID();
             if (!objectMap.containsKey(id)) {
                 objectMap.put(id, o);
@@ -256,7 +269,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     private void updateGameParam(GameObject object, int i) {
         if (object instanceof Asteroid) {
             activeAsteroids += i;
-        } else if (object instanceof Alien) activeAliens += i;
+        } else if (object instanceof Alien) {
+            activeAliens += i;
+        }
     }
 
     /**
@@ -278,11 +293,11 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     private void createDebris(GameObject object) {
-        if (!((object instanceof  Particle) || (object instanceof  Bullet))){
-            addObject(ParticleGenerator.getInstance().createParticles(object.getObjPos()));
+        if (!((object instanceof Particle) || (object instanceof Bullet))) {
+            addObjects(ParticleGenerator.getInstance().createParticles(object.getObjPos()));
         }
         if (object instanceof Asteroid) {
-            addObject(AsteroidGenerator.getInstance().breakUpAsteroid((Asteroid) object));
+            addObjects(AsteroidGenerator.getInstance().breakUpAsteroid((Asteroid) object));
         }
     }
 
@@ -291,25 +306,25 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         updateGameParam((GameObject) destructable, -1);
         createDebris((GameObject) destructable);
         ObjectID id = destructable.getID();
-        deleteSet.add(id);
+        deleteList.add(id);
     }
 
     @Override
     public void onShotFired(Shooter shooter) {
         if (getPlayerShip().canShoot()) {
-            addObject(BulletGenerator.createBullets(shooter));
+            addObjects(BulletGenerator.createBullets(shooter));
         }
 
         if (alienID != null) {
             if (getAlien().canShoot()) {
-                addObject(BulletGenerator.createBullets(shooter));
+                addObjects(BulletGenerator.createBullets(shooter));
             }
         }
     }
 
     @Override
     public void createObjects(Collection<GameObject> objects) {
-        addObject(objects);
+        addObjects(objects);
     }
 
     @Override

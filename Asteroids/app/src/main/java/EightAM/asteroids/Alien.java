@@ -17,12 +17,15 @@ import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
+import EightAM.asteroids.interfaces.Shooter;
+import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseAlienSpec;
+import EightAM.asteroids.specs.BaseBulletSpec;
 
-public abstract class Alien extends GameObject implements Destructable, Collision, EventGenerator {
+public abstract class Alien extends GameObject implements Destructable, Collision, EventGenerator, Shooter {
     // --------------- Member variables --------------
     Bitmap bitmap;
-    private final float dbmRatio;
+    float dbmRatio;
     int distanceTraveled;
     int maxRange;
     float shotAngle = 0;
@@ -31,7 +34,9 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     // listeners
     DestructListener destructListener;
     EventHandler eventHandler;
-    long reloadTime;
+    int reloadTime;
+    BaseBulletSpec bulletSpec;
+    ShotListener shotListener;
 
     // movement
     Pair<Integer, Integer> turnDelayRange;
@@ -123,11 +128,21 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         return reloadTime <= 0;
     }
 
-    protected void tryShoot() {
-        if (this.reloadTime > 0)
-            this.reloadTime--;
+    protected void aimAtTarget(Point targetPos) {
+        this.canShoot = false;
+        float delX = targetPos.x - this.getObjPos().x;
+        float delY = targetPos.y - this.getObjPos().y;
+
+        this.shotAngle = (float) Math.atan2(delY, delX);
+    }
+
+    protected void tryShoot(Point targetPos) {
+        if (this.shotDelayCounter > 0)
+            this.shotDelayCounter--;
         else {
-            this.reloadTime = 0;
+            this.shotDelayCounter = this.reloadTime;
+            aimAtTarget(targetPos);
+            shoot();
             setShotDelay();
         }
     }
@@ -187,6 +202,27 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     }
 
     // ------------ BEGIN COLLISION IMPLEMENTION ------------ //
+
+    @Override
+    public void shoot(){
+        shotListener.onShotFired(this);
+    }
+
+    public BaseBulletSpec getBulletSpec(){
+        return bulletSpec;
+    }
+
+    public Point getShotOrigin(){
+        return this.getObjPos();
+    }
+
+    public float getShotAngle(){
+        return this.shotAngle;
+    }
+
+    public void linkShotListener(ShotListener listener){
+        this.shotListener = listener;
+    }
 
     /**
      * Collision detection method takes in the hitbox of approaching object, using intersection

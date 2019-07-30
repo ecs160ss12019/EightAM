@@ -68,7 +68,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private void createObjects() {
         addObject(respawnShip());
-        addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
+        //addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
+        addObject(AlienGenerator.getInstance().createAlien(spaceSize));
     }
 
     //Ship stuff *START*
@@ -140,7 +141,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             o.update(spaceSize, timeInMillisecond);
         }
 
-        if (alienID != null) getAlien().tryShoot();
+        if (alienID != null) getAlien().tryShoot(getPlayerShip().getObjPos());
 
         for (Pair<Collision, GameObject> objectPair : CollisionChecker.enumerateCollisions(this)){
             objectPair.first.onCollide(objectPair.second);

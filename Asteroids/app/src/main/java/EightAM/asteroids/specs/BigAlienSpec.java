@@ -27,6 +27,8 @@ public class BigAlienSpec extends BaseAlienSpec {
     public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(4000, 6000);
     public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(3000, 5000);
 
+    public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
+
     public int reloadTime;
     public Pair<Integer, Integer> turnDelayRange;
     public Pair<Integer, Integer> shotDelayRange;

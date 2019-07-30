@@ -44,8 +44,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     //TODO: might change
     ObjectID alienID;
 
-    Scoreboard endStats;
-
     /**
      * Main Constructor of the Model. Called at the start of every game session.
      */
@@ -115,8 +113,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     public void onGameEnd() {
         this.gameOver = true;
-        //stats.setHighScore();
-        endStats = new Scoreboard(context);
     }
 
     public void onDeath() {
@@ -127,10 +123,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         } else {
             onGameEnd();
         }
-    }
-
-    Scoreboard endGameStats() {
-        return endStats;
     }
 
     /**

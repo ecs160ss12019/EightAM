@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
+    Scoreboard scoreboard;
 
     // For mane layout (play, pause)
     RelativeLayout startLayout;
@@ -34,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
     TextView scoreText;
     TextView restartText;
     TextView pausedText;
-
-    Scoreboard scoreboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,48 +64,30 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
                     }
                 });
 
-
+        // Find layouts and views
         gameView = findViewById(R.id.gameView);
-        //start layout
         startLayout = findViewById(R.id.view_start);
         startText = findViewById(R.id.startText);
-        scoreText = findViewById(R.id.scoreText);
-        //button layout
+        scoreText = findViewById(R.id.scoreText);         //start layout
         buttonLayout = findViewById(R.id.view_button);
-        pauseButton = findViewById(R.id.pause_button);
-        //paused layout
+        pauseButton = findViewById(R.id.pause_button);    //button layout
         pausedLayout = findViewById(R.id.view_paused);
-        pausedText = findViewById(R.id.pausedText);
-        //restart layout
+        pausedText = findViewById(R.id.pausedText);       //paused layout
         restartLayout = findViewById(R.id.view_restart);
-        restartText = findViewById(R.id.restartText);
+        restartText = findViewById(R.id.restartText);     //restart layout
 
         AssetLoader.load(gameView.getContext());
         InputControl.initializeButtons(this);
 
         scoreboard = new Scoreboard(this);
 
-//        startGame();
         onStartScreen();
-//        gameController.onResume();
+        setStartListener();
+        setPauseListener();
+        setResumeListener();
 
         // Play background music
         //gameView.audio.playMusic(MainActivity.this);
-
-        // Find Layout Elements to be used/manipulated
-        // gameModel.setButton(restartLayout, restartText);
-
-        // Start game on tap
-        setStartListener();
-
-        // Set Listener for Pause
-        setPauseListener();
-
-
-        setResumeListener();
-
-        // Set listener for Game Over
-        //setGameOverListener();
     }
 
     void onStartScreen() {
@@ -140,22 +121,6 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
             onPause();
         });
     }
-//
-//    private void setGameOverListener() {
-//        restartText.setText("Game Over");
-//        restartText.setOnClickListener(view -> {
-//            restartLayout.setVisibility(View.GONE);
-//            restartText.setVisibility(View.GONE);
-//
-//            pausedLayout.setVisibility(View.GONE);
-//            pausedText.setVisibility(View.GONE);
-//
-//            startLayout.setVisibility(View.VISIBLE);
-//            startText.setVisibility(View.VISIBLE);
-//            scoreText.setVisibility(View.VISIBLE);
-//            startGame();
-//        });
-//    }
 
     @Override
     protected void onPause() {
@@ -189,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         Log.d(this.getClass().getCanonicalName(), "onGameOver() called");
         gameController.onPause();
         gameView.onPause();
-        scoreboard.processEndGameStats(gameModel.stats.score);
+        scoreboard.setHighScore(gameModel.stats.score);
         onGameOverScreen();
         new Handler().postDelayed(() -> {
             restartLayout.setVisibility(View.GONE);

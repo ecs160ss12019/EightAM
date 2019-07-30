@@ -44,16 +44,12 @@ final class GameController implements Runnable {
                 currentTick = time;
             }
         }
-        if (model.isGameOver()) {
+        if (model.stats.livesLeft == 0) {
             new Handler(Looper.getMainLooper()).post(() -> {
                 gameOverListener.onGameOver();
             });
         }
         isRunning = false;
-    }
-
-    Scoreboard outputStats() {
-        return model.endGameStats();
     }
 
     void pause() {

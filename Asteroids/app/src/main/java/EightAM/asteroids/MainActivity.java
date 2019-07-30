@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout startLayout;
     RelativeLayout buttonLayout;
     ImageView pauseButton;
-    TextView messageText;
+    TextView tapStartText;
+    TextView scoreText;
 
     private boolean isPaused;
 
@@ -77,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
         startLayout = findViewById(R.id.view_gauze);
         buttonLayout = findViewById(R.id.view_button);
         pauseButton = findViewById(R.id.pause_button);
-        messageText = findViewById(R.id.startText);
+        tapStartText = findViewById(R.id.startText);
+        scoreText = findViewById(R.id.scoreText);
 
         // Start game on tap
-        int highScore = this.gameModel.stats.getHighScore();
-        messageText.setText("Tap to start\n" + "High Score: " + highScore);
+        scoreText.setText(this.gameModel.stats.getHighScore());
         onStartScreen();
 
         // Set Listener for Pause
@@ -122,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
         pauseButton.setOnClickListener(view -> {
             startLayout.setVisibility(View.VISIBLE);
             buttonLayout.setVisibility(View.GONE);
-            messageText.setText("Paused - Tap to Resume");
+            scoreText.setVisibility(View.GONE);
+            tapStartText.setText("Paused - Tap to Resume");
             onPause();
         });
     }

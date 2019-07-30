@@ -51,7 +51,7 @@ public class GameStats {
     /**
      * Set the high score
      */
-    void setHighScore() {
+    public void setHighScore() {
         // Edit high score if exists
         if (score > highScore) {
             editor.putInt("High Score", highScore);
@@ -59,8 +59,8 @@ public class GameStats {
         }
     }
 
-    int getHighScore() {
-        return this.highScore;
+    public String getHighScore() {
+        return "High Score: " + this.highScore;
     }
 
     void newGame() {
@@ -84,14 +84,14 @@ public class GameStats {
 
     int getLife() { return livesLeft; }
 
-    void score(GameObject object) {
+    public void score(GameObject object) {
         if (object instanceof Scoreable) plusScore(((Scoreable) object).score());
     }
 
     /**
      * Draw the HUD
      */
-    void drawAttributes(Canvas canvas, Paint paint, SurfaceHolder sh) {
+    public void drawAttributes(Canvas canvas, Paint paint, SurfaceHolder sh) {
         //paint.setColor(Color.argb(255,225,20,147));
         paint.setTextSize(textFormatting);
         canvas.drawText("Score: " + score, textFormatting, textFormatting * 2, paint);

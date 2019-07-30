@@ -39,6 +39,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 
     // shooting
     Pair<Integer, Integer> shotDelayRange;
+    private int shotDelayCounter;
     private boolean debug = true;
     boolean canShoot = false;
 
@@ -118,6 +119,19 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
                 + shotDelayRange.first;
     }
 
+    protected boolean canShoot() {
+        return reloadTime <= 0;
+    }
+
+    protected void tryShoot() {
+        if (this.reloadTime > 0)
+            this.reloadTime--;
+        else {
+            this.reloadTime = 0;
+            setShotDelay();
+        }
+    }
+
     // ------------ END SHOOTING METHODS ------------ //
     @Override
     protected void update(Point spaceSize, long timeInMillisecond) {
@@ -125,7 +139,6 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         updateDistance(timeInMillisecond);
         // timer stuff
         updateTurnTimer();
-        //this.shotDelay--;
         // TODO: implement shooting
     }
 
@@ -133,10 +146,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
-//        matrix.setRotate((float) Math.toDegrees(rotation.theta), (float) bitmap.getWidth() / 2,
-//                (float) bitmap.getHeight() / 2);
-//        matrix.postTranslate(hitbox.left - (hitbox.width() * 0.5f),
-//                hitbox.top - (hitbox.height() * 0.5f));
+
         matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
                 this.hitbox.centerY() - (float)(bitmap.getHeight()/2));
 //        matrix.postRotate((float) Math.toDegrees(orientation),

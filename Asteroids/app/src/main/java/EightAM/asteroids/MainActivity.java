@@ -4,6 +4,8 @@ package EightAM.asteroids;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,8 +15,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import EightAM.asteroids.interfaces.GameOverListener;
 
+public class MainActivity extends AppCompatActivity implements GameOverListener {
+
+    static int gameOverDelayTime = 3000;
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
@@ -22,11 +27,15 @@ public class MainActivity extends AppCompatActivity {
     // For mane layout (play, pause)
     RelativeLayout startLayout;
     RelativeLayout buttonLayout;
+    RelativeLayout restartLayout;
+    RelativeLayout pausedLayout;
     ImageView pauseButton;
-    TextView tapStartText;
+    TextView startText;
     TextView scoreText;
+    TextView restartText;
+    TextView pausedText;
 
-    private boolean isPaused;
+    Scoreboard scoreboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
         setContentView(R.layout.activity_main);
-        InputControl.initializeButtons(this);
-        gameView = findViewById(R.id.gameView);
-
-        /*Temp solution to get screen width and height*/
         View decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(
                 new View.OnSystemUiVisibilityChangeListener() {
@@ -59,73 +64,159 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-        AssetLoader.load(gameView.getContext());
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
 
-        gameModel = new GameModel(size, gameView.getContext());
-        gameController = new GameController(gameModel);
-        gameView.setGameModel(gameModel);
-        // temporary until menu is created
-        gameView.onResume();
+
+        gameView = findViewById(R.id.gameView);
+        //start layout
+        startLayout = findViewById(R.id.view_start);
+        startText = findViewById(R.id.startText);
+        scoreText = findViewById(R.id.scoreText);
+        //button layout
+        buttonLayout = findViewById(R.id.view_button);
+        pauseButton = findViewById(R.id.pause_button);
+        //paused layout
+        pausedLayout = findViewById(R.id.view_paused);
+        pausedText = findViewById(R.id.pausedText);
+        //restart layout
+        restartLayout = findViewById(R.id.view_restart);
+        restartText = findViewById(R.id.restartText);
+
+        AssetLoader.load(gameView.getContext());
+        InputControl.initializeButtons(this);
+
+        scoreboard = new Scoreboard(this);
+
+//        startGame();
+        onStartScreen();
 //        gameController.onResume();
 
         // Play background music
         //gameView.audio.playMusic(MainActivity.this);
 
         // Find Layout Elements to be used/manipulated
-        startLayout = findViewById(R.id.view_gauze);
-        buttonLayout = findViewById(R.id.view_button);
-        pauseButton = findViewById(R.id.pause_button);
-        tapStartText = findViewById(R.id.startText);
-        scoreText = findViewById(R.id.scoreText);
+        // gameModel.setButton(restartLayout, restartText);
 
         // Start game on tap
-        scoreText.setText(this.gameModel.stats.getHighScore());
-        onStartScreen();
+        setStartListener();
 
         // Set Listener for Pause
-        onPauseScreen();
+        setPauseListener();
+
+
+        setResumeListener();
+
+        // Set listener for Game Over
+        //setGameOverListener();
     }
+
+    void onStartScreen() {
+        scoreText.setText(scoreboard.getHighScore());
+        startLayout.setVisibility(View.VISIBLE);
+        startText.setVisibility(View.VISIBLE);
+        scoreText.setVisibility(View.VISIBLE);
+    }
+
+    // TODO: disable collision detection before user taps on screen
+    private void setStartListener() {
+        startText.setOnClickListener(view -> {
+            restartLayout.setVisibility(View.GONE);
+            restartText.setVisibility(View.GONE);
+            startLayout.setVisibility(View.GONE);
+            buttonLayout.setVisibility(View.VISIBLE);
+            startGame();
+        });
+    }
+
+    private void setPauseListener() {
+        pausedText.setText("Paused - Tap to Resume");
+        pauseButton.setOnClickListener(view -> {
+            restartText.setVisibility(View.GONE);
+            restartLayout.setVisibility(View.GONE);
+            startLayout.setVisibility(View.GONE);
+            startText.setVisibility(View.GONE);
+            scoreText.setVisibility(View.GONE);
+            pausedLayout.setVisibility(View.VISIBLE);
+            pausedText.setVisibility(View.VISIBLE);
+            onPause();
+        });
+    }
+//
+//    private void setGameOverListener() {
+//        restartText.setText("Game Over");
+//        restartText.setOnClickListener(view -> {
+//            restartLayout.setVisibility(View.GONE);
+//            restartText.setVisibility(View.GONE);
+//
+//            pausedLayout.setVisibility(View.GONE);
+//            pausedText.setVisibility(View.GONE);
+//
+//            startLayout.setVisibility(View.VISIBLE);
+//            startText.setVisibility(View.VISIBLE);
+//            scoreText.setVisibility(View.VISIBLE);
+//            startGame();
+//        });
+//    }
 
     @Override
     protected void onPause() {
         super.onPause();
         if (gameView != null)
             gameView.onPause();
-        isPaused = true;
-        startLayout.setOnClickListener(view -> {
-            startLayout.setVisibility(View.GONE);
-            buttonLayout.setVisibility(View.VISIBLE);
-            isPaused = false;
-            onResume();
-        });
-    }
-
-    // TODO: disable collision detection before user taps on screen
-    protected void onStartScreen() {
-        startLayout.setOnClickListener(view -> {
-            startLayout.setVisibility(View.GONE);
-            buttonLayout.setVisibility(View.VISIBLE);
-            gameModel.startGame();
-            gameController.onResume();
-        });
+        if (gameController != null) {
+            gameController.onPause();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (gameView != null && !isPaused) gameView.onResume();
+        if (gameView == null || gameModel == null || gameController == null) {
+            onStartScreen();
+        } else {
+            gameView.onResume();
+            gameController.onResume();
+        }
     }
 
-    protected void onPauseScreen() {
-        pauseButton.setOnClickListener(view -> {
-            startLayout.setVisibility(View.VISIBLE);
-            buttonLayout.setVisibility(View.GONE);
-            scoreText.setVisibility(View.GONE);
-            tapStartText.setText("Paused - Tap to Resume");
-            onPause();
+    protected void onGameOverScreen() {
+        restartLayout.setVisibility(View.VISIBLE);
+        restartText.setVisibility(View.VISIBLE);
+        // TODO: set score
+    }
+
+    @Override
+    public void onGameOver() {
+        Log.d(this.getClass().getCanonicalName(), "onGameOver() called");
+        gameController.onPause();
+        gameView.onPause();
+        scoreboard.processEndGameStats(gameModel.stats.score);
+        onGameOverScreen();
+        new Handler().postDelayed(() -> {
+            restartLayout.setVisibility(View.GONE);
+            restartText.setVisibility(View.GONE);
+            setStartListener();
+            startGame();
+            onStartScreen();
+        }, gameOverDelayTime);
+    }
+
+    public void startGame() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        gameModel = new GameModel(size, gameView.getContext());
+        gameController = new GameController(gameModel, this);
+        gameView.setGameModel(gameModel);
+        gameView.onResume();
+        gameController.onResume();
+        gameModel.startGame();
+    }
+
+        protected void setResumeListener(){
+        pausedText.setOnClickListener(view -> {
+            pausedLayout.setVisibility(View.GONE);
+            buttonLayout.setVisibility(View.VISIBLE);
+            onResume();
         });
     }
 }

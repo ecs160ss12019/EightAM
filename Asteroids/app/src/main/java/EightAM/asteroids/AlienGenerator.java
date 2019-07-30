@@ -3,6 +3,8 @@ package EightAM.asteroids;
 import android.graphics.Point;
 import android.util.Log;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 import EightAM.asteroids.specs.BaseAlienSpec;
@@ -27,17 +29,13 @@ public class AlienGenerator extends CollidableObjectGenerator {
 
     /**
      * Makes an alien and puts it into model's objectMap.
-     * @param model the GameModel
+     * @param spaceSize the space size
      */
-    public void createAlien(GameModel model) {
+    public Collection<GameObject> createAlien(Point spaceSize) {
         BaseAlienSpec spec = getAlienSpec();
 
-        GameObject alien = prepareAlien(spec, model.spaceSize);
-        if (debug) {
-            if (alien != null) { Log.d("ALIENGEN", "CREATED ALIEN"); }
-            else { Log.d("ALIENGEN", "FAILED"); }
-        }
-        placeAlien(alien, model);
+
+        return Collections.singleton(prepareAlien(spec, spaceSize));
     }
 
     private GameObject prepareAlien(BaseAlienSpec spec, Point spaceSize) {
@@ -94,15 +92,5 @@ public class AlienGenerator extends CollidableObjectGenerator {
         return new Point(randX, randY);
     }
 
-    /**
-     * Puts alien into model's objectMap
-     * and links alien with model as its destruct listener.
-     * @param alien the alien to put into the model
-     * @param model the model in which to put alien
-     */
-    private void placeAlien(GameObject alien, GameModel model) {
-        ((Alien) alien).registerDestructListener(model);
-        addToMap(alien, model);
-        model.activeAliens++;
-    }
+
 }

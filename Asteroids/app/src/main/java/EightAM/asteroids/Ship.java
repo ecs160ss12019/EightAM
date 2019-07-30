@@ -116,7 +116,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     public void input(InputControl.Input i) {
         if (i.UP) {
-            this.vel.accelerate(acceleration, rotation.theta);
+            this.vel.accelerate(acceleration, rotation.theta, deceleration);
         } else {
             this.vel.decelerate(deceleration);  // velocity decay
         }

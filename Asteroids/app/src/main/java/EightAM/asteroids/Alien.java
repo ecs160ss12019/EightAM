@@ -195,7 +195,6 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         this.canShoot = false;
         float delX = targetPos.x - this.getObjPos().x;
         float delY = targetPos.y - this.getObjPos().y;
-
         this.shotAngle = (float) Math.atan2(delY, delX);
     }
 

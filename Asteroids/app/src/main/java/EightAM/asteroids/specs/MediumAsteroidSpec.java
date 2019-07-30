@@ -16,7 +16,7 @@ public class MediumAsteroidSpec extends BaseAsteroidSpec {
     public static int breakCount = 2;
 
     public static String tag = "asteroid_medium";
-    public static Point dimensions = new Point(50, 50);
+    public static Point dimensions = new Point(68, 68);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(0, 0, speedRange.second);
     public static Rotation initialRotation = new Rotation(0, 0);

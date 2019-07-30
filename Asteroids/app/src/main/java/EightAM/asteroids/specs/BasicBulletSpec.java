@@ -9,13 +9,13 @@ import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
 
 public class BasicBulletSpec extends BaseBulletSpec {
-    public static float speed = 1.5f;
-    public static float maxDistance = 400;
+    public static float speed = 1.25f;
+    public static float maxDistance = 1200;
     public static float _bulletTrail = 100;
     public static int damage = 1;
     public static ObjectID owner = null;
     public static String tag = "bullet_basic";
-    public static Point dimensions = new Point(6, 6);
+    public static Point dimensions = new Point(7, 7);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(speed, 0, speed);
     public static Rotation initialRotation = new Rotation(0, 0);

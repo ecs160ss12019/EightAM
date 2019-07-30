@@ -40,12 +40,16 @@ public class Velocity {
      * Update Velocity by assignment. //<- subject to change, If you guys think its easier to
      * increment angle
      */
-    protected void accelerate(float magnitude, float orientation) {
+    protected void accelerate(float magnitude, float orientation, float decelerateVal) {
         x += (float) Math.cos(orientation) * magnitude;
         y += (float) Math.sin(orientation) * magnitude;
-        if (magnitude() > maxSpeed) {
-            x = MAX_SPEED * (float) Math.cos(Math.atan2(y, x));
-            y = MAX_SPEED * (float) Math.sin(Math.atan2(y, x));
+
+        while (magnitude() > maxSpeed) {
+            //x = MAX_SPEED * (float) Math.cos(Math.atan2(y, x));
+            //y = MAX_SPEED * (float) Math.sin(Math.atan2(y, x));
+            //Code above provides unintentional slingshot feel
+            //Code below made ship accelerate smoothly
+            decelerate(decelerateVal);
         }
     }
 

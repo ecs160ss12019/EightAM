@@ -10,10 +10,10 @@ import EightAM.asteroids.Velocity;
 
 public class BasicShipSpec extends BaseShipSpec {
     public static int hitPoints = 1;
-    public static float maxSpeed = 1f;
+    public static float maxSpeed = 0.8f;
     public static float rotationSpeed = 0.005f;
-    public static float acceleration = 0.0025f;
-    public static float deceleration = 0.9995f;
+    public static float acceleration = 0.0035f;
+    public static float deceleration = 0.9985f;
     public static int reloadTime = 30;
     public static int invincibilityDuration = 1800;
 
@@ -21,7 +21,7 @@ public class BasicShipSpec extends BaseShipSpec {
     public static Point dimensions = new Point(16, 16);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
-    public static Rotation initialRotation = new Rotation(0, 0);
+    public static Rotation initialRotation = new Rotation((float)Math.PI * 3f/2, 0);
 
     public static int resID = R.drawable.ic_ship;
     public static float dbmRatio = 4f;

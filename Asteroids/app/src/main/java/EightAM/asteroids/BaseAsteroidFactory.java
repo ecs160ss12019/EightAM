@@ -31,7 +31,7 @@ class BaseAsteroidFactory implements AsteroidFactory {
         if (rand > 0.5) {
             randSpin = -randSpin;
         }
-        ret.vel.accelerate(randSpeed, randAngle);
+        ret.vel.resetVelocity(randSpeed, randAngle, randSpeed);
         ret.rotation.angVel = randSpin;
     }
 

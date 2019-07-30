@@ -72,7 +72,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
      * @return true if the bullet has exceeded its maximum range
      */
     protected boolean reachedMaxRange() {
-        return distanceTraveled > BULLET_MAX_RANGE;
+        return distanceTraveled > maxDistance;
     }
 
     @Override

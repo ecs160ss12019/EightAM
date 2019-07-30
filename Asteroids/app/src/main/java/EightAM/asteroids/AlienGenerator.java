@@ -16,7 +16,7 @@ import static EightAM.asteroids.Constants.SMALLALIEN_SPAWN_PROB;
 
 public class AlienGenerator extends CollidableObjectGenerator {
     static AlienGenerator instance;
-    private boolean debug = false;
+    private boolean debug = true;
 
     private AlienGenerator() {}
 
@@ -34,7 +34,6 @@ public class AlienGenerator extends CollidableObjectGenerator {
     public Collection<GameObject> createAlien(Point spaceSize) {
         BaseAlienSpec spec = getAlienSpec();
 
-
         return Collections.singleton(prepareAlien(spec, spaceSize));
     }
 
@@ -43,6 +42,8 @@ public class AlienGenerator extends CollidableObjectGenerator {
         Point origin = getRandomPosition(spaceSize);
         spec.initialPosition = origin;
         if (debug) {
+            Log.d("space size x", Integer.toString(spaceSize.x));
+            Log.d("space size y", Integer.toString(spaceSize.y));
             Log.d("alien spawn pos x", Integer.toString(origin.x));
             Log.d("alien spawn pos y", Integer.toString(origin.y));
         }
@@ -87,7 +88,7 @@ public class AlienGenerator extends CollidableObjectGenerator {
         Random rand = new Random();
         int randX, randY;
 
-        randX = rand.nextInt(((spaceSize.x - 1) + 1) + 1) * rand.nextInt(2);
+        randX = spaceSize.x * rand.nextInt(2);
         randY = rand.nextInt(((spaceSize.y - 1) + 1) + 1);
 
         return new Point(randX, randY);

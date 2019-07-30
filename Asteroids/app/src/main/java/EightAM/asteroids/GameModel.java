@@ -1,5 +1,7 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.ALIEN_SPAWN_PROB;
+
 import android.content.Context;
 import android.graphics.Point;
 import android.util.Pair;
@@ -9,6 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -68,7 +71,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private void createObjects() {
         addObject(respawnShip());
-        addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
+        //addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
+        addObject(AlienGenerator.getInstance().createAlien(spaceSize));
     }
 
     //Ship stuff *START*
@@ -140,7 +144,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             o.update(spaceSize, timeInMillisecond);
         }
 
-        if (alienID != null) getAlien().tryShoot();
+        if (alienID != null) getAlien().tryShoot(getPlayerShip().getObjPos());
 
         for (Pair<Collision, GameObject> objectPair : CollisionChecker.enumerateCollisions(this)){
             objectPair.first.onCollide(objectPair.second);
@@ -157,11 +161,27 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private void startNextWave() {
         addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
-        addObject(AlienGenerator.getInstance().createAlien(spaceSize));
+
+        if (shouldSpawnAlien()) {
+            addObject(AlienGenerator.getInstance().createAlien(spaceSize));
+        }
     }
 
     private void onWaveComplete() {
         AsteroidGenerator.getInstance().numOfAsteroids++;
+    }
+
+    /**
+     * Probability function determine whether alien should spawn.
+     * Called in startNextWave().
+     *
+     * @return true to spawn alien
+     */
+    private boolean shouldSpawnAlien() {
+        Random rand = new Random();
+
+        float f = rand.nextFloat();
+        return (f < ALIEN_SPAWN_PROB);
     }
 
     /**

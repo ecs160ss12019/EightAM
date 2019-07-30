@@ -9,6 +9,7 @@ public class SmallAlien extends Alien {
         this.reloadTime = spec.reloadTime;
         this.turnDelayRange = spec.turnDelayRange;
         this.shotDelayRange = spec.shotDelayRange;
+        this.bulletSpec = SmallAlienSpec.bulletSpec;
         setUp();
     }
 
@@ -17,6 +18,7 @@ public class SmallAlien extends Alien {
         this.reloadTime = alien.reloadTime;
         this.turnDelayRange = alien.turnDelayRange;
         this.shotDelayRange = alien.shotDelayRange;
+        this.bulletSpec = alien.bulletSpec;
         setUp();
     }
 

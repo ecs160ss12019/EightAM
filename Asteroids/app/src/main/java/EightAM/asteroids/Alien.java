@@ -17,30 +17,36 @@ import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
+import EightAM.asteroids.interfaces.Shooter;
+import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseAlienSpec;
+import EightAM.asteroids.specs.BaseBulletSpec;
 
-public abstract class Alien extends GameObject implements Destructable, Collision, EventGenerator {
+public abstract class Alien extends GameObject implements Destructable, Collision, EventGenerator,
+        Shooter {
     // --------------- Member variables --------------
     Bitmap bitmap;
-    private float dbmRatio;
-    int distanceTraveled;
-    int maxRange;
+    float dbmRatio;
     float shotAngle = 0;
     int pointValue;
     int hitPoints;
+    int reloadTime;
+
     // listeners
     DestructListener destructListener;
     EventHandler eventHandler;
-    long reloadTime;
+    BaseBulletSpec bulletSpec;
+    ShotListener shotListener;
+    float distanceTraveled;
 
     // movement
     Pair<Integer, Integer> turnDelayRange;
     int turnDelay;
+    private boolean debug = true;
 
     // shooting
     Pair<Integer, Integer> shotDelayRange;
     private int shotDelayCounter;
-    private boolean debug = true;
     boolean canShoot = false;
 
     Alien(BaseAlienSpec spec) {
@@ -79,6 +85,36 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         setShotDelay();
     }
 
+    @Override
+    protected void update(Point spaceSize, long timeInMillisecond) {
+        move(spaceSize, timeInMillisecond);
+        updateDistance(timeInMillisecond);
+
+        if (debug) Log.d("distance", Float.toString(this.distanceTraveled));
+        if (reachedMaxRange(spaceSize)) {
+            selfDestruct();
+        }
+        if (debug) Log.d("alien", Float.toString(this.hitbox.left));
+
+        // timer stuff
+        updateTurnTimer();
+    }
+
+
+    @Override
+    public void draw(Canvas canvas) {
+        Matrix matrix = new Matrix();
+
+        matrix.setTranslate(this.hitbox.centerX() - (float) (bitmap.getWidth() / 2),
+                this.hitbox.centerY() - (float) (bitmap.getHeight() / 2));
+//        matrix.postRotate((float) Math.toDegrees(orientation),
+//                this.hitbox.centerX(),
+//                this.hitbox.centerY());
+
+        canvas.drawBitmap(bitmap, matrix, paint);
+        canvas.drawRect(this.hitbox, paint);
+    }
+
     // ------------ BEGIN MOVEMENT METHODS ------------ //
 
     /**
@@ -98,14 +134,37 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      */
     protected void updateTurnTimer() {
         this.turnDelay--;
-        if (debug) {
-            Log.d("alien", Integer.toString(this.turnDelay));
-        }
         if (this.turnDelay <= 0) {
             this.turn();
             this.setTurnDelay();
         }
     }
+
+    /**
+     * Calculates how far the alien has traveled.
+     * (to be used in a super class to determine when the alien should die.)
+     */
+    private void updateDistance(long timeInMillisecond) {
+        distanceTraveled += (this.vel.x * timeInMillisecond);
+    }
+
+    /**
+     * Determines if the alien should continue to persist.
+     *
+     * @return true if the alien has exceeded its maximum range
+     */
+    protected boolean reachedMaxRange(Point spaceSize) {
+        return distanceTraveled >= spaceSize.x;
+    }
+
+    /**
+     * Make the alien change its movement in the y direction.
+     */
+    protected void turn() {
+        float newY = -1 * this.vel.y;
+        this.vel.setY(newY);
+    }
+
     // ------------ END MOVEMENT METHODS ------------ //
 
     // ------------ BEGIN SHOOTING METHODS ------------ //
@@ -123,71 +182,51 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         return reloadTime <= 0;
     }
 
-    protected void tryShoot() {
-        if (this.reloadTime > 0)
-            this.reloadTime--;
-        else {
-            this.reloadTime = 0;
+    protected void aimAtTarget(Point targetPos) {
+        this.canShoot = false;
+        float delX = targetPos.x - this.getObjPos().x;
+        float delY = targetPos.y - this.getObjPos().y;
+
+        this.shotAngle = (float) Math.atan2(delY, delX);
+    }
+
+    protected void tryShoot(Point targetPos) {
+        if (this.shotDelayCounter > 0) {
+            this.shotDelayCounter--;
+        } else {
+            this.shotDelayCounter = this.reloadTime;
+            aimAtTarget(targetPos);
+            shoot();
             setShotDelay();
         }
     }
 
     // ------------ END SHOOTING METHODS ------------ //
+
+    // ------------ BEGIN SHOOTER IMPLEMENTION ------------ //
     @Override
-    protected void update(Point spaceSize, long timeInMillisecond) {
-        move(spaceSize, timeInMillisecond);
-        updateDistance(timeInMillisecond);
-        // timer stuff
-        updateTurnTimer();
-        // TODO: implement shooting
+    public void shoot() {
+        shotListener.onShotFired(this);
     }
 
-
-    @Override
-    public void draw(Canvas canvas) {
-        Matrix matrix = new Matrix();
-
-        matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
-                this.hitbox.centerY() - (float)(bitmap.getHeight()/2));
-//        matrix.postRotate((float) Math.toDegrees(orientation),
-//                this.hitbox.centerX(),
-//                this.hitbox.centerY());
-
-
-        canvas.drawBitmap(bitmap, matrix, paint);
-        canvas.drawRect(this.hitbox, paint);
+    public BaseBulletSpec getBulletSpec() {
+        return bulletSpec;
     }
 
-    /**
-     * Determines if the alien should continue to persist.
-     *
-     * @return true if the alien has exceeded its maximum range
-     */
-    protected boolean reachedMaxRange() {
-        return distanceTraveled > maxRange;
+    public Point getShotOrigin() {
+        return this.getObjPos();
     }
 
-    /**
-     * Calculates how far the alien has traveled.
-     * (to be used in a super class to determine when the alien should die.)
-     *
-     * @param timeInMillisecond current time of the game in ms
-     */
-    private void updateDistance(long timeInMillisecond) {
-        // TODO: should probably base this off spawn location
-        distanceTraveled += timeInMillisecond * this.vel.magnitude();
+    public float getShotAngle() {
+        return this.shotAngle;
     }
 
-    /**
-     * Make the alien change its movement in the y direction.
-     */
-    protected void turn() {
-        float newY = -1 * this.vel.y;
-        this.vel.setY(newY);
+    public void linkShotListener(ShotListener listener) {
+        this.shotListener = listener;
     }
+    // ------------ END SHOOTER IMPLEMENTION ------------ //
 
     // ------------ BEGIN COLLISION IMPLEMENTION ------------ //
-
     /**
      * Collision detection method takes in the hitbox of approaching object, using intersection
      * method to check of collision
@@ -236,6 +275,10 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     }
 
     // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //
+
+    public void selfDestruct() {
+        destructListener.onDestruct(this);
+    }
 
     @Override
     public void registerEventHandler(EventHandler handler) {

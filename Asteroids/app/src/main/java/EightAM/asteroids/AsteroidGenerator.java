@@ -73,7 +73,6 @@ public class AsteroidGenerator extends CollidableObjectGenerator {
     /**
      * Spawns asteroids in the place of its parent, i.e. upon breaking up
      *
-     * @param spaceSize - Bounds to spawn the asteroid
      * @param parentAsteroid - reference to parent asteroid to retrieve position
      * @return a collection of baby asteroids
      */

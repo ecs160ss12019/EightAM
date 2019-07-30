@@ -13,7 +13,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static int pointValue = 100;
     public static int hitPoints = 1;
     public static int _reloadTime = 30;
-    public static float maxSpeed = 3f;
+    public static float maxSpeed = 0.3f;
     public static float initialAngle = (float) Math.PI * 0.25f;
 
     public static String tag = "alien_small";
@@ -30,6 +30,8 @@ public class SmallAlienSpec extends BaseAlienSpec {
 
     public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(3000, 4000);
     public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(2000, 3000);
+
+    public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
 
     public int reloadTime;
     public Pair<Integer, Integer> turnDelayRange;

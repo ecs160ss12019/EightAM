@@ -13,10 +13,10 @@ public class BulletGenerator extends CollidableObjectGenerator {
     }
 
     private static void debug(Bullet bullet) {
-        if (bullet instanceof GameObject) Log.d("Bullet", "created");
-        if (bullet == null)Log.d("Bullet", "null");
-        Log.d("Bullet", "Speed: "+ bullet.vel.maxSpeed);
-        Log.d("Bullet", "Magnitude: "+ bullet.vel.magnitude());
+//        if (bullet instanceof GameObject) Log.d("Bullet", "created");
+//        if (bullet == null)Log.d("Bullet", "null");
+//        Log.d("Bullet", "Speed: "+ bullet.vel.maxSpeed);
+//        Log.d("Bullet", "Magnitude: "+ bullet.vel.magnitude());
     }
 
     /**

@@ -48,10 +48,6 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
         setContentView(R.layout.activity_main);
-        InputControl.initializeButtons(this);
-        gameView = findViewById(R.id.gameView);
-
-        /*Temp solution to get screen width and height*/
         View decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(
                 new View.OnSystemUiVisibilityChangeListener() {
@@ -68,6 +64,23 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
                         }
                     }
                 });
+
+
+        gameView = findViewById(R.id.gameView);
+        //start layout
+        startLayout = findViewById(R.id.view_start);
+        startText = findViewById(R.id.startText);
+        scoreText = findViewById(R.id.scoreText);
+        //button layout
+        buttonLayout = findViewById(R.id.view_button);
+        pauseButton = findViewById(R.id.pause_button);
+        //paused layout
+        pausedLayout = findViewById(R.id.view_paused);
+        pausedText = findViewById(R.id.pausedText);
+        //restart layout
+        restartLayout = findViewById(R.id.view_restart);
+        restartText = findViewById(R.id.restartText);
+
         AssetLoader.load(gameView.getContext());
         InputControl.initializeButtons(this);
 
@@ -199,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         gameModel.startGame();
     }
 
-        protected void setResumeListener(){
+    protected void setResumeListener(){
         pausedText.setOnClickListener(view -> {
             pausedLayout.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);

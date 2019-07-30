@@ -46,7 +46,6 @@ final class GameController implements Runnable {
         }
         if (model.isGameOver()) {
             new Handler(Looper.getMainLooper()).post(() -> {
-                //Log.d("this is it", "Kenny!");
                 gameOverListener.onGameOver();
             });
         }

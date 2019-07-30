@@ -10,10 +10,10 @@ import EightAM.asteroids.Velocity;
 
 public class BasicParticleSpec extends BaseParticleSpec {
     public static Pair<Float, Float> speedRange = new Pair<>(.1f, .2f);
-    public static long duration = 2000;
+    public static long duration = 1000;
 
     public static String tag = "particle_basic";
-    public static Point dimensions = new Point(10, 10);
+    public static Point dimensions = new Point(5, 5);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(0, 0, speedRange.second);
     public static Rotation initialRotation = new Rotation(0, 0);

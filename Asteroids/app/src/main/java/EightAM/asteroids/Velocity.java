@@ -68,6 +68,10 @@ public class Velocity {
         y = newY;
     }
 
+    float getAngle(){
+        return (float)Math.atan2(y,x);
+    }
+
     void resetVelocity(float speed, float angle, float maxSpeed) {
         this.maxSpeed = maxSpeed;
         if (speed > maxSpeed) speed = maxSpeed;

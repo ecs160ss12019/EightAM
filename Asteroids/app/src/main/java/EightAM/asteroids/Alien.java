@@ -92,7 +92,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 
         if (debug) Log.d("distance", Float.toString(this.distanceTraveled));
         if (reachedMaxRange(spaceSize)) {
-            selfDestruct();
+            //selfDestruct();
         }
         if (debug) Log.d("alien", Float.toString(this.hitbox.left));
 
@@ -158,11 +158,14 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     }
 
     /**
-     * Make the alien change its movement in the y direction.
+     * Randomly turns the alien. Never turns the alien straight up or straight down.
      */
     protected void turn() {
-        float newY = -1 * this.vel.y;
-        this.vel.setY(newY);
+        float newAngle;
+        do {
+            newAngle = GameRandom.randomFloat((float) Math.PI / 4f, -(float) Math.PI / 4f);
+            this.vel.resetVelocity(vel.maxSpeed, vel.getAngle() + newAngle, vel.maxSpeed);
+        }while(Math.abs(this.vel.y) == this.vel.maxSpeed);
     }
 
     // ------------ END MOVEMENT METHODS ------------ //

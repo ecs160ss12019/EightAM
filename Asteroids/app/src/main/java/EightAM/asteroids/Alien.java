@@ -91,10 +91,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         updateDistance(timeInMillisecond);
 
         if(debug) Log.d("distance", Float.toString(this.distanceTraveled));
-        if(reachedMaxRange(spaceSize)) {
-            // self destruct
-            destruct(new DestroyedObject(0, id, null, this));
-        }
+        if(reachedMaxRange(spaceSize)) { selfDestruct(); }
         if(debug) Log.d("alien", Float.toString(this.hitbox.left));
 
         // timer stuff
@@ -276,6 +273,10 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     }
 
     // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //
+
+    public void selfDestruct() {
+        destructListener.onDestruct(this);
+    }
 
     @Override
     public void registerEventHandler(EventHandler handler) {

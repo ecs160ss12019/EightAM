@@ -1,7 +1,5 @@
 package EightAM.asteroids;
 
-import android.util.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,8 +33,8 @@ public class BaseBulletFactory implements BulletFactory {
             prototypes.put(spec, bullet);
             ret = new Bullet(spec);
         }
-        if (ret instanceof GameObject) Log.d("BulletFac", "created");
-        if (ret == null)Log.d("BulletFac", "null");
+//        if (ret instanceof GameObject) Log.d("BulletFac", "created");
+//        if (ret == null)Log.d("BulletFac", "null");
         return ret;
     }
 }

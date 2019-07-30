@@ -1,20 +1,22 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.BIGALIEN_SPAWN_PROB;
+import static EightAM.asteroids.Constants.SMALLALIEN_SPAWN_PROB;
+
 import android.graphics.Point;
 import android.util.Log;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 import EightAM.asteroids.specs.BaseAlienSpec;
 import EightAM.asteroids.specs.BigAlienSpec;
 import EightAM.asteroids.specs.SmallAlienSpec;
 
-import static EightAM.asteroids.Constants.BIGALIEN_SPAWN_PROB;
-import static EightAM.asteroids.Constants.SMALLALIEN_SPAWN_PROB;
-
 public class AlienGenerator extends CollidableObjectGenerator {
     static AlienGenerator instance;
-    private boolean debug = false;
+    private boolean debug = true;
 
     private AlienGenerator() {}
 
@@ -27,17 +29,12 @@ public class AlienGenerator extends CollidableObjectGenerator {
 
     /**
      * Makes an alien and puts it into model's objectMap.
-     * @param model the GameModel
+     * @param spaceSize the space size
      */
-    public void createAlien(GameModel model) {
+    public Collection<GameObject> createAlien(Point spaceSize) {
         BaseAlienSpec spec = getAlienSpec();
 
-        GameObject alien = prepareAlien(spec, model.spaceSize);
-        if (debug) {
-            if (alien != null) { Log.d("ALIENGEN", "CREATED ALIEN"); }
-            else { Log.d("ALIENGEN", "FAILED"); }
-        }
-        placeAlien(alien, model);
+        return Collections.singleton(prepareAlien(spec, spaceSize));
     }
 
     private GameObject prepareAlien(BaseAlienSpec spec, Point spaceSize) {
@@ -45,12 +42,16 @@ public class AlienGenerator extends CollidableObjectGenerator {
         Point origin = getRandomPosition(spaceSize);
         spec.initialPosition = origin;
         if (debug) {
+            Log.d("space size x", Integer.toString(spaceSize.x));
+            Log.d("space size y", Integer.toString(spaceSize.y));
             Log.d("alien spawn pos x", Integer.toString(origin.x));
             Log.d("alien spawn pos y", Integer.toString(origin.y));
         }
 
         GameObject alien = BaseFactory.getInstance().create(spec);
         alien.hitbox.offsetTo(origin.x, origin.y);
+        alien.vel.resetVelocity(alien.vel.maxSpeed, 0, alien.vel.maxSpeed);
+        if (origin.x == spaceSize.x) alien.vel.x *= -1;
 
         return alien;
     }
@@ -88,21 +89,11 @@ public class AlienGenerator extends CollidableObjectGenerator {
         Random rand = new Random();
         int randX, randY;
 
-        randX = rand.nextInt(((spaceSize.x - 1) + 1) + 1) * rand.nextInt(2);
+        randX = spaceSize.x * rand.nextInt(2);
         randY = rand.nextInt(((spaceSize.y - 1) + 1) + 1);
 
         return new Point(randX, randY);
     }
 
-    /**
-     * Puts alien into model's objectMap
-     * and links alien with model as its destruct listener.
-     * @param alien the alien to put into the model
-     * @param model the model in which to put alien
-     */
-    private void placeAlien(GameObject alien, GameModel model) {
-        ((Alien) alien).registerDestructListener(model);
-        addToMap(alien, model);
-        model.activeAliens++;
-    }
+
 }

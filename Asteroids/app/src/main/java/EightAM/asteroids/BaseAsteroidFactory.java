@@ -31,21 +31,19 @@ class BaseAsteroidFactory implements AsteroidFactory {
         if (rand > 0.5) {
             randSpin = -randSpin;
         }
-        ret.vel.accelerate(randSpeed, randAngle);
-        ret.angularVel = randSpin;
+        ret.vel.resetVelocity(randSpeed, randAngle, randSpeed);
+        ret.rotation.angVel = randSpin;
     }
 
     @Override
     public Asteroid createAsteroid(BaseAsteroidSpec spec) {
-        Asteroid ret;
-        if (prototypes.containsKey(spec)) {
-            ret = new Asteroid(prototypes.get(spec));
-        } else {
-            Asteroid asteroid = new Asteroid(spec);
+        Asteroid asteroid = prototypes.get(spec);
+        if (asteroid == null) {
+            asteroid = new Asteroid(spec);
             prototypes.put(spec, asteroid);
-            ret = new Asteroid(asteroid);
         }
-        setUniqueAttributes(ret);
-        return ret;
+        asteroid = (Asteroid) asteroid.makeCopy();
+        setUniqueAttributes(asteroid);
+        return asteroid;
     }
 }

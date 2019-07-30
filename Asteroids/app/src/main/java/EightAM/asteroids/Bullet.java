@@ -2,11 +2,8 @@ package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.BULLET_MAX_RANGE;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.RectF;
 
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.DestructListener;
@@ -14,40 +11,32 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseBulletSpec;
 
 public class Bullet extends GameObject implements Collision, Destructable {
+    int damage;
+    float maxDistance;
     // set by generator
-    public ObjectID owner;
-    private float shooterAngle;
+    private ObjectID owner;
 
-    Bitmap bitmap;
     private float distanceTraveled;
     private DestructListener destructListener;
 
     Bullet(BaseBulletSpec spec) {
-        this.id = ObjectID.getNewID(spec.owner);
-        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
-        this.hitbox = new RectF(spec.initialPosition.x, spec.initialPosition.y,
-                spec.initialPosition.x + spec.dimensions.x,
-                spec.initialPosition.y + spec.dimensions.y);
-        this.orientation = spec.initialOrientation;
-        this.vel = new Velocity(spec.speed, this.orientation, spec.speed);
+        super(spec);
+        this.damage = spec.damage;
+        this.maxDistance = spec.maxDistance;
     }
 
     Bullet(Bullet bullet) {
-        this.id = ObjectID.getNewID(bullet.getID().getFaction());
-        this.paint = bullet.paint;
-        //this.bitmap = bullet.bitmap;
-        this.hitbox = new RectF(bullet.hitbox);
-        this.orientation = bullet.orientation;
-        this.vel = new Velocity(bullet.vel);
+        super(bullet);
+        this.damage = bullet.damage;
+        this.maxDistance = bullet.maxDistance;
     }
 
 
     @Override
     void update(Point spaceSize, long timeInMillisecond) {
-        rotate();
-        move(spaceSize, timeInMillisecond);
+        super.update(spaceSize, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
-        if (reachedMaxRange()) destruct();
+        if (reachedMaxRange()) destruct(null);
     }
 
     // COLLISION INTERFACE
@@ -58,7 +47,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
 
     public void onCollide(GameObject approachingObject) {
         // TODO more stuff here
-        destruct();
+        destruct(null);
     }
 
     @Override
@@ -83,31 +72,26 @@ public class Bullet extends GameObject implements Collision, Destructable {
      * @return true if the bullet has exceeded its maximum range
      */
     protected boolean reachedMaxRange() {
-        return distanceTraveled > BULLET_MAX_RANGE;
+        return distanceTraveled > maxDistance;
     }
 
     @Override
     public void draw(Canvas canvas) {
         canvas.drawRect(this.hitbox, paint);
+    }
 
-        // some math stuff
-        /*
-        float dX = (float) Math.cos(shooterAngle) * 100;
-        float dY = (float) Math.sin(shooterAngle) * 100;
-
-        float endX = hitbox.centerX() - dX;
-        float endY = hitbox.centerY() - dY;
-
-        this.paint.setColor(Color.WHITE);
-        canvas.drawLine(hitbox.centerX(), hitbox.centerY(), endX, endY, paint);
-        */
-        this.paint.setColor(Color.WHITE);
-        canvas.drawRect(this.hitbox, paint);
-        //canvas.drawBitmap(bitmap, matrix, paint);
+    public void setOwner(ObjectID owner) {
+        this.owner = owner;
+        this.id = ObjectID.getNewID(owner.getFaction());
     }
 
     @Override
-    public void destruct() {
+    GameObject makeCopy() {
+        return new Bullet(this);
+    }
+
+    @Override
+    public void destruct(DestroyedObject destroyedObject) {
         destructListener.onDestruct(this);
     }
 

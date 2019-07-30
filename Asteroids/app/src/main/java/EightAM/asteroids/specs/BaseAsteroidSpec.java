@@ -3,7 +3,10 @@ package EightAM.asteroids.specs;
 import android.graphics.Point;
 import android.util.Pair;
 
-public abstract class BaseAsteroidSpec extends BaseSpec {
+import EightAM.asteroids.Rotation;
+import EightAM.asteroids.Velocity;
+
+public abstract class BaseAsteroidSpec extends BaseBitmapSpec {
     public Pair<Float, Float> speedRange;
     public Pair<Float, Float> spinSpeedRange;
     public BaseAsteroidSpec breaksInto;
@@ -11,27 +14,19 @@ public abstract class BaseAsteroidSpec extends BaseSpec {
     public int pointValue = 10;
     public int hitPoints = 1;
 
-    public BaseAsteroidSpec(String tag, String bitMapName, int resID, Point dimensions, float dbmRatio, String paintName) {
-        super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
-    }
-
-    void setBreakCount(int breakCount) { this.breakCount = breakCount;}
-
-    void setBreaksInto(BaseAsteroidSpec breaksInto) { this.breaksInto = breaksInto;}
-
-    void setPointValue(int pointValue) {
-        this.pointValue = pointValue;
-    }
-
-    void setSpeedRange(Pair<Float, Float> speedRange) {
+    public BaseAsteroidSpec(String tag, Point dimensions, Point initialPosition,
+            Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
+            float dimensionBitMapRatio, Pair<Float, Float> speedRange,
+            Pair<Float, Float> spinSpeedRange, BaseAsteroidSpec breaksInto, int breakCount,
+            int pointValue, int hitPoints) {
+        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, bitMapResourceID,
+                dimensionBitMapRatio);
         this.speedRange = speedRange;
-    }
-
-    void setSpinSpeedRange(Pair<Float, Float> spinSpeedRange) {
         this.spinSpeedRange = spinSpeedRange;
-    }
-
-    void setHitPoints(int hitPoints) {
+        this.breaksInto = breaksInto;
+        this.breakCount = breakCount;
+        this.pointValue = pointValue;
         this.hitPoints = hitPoints;
     }
+
 }

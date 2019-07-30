@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.RectF;
 
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Controllable;
@@ -28,6 +27,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     Bitmap bitmap;
     private boolean teleporting = false;
     private boolean isInvincible;
+    private int hitPoints;
     private int invincibilityDuration;
     private int shotDelayCounter = 0;
     private int shotDelay;
@@ -35,24 +35,16 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     private float acceleration;
     private float deceleration;
     private ShotListener shotListener;
-    private float bitmapHitboxRatio;
+    private float dbmRatio;
     private DestructListener destructListener;
     private BaseBulletSpec bulletSpec;
     private EventHandler eventHandler;
 
     Ship(BaseShipSpec spec) {
+        super(spec);
         //General
-        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
-        bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
-
-        this.hitbox = new RectF(spec.initialPosition.x - spec.dimensions.x,
-                spec.initialPosition.y - spec.dimensions.y,
-                spec.initialPosition.x + spec.dimensions.x,
-                spec.initialPosition.y + spec.dimensions.y);
-
-        this.orientation = spec.initialOrientation;
-        this.vel = new Velocity(0, 0, spec.maxSpeed);
-        this.bitmapHitboxRatio = spec.dimensionBitMapRatio;
+        bitmap = BitmapStore.getInstance().getBitmap(spec.tag);
+        this.dbmRatio = spec.dimensionBitMapRatio;
 
         //Ship specific
         this.id = ObjectID.getNewID(Faction.Player);
@@ -66,17 +58,13 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
     Ship(Ship ship) {
+        super(ship);
         //General
-        this.paint = ship.paint;
         this.bitmap = ship.bitmap;
-        this.bitmapHitboxRatio = ship.bitmapHitboxRatio;
-
-        this.hitbox = new RectF(ship.hitbox);
-        this.orientation = ship.orientation;
-        this.vel = new Velocity(ship.vel);
+        this.dbmRatio = ship.dbmRatio;
 
         //Ship specific
-        this.id = ship.id;
+        this.id = ObjectID.getNewID(Faction.Player);
         this.invincibilityDuration = ship.invincibilityDuration;
         this.isInvincible = true;
         this.shotDelay = ship.shotDelay;
@@ -103,7 +91,18 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     @Override
     public void onCollide(GameObject gameObject) {
-        destruct();
+        boolean destroyThis = false;
+        if (gameObject instanceof Bullet) {
+            hitPoints -= ((Bullet) gameObject).damage;
+            if (hitPoints <= 0) {
+                destroyThis = true;
+            }
+        } else {
+            destroyThis = true;
+        }
+        if (destroyThis) {
+            destruct(new DestroyedObject(0, id, gameObject.id, this));
+        }
     }
 
     @Override
@@ -117,17 +116,17 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     public void input(InputControl.Input i) {
         if (i.UP) {
-            this.vel.accelerate(acceleration, orientation);
+            this.vel.accelerate(acceleration, rotation.theta, deceleration);
         } else {
             this.vel.decelerate(deceleration);  // velocity decay
         }
 
         if (i.LEFT) {
-            this.angularVel = -rotationSpeed;
+            this.rotation.angVel = -rotationSpeed;
         } else if (i.RIGHT) {
-            this.angularVel = rotationSpeed;
+            this.rotation.angVel = rotationSpeed;
         } else {
-            this.angularVel = 0;
+            this.rotation.angVel = 0;
         }
 
         if (i.SHOOT) {
@@ -148,9 +147,9 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
 
-        matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
-                this.hitbox.centerY() - (float)(bitmap.getHeight()/2));
-        matrix.postRotate((float) Math.toDegrees(orientation),
+        matrix.setTranslate(this.hitbox.centerX() - (float) (bitmap.getWidth() / 2),
+                this.hitbox.centerY() - (float) (bitmap.getHeight() / 2));
+        matrix.postRotate((float) Math.toDegrees(rotation.theta),
                 this.hitbox.centerX(),
                 this.hitbox.centerY());
 
@@ -162,6 +161,11 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
             canvas.drawBitmap(bitmap, matrix, paint);
         }
 
+    }
+
+    @Override
+    GameObject makeCopy() {
+        return new Ship(this);
     }
 
     @Override
@@ -181,11 +185,12 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     @Override
     public float getShotAngle() {
-        return orientation;
+        return rotation.theta;
     }
 
     @Override
-    public void destruct() {
+    public void destruct(DestroyedObject destroyedObject) {
+        eventHandler.processScore(destroyedObject);
         destructListener.onDestruct(this);
     }
 

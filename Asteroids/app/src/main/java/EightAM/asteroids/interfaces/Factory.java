@@ -1,8 +1,8 @@
 package EightAM.asteroids.interfaces;
 
 import EightAM.asteroids.GameObject;
-import EightAM.asteroids.specs.BaseSpec;
+import EightAM.asteroids.specs.BaseObjectSpec;
 
 public interface Factory {
-    GameObject create(BaseSpec spec);
+    GameObject create(BaseObjectSpec spec);
 }

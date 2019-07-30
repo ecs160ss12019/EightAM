@@ -1,30 +1,59 @@
 package EightAM.asteroids.specs;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.Pair;
 
 import EightAM.asteroids.R;
+import EightAM.asteroids.Rotation;
+import EightAM.asteroids.Velocity;
 
 public class SmallAlienSpec extends BaseAlienSpec {
-    public static String tag = "big_alien";
-    public static String bitMapName = "big_alien";
-    public static int resID = R.drawable.ic_small_alien;
-    public static Point dimensions = new Point(20, 20);
-    public static float dbmRatio = 2f;
-    public static String paintName = "alien";
-    public static int pointValue = 10;
+    public static int pointValue = 100;
     public static int hitPoints = 1;
-    public static float reloadTime = 30;
-    public static float maxSpeed = 0.3f;
+    public static int _reloadTime = 30;
+    public static float maxSpeed = 0.25f;
+    public static float initialAngle = (float) Math.PI * 0.25f;
 
-    public Pair<Integer, Integer> turnDelayRange = new Pair<>(3000, 4000);
-    public Pair<Integer, Integer> shotDelayRange = new Pair<>(2000, 3000);
+    public static String tag = "alien_small";
+    public static Point dimensions = new Point(30, 30);
+    public static Point initialPosition = new Point(0, 0);
+    public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
+    public static Rotation initialRotation = new Rotation(initialAngle, 0);
+
+    public static float accuracy = 65;
+
+    public static int paintColor = Color.BLUE;
+    public static Paint.Style paintStyle = Paint.Style.FILL;
+
+    public static int resID = R.drawable.ic_small_alien;
+    public static float dbmRatio = 2f;
+
+    public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(1800, 2500);
+    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(2000, 3000);
+    public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
+
+    public int reloadTime;
+    public Pair<Integer, Integer> turnDelayRange;
+    public Pair<Integer, Integer> shotDelayRange;
+
+    public SmallAlienSpec(String tag, Point dimensions, Point initialPosition,
+            Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
+            float dimensionBitMapRatio, int pointValue,
+            int hitPoints, int reloadTime,
+            Pair<Integer, Integer> turnDelayRange,
+            Pair<Integer, Integer> shotDelayRange) {
+        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, bitMapResourceID,
+                dimensionBitMapRatio, pointValue, hitPoints);
+        this.reloadTime = reloadTime;
+        this.turnDelayRange = turnDelayRange;
+        this.shotDelayRange = shotDelayRange;
+    }
 
     public SmallAlienSpec() {
-        super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
-        setHitPoints(hitPoints);
-        setMaxSpeed(maxSpeed);
-        setPointValue(pointValue);
-        setReloadTime(reloadTime);
+        this(tag, dimensions, initialPosition, initialVelocity, initialRotation, resID, dbmRatio,
+                pointValue, hitPoints, _reloadTime, _turnDelayRange,
+                _shotDelayRange);
     }
 }

@@ -13,7 +13,8 @@ final class PaintStore {
 
     private PaintStore() {
         sPaintMap = new HashMap<>();
-        defaultPaint.setColor(Color.WHITE);
+        defaultPaint.setColor(Color.BLUE);
+        defaultPaint.setAlpha(200);
         defaultPaint.setStyle(Paint.Style.FILL);
         defaultPaint.setAntiAlias(true);
         sPaintMap.put("default", defaultPaint);

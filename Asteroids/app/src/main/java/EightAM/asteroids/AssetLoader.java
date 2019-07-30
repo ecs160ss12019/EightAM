@@ -9,7 +9,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import EightAM.asteroids.specs.BaseSpec;
+import EightAM.asteroids.specs.BaseBitmapSpec;
+import EightAM.asteroids.specs.BaseObjectSpec;
 import EightAM.asteroids.specs.BasicBulletSpec;
 import EightAM.asteroids.specs.BasicShipSpec;
 import EightAM.asteroids.specs.BigAlienSpec;
@@ -18,13 +19,13 @@ import EightAM.asteroids.specs.MediumAsteroidSpec;
 import EightAM.asteroids.specs.SmallAsteroidSpec;
 
 final class AssetLoader {
-    static final List<BaseSpec> specList = Collections.unmodifiableList(
+    static final List<BaseObjectSpec> specList = Collections.unmodifiableList(
             Arrays.asList(new BasicBulletSpec(), new BasicShipSpec(), new BigAlienSpec(),
                     new LargeAsteroidSpec(), new MediumAsteroidSpec(),  new SmallAsteroidSpec()));
 
     static void load(Context c) {
         int colorPrimary = ContextCompat.getColor(c, R.color.colorPrimary);
-        int colorAccent = ContextCompat.getColor(c, R.color.colorAccent);
+//        int colorAccent = ContextCompat.getColor(c, R.color.colorAccent);
         Paint defaultPaint = new Paint();
         defaultPaint.setColor(colorPrimary);
         defaultPaint.setStyle(Paint.Style.FILL);
@@ -36,12 +37,12 @@ final class AssetLoader {
         paintStore.addPaint("bullet", new Paint(defaultPaint));
         paintStore.addPaint("alien", new Paint(defaultPaint));
         paintStore.addPaint("message", new Paint(defaultPaint));
-        for (BaseSpec spec : specList) {
-            if (spec.bitMapName == null || spec.bitMapResourceID == 0) {
-                continue; // some specs dont have bitmaps to load
+        for (BaseObjectSpec baseSpec : specList) {
+            if (baseSpec instanceof BaseBitmapSpec) {
+                BaseBitmapSpec spec = (BaseBitmapSpec) baseSpec;
+                bitmapStore.addVectorBitmap(c, spec.bitMapName, spec.bitMapResourceID,
+                        spec.dimensions, spec.dimensionBitMapRatio);
             }
-            bitmapStore.addVectorBitmap(c, spec.bitMapName, spec.bitMapResourceID, spec.dimensions,
-                    spec.dimensionBitMapRatio);
             // we might want to add the paints stored in each spec
         }
     }

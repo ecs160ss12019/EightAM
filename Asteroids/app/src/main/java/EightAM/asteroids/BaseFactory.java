@@ -4,9 +4,9 @@ import EightAM.asteroids.interfaces.Factory;
 import EightAM.asteroids.specs.BaseAlienSpec;
 import EightAM.asteroids.specs.BaseAsteroidSpec;
 import EightAM.asteroids.specs.BaseBulletSpec;
+import EightAM.asteroids.specs.BaseObjectSpec;
 import EightAM.asteroids.specs.BaseParticleSpec;
 import EightAM.asteroids.specs.BaseShipSpec;
-import EightAM.asteroids.specs.BaseSpec;
 
 class BaseFactory implements Factory {
     static BaseFactory instance;
@@ -25,7 +25,7 @@ class BaseFactory implements Factory {
         return instance;
     }
 
-    public GameObject create(BaseSpec spec) {
+    public GameObject create(BaseObjectSpec spec) {
         if (spec instanceof BaseAsteroidSpec) {
             return BaseAsteroidFactory.getInstance().createAsteroid((BaseAsteroidSpec) spec);
         }

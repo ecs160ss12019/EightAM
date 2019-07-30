@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import EightAM.asteroids.interfaces.Shooter;
-import EightAM.asteroids.specs.BaseBulletSpec;
 
 public class BulletGenerator extends CollidableObjectGenerator {
     private BulletGenerator() {
@@ -39,27 +38,12 @@ public class BulletGenerator extends CollidableObjectGenerator {
     //TODO: Implement Bullet spec in bullet
     private static void prepareBullet(Shooter shooter, GameObject bullet) {
         Point origin = shooter.getShotOrigin();
-        ((Bullet)bullet).owner = shooter.getID();
+        ((Bullet) bullet).setOwner(shooter.getID());
         bullet.id = ObjectID.getNewID(shooter.getID().getFaction());
         bullet.hitbox.offsetTo(origin.x, origin.y);
-        bullet.orientation = shooter.getShotAngle();
-        bullet.vel.resetVelocity(bullet.vel.maxSpeed, bullet.orientation, bullet.vel.maxSpeed);
-    }
-
-    /**
-     * Modifies the pos and orientation inside a spec.
-     *
-     * @param shooter the one shooting the bullet
-     * @return a basic bullet spec
-     */
-    //TODO: Implement Bullet spec in bullet
-    @Deprecated
-    private static BaseBulletSpec prepareSpec(Shooter shooter) {
-        // prepare the bullet spec
-        BaseBulletSpec spec = shooter.getBulletSpec();
-        //spec.setOwner(shooter.getID());
-        spec.initialPosition = shooter.getShotOrigin();
-        spec.initialOrientation = shooter.getShotAngle();
-        return spec;
+        bullet.rotation.theta = shooter.getShotAngle();
+        bullet.vel.resetVelocity(bullet.vel.maxSpeed, bullet.rotation.theta, bullet.vel.maxSpeed);
+        bullet.rotation.theta = shooter.getShotAngle();
+        bullet.vel.resetVelocity(bullet.vel.maxSpeed, bullet.rotation.theta, bullet.vel.maxSpeed);
     }
 }

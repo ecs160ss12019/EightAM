@@ -6,9 +6,7 @@ package EightAM.asteroids;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.RectF;
 import android.util.Log;
 import android.util.Pair;
 
@@ -17,15 +15,23 @@ import java.util.Random;
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
+import EightAM.asteroids.interfaces.EventGenerator;
+import EightAM.asteroids.interfaces.EventHandler;
+import EightAM.asteroids.specs.BaseAlienSpec;
 
-public abstract class Alien extends GameObject implements Destructable, Collision {
+public abstract class Alien extends GameObject implements Destructable, Collision, EventGenerator {
     // --------------- Member variables --------------
     Bitmap bitmap;
+    private final float dbmRatio;
     int distanceTraveled;
     int maxRange;
     float shotAngle = 0;
+    int pointValue;
+    int hitPoints;
+    // listeners
     DestructListener destructListener;
-    private boolean debug = true;
+    EventHandler eventHandler;
+    long reloadTime;
 
     // movement
     Pair<Integer, Integer> turnDelayRange;
@@ -33,10 +39,37 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 
     // shooting
     Pair<Integer, Integer> shotDelayRange;
-    int shotDelay;
+    private boolean debug = true;
     boolean canShoot = false;
 
+    Alien(BaseAlienSpec spec) {
+        super(spec);
+        // We now know the faction
+        this.id = ObjectID.getNewID(Faction.Alien);
+
+        // bitmap spec
+        this.bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
+        this.dbmRatio = spec.dimensionBitMapRatio;
+
+        // alien spec
+        this.pointValue = spec.pointValue;
+        this.hitPoints = spec.hitPoints;
+    }
+
+    Alien(Alien alien) {
+        super(alien);
+
+        this.id = ObjectID.getNewID(Faction.Alien);
+
+        this.bitmap = alien.bitmap;
+        this.dbmRatio = alien.dbmRatio;
+
+        this.pointValue = alien.pointValue;
+        this.hitPoints = alien.hitPoints;
+    }
+
     // ---------------Member methods --------------
+
     /**
      * Sets move behavior, turn timer, and shot delay.
      */
@@ -64,7 +97,9 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      */
     protected void updateTurnTimer() {
         this.turnDelay--;
-        if (debug) { Log.d("alien", Integer.toString(this.turnDelay)); }
+        if (debug) {
+            Log.d("alien", Integer.toString(this.turnDelay));
+        }
         if (this.turnDelay <= 0) {
             this.turn();
             this.setTurnDelay();
@@ -73,12 +108,13 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     // ------------ END MOVEMENT METHODS ------------ //
 
     // ------------ BEGIN SHOOTING METHODS ------------ //
+
     /**
      * Sets a shot delay for Alien as to not shoot continuously.
      */
     protected void setShotDelay() {
         Random rand = new Random();
-        this.shotDelay = rand.nextInt((shotDelayRange.second - shotDelayRange.first) + 1)
+        this.reloadTime = rand.nextInt((shotDelayRange.second - shotDelayRange.first) + 1)
                 + shotDelayRange.first;
     }
 
@@ -93,32 +129,14 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         // TODO: implement shooting
     }
 
-//    protected void shoot(float targetX, float targetY) {
-//        this.canShoot = false;
-//        Random randX = new Random();
-//        Random randY = new Random();
-//
-//        // TODO: change shooting behavior based on alien type
-//        float minX = targetX - ALIEN_TARGET_ACCURACY;
-//        float maxX = targetX + ALIEN_TARGET_ACCURACY;
-//        float minY = targetY - ALIEN_TARGET_ACCURACY;
-//        float maxY = targetY + ALIEN_TARGET_ACCURACY;
-//
-//        float finalX = minX + randX.nextFloat() * (maxX - minX);
-//        float finalY = minY + randY.nextFloat() * (maxY - minY);
-//
-//        float delX = finalX - getPosX();
-//        float delY = finalY - getPosY();
-//
-//        this.shotAngle = (float) Math.atan2(delY, delX);
-//
-//    }
 
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
-
-
+//        matrix.setRotate((float) Math.toDegrees(rotation.theta), (float) bitmap.getWidth() / 2,
+//                (float) bitmap.getHeight() / 2);
+//        matrix.postTranslate(hitbox.left - (hitbox.width() * 0.5f),
+//                hitbox.top - (hitbox.height() * 0.5f));
         matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
                 this.hitbox.centerY() - (float)(bitmap.getHeight()/2));
 //        matrix.postRotate((float) Math.toDegrees(orientation),
@@ -158,11 +176,8 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         this.vel.setY(newY);
     }
 
-    public float getShotAngle() {
-        return shotAngle;
-    }
-
     // ------------ BEGIN COLLISION IMPLEMENTION ------------ //
+
     /**
      * Collision detection method takes in the hitbox of approaching object, using intersection
      * method to check of collision
@@ -176,17 +191,20 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     }
 
     @Override
-    public void onCollide(GameObject approachingObject){ destruct(); }
+    public void onCollide(GameObject approachingObject) {
+        destruct();
+    }
 
     @Override
     public boolean canCollide() {
         return true;
     }
+
     // ------------ END COLLISION IMPLEMENTION ------------ //
 
     // ------------ BEGIN DESTRUCTABLE IMPLEMENTION ------------ //
+
     public void destruct() {
-        ((GameModel) destructListener).activeAliens--;
         destructListener.onDestruct(this);
     }
 
@@ -194,7 +212,14 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         this.destructListener = listener;
     }
 
+    @Override
+    public void registerEventHandler(EventHandler handler) {
+        this.eventHandler = handler;
+    }
+
     // should be implemented by derived alien classes
-    public ObjectID getID() { return this.id; }
+    public ObjectID getID() {
+        return this.id;
+    }
     // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //
 }

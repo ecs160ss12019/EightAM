@@ -20,7 +20,7 @@ public class Velocity {
      * @param angle - Direction of velocity
      */
 
-    protected Velocity(float speed, float angle, float maxSpeed) {
+    public Velocity(float speed, float angle, float maxSpeed) {
         this.resetVelocity(speed, angle, maxSpeed);
     }
 

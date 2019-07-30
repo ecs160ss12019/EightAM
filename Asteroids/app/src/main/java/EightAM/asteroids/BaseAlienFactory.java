@@ -1,7 +1,5 @@
 package EightAM.asteroids;
 
-import android.util.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +11,7 @@ import EightAM.asteroids.specs.SmallAlienSpec;
 class BaseAlienFactory implements AlienFactory {
     static BaseAlienFactory instance;
     private Map<BaseAlienSpec, Alien> prototypes;
-    private boolean debug = true;
+//    private boolean debug = true;
 
     private BaseAlienFactory() {
         prototypes = new HashMap<>();
@@ -36,14 +34,13 @@ class BaseAlienFactory implements AlienFactory {
             if (spec instanceof BigAlienSpec) {
                 alien = new BigAlien((BigAlienSpec) spec);
             }
-            prototypes.put(spec, alien);
             if (spec instanceof SmallAlienSpec) {
                 alien = new SmallAlien((SmallAlienSpec) spec);
             }
+            prototypes.put(spec, alien);
         }
-        if (alien instanceof GameObject && debug) Log.d("AlienFac", "created");
-        if (alien == null && debug) Log.d("AlienFac", "null");
-
-        return alien;
+        return (Alien) alien.makeCopy();
+//        if (alien instanceof GameObject && debug) Log.d("AlienFac", "created");
+//        if (alien == null && debug) Log.d("AlienFac", "null");
     }
 }

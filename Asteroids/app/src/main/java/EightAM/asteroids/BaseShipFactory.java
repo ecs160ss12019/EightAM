@@ -1,7 +1,5 @@
 package EightAM.asteroids;
 
-import android.util.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,16 +24,12 @@ public class BaseShipFactory implements ShipFactory {
 
     @Override
     public Ship createShip(BaseShipSpec spec) {
-        Ship ret;
-        if (prototypes.containsKey(spec)) {
-            ret = new Ship(prototypes.get(spec));
-        } else {
-            Ship ship = new Ship(spec);
+        Ship ship;
+        ship = prototypes.get(spec);
+        if (ship == null) {
+            ship = new Ship(spec);
             prototypes.put(spec, ship);
-            ret = new Ship(prototypes.get(spec));
         }
-        // Position (i.e. center of screen) will be set by generator
-        //ret = new Ship(spec);
-        return ret;
+        return (Ship) ship.makeCopy();
     }
 }

@@ -22,18 +22,12 @@ public class BaseParticleFactory implements ParticleFactory {
 
     @Override
     public Particle createParticle(BaseParticleSpec spec) {
-        Particle ret;
-
-        if (prototypes.containsKey(spec)) {
-            ret = new Particle(prototypes.get(spec));
-        } else {
-            Particle particle = new Particle(spec);
+        Particle particle;
+        particle = prototypes.get(spec);
+        if (particle == null) {
+            particle = new Particle(spec);
             prototypes.put(spec, particle);
-            ret = new Particle(spec);
         }
-
-        //ret.vel.accelerate(0.1f,90);
-
-        return ret;
+        return (Particle) particle.makeCopy();
     }
 }

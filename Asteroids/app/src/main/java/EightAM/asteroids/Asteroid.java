@@ -3,7 +3,6 @@ package EightAM.asteroids;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.RectF;
 import android.util.Pair;
 
 import EightAM.asteroids.interfaces.Collision;
@@ -12,53 +11,44 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.specs.BaseAsteroidSpec;
-import EightAM.asteroids.specs.LargeAsteroidSpec;
 
 public class Asteroid extends GameObject implements Destructable, Collision, EventGenerator {
 
     // ---------------Member variable---------------
 
     Bitmap bitmap;
-    private Size rockSize;
-    public BaseAsteroidSpec breaksInto;
+    BaseAsteroidSpec breaksInto;
+    int breakCount;
+    int pointValue;
+    int hitPoints;
     DestructListener destructListener;
     Pair<Float, Float> speedRange;
     Pair<Float, Float> spinRange;
 
-
     // ---------------Member methods----------------
 
     Asteroid(BaseAsteroidSpec spec) {
+        super(spec);
         this.id = ObjectID.getNewID(Faction.Neutral);
-        if (spec instanceof LargeAsteroidSpec) {
-            this.rockSize = Size.LARGE;
-        }
-        this.paint = PaintStore.getInstance().getPaint(spec.paintName);
         this.bitmap = BitmapStore.getInstance().getBitmap(spec.bitMapName);
-        this.hitbox = new RectF(spec.initialPosition.x - spec.dimensions.x,
-                spec.initialPosition.y - spec.dimensions.y,
-                spec.initialPosition.x + spec.dimensions.x,
-                spec.initialPosition.y + spec.dimensions.y);
-        this.orientation = spec.initialOrientation;
-        this.vel = new Velocity(0, 0, spec.speedRange.second);
-        this.angularVel = spec.spinSpeedRange.second;
         this.speedRange = spec.speedRange;
         this.spinRange = spec.spinSpeedRange;
         this.breaksInto = spec.breaksInto;
+        this.breakCount = spec.breakCount;
+        this.pointValue = spec.pointValue;
+        this.hitPoints = spec.hitPoints;
     }
 
     Asteroid(Asteroid asteroid) {
+        super(asteroid);
         this.id = ObjectID.getNewID(Faction.Neutral);
-        this.rockSize = asteroid.rockSize;
-        this.paint = asteroid.paint;
         this.bitmap = asteroid.bitmap;
-        this.hitbox = new RectF(asteroid.hitbox);
-        this.orientation = asteroid.orientation;
-        this.vel = new Velocity(asteroid.vel);
-        this.angularVel = asteroid.angularVel;
         this.speedRange = asteroid.speedRange;
         this.spinRange = asteroid.spinRange;
         this.breaksInto = asteroid.breaksInto;
+        this.breakCount = asteroid.breakCount;
+        this.pointValue = asteroid.pointValue;
+        this.hitPoints = asteroid.hitPoints;
     }
 
     @Override
@@ -67,12 +57,17 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
 
         matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
                 this.hitbox.centerY() - (float)(bitmap.getHeight()/3));
-        matrix.postRotate((float) Math.toDegrees(orientation),
+        matrix.postRotate((float) Math.toDegrees(rotation.theta),
                 this.hitbox.centerX(),
                 this.hitbox.centerY());
 
         canvas.drawRect(this.hitbox, this.paint);
         canvas.drawBitmap(bitmap, matrix, paint);
+    }
+
+    @Override
+    GameObject makeCopy() {
+        return new Asteroid(this);
     }
 
     public void destruct() {
@@ -103,10 +98,5 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     @Override
     public void registerEventHandler(EventHandler handler) {
 
-    }
-
-    // enum size used to denote three size types of asteroid rock
-    enum Size {
-        SMALL, MEDIUM, LARGE
     }
 }

@@ -1,44 +1,27 @@
 package EightAM.asteroids;
 
-import android.graphics.RectF;
-import android.util.Pair;
-
-import EightAM.asteroids.specs.BaseAlienSpec;
 import EightAM.asteroids.specs.SmallAlienSpec;
 
 public class SmallAlien extends Alien {
 
     public SmallAlien(SmallAlienSpec spec) {
-        this.id = ObjectID.getNewID(Faction.Alien);
-        this.bitmap = BitmapStore.getInstance().getBitmap(
-                ((BaseAlienSpec) spec).bitMapName);
-        this.paint = PaintStore.getInstance().getPaint(
-                ((BaseAlienSpec) spec).paintName);
-        this.canShoot = false;
-        this.hitbox = new RectF(spec.initialPosition.x - ((BaseAlienSpec) spec).dimensions.x,
-                spec.initialPosition.y - ((BaseAlienSpec) spec).dimensions.y,
-                spec.initialPosition.x + ((BaseAlienSpec) spec).dimensions.x,
-                spec.initialPosition.y + ((BaseAlienSpec) spec).dimensions.y);
-        this.angularVel = 0;
-        this.orientation = spec.initialOrientation;
+        super(spec);
+        this.reloadTime = spec.reloadTime;
         this.turnDelayRange = spec.turnDelayRange;
-        this.vel = new Velocity(((BaseAlienSpec) spec).maxSpeed,
-                ((BaseAlienSpec) spec).initialAngle,
-                ((BaseAlienSpec) spec).maxSpeed);
         this.shotDelayRange = spec.shotDelayRange;
+        setUp();
     }
 
     public SmallAlien(SmallAlien alien) {
-        this.id = ObjectID.getNewID(Faction.Alien);
-        this.bitmap = alien.bitmap;
-        this.paint = alien.paint;
-        this.canShoot = false;
-        this.hitbox = new RectF(alien.hitbox);
-        this.angularVel = alien.angularVel;
-        this.orientation = alien.orientation;
+        super(alien);
+        this.reloadTime = alien.reloadTime;
         this.turnDelayRange = alien.turnDelayRange;
-        this.vel = new Velocity(alien.vel);
         this.shotDelayRange = alien.shotDelayRange;
+        setUp();
     }
 
+    @Override
+    GameObject makeCopy() {
+        return new SmallAlien(this);
+    }
 }

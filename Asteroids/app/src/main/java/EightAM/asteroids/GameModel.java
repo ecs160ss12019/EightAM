@@ -2,7 +2,6 @@ package EightAM.asteroids;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.util.Log;
 import android.util.Pair;
 
 import java.util.Collection;
@@ -79,7 +78,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private Collection<GameObject> respawnShip() {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
-        ship.hitbox.offsetTo(spaceSize.x/2.0f, spaceSize.y/2.0f);
+        ship.hitbox.offsetTo(spaceSize.x / 2.0f, spaceSize.y / 2.0f);
         return Collections.singleton(ship);
     }
     //Ship stuff *END*
@@ -128,7 +127,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      * Updates the Game, i.e. move objects, check collisions, create new waves
      *
      * @param timeInMillisecond - time interval between frames, to be used
-     *                            for moving objects.
+     *                          for moving objects.
      */
     void update(long timeInMillisecond) {
         for (GameObject o : objectMap.values()) {
@@ -145,7 +144,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         }
 
         //Remove Collided Objects
-        if(!deleteSet.isEmpty())removeObjects();
+        if (!deleteSet.isEmpty()) removeObjects();
     }
 
     private void startNextWave() {
@@ -194,7 +193,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      * Adds objects the Object map, and adds IDs to their unique set
      *
      * @param objects - a collection of objects to be passed in by
-     *                  the generators
+     *                the generators
      */
     private void addObject(Collection<GameObject> objects) {
         for (GameObject o : objects) {
@@ -216,8 +215,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      * @param object - the GameObject to check
      */
     private void updateGameParam(GameObject object, int i) {
-        if (object instanceof Asteroid) activeAsteroids += i;
-        else if (object instanceof Alien) activeAliens += i;
+        if (object instanceof Asteroid) {
+            activeAsteroids += i;
+        } else if (object instanceof Alien) activeAliens += i;
     }
 
     /**
@@ -226,13 +226,16 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      *
      * @param object - the GameObject to check
      */
-    private void setListeners(GameObject object){
-        if (object instanceof Destructable)
-            ((Destructable)object).registerDestructListener(this);
-        if (object instanceof Shooter)
-            ((Shooter)object).linkShotListener(this);
-        if (object instanceof EventGenerator)
-            ((EventGenerator)object).registerEventHandler(this);
+    private void setListeners(GameObject object) {
+        if (object instanceof Destructable) {
+            ((Destructable) object).registerDestructListener(this);
+        }
+        if (object instanceof Shooter) {
+            ((Shooter) object).linkShotListener(this);
+        }
+        if (object instanceof EventGenerator) {
+            ((EventGenerator) object).registerEventHandler(this);
+        }
     }
 
     private void createDebris(GameObject object) {
@@ -279,4 +282,10 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         return lock;
     }
 
+    @Override
+    public void processScore(DestroyedObject object) {
+        if (object.getKiller().getFaction() == Faction.Player) {
+            stats.plusScore(object.score());
+        }
+    }
 }

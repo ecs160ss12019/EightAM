@@ -2,34 +2,22 @@ package EightAM.asteroids.specs;
 
 import android.graphics.Point;
 
-import EightAM.asteroids.Faction;
 import EightAM.asteroids.ObjectID;
+import EightAM.asteroids.Rotation;
+import EightAM.asteroids.Velocity;
 
 
-public abstract class BaseBulletSpec extends BaseSpec {
-    public int damage = 1;
-    public float speed = 0.75f;
-    public float maxDistance = 100;
-    public Faction owner = Faction.Neutral;
+public abstract class BaseBulletSpec extends BaseObjectSpec {
+    public int damage;
+    public float maxDistance;
+    public ObjectID owner;
 
-    public BaseBulletSpec(String tag, String bitMapName, int resID, Point dimensions,
-            float dbmRatio, String paintName) {
-        super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
-    }
-
-    void setDamage(int damage) {
+    public BaseBulletSpec(String tag, Point dimensions, Point initialPosition,
+            Velocity initialVelocity, Rotation initialRotation,
+            String paintName, int damage, float maxDistance, ObjectID owner) {
+        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, paintName);
         this.damage = damage;
-    }
-
-    void setMaxDistance(float maxDistance) {
         this.maxDistance = maxDistance;
-    }
-
-    void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
-    public void setOwner(Faction owner) {
         this.owner = owner;
     }
 }

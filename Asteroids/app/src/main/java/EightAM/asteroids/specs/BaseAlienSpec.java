@@ -2,35 +2,23 @@ package EightAM.asteroids.specs;
 
 import android.graphics.Point;
 
-public abstract class BaseAlienSpec extends BaseSpec {
+import EightAM.asteroids.Rotation;
+import EightAM.asteroids.Velocity;
+
+public abstract class BaseAlienSpec extends BaseBitmapSpec {
     public int pointValue;
     public int hitPoints;
-    public float reloadTime;
-    public float maxSpeed;
-    public static float initialOrientation = 0;
-    public float initialAngle;
 
-    public BaseAlienSpec(String tag, String bitMapName, int resID, Point dimensions, float dbmRatio, String paintName) {
-        super(tag, bitMapName, resID, dimensions, dbmRatio, paintName);
-        this.setInitialOrientation(initialOrientation);
-    }
-
-    public void setHitPoints(int hitPoints) {
+    public BaseAlienSpec(String tag, Point dimensions, Point initialPosition,
+            Velocity initialVelocity, Rotation initialRotation,
+            String paintName, String bitMapName, int bitMapResourceID, float dimensionBitMapRatio,
+            int pointValue, int hitPoints) {
+        super(tag, dimensions, initialPosition, initialVelocity, initialRotation, paintName,
+                bitMapName,
+                bitMapResourceID, dimensionBitMapRatio);
+        this.pointValue = pointValue;
         this.hitPoints = hitPoints;
     }
 
-    public void setMaxSpeed(float maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-
-    public void setPointValue(int pointValue) {
-        this.pointValue = pointValue;
-    }
-
-    public void setReloadTime(float reloadTime) {
-        this.reloadTime = reloadTime;
-    }
-
-    public void setInitialAngle(float initialAngle) { this.initialAngle = initialAngle; }
 }
 

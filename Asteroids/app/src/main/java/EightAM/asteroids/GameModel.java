@@ -270,7 +270,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     @Override
     public void destroyObjects(Collection<Destructable> objects) {
         for (Destructable d : objects) {
-            d.destruct();
+            d.destruct(null);
         }
     }
 

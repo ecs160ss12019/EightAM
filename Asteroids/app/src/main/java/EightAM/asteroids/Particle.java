@@ -40,7 +40,7 @@ public class Particle extends GameObject implements Destructable {
         if (this.duration > timeInMillisecond) {
             this.duration -= timeInMillisecond;
         } else {
-            this.destruct();
+            this.destruct(null);
             this.duration = 0;
             //Log.d(this.getClass().toString(), Long.toString(timeInMillisecond));
         }
@@ -62,7 +62,7 @@ public class Particle extends GameObject implements Destructable {
     }
 
     @Override
-    public void destruct() {
+    public void destruct(DestroyedObject destroyedObject) {
         this.destructListener.onDestruct(this);
     }
 

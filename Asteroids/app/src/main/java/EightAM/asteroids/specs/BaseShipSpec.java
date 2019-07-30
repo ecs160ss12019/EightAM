@@ -6,6 +6,7 @@ import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
 
 public abstract class BaseShipSpec extends BaseBitmapSpec {
+    public int hitPoints;
     public float maxSpeed;
     public float rotationSpeed;
     public float acceleration;
@@ -15,14 +16,14 @@ public abstract class BaseShipSpec extends BaseBitmapSpec {
     public BaseBulletSpec bulletSpec;
 
     public BaseShipSpec(String tag, Point dimensions, Point initialPosition,
-            Velocity initialVelocity, Rotation initialRotation,
-            String paintName, String bitMapName, int bitMapResourceID, float dimensionBitMapRatio,
-            float maxSpeed, float rotationSpeed, float acceleration, float deceleration,
-            int reloadTime,
+            Velocity initialVelocity, Rotation initialRotation, String paintName, String bitMapName,
+            int bitMapResourceID, float dimensionBitMapRatio, int hitPoints, float maxSpeed,
+            float rotationSpeed, float acceleration, float deceleration, int reloadTime,
             int invincibilityDuration, BaseBulletSpec bulletSpec) {
         super(tag, dimensions, initialPosition, initialVelocity, initialRotation, paintName,
                 bitMapName,
                 bitMapResourceID, dimensionBitMapRatio);
+        this.hitPoints = hitPoints;
         this.maxSpeed = maxSpeed;
         this.rotationSpeed = rotationSpeed;
         this.acceleration = acceleration;

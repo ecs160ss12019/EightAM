@@ -37,7 +37,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
     void update(Point spaceSize, long timeInMillisecond) {
         super.update(spaceSize, timeInMillisecond);
         distanceTraveled(timeInMillisecond);
-        if (reachedMaxRange()) destruct();
+        if (reachedMaxRange()) destruct(null);
     }
 
     // COLLISION INTERFACE
@@ -48,7 +48,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
 
     public void onCollide(GameObject approachingObject) {
         // TODO more stuff here
-        destruct();
+        destruct(null);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
     }
 
     @Override
-    public void destruct() {
+    public void destruct(DestroyedObject destroyedObject) {
         destructListener.onDestruct(this);
     }
 

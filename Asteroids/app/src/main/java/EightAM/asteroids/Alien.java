@@ -137,8 +137,8 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 //                (float) bitmap.getHeight() / 2);
 //        matrix.postTranslate(hitbox.left - (hitbox.width() * 0.5f),
 //                hitbox.top - (hitbox.height() * 0.5f));
-        matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
-                this.hitbox.centerY() - (float)(bitmap.getHeight()/2));
+        matrix.setTranslate(this.hitbox.centerX() - (float) (bitmap.getWidth() / 2),
+                this.hitbox.centerY() - (float) (bitmap.getHeight() / 2));
 //        matrix.postRotate((float) Math.toDegrees(orientation),
 //                this.hitbox.centerX(),
 //                this.hitbox.centerY());
@@ -192,7 +192,18 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 
     @Override
     public void onCollide(GameObject approachingObject) {
-        destruct();
+        boolean destroyThis = false;
+        if (approachingObject instanceof Bullet) {
+            hitPoints -= ((Bullet) approachingObject).damage;
+            if (hitPoints <= 0) {
+                destroyThis = true;
+            }
+        } else {
+            destroyThis = true;
+        }
+        if (destroyThis) {
+            destruct(new DestroyedObject(pointValue, id, approachingObject.id, this));
+        }
     }
 
     @Override
@@ -204,7 +215,9 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 
     // ------------ BEGIN DESTRUCTABLE IMPLEMENTION ------------ //
 
-    public void destruct() {
+    @Override
+    public void destruct(DestroyedObject destroyedObject) {
+        eventHandler.processScore(destroyedObject);
         destructListener.onDestruct(this);
     }
 
@@ -212,14 +225,10 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         this.destructListener = listener;
     }
 
+    // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //
+
     @Override
     public void registerEventHandler(EventHandler handler) {
         this.eventHandler = handler;
     }
-
-    // should be implemented by derived alien classes
-    public ObjectID getID() {
-        return this.id;
-    }
-    // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //
 }

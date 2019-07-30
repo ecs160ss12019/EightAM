@@ -27,6 +27,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     Bitmap bitmap;
     private boolean teleporting = false;
     private boolean isInvincible;
+    private int hitPoints;
     private int invincibilityDuration;
     private int shotDelayCounter = 0;
     private int shotDelay;
@@ -90,7 +91,18 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     @Override
     public void onCollide(GameObject gameObject) {
-        destruct();
+        boolean destroyThis = false;
+        if (gameObject instanceof Bullet) {
+            hitPoints -= ((Bullet) gameObject).damage;
+            if (hitPoints <= 0) {
+                destroyThis = true;
+            }
+        } else {
+            destroyThis = true;
+        }
+        if (destroyThis) {
+            destruct(new DestroyedObject(0, id, gameObject.id, this));
+        }
     }
 
     @Override
@@ -135,8 +147,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
 
-        matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
-                this.hitbox.centerY() - (float)(bitmap.getHeight()/2));
+        matrix.setTranslate(this.hitbox.centerX() - (float) (bitmap.getWidth() / 2),
+                this.hitbox.centerY() - (float) (bitmap.getHeight() / 2));
         matrix.postRotate((float) Math.toDegrees(rotation.theta),
                 this.hitbox.centerX(),
                 this.hitbox.centerY());
@@ -177,7 +189,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
     @Override
-    public void destruct() {
+    public void destruct(DestroyedObject destroyedObject) {
+        eventHandler.processScore(destroyedObject);
         destructListener.onDestruct(this);
     }
 

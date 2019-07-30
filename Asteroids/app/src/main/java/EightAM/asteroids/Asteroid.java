@@ -21,6 +21,7 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     int breakCount;
     int pointValue;
     int hitPoints;
+    EventHandler eventHandler;
     DestructListener destructListener;
     Pair<Float, Float> speedRange;
     Pair<Float, Float> spinRange;
@@ -55,8 +56,8 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
 
-        matrix.setTranslate(this.hitbox.centerX() -(float)(bitmap.getWidth()/2),
-                this.hitbox.centerY() - (float)(bitmap.getHeight()/3));
+        matrix.setTranslate(this.hitbox.centerX() - (float) (bitmap.getWidth() / 2),
+                this.hitbox.centerY() - (float) (bitmap.getHeight() / 3));
         matrix.postRotate((float) Math.toDegrees(rotation.theta),
                 this.hitbox.centerX(),
                 this.hitbox.centerY());
@@ -70,8 +71,10 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
         return new Asteroid(this);
     }
 
-    public void destruct() {
+    @Override
+    public void destruct(DestroyedObject destroyedObject) {
         // implement destruction effects here.
+        eventHandler.processScore(destroyedObject);
         destructListener.onDestruct(this);
     }
 
@@ -87,7 +90,18 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
 
     @Override
     public void onCollide(GameObject gameObject) {
-        destruct();
+        boolean destroyThis = false;
+        if (gameObject instanceof Bullet) {
+            hitPoints -= ((Bullet) gameObject).damage;
+            if (hitPoints <= 0) {
+                destroyThis = true;
+            }
+        } else {
+            destroyThis = true;
+        }
+        if (destroyThis) {
+            destruct(new DestroyedObject(pointValue, id, gameObject.id, this));
+        }
     }
 
     @Override
@@ -97,6 +111,6 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
 
     @Override
     public void registerEventHandler(EventHandler handler) {
-
+        this.eventHandler = handler;
     }
 }

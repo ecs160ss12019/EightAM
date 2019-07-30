@@ -28,6 +28,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     Bitmap bitmap;
     float dbmRatio;
     float shotAngle = 0;
+    float accuracy;
     int pointValue;
     int hitPoints;
     int reloadTime;
@@ -193,8 +194,8 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 
     protected void aimAtTarget(Point targetPos) {
         this.canShoot = false;
-        float delX = targetPos.x - this.getObjPos().x;
-        float delY = targetPos.y - this.getObjPos().y;
+        float delX = targetPos.x - this.getObjPos().x + GameRandom.randomFloat(accuracy, -accuracy);
+        float delY = targetPos.y - this.getObjPos().y + GameRandom.randomFloat(accuracy, -accuracy);
         this.shotAngle = (float) Math.atan2(delY, delX);
     }
 

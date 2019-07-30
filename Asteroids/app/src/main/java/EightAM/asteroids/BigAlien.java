@@ -10,6 +10,7 @@ public class BigAlien extends Alien {
         this.turnDelayRange = spec.turnDelayRange;
         this.shotDelayRange = spec.shotDelayRange;
         this.bulletSpec = BigAlienSpec.bulletSpec;
+        this.accuracy = spec.accuracy;
         setUp();
     }
 
@@ -19,6 +20,7 @@ public class BigAlien extends Alien {
         this.turnDelayRange = alien.turnDelayRange;
         this.shotDelayRange = alien.shotDelayRange;
         this.bulletSpec = alien.bulletSpec;
+        this.accuracy = alien.accuracy;
         setUp();
     }
 

@@ -5,6 +5,7 @@ final class Constants {
     static final float DEF_ANGULAR_VELOCITY = 0;
     static final float DEF_ANGLE = 0;
     static final float MAX_SPEED = 2.0f;
+    static final float ALIEN_SPAWN_PROB = 1.0f; // 100% while debugging
 
     // ASTEROID
     static final int ASTEROID_LARGE_RADIUS = 3;

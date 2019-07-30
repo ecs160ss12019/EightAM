@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -21,6 +22,8 @@ import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BasicShipSpec;
+
+import static EightAM.asteroids.Constants.ALIEN_SPAWN_PROB;
 
 public class GameModel implements GameState, EventHandler, ShotListener {
     Context context;
@@ -158,11 +161,26 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private void startNextWave() {
         addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
-        addObject(AlienGenerator.getInstance().createAlien(spaceSize));
+
+        if (shouldSpawnAlien()) {
+            addObject(AlienGenerator.getInstance().createAlien(spaceSize));
+        }
     }
 
     private void onWaveComplete() {
         AsteroidGenerator.getInstance().numOfAsteroids++;
+    }
+
+    /**
+     * Probability function determine whether alien should spawn.
+     * Called in startNextWave().
+     * @return true to spawn alien
+     */
+    private boolean shouldSpawnAlien() {
+        Random rand = new Random();
+
+        float f = rand.nextFloat();
+        return (f < ALIEN_SPAWN_PROB);
     }
 
     /**

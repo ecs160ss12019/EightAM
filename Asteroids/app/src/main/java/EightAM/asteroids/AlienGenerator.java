@@ -51,6 +51,7 @@ public class AlienGenerator extends CollidableObjectGenerator {
         GameObject alien = BaseFactory.getInstance().create(spec);
         alien.hitbox.offsetTo(origin.x, origin.y);
         alien.vel.resetVelocity(alien.vel.maxSpeed, 0, alien.vel.maxSpeed);
+        if (origin.x == spaceSize.x) alien.vel.x *= -1;
 
         return alien;
     }

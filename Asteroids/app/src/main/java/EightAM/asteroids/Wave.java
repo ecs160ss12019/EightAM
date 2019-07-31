@@ -1,22 +1,21 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.BOUNDARY_OFFSET;
 import static EightAM.asteroids.Constants.MAX_ALIENS_PER_LEVEL;
 import static EightAM.asteroids.Constants.WAVE_GRACE_PERIOD;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.Pair;
 
 import EightAM.asteroids.interfaces.EventHandler;
-import EightAM.asteroids.specs.BasicShipSpec;
 
 class Wave {
     WaveMode waveMode;
     EventHandler eventHandler;
     Pair<RectF, RectF> spawnBox;
     long duration;
-    float alienSpawnProb;
+    double alienSpawnProb;
     int aliensSpawned;
     int asteroidSpawnCount;
     int asteroidInc;
@@ -24,12 +23,10 @@ class Wave {
     int currAsteroids;
     int currAliens;
 
-    Wave(EventHandler eventHandler, Point spaceSize) {
+    Wave(EventHandler eventHandler, RectF boundaries, RectF spawnBoundaries) {
         this.eventHandler = eventHandler;
-        this.spawnBox = new Pair<>(new RectF(0, 0, spaceSize.x, spaceSize.y),
-                new RectF(-BOUNDARY_OFFSET, -BOUNDARY_OFFSET, spaceSize.x + BOUNDARY_OFFSET,
-                        spaceSize.y + BOUNDARY_OFFSET));
-        this.waveMode = new OutWave(0);
+        this.spawnBox = new Pair<>(boundaries, spawnBoundaries);
+        this.waveMode = new InWave(0);
     }
 
     void updateDuration(long timePassed) {
@@ -75,7 +72,12 @@ class Wave {
                 wave.aliensSpawned = 0;
                 wave.asteroidSpawnCount += wave.asteroidInc;
                 wave.duration = 0;
-                wave.setWaveMode(new OutWave(this.waveNumber++));
+                eventHandler.sendMessage(
+                        new Messages.MessageWithFade("Wave " + waveNumber, Color.WHITE,
+                                WAVE_GRACE_PERIOD, -1,
+                                -1, 1500)
+                );
+                wave.setWaveMode(new OutWave(this.waveNumber + 1));
             }
             if (Math.random() < wave.alienSpawnProb && wave.aliensSpawned < MAX_ALIENS_PER_LEVEL) {
                 doAction(wave, eventHandler);
@@ -109,10 +111,9 @@ class Wave {
 
         @Override
         void doAction(Wave wave, EventHandler eventHandler) {
-            eventHandler.createObjects(AsteroidGenerator.createBelt(
-                    new Point((int) wave.spawnBox.first.right, (int) wave.spawnBox.first.bottom),
-                    new Ship(new BasicShipSpec()),
-                    wave.asteroidSpawnCount)); // TODO: temporary very hacky
+            eventHandler.createObjects(
+                    AsteroidGenerator.createBelt(wave.spawnBox.first, wave.spawnBox.second,
+                            wave.asteroidSpawnCount));
         }
     }
 }

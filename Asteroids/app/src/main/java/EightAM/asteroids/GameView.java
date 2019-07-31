@@ -68,6 +68,7 @@ class GameView extends SurfaceView implements Runnable {
                 try {
                     // Drawings
                     drawShit(canvas);
+                    Messages.draw(canvas);
 
                     // Drawing hub
                     model.stats.drawAttributes(canvas, defaultPaint);

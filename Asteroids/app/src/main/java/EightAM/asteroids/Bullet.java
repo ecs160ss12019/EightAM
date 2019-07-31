@@ -1,7 +1,6 @@
 package EightAM.asteroids;
 
 import android.graphics.Canvas;
-import android.graphics.Point;
 
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.DestructListener;
@@ -31,8 +30,8 @@ public class Bullet extends GameObject implements Collision, Destructable {
 
 
     @Override
-    void update(Point spaceSize, long timeInMillisecond) {
-        super.update(spaceSize, timeInMillisecond);
+    void update(long timeInMillisecond) {
+        super.update(timeInMillisecond);
         distanceTraveled(timeInMillisecond);
         if (reachedMaxRange()) destruct(null);
     }

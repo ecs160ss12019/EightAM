@@ -70,7 +70,7 @@ public class GameStats {
     public void drawAttributes(Canvas canvas, Paint paint) {
         //paint.setColor(Color.argb(255,225,20,147));
         paint.setTextSize(textFormatting);
-        canvas.drawText("Score: " + score, textFormatting, textFormatting * 2, paint);
+        canvas.drawText("Score: " + score, textFormatting, textFormatting * 1, paint);
         canvas.drawText("Lives: " + livesLeft, textFormatting, textFormatting * 3, paint);
     }
 }

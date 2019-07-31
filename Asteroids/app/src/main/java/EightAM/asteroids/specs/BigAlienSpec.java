@@ -16,7 +16,7 @@ public class BigAlienSpec extends BaseAlienSpec {
     public static float maxSpeed = 0.20f;
     public static float initialAngle = (float) Math.PI * 0.25f;
     public static String tag = "alien_big";
-    public static Point dimensions = new Point(60, 60);
+    public static Point dimensions = new Point(65, 65);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation(initialAngle, 0);
@@ -26,7 +26,7 @@ public class BigAlienSpec extends BaseAlienSpec {
     public static int paintColor = Color.BLUE;
     public static Paint.Style paintStyle = Paint.Style.FILL;
 
-    public static int resID = R.drawable.ic_alien;
+    public static int resID = R.drawable.ic_big_alien;
     public static float dbmRatio = 2f;
 
     public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(2000, 3500);

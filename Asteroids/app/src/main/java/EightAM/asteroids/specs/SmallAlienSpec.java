@@ -17,7 +17,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static float initialAngle = (float) Math.PI * 0.25f;
 
     public static String tag = "alien_small";
-    public static Point dimensions = new Point(30, 30);
+    public static Point dimensions = new Point(40, 40);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation(initialAngle, 0);

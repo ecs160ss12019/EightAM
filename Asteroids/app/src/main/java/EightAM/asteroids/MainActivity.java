@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         gameView.onResume();
         gameController.onResume();
         gameModel.startGame();
+
     }
 
     protected void setResumeListener(){

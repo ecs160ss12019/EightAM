@@ -62,7 +62,7 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
                 this.hitbox.centerX(),
                 this.hitbox.centerY());
 
-        canvas.drawRect(this.hitbox, this.paint);
+        //canvas.drawRect(this.hitbox, this.paint);
         canvas.drawBitmap(bitmap, matrix, paint);
     }
 

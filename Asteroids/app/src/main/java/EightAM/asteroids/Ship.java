@@ -29,6 +29,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     private boolean isInvincible;
     private int hitPoints;
     private int invincibilityDuration;
+    private int invDurationCounter;
     private int shotDelayCounter = 0;
     private int shotDelay;
     private float rotationSpeed;
@@ -49,6 +50,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         //Ship specific
         this.id = ObjectID.getNewID(Faction.Player);
         this.invincibilityDuration = spec.invincibilityDuration;
+        this.invDurationCounter = spec.invincibilityDuration;
         this.isInvincible = true;
         this.shotDelay = spec.reloadTime;
         this.rotationSpeed = spec.rotationSpeed;
@@ -66,6 +68,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         //Ship specific
         this.id = ObjectID.getNewID(Faction.Player);
         this.invincibilityDuration = ship.invincibilityDuration;
+        this.invDurationCounter = ship.invincibilityDuration;
         this.isInvincible = true;
         this.shotDelay = ship.shotDelay;
         this.rotationSpeed = ship.rotationSpeed;
@@ -77,8 +80,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     @Override
     void update(Point spaceSize, long timeInMillisecond) {
-        if (invincibilityDuration > 0) invincibilityDuration--;
-        if (invincibilityDuration <= 0) isInvincible = false;
+        if (invDurationCounter > 0) invDurationCounter--;
+        if (invDurationCounter <= 0) isInvincible = false;
         super.update(spaceSize, timeInMillisecond);
         if (shotDelayCounter > 0) shotDelayCounter--;
     }
@@ -153,11 +156,12 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
                 this.hitbox.centerX(),
                 this.hitbox.centerY());
 
-        canvas.drawRect(this.hitbox, paint);
+        //canvas.drawRect(this.hitbox, paint);
+        //TODO: spawning blink
         if (!isInvincible) {
             canvas.drawBitmap(bitmap, matrix, paint);
-        } else if ((invincibilityDuration < (invincibilityDuration - SHIP_RESTART_DURATION))
-                && invincibilityDuration % 2 == 0) {
+        } else if ((invDurationCounter < (invincibilityDuration - SHIP_RESTART_DURATION))
+                && invDurationCounter % 2 == 0) {
             canvas.drawBitmap(bitmap, matrix, paint);
         }
 

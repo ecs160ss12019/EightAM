@@ -67,7 +67,7 @@ class GameView extends SurfaceView implements Runnable {
                 model.getLock().lock();
                 try {
                     // Drawings
-                    drawShit(canvas);
+                    drawObjects(canvas);
                     Messages.draw(canvas);
 
                     // Drawing hub
@@ -84,7 +84,7 @@ class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    void drawShit(Canvas canvas) {
+    void drawObjects(Canvas canvas) {
         for (GameObject object : model.objectMap.values()) object.draw(canvas);
     }
 

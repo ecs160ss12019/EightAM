@@ -17,15 +17,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import EightAM.asteroids.interfaces.GameOverListener;
 
+import static EightAM.asteroids.Constants.GAMEOVER_DELAY;
+
 public class MainActivity extends AppCompatActivity implements GameOverListener {
 
-    static int gameOverDelayTime = 3000;
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
     Scoreboard scoreboard;
 
-    // For mane layout (play, pause)
     RelativeLayout startLayout;
     RelativeLayout buttonLayout;
     RelativeLayout restartLayout;
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
             setStartListener();
             startGame();
             onStartScreen();
-        }, gameOverDelayTime);
+        }, GAMEOVER_DELAY);
     }
 
     public void startGame() {

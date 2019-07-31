@@ -13,5 +13,7 @@ public interface Shooter extends Identifiable {
 
     float getShotAngle();
 
+    boolean canShoot();
+
     void linkShotListener(ShotListener listener);
 }

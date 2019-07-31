@@ -172,8 +172,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         //Log.d("check ship id",""+currPlayerShip);
         if (currPlayerShip != null) {
             getPlayerShip().input(i);
-            if(i.UP)
+            if (i.UP) {
                 audioListener.onAccelerate();
+            }
         }
     }
 
@@ -317,6 +318,20 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     public void destroyObjects(Collection<Destructable> objects) {
         for (Destructable d : objects) {
             d.destruct(null);
+        }
+    }
+
+    @Override
+    public void teleportObjects(Collection<ObjectID> tpList) {
+        for (ObjectID objectID : tpList) {
+            GameObject obj = objectMap.get(objectID);
+            if (obj != null) {
+                obj.hitbox.offsetTo((float) (Math.random() * (boundaries.right - boundaries.left)
+                                + boundaries.left),
+                        (float) (Math.random() * (boundaries.bottom - boundaries.top)
+                                + boundaries.top));
+            }
+            // TODO: play a sound
         }
     }
 

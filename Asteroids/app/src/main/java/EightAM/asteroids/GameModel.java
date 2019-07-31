@@ -33,6 +33,7 @@ import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BasicShipSpec;
 import EightAM.asteroids.specs.LargeAsteroidSpec;
 import EightAM.asteroids.specs.MediumAsteroidSpec;
+import EightAM.asteroids.specs.SmallAsteroidSpec;
 
 public class GameModel implements GameState, EventHandler, ShotListener {
 
@@ -272,7 +273,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     private void createDebris(GameObject object) {
         if (!((object instanceof Particle) || (object instanceof Bullet))) {
             addObjects(ParticleGenerator.getInstance().createParticles(object.getObjPos()));
-            audioListener.onShipExplosion();
         }
         if (object instanceof Asteroid) {
             addObjects(AsteroidGenerator.breakUpAsteroid((Asteroid) object));
@@ -286,14 +286,11 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         ObjectID id = destructable.getID();
         deleteList.add(id);
         if (destructable instanceof Asteroid) {
-            if ((int) ((Asteroid) destructable).hitbox.width()
-                    == LargeAsteroidSpec.dimensions.x) {
+            if (((Asteroid) destructable).breaksInto instanceof MediumAsteroidSpec) {
                     audioListener.onLargeAsteroidExplosion();
-            } else if ((int) ((Asteroid) destructable).hitbox.width()
-                    == MediumAsteroidSpec.dimensions.x) {
+            } else if (((Asteroid) destructable).breaksInto instanceof SmallAsteroidSpec) {
                 audioListener.onMediumAsteroidExplosion();
-            } else if ((int) ((Asteroid) destructable).hitbox.width()
-                    == LargeAsteroidSpec.dimensions.x) {
+            } else {
                 audioListener.onSmallAsteroidExplosion();
             }
         } else if (destructable instanceof Alien) {

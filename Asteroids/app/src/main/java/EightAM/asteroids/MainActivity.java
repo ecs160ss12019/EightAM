@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         audio = new AudioUtility(gameView.getContext());
         InputControl.initializeButtons(this);
 
+        Messages.setPaint(this);
         scoreboard = new Scoreboard(this);
 
         onStartScreen();
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        gameModel = new GameModel(size, gameView.getContext(), audio);
+        gameModel = new GameModel(size, audio);
         gameController = new GameController(gameModel, this);
         gameView.setGameModel(gameModel);
         gameView.onResume();

@@ -13,13 +13,15 @@ public abstract class BaseShipSpec extends BaseBitmapSpec {
     public float deceleration;
     public int reloadTime;
     public int invincibilityDuration;
+    public int teleportDelay;
+    public int teleportCooldown;
     public BaseBulletSpec bulletSpec;
 
     public BaseShipSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
             float dimensionBitMapRatio, int hitPoints, float maxSpeed, float rotationSpeed,
             float acceleration, float deceleration, int reloadTime, int invincibilityDuration,
-            BaseBulletSpec bulletSpec) {
+            int teleportDelay, int teleportCooldown, BaseBulletSpec bulletSpec) {
         super(tag, dimensions, initialPosition, initialVelocity, initialRotation,
                 bitMapResourceID, dimensionBitMapRatio);
         this.hitPoints = hitPoints;
@@ -29,6 +31,8 @@ public abstract class BaseShipSpec extends BaseBitmapSpec {
         this.deceleration = deceleration;
         this.reloadTime = reloadTime;
         this.invincibilityDuration = invincibilityDuration;
+        this.teleportDelay = teleportDelay;
+        this.teleportCooldown = teleportCooldown;
         this.bulletSpec = bulletSpec;
     }
 }

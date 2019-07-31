@@ -2,7 +2,6 @@ package EightAM.asteroids;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Point;
 
 import java.util.Random;
 
@@ -33,8 +32,8 @@ public class Particle extends GameObject implements Destructable {
     }
 
     @Override
-    void update(Point spaceSize, long timeInMillisecond) {
-        super.update(spaceSize, timeInMillisecond);
+    void update(long timeInMillisecond) {
+        super.update(timeInMillisecond);
 
 //        this.duration -= timeInMillisecond;
         if (this.duration > timeInMillisecond) {

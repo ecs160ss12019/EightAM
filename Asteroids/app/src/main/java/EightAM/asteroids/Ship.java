@@ -1,11 +1,16 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.SHIP_RESTART_DURATION;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.util.Log;
+
+import java.util.Collections;
+import java.util.Random;
 
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Controllable;
@@ -23,13 +28,12 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         EventGenerator, Destructable {
 
     // ---------------Member variables-------------
-
     Bitmap bitmap;
-    private boolean teleporting = false;
     private boolean isInvincible;
     private int hitPoints;
     private int invincibilityDuration;
-    private int invDurationCounter;
+    private int teleportDelay;
+    private int teleportCooldown;
     private int shotDelayCounter = 0;
     private int shotDelay;
     private float rotationSpeed;
@@ -41,6 +45,12 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     private BaseBulletSpec bulletSpec;
     private EventHandler eventHandler;
 
+    private Timer invDurationTimer;
+
+    private Timer teleportCooldownTimer;
+    private Timer teleportDelayTimer;
+    private boolean teleporting = false;
+
     Ship(BaseShipSpec spec) {
         super(spec);
         //General
@@ -50,13 +60,18 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         //Ship specific
         this.id = ObjectID.getNewID(Faction.Player);
         this.invincibilityDuration = spec.invincibilityDuration;
-        this.invDurationCounter = spec.invincibilityDuration;
         this.isInvincible = true;
         this.shotDelay = spec.reloadTime;
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
         this.bulletSpec = spec.bulletSpec;
+        this.teleportDelay = spec.teleportDelay;
+        this.teleportCooldown = spec.teleportCooldown;
+        this.teleportCooldownTimer = new Timer(teleportCooldown, 0);
+        this.teleportDelayTimer = new Timer(teleportDelay, 0);
+
+        this.invDurationTimer = new Timer(invincibilityDuration, 0);
     }
 
     Ship(Ship ship) {
@@ -68,22 +83,50 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         //Ship specific
         this.id = ObjectID.getNewID(Faction.Player);
         this.invincibilityDuration = ship.invincibilityDuration;
-        this.invDurationCounter = ship.invincibilityDuration;
         this.isInvincible = true;
         this.shotDelay = ship.shotDelay;
         this.rotationSpeed = ship.rotationSpeed;
         this.acceleration = ship.acceleration;
         this.deceleration = ship.deceleration;
         this.bulletSpec = ship.bulletSpec;
+        this.teleportDelay = ship.teleportDelay;
+        this.teleportCooldown = ship.teleportCooldown;
+        this.teleportCooldownTimer = new Timer(teleportCooldown, 0);
+        this.teleportDelayTimer = new Timer(teleportDelay, 0);
+
+        this.invDurationTimer = new Timer(invincibilityDuration, 0);
     }
 
 
     @Override
-    void update(Point spaceSize, long timeInMillisecond) {
-        if (invDurationCounter > 0) invDurationCounter--;
-        if (invDurationCounter <= 0) isInvincible = false;
-        super.update(spaceSize, timeInMillisecond);
-        if (shotDelayCounter > 0) shotDelayCounter--;
+    void update(long timeInMillisecond) {
+        super.update(timeInMillisecond);
+        if (isInvincible && invDurationTimer.update(timeInMillisecond)) {
+            isInvincible = false;
+            paint.setAlpha(255);
+        }
+
+        teleportAbility(timeInMillisecond);
+
+        if (shotDelayCounter > 0) shotDelayCounter -= timeInMillisecond;
+    }
+
+    void teleportAbility(long deltaTime) {
+        teleportCooldownTimer.update(deltaTime);
+        if (teleportCooldownTimer.reachedTarget) {
+            Log.d(this.getClass().getCanonicalName(), "Teleport Ability available");
+        }
+        if (teleporting && teleportCooldownTimer.reachedTarget
+                && teleportDelayTimer.update(deltaTime)) {
+            eventHandler.teleportObjects(Collections.singleton(getID()));
+            teleportCooldownTimer.reset();
+            teleportDelayTimer.reset();
+            teleporting = false;
+            paint.setColorFilter(null);
+        } else if (teleporting && !teleportCooldownTimer.reachedTarget) {
+            Log.d(this.getClass().getCanonicalName(), "Teleport Ability not yet available");
+            teleporting = false;
+        }
     }
 
     @Override
@@ -146,6 +189,21 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         return shotDelayCounter == 0;
     }
 
+    void drawInvincible(Canvas canvas, Matrix matrix) {
+        if (!(invDurationTimer.curr % 10 <= 5)) {
+            paint.setAlpha(0);
+        } else {
+            paint.setAlpha(255);
+        }
+    }
+
+    void drawTeleporting() {
+        Random r = new Random();
+        paint.setColorFilter(
+                new PorterDuffColorFilter(Color.rgb(r.nextInt(256), r.nextInt(256), r.nextInt(256)),
+                        PorterDuff.Mode.SRC_IN));
+    }
+
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
@@ -156,14 +214,14 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
                 this.hitbox.centerX(),
                 this.hitbox.centerY());
 
-        //canvas.drawRect(this.hitbox, paint);
-        //TODO: spawning blink
-        if (!isInvincible) {
-            canvas.drawBitmap(bitmap, matrix, paint);
-        } else if ((invDurationCounter < (invincibilityDuration - SHIP_RESTART_DURATION))
-                && invDurationCounter % 2 == 0) {
-            canvas.drawBitmap(bitmap, matrix, paint);
+        if (teleporting && teleportCooldownTimer.reachedTarget
+                && !teleportDelayTimer.reachedTarget) {
+            drawTeleporting();
         }
+        if (isInvincible) {
+            drawInvincible(canvas, matrix);
+        }
+        canvas.drawBitmap(bitmap, matrix, paint);
 
     }
 

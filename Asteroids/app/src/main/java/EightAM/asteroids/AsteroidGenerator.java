@@ -1,13 +1,11 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.SAFE_DISTANCE;
-
 import android.graphics.Point;
+import android.graphics.RectF;
 
 import androidx.collection.ArraySet;
 
 import java.util.Collection;
-import java.util.Random;
 
 import EightAM.asteroids.specs.LargeAsteroidSpec;
 
@@ -19,39 +17,43 @@ public class AsteroidGenerator extends CollidableObjectGenerator {
      * Helper Function to init a asteroid position away from the player
      * Such that an asteroid does not unfairly spawn on top of a player
      *
-     * @param spaceSize - Bounds to spawn the asteroid
-     * @param shipPos   - Position of ship to check
      * @return a Valid random point
      */
-    private static Point getRandomPosition(Point spaceSize, Point shipPos) {
-        Random rand = new Random();
-        int randX;
-        int randY;
-
-        do {
-            randX = rand.nextInt(spaceSize.x);
-            randY = rand.nextInt(spaceSize.y);
-        } while (Math.hypot(Math.abs(randX - shipPos.x), Math.abs(randY - shipPos.y))
-                < SAFE_DISTANCE);
-
-        return new Point(randX, randY);
+    private static Point getRandomPosition(RectF boundaries, RectF spawnBoundaries) {
+        assert spawnBoundaries.contains(boundaries);
+        float leftDiff = Math.abs(spawnBoundaries.left - boundaries.left);
+        float rightDiff = Math.abs(spawnBoundaries.right - boundaries.right);
+        float topDiff = Math.abs(spawnBoundaries.top - boundaries.top);
+        float botDiff = Math.abs(spawnBoundaries.bottom - boundaries.bottom);
+        Point ret = new Point();
+        if (Math.random() < leftDiff / (leftDiff + rightDiff)) {
+            // left side
+            ret.x = (int) (boundaries.left - Math.random() * leftDiff);
+        } else {
+            ret.x = (int) (boundaries.right + Math.random() * rightDiff);
+        }
+        if (Math.random() < topDiff / (topDiff + botDiff)) {
+            // top side
+            ret.y = (int) (boundaries.top - Math.random() * topDiff);
+        } else {
+            ret.y = (int) (boundaries.bottom + Math.random() * botDiff);
+        }
+        return ret;
     }
 
     /**
      * Creates an asteroid belt and setting a random position for individual asteroids
      *
-     * @param spaceSize - Bounds to spawn the asteroid
-     * @param ship      - reference to player ship to retrieve position
      * @return a collection of asteroids
      */
-    public static Collection<GameObject> createBelt(Point spaceSize, Ship ship,
+    public static Collection<GameObject> createBelt(RectF boundaries, RectF spawnBoundaries,
             int numOfAsteroids) {
         Point randPoint;
         Collection<GameObject> asteroidBelt = new ArraySet<>();
         for (int i = 0; i < numOfAsteroids; i++) {
             GameObject asteroid = BaseFactory.getInstance().create(new LargeAsteroidSpec());
-            randPoint = getRandomPosition(spaceSize, ship.getObjPos());
-            asteroid.hitbox.offset(randPoint.x, randPoint.y);
+            randPoint = getRandomPosition(boundaries, spawnBoundaries);
+            asteroid.hitbox.offsetTo(randPoint.x, randPoint.y);
             asteroidBelt.add(asteroid);
         }
         return asteroidBelt;

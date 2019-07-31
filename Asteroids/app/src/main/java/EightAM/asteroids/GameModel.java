@@ -2,10 +2,12 @@ package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.ALIEN_SPAWN_PROB;
 import static EightAM.asteroids.Constants.ASTEROID_INC_WAVE;
+import static EightAM.asteroids.Constants.BOUNDARY_OFFSET;
+import static EightAM.asteroids.Constants.BOUNDARY_SHRINK_RATE;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 
-import android.content.Context;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.GameState;
+import EightAM.asteroids.interfaces.Scoreable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BasicShipSpec;
@@ -32,10 +35,10 @@ import EightAM.asteroids.specs.BasicShipSpec;
 public class GameModel implements GameState, EventHandler, ShotListener {
 
     GameStats stats;
-    Context context;
     Wave wave;
     private Lock lock;
-    Point spaceSize;
+    RectF boundaries;
+    RectF spawnBoundaries;
     Map<ObjectID, GameObject> objectMap;
     Set<ObjectID> collideables;
     List<GameObject> createList;
@@ -52,11 +55,13 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     /**
      * Main Constructor of the Model. Called at the start of every game session.
      */
-    public GameModel(Point screenSize, Context context, AudioListener audio) {
+    public GameModel(Point screenSize, AudioListener audio) {
         //TODO: Initialize Grid... Maybe?
         lock = new ReentrantLock();
-        this.context = context;
-        spaceSize = screenSize;
+        boundaries = new RectF(0, 0, screenSize.x, screenSize.y);
+        spawnBoundaries = new RectF(boundaries.left - BOUNDARY_OFFSET,
+                boundaries.top - BOUNDARY_OFFSET, boundaries.right + BOUNDARY_OFFSET,
+                boundaries.bottom + BOUNDARY_OFFSET);
         objectMap = new HashMap<>();
         collideables = new HashSet<>();
 
@@ -64,7 +69,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         deleteList = new ArrayList<>();
 
         this.gameOver = false;
-        this.stats = new GameStats(spaceSize);
+        this.stats = new GameStats(boundaries);
         this.audioListener = audio;
     }
 
@@ -72,19 +77,17 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         this.gameOver = false;
         resetObjects();
         stats.newGame();
-
-        wave = new Wave(this, spaceSize);
+        wave = new Wave(this, boundaries, spawnBoundaries);
         wave.asteroidSpawnCount = STARTING_ASTEROIDS;
         wave.asteroidInc = ASTEROID_INC_WAVE;
         wave.alienSpawnProb = ALIEN_SPAWN_PROB;
         addObjects(respawnShip());
         putObjects();
-
     }
 
     //Ship stuff *START*
     private void resetObjects() {
-        this.stats = new GameStats(spaceSize);
+        this.stats = new GameStats(boundaries);
         objectMap.clear();
         this.currPlayerShip = null;
         //TODO: Might change
@@ -94,7 +97,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private Collection<GameObject> respawnShip() {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
-        ship.hitbox.offsetTo(spaceSize.x / 2.0f, spaceSize.y / 2.0f);
+        ship.hitbox.offsetTo(boundaries.width() / 2.0f, boundaries.height() / 2.0f);
         return Collections.singleton(ship);
     }
     //Ship stuff *END*
@@ -143,7 +146,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     void update(long timeInMillisecond) {
         putObjects();
         for (GameObject o : objectMap.values()) {
-            o.update(spaceSize, timeInMillisecond);
+            o.update(timeInMillisecond);
         }
 
         if (alienID != null) getAlien().tryShoot(getPlayerShip().getObjPos());
@@ -168,8 +171,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         //Log.d("check ship id",""+currPlayerShip);
         if (currPlayerShip != null) {
             getPlayerShip().input(i);
-            if(i.UP)
+            if (i.UP) {
                 audioListener.onAccelerate();
+            }
         }
     }
 
@@ -222,7 +226,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
                 if (o instanceof Ship) currPlayerShip = id;
                 //TODO: Might change
                 if (o instanceof Alien) alienID = id;
-                setListeners(o);
+                addListeners(o);
+                addMoveStrategy(o);
                 updateWaveParam(o, 1);
             }
         }
@@ -249,15 +254,24 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      *
      * @param object - the GameObject to check
      */
-    private void setListeners(GameObject object) {
+    private void addListeners(GameObject object) {
         if (object instanceof Destructable) {
-            ((Destructable) object).registerDestructListener(this);
+            object.registerDestructListener(this);
         }
         if (object instanceof Shooter) {
             ((Shooter) object).linkShotListener(this);
         }
         if (object instanceof EventGenerator) {
             ((EventGenerator) object).registerEventHandler(this);
+        }
+    }
+
+    private void addMoveStrategy(GameObject object) {
+        if (object instanceof Alien || object instanceof Asteroid) {
+            object.setMoveStrategy(
+                    new MoveWrapWithSpawn(boundaries, spawnBoundaries, BOUNDARY_SHRINK_RATE));
+        } else {
+            object.setMoveStrategy(new MoveWrap(boundaries));
         }
     }
 
@@ -301,9 +315,26 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     @Override
-    public void destroyObjects(Collection<Destructable> objects) {
+    public void destroyObjects(Collection<Destructable> objects, ObjectID killer) {
         for (Destructable d : objects) {
-            d.destruct(null);
+            DestroyedObject destroyedObject = null;
+            if (killer != null && d instanceof GameObject && d instanceof Scoreable) {
+                destroyedObject = new DestroyedObject(((Scoreable) d).score(), d.getID(), killer,
+                        (GameObject) d);
+            }
+            d.destruct(destroyedObject);
+        }
+    }
+
+    @Override
+    public void teleportObjects(Collection<ObjectID> tpList) {
+        for (ObjectID objectID : tpList) {
+            GameObject obj = objectMap.get(objectID);
+            if (obj != null) {
+                obj.hitbox.offsetTo(GameRandom.randomFloat(boundaries.left, boundaries.right),
+                        GameRandom.randomFloat(boundaries.bottom, boundaries.top));
+            }
+            // TODO: play a sound
         }
     }
 
@@ -320,5 +351,10 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         if (object.getKiller().getFaction() == Faction.Player) {
             stats.plusScore(object.score());
         }
+    }
+
+    @Override
+    public void sendMessage(Messages.Message message) {
+        Messages.addMessage(message);
     }
 }

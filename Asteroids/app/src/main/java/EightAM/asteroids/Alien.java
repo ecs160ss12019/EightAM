@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
-import android.util.Log;
 import android.util.Pair;
 
 import java.util.Random;
@@ -87,8 +86,8 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     }
 
     @Override
-    protected void update(Point spaceSize, long timeInMillisecond) {
-        move(spaceSize, timeInMillisecond);
+    protected void update(long timeInMillisecond) {
+        super.update(timeInMillisecond);
         updateDistance(timeInMillisecond);
 
 

@@ -2,12 +2,9 @@ package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.STARTING_LIVES;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.view.SurfaceHolder;
+import android.graphics.RectF;
 
 import EightAM.asteroids.interfaces.Scoreable;
 
@@ -21,15 +18,15 @@ public class GameStats {
     int textFormatting;
 
     // For storing high score, cited: textbook Chapter 21
-    Point spaceSize;
+    RectF spaceSize;
 
-    protected GameStats(Point spaceSize) {
+    protected GameStats(RectF spaceSize) {
 
         // Set game attributes
         this.score = 0;
         this.livesLeft = STARTING_LIVES;
 
-        this.textFormatting = spaceSize.x / 40;
+        this.textFormatting = (int) spaceSize.width() / 40;
         this.spaceSize = spaceSize;
     }
 
@@ -48,13 +45,21 @@ public class GameStats {
         score += i;
     }
 
-    void plusLive(int i) { livesLeft += i; }
+    void plusLive(int i) {
+        livesLeft += i;
+    }
 
-    void subLive() { subLive(1);}
+    void subLive() {
+        subLive(1);
+    }
 
-    void subLive(int i) { livesLeft -= i;}
+    void subLive(int i) {
+        livesLeft -= i;
+    }
 
-    int getLife() { return livesLeft; }
+    int getLife() {
+        return livesLeft;
+    }
 
     boolean isGameOver() {
         return (this.livesLeft == 0);
@@ -70,7 +75,7 @@ public class GameStats {
     public void drawAttributes(Canvas canvas, Paint paint) {
         //paint.setColor(Color.argb(255,225,20,147));
         paint.setTextSize(textFormatting);
-        canvas.drawText("Score: " + score, spaceSize.x/2, textFormatting * 1, paint);
-        canvas.drawText("Lives: " + livesLeft, spaceSize.x/2, textFormatting * 2, paint);
+        canvas.drawText("Score: " + score, spaceSize.width() / 2, textFormatting * 1, paint);
+        canvas.drawText("Lives: " + livesLeft, spaceSize.width() / 2, textFormatting * 2, paint);
     }
 }

@@ -22,7 +22,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation(initialAngle, 0);
 
-    public static float accuracy = 65;
+    public static float accuracy = 75;
 
     public static int paintColor = Color.BLUE;
     public static Paint.Style paintStyle = Paint.Style.FILL;

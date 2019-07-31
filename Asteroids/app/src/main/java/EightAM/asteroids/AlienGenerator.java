@@ -15,29 +15,18 @@ import EightAM.asteroids.specs.BigAlienSpec;
 import EightAM.asteroids.specs.SmallAlienSpec;
 
 public class AlienGenerator extends CollidableObjectGenerator {
-    static AlienGenerator instance;
-    private boolean debug = true;
-
-    private AlienGenerator() {}
-
-    static void init() { if (instance == null) instance = new AlienGenerator(); }
-
-    static AlienGenerator getInstance() {
-        if (instance == null) init();
-        return instance;
-    }
-
+    private static boolean debug = false;
     /**
      * Makes an alien and puts it into model's objectMap.
      * @param spaceSize the space size
      */
-    public Collection<GameObject> createAlien(Point spaceSize) {
+    public static Collection<GameObject> createAlien(Point spaceSize) {
         BaseAlienSpec spec = getAlienSpec();
 
         return Collections.singleton(prepareAlien(spec, spaceSize));
     }
 
-    private GameObject prepareAlien(BaseAlienSpec spec, Point spaceSize) {
+    private static GameObject prepareAlien(BaseAlienSpec spec, Point spaceSize) {
         // change initial position in alien spec
         Point origin = getRandomPosition(spaceSize);
         spec.initialPosition = origin;
@@ -61,7 +50,7 @@ public class AlienGenerator extends CollidableObjectGenerator {
      * Also determines spawn position.
      * @return some Alien Spec
      */
-    private BaseAlienSpec getAlienSpec() {
+    private static BaseAlienSpec getAlienSpec() {
         Random rand = new Random();
         float f = rand.nextFloat();
 
@@ -85,7 +74,7 @@ public class AlienGenerator extends CollidableObjectGenerator {
      * @param spaceSize a Point representing the size of space/canvas
      * @return a Point
      */
-    private Point getRandomPosition(Point spaceSize) {
+    private static Point getRandomPosition(Point spaceSize) {
         Random rand = new Random();
         int randX, randY;
 

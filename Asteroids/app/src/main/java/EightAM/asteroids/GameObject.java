@@ -22,7 +22,6 @@ public abstract class GameObject implements Drawable, Identifiable {
 //    float orientation;
     Rotation rotation;
     Paint paint;
-    Point initialPosition;
 
     public GameObject(BaseObjectSpec spec) {
         // defer instantiation of id
@@ -33,7 +32,6 @@ public abstract class GameObject implements Drawable, Identifiable {
         this.rotation = new Rotation(spec.initialRotation);
         this.paint = PaintStore.getInstance().getPaint(spec.tag);
         this.paint = PaintStore.getInstance().getPaint(spec.tag);
-        this.initialPosition = spec.initialPosition;
     }
 
     GameObject(GameObject object) {
@@ -41,7 +39,6 @@ public abstract class GameObject implements Drawable, Identifiable {
         this.hitbox = new RectF(object.hitbox);
         this.rotation = new Rotation(object.rotation);
         this.paint = object.paint;
-        this.initialPosition = object.initialPosition;
     }
 
     // ---------------Member methods---------------
@@ -94,9 +91,6 @@ public abstract class GameObject implements Drawable, Identifiable {
         return new Point((int) hitbox.centerX(), (int) hitbox.centerY());
     }
 
-    public Point getInitialPosition() {
-        return this.initialPosition;
-    }
 
     public abstract void draw(Canvas canvas);
 

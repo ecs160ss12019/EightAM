@@ -1,7 +1,5 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.MAX_SPEED;
-
 /**
  * The Velocity class holds the magnitude and direction of velocity.
  *
@@ -29,8 +27,8 @@ public class Velocity {
         this.x = velocity.x;
         this.y = velocity.y;
         if (magnitude() > maxSpeed) {
-            x = MAX_SPEED * (float) Math.cos(Math.atan2(y, x));
-            y = MAX_SPEED * (float) Math.sin(Math.atan2(y, x));
+            x = maxSpeed * (float) Math.cos(Math.atan2(y, x));
+            y = maxSpeed * (float) Math.sin(Math.atan2(y, x));
         }
     }
 

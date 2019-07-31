@@ -17,4 +17,6 @@ public interface EventHandler extends DestructListener {
     void processScore(DestroyedObject scoreable);
 
     void sendMessage(Messages.Message message);
+
+    void playSound(int soundID);
 }

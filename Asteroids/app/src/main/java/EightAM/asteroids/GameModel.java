@@ -341,4 +341,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     public void sendMessage(Messages.Message message) {
         Messages.addMessage(message);
     }
+
+    @Override
+    public void playSound(int soundID) {
+        audioListener.playSound(soundID);
+    }
 }

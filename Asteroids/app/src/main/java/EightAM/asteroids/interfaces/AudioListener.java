@@ -5,4 +5,5 @@ public interface AudioListener {
     void onAccelerate();
     void onShoot();
 
+    void playSound(int soundID);
 }

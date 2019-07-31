@@ -252,7 +252,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
             if (hitPoints <= 0) {
                 destroyThis = true;
             }
-        } else {
+        } else if (approachingObject instanceof Ship || approachingObject instanceof Asteroid) {
             destroyThis = true;
         }
         if (destroyThis) {

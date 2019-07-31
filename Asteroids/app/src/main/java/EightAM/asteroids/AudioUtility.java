@@ -67,6 +67,11 @@ public class AudioUtility implements AudioListener {
         } else if (shoot) sounds.play(ship_shoot_ID, 1, 1, 0, 0, 2);
     }
 
+    @Override
+    public void playSound(int soundID) {
+        sounds.play(soundID, 1, 1, 0, 0, 1);
+    }
+
     /**
      * Background music plays inside MainActivity
      */

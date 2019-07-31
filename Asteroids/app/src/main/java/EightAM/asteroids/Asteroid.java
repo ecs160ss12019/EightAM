@@ -91,7 +91,7 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
             if (hitPoints <= 0) {
                 destroyThis = true;
             }
-        } else {
+        } else if (gameObject instanceof Ship || gameObject instanceof Alien) {
             destroyThis = true;
         }
         if (destroyThis) {

@@ -143,7 +143,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
             if (hitPoints <= 0) {
                 destroyThis = true;
             }
-        } else {
+        } else if (gameObject instanceof Asteroid || gameObject instanceof Alien) {
             destroyThis = true;
         }
         if (destroyThis) {

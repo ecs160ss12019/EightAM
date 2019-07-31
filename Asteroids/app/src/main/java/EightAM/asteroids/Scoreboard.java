@@ -4,20 +4,38 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 final class Scoreboard {
-    private int highScore;
-    SharedPreferences.Editor editor;
-    SharedPreferences prefs;
 
-    Scoreboard(Context c) {
-        prefs = c.getSharedPreferences("High Score", Context.MODE_PRIVATE);
-        editor = prefs.edit();
-        highScore = prefs.getInt("High Score", 0);
+    // ---------------Member variables-------------
+
+    // For storing high score, cited: textbook Chapter 21
+    private int highScore;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences prefs;
+
+    // ---------------Member methods-------------
+
+    /**
+     * Scoreboard constructor
+     * @param context
+     */
+    public Scoreboard(Context context) {
+        this.prefs = context.getSharedPreferences("High Score", Context.MODE_PRIVATE);
+        this.editor = prefs.edit();
+        this.highScore = prefs.getInt("High Score", 0);
     }
 
+    /**
+     * Get highscore
+     * @return string with previous high score
+     */
     public String getHighScore() {
         return "High Score: " + this.highScore;
     }
 
+    /**
+     * Set highscore
+     * @param score the current score of game
+     */
     public void setHighScore(int score) {
         if (score > highScore) {
             highScore = score;

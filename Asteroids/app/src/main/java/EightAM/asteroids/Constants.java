@@ -36,4 +36,7 @@ final class Constants {
 
     // GAMEOVER DELAY
     static final int GAMEOVER_DELAY = 3000;
+
+    // TEXT
+    static final int TEXT_ADJUSTMENT = 40;
 }

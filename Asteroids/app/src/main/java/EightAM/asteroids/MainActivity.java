@@ -1,6 +1,8 @@
 package EightAM.asteroids;
 
 
+import static EightAM.asteroids.Constants.GAMEOVER_DELAY;
+
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,8 +18,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import EightAM.asteroids.interfaces.GameOverListener;
-
-import static EightAM.asteroids.Constants.GAMEOVER_DELAY;
 
 public class MainActivity extends AppCompatActivity implements GameOverListener {
 
@@ -49,20 +49,18 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         setContentView(R.layout.activity_main);
         View decorView = getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener(
-                new View.OnSystemUiVisibilityChangeListener() {
-                    @Override
-                    public void onSystemUiVisibilityChange(int visibility) {
-                        // Note that system bars will only be "visible" if none of the
-                        // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
-                        if (Build.VERSION.SDK_INT < 16) {
-                            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                        } else {
-                            getWindow().getDecorView().setSystemUiVisibility(
-                                    View.SYSTEM_UI_FLAG_FULLSCREEN);
-                        }
+                visibility -> {
+                    // Note that system bars will only be "visible" if none of the
+                    // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
+                    if (Build.VERSION.SDK_INT < 16) {
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    } else {
+                        getWindow().getDecorView().setSystemUiVisibility(
+                                View.SYSTEM_UI_FLAG_FULLSCREEN);
                     }
-                });
+                }
+        );
 
         // Find layouts and views
         gameView = findViewById(R.id.gameView);
@@ -125,8 +123,9 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
     @Override
     protected void onPause() {
         super.onPause();
-        if (gameView != null)
+        if (gameView != null) {
             gameView.onPause();
+        }
         if (gameController != null) {
             gameController.onPause();
         }
@@ -144,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
     }
 
     protected void onGameOverScreen() {
+        buttonLayout.setVisibility(View.GONE);
         restartLayout.setVisibility(View.VISIBLE);
         restartText.setVisibility(View.VISIBLE);
         // TODO: set score
@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
             restartLayout.setVisibility(View.GONE);
             restartText.setVisibility(View.GONE);
             setStartListener();
-            startGame();
             onStartScreen();
         }, GAMEOVER_DELAY);
     }
@@ -178,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
 
     }
 
-    protected void setResumeListener(){
+    protected void setResumeListener() {
         pausedText.setOnClickListener(view -> {
             pausedLayout.setVisibility(View.GONE);
             buttonLayout.setVisibility(View.VISIBLE);

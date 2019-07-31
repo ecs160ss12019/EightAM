@@ -1,7 +1,5 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.BULLET_MAX_RANGE;
-
 import android.graphics.Canvas;
 import android.graphics.Point;
 

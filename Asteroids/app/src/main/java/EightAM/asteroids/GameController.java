@@ -54,7 +54,6 @@ final class GameController implements Runnable {
 
     void pause() {
         isRunning = false;
-        Log.d("in game controller", "paused game");
         try {
             thread.join();
         } catch (InterruptedException e) {

@@ -24,8 +24,9 @@ public class BasicShipSpec extends BaseShipSpec {
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation((float) Math.PI * 3f / 2, 0);
+    //public static Rotation initialRotation = new Rotation(0, 0);
 
-    public static int resID = R.drawable.ic_ship;
+    public static int resID = R.drawable.ic_basic_ship;
     public static float dbmRatio = 4f;
 
     public static int paintColor = Color.BLUE;

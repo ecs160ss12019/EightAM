@@ -37,6 +37,9 @@ final class Constants {
     // GAMEOVER DELAY
     static final int GAMEOVER_DELAY = 3000;
 
+    // TEXT
+    static final int TEXT_ADJUSTMENT = 40;
+
     // Lootbox
     static final long LOOT_FADE_TIME = 2000;
 }

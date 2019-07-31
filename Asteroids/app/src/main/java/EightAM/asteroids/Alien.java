@@ -181,12 +181,12 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      */
     protected void setShotDelay() {
         Random rand = new Random();
-        this.reloadTime = rand.nextInt((shotDelayRange.second - shotDelayRange.first) + 1)
+        this.shotDelayCounter = rand.nextInt((shotDelayRange.second - shotDelayRange.first) + 1)
                 + shotDelayRange.first;
     }
 
-    protected boolean canShoot() {
-        return reloadTime <= 0;
+    public boolean canShoot() {
+        return shotDelayCounter <= 0;
     }
 
     protected void aimAtTarget(Point targetPos) {
@@ -200,7 +200,6 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         if (this.shotDelayCounter > 0) {
             this.shotDelayCounter--;
         } else {
-            this.shotDelayCounter = this.reloadTime;
             aimAtTarget(targetPos);
             shoot();
             setShotDelay();

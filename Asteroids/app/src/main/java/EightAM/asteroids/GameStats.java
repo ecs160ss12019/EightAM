@@ -1,6 +1,7 @@
 package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.STARTING_LIVES;
+import static EightAM.asteroids.Constants.TEXT_ADJUSTMENT;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -14,68 +15,74 @@ public class GameStats {
 
     int score;
     int livesLeft;
-    int highScore;
     int textFormatting;
-
-    // For storing high score, cited: textbook Chapter 21
     RectF spaceSize;
 
-    protected GameStats(RectF spaceSize) {
+    // ---------------Member methods---------------
 
+    /**
+     * GameSates constructor initialize the start live and zero score
+     * @param spaceSize
+     */
+    protected GameStats(RectF spaceSize) {
         // Set game attributes
         this.score = 0;
         this.livesLeft = STARTING_LIVES;
-
         this.textFormatting = (int) spaceSize.width() / 40;
         this.spaceSize = spaceSize;
     }
 
-    // ---------------Member methods---------------
-
+    /**
+     * Reinitialize game stats for a new game
+     */
     void newGame() {
         score = 0;
         livesLeft = STARTING_LIVES;
     }
 
-    void plusScore() {
-        plusScore(1);
-    }
-
+    /**
+     * Increment score
+     * @param i
+     */
     void plusScore(int i) {
         score += i;
     }
 
-    void plusLive(int i) {
-        livesLeft += i;
+    /**
+     * Decrement live
+     * @param i
+     */
+    void subLive(int i) {
+        livesLeft -= i;
     }
 
     void subLive() {
         subLive(1);
     }
 
-    void subLive(int i) {
-        livesLeft -= i;
-    }
-
+    /**
+     * Live getter
+     * @return remaining lives
+     */
     int getLife() {
         return livesLeft;
     }
 
-    boolean isGameOver() {
-        return (this.livesLeft == 0);
-    }
-
+    /**
+     * Increment score basing on the type of object
+     * @param object game entity defected by user
+     */
     public void score(GameObject object) {
-        if (object instanceof Scoreable) plusScore(((Scoreable) object).score());
+        if (object instanceof Scoreable)
+            plusScore(((Scoreable) object).score());
     }
 
     /**
-     * Draw the HUD
+     * Draw the HUD on the top middle of screen
      */
     public void drawAttributes(Canvas canvas, Paint paint) {
-        //paint.setColor(Color.argb(255,225,20,147));
         paint.setTextSize(textFormatting);
-        canvas.drawText("Score: " + score, spaceSize.width() / 2, textFormatting * 1, paint);
-        canvas.drawText("Lives: " + livesLeft, spaceSize.width() / 2, textFormatting * 2, paint);
+        canvas.drawText("Score: " + score, (spaceSize.width() / 2) - TEXT_ADJUSTMENT, textFormatting * 1, paint);
+        canvas.drawText("Lives: " + livesLeft, (spaceSize.width() / 2) - TEXT_ADJUSTMENT, textFormatting * 2, paint);
     }
 }

@@ -21,11 +21,11 @@ final class Constants {
     static final int EFFECT_RADIUS = 8;
 
     // WAVE INFO
-    static final int STARTING_ASTEROIDS = 4;
+    static final int STARTING_ASTEROIDS = 2;
     static final float ALIEN_PROB_INC = .1f;
     static final int ASTEROID_INC_WAVE = 1;
     static final long WAVE_GRACE_PERIOD = 5000;
-    static final int MAX_ALIENS_PER_LEVEL = 3;
+    static final int MAX_ALIENS_PER_LEVEL = 1;
 
     // SPAWNBOX STUFF
     static final int BOUNDARY_OFFSET = 100;
@@ -39,4 +39,7 @@ final class Constants {
 
     // TEXT
     static final int TEXT_ADJUSTMENT = 40;
+
+    // Lootbox
+    static final long LOOT_FADE_TIME = 2000;
 }

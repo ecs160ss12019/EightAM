@@ -12,7 +12,6 @@ import android.util.Pair;
 import java.util.Random;
 
 import EightAM.asteroids.interfaces.Collision;
-import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
@@ -33,7 +32,6 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     int reloadTime;
 
     // listeners
-    DestructListener destructListener;
     EventHandler eventHandler;
     BaseBulletSpec bulletSpec;
     ShotListener shotListener;
@@ -183,12 +181,12 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      */
     protected void setShotDelay() {
         Random rand = new Random();
-        this.reloadTime = rand.nextInt((shotDelayRange.second - shotDelayRange.first) + 1)
+        this.shotDelayCounter = rand.nextInt((shotDelayRange.second - shotDelayRange.first) + 1)
                 + shotDelayRange.first;
     }
 
     public boolean canShoot() {
-        return reloadTime <= 0;
+        return shotDelayCounter <= 0;
     }
 
     protected void aimAtTarget(Point targetPos) {
@@ -202,7 +200,6 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         if (this.shotDelayCounter > 0) {
             this.shotDelayCounter--;
         } else {
-            this.shotDelayCounter = this.reloadTime;
             aimAtTarget(targetPos);
             shoot();
             setShotDelay();
@@ -275,11 +272,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     @Override
     public void destruct(DestroyedObject destroyedObject) {
         eventHandler.processScore(destroyedObject);
-        destructListener.onDestruct(this);
-    }
-
-    public void registerDestructListener(DestructListener listener) {
-        this.destructListener = listener;
+        super.destruct(destroyedObject);
     }
 
     // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //

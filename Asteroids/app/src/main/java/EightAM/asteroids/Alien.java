@@ -187,7 +187,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
                 + shotDelayRange.first;
     }
 
-    protected boolean canShoot() {
+    public boolean canShoot() {
         return reloadTime <= 0;
     }
 

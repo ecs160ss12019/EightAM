@@ -41,14 +41,13 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     RectF spawnBoundaries;
     Map<ObjectID, GameObject> objectMap;
     Set<ObjectID> collideables;
+    Set<ObjectID> adversaries;
     List<GameObject> createList;
     List<ObjectID> deleteList;
 
     ObjectID currPlayerShip;
     private boolean gameOver;
 
-    //TODO: might change
-    ObjectID alienID;
 
     AudioListener audioListener;
 
@@ -64,6 +63,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
                 boundaries.bottom + BOUNDARY_OFFSET);
         objectMap = new HashMap<>();
         collideables = new HashSet<>();
+        adversaries = new HashSet<>();
 
         createList = new ArrayList<>();
         deleteList = new ArrayList<>();
@@ -90,8 +90,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         this.stats = new GameStats(boundaries);
         objectMap.clear();
         this.currPlayerShip = null;
-        //TODO: Might change
-        this.alienID = null;
     }
 
 
@@ -116,9 +114,11 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             if (objectToDel instanceof Collision) {
                 collideables.remove(id);
             }
+            if (objectToDel instanceof Alien) {
+                adversaries.remove(id);
+            }
             objectMap.remove(id);
             if (id == currPlayerShip) onDeath();
-            if (id == alienID) alienID = null;
         }
         deleteList.clear();
     }
@@ -149,7 +149,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             o.update(timeInMillisecond);
         }
 
-        if (alienID != null) getAlien().tryShoot(getPlayerShip().getObjPos());
+        for (ObjectID i: adversaries){
+            ((Alien)objectMap.get(i)).tryShoot(getPlayerShip().getObjPos());
+        }
 
         for (Pair<Collision, GameObject> objectPair : CollisionChecker.enumerateCollisions(this)) {
             objectPair.first.onCollide(objectPair.second);
@@ -185,15 +187,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         }
     }
 
-    //TODO: Might change
-    public Alien getAlien() {
-        if (alienID != null && objectMap.containsKey(alienID)) {
-            return (Alien) objectMap.get(alienID);
-        } else {
-            return null;
-        }
-    }
-
     @Override
     public Set<ObjectID> getCollideableIDs() {
         return collideables;
@@ -223,9 +216,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             if (!objectMap.containsKey(id)) {
                 objectMap.put(id, o);
                 if (o instanceof Collision) collideables.add(id);
-                if (o instanceof Ship) currPlayerShip = id;
-                //TODO: Might change
-                if (o instanceof Alien) alienID = id;
+                if (o instanceof Alien) adversaries.add(id);
+                else if (o instanceof Ship) currPlayerShip = id;
                 addListeners(o);
                 addMoveStrategy(o);
                 updateWaveParam(o, 1);
@@ -295,17 +287,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     @Override
     public void onShotFired(Shooter shooter) {
-        if (getPlayerShip().canShoot()) {
+        if (shooter.canShoot()) {
             addObjects(BulletGenerator.createBullets(shooter));
             audioListener.onShoot();
-        }
-
-        if (alienID != null) {
-            if (getAlien().canShoot()) {
-                addObjects(BulletGenerator.createBullets(shooter));
-                audioListener.onShoot();
-
-            }
         }
     }
 

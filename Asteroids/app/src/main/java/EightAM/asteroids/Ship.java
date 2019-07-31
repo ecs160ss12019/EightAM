@@ -185,7 +185,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         }
     }
 
-    boolean canShoot() {
+    public boolean canShoot() {
         return shotDelayCounter == 0;
     }
 

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import EightAM.asteroids.interfaces.GameOverListener;
 
 import static EightAM.asteroids.Constants.GAMEOVER_DELAY;
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity implements GameOverListener {
 
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
     TextView scoreText;
     TextView restartText;
     TextView pausedText;
+
+    AudioUtility audio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         restartText = findViewById(R.id.restartText);     //restart layout
 
         AssetLoader.load(gameView.getContext());
+        audio = new AudioUtility(gameView.getContext());
         InputControl.initializeButtons(this);
 
         scoreboard = new Scoreboard(this);
@@ -169,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        gameModel = new GameModel(size, gameView.getContext());
+        gameModel = new GameModel(size, gameView.getContext(), audio);
         gameController = new GameController(gameModel, this);
         gameView.setGameModel(gameModel);
         gameView.onResume();

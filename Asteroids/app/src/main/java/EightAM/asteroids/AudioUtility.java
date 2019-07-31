@@ -7,7 +7,9 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 
-public class AudioUtility {
+import EightAM.asteroids.interfaces.AudioListener;
+
+public class AudioUtility implements AudioListener {
 
     // ---------------Member variables-------------
 
@@ -37,19 +39,32 @@ public class AudioUtility {
         ship_destroy_ID = sounds.load(context, R.raw.ship_destroy, 1);
     }
 
+    public void onShoot() {
+        sounds.play(ship_shoot_ID, 1, 1, 0, 0, 2);
+    }
+
+    public void onAccelerate() {
+        sounds.play(ship_accelerate_ID, 1, 1, 0, 0, 2);
+    }
+
+    public void onExplosion() {
+        sounds.play(ship_destroy_ID, 1, 1, 0, 0, 2);
+
+    }
+
     /**
      * Play corresponding sound effect basing on button pressed by user
      */
     void playInputPress(boolean up, boolean down, boolean left, boolean right, boolean shoot) {
-//        if (up) {
-//            sounds.play(ship_accelerate_ID, 1, 1, 0, 0, 2);
-//        } else if (down) {
-//            sounds.play(ship_destroy_ID, 1, 1, 0, 0, 2);
-//        } else if (left) {
-//            sounds.play(ship_destroy_ID, 1, 1, 0, 0, 2);
-//        } else if (right) {
-//            sounds.play(ship_destroy_ID, 1, 1, 0, 0, 2);
-//        } else if (shoot) sounds.play(ship_shoot_ID, 1, 1, 0, 0, 2);
+        if (up) {
+            sounds.play(ship_accelerate_ID, 1, 1, 0, 0, 2);
+        } else if (down) {
+            sounds.play(ship_destroy_ID, 1, 1, 0, 0, 2);
+        } else if (left) {
+            sounds.play(ship_destroy_ID, 1, 1, 0, 0, 2);
+        } else if (right) {
+            sounds.play(ship_destroy_ID, 1, 1, 0, 0, 2);
+        } else if (shoot) sounds.play(ship_shoot_ID, 1, 1, 0, 0, 2);
     }
 
     /**

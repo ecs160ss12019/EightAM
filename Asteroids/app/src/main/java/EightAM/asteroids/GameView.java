@@ -16,7 +16,7 @@ class GameView extends SurfaceView implements Runnable {
     // ---------------Member variables-------------
 
     //for sounds
-    public AudioUtility audio;
+   // public AudioUtility audio;
     private Paint defaultPaint;
     private SurfaceHolder surfaceHolder;
     private boolean isRunning;
@@ -53,7 +53,7 @@ class GameView extends SurfaceView implements Runnable {
         defaultPaint.setAntiAlias(true);
 
         // For audio
-        audio = new AudioUtility(getContext());
+        //audio = new AudioUtility(getContext());
     }
 
     @Override
@@ -73,8 +73,8 @@ class GameView extends SurfaceView implements Runnable {
                     model.stats.drawAttributes(canvas, defaultPaint);
 
                     // Sound effects
-                    this.audio.playInputPress(InputControl.playerInput.UP, InputControl.playerInput.DOWN, InputControl.playerInput.LEFT, InputControl.playerInput.RIGHT,
-                                              InputControl.playerInput.SHOOT);
+//                    this.audio.playInputPress(InputControl.playerInput.UP, InputControl.playerInput.DOWN, InputControl.playerInput.LEFT, InputControl.playerInput.RIGHT,
+//                                              InputControl.playerInput.SHOOT);
                 } finally {
                     model.getLock().unlock();
                 }

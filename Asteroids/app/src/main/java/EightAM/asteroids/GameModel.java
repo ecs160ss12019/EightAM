@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import EightAM.asteroids.interfaces.AudioListener;
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
@@ -44,10 +45,12 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     //TODO: might change
     ObjectID alienID;
 
+    AudioListener audioListener;
+
     /**
      * Main Constructor of the Model. Called at the start of every game session.
      */
-    public GameModel(Point screenSize, Context context) {
+    public GameModel(Point screenSize, Context context, AudioListener audio) {
         //TODO: Initialize Grid... Maybe?
         lock = new ReentrantLock();
         this.context = context;
@@ -58,6 +61,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
         this.gameOver = false;
         this.stats = new GameStats(spaceSize);
+        this.audioListener = audio;
     }
 
     void startGame() {
@@ -69,8 +73,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private void createObjects() {
         addObject(respawnShip());
-        //addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
-        addObject(AlienGenerator.getInstance().createAlien(spaceSize));
+        addObject(AsteroidGenerator.getInstance().createBelt(spaceSize, getPlayerShip()));
+        //addObject(AlienGenerator.getInstance().createAlien(spaceSize));
     }
 
     //Ship stuff *START*
@@ -187,6 +191,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         //Log.d("check ship id",""+currPlayerShip);
         if (currPlayerShip != null) {
             getPlayerShip().input(i);
+            if(i.UP)
+                audioListener.onAccelerate();
         }
     }
 
@@ -272,9 +278,11 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     private void createDebris(GameObject object) {
         if (!((object instanceof  Particle) || (object instanceof  Bullet))){
             addObject(ParticleGenerator.getInstance().createParticles(object.getObjPos()));
+            audioListener.onExplosion();
         }
         if (object instanceof Asteroid) {
             addObject(AsteroidGenerator.getInstance().breakUpAsteroid((Asteroid) object));
+            audioListener.onExplosion();
         }
     }
 
@@ -290,11 +298,13 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     public void onShotFired(Shooter shooter) {
         if (getPlayerShip().canShoot()) {
             addObject(BulletGenerator.createBullets(shooter));
+            audioListener.onShoot();
         }
 
         if (alienID != null) {
             if (getAlien().canShoot()) {
                 addObject(BulletGenerator.createBullets(shooter));
+                audioListener.onShoot();
             }
         }
     }

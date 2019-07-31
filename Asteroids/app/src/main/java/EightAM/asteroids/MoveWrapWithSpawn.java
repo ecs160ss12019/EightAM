@@ -12,10 +12,12 @@ import EightAM.asteroids.interfaces.MoveStrategy;
 class MoveWrapWithSpawn implements MoveStrategy {
     RectF boundaries;
     RectF outerBoundaries;
+    float boundaryShrinkRate;
 
-    public MoveWrapWithSpawn(RectF boundaries, RectF outerBoundaries) {
+    public MoveWrapWithSpawn(RectF boundaries, RectF outerBoundaries, float boundaryShrinkRate) {
         this.boundaries = boundaries;
         this.outerBoundaries = outerBoundaries;
+        this.boundaryShrinkRate = boundaryShrinkRate;
     }
 
     @Override
@@ -35,6 +37,10 @@ class MoveWrapWithSpawn implements MoveStrategy {
             o.hitbox.offset(0, -outerBoundaries.height());
         } else if (cy < 0) {
             o.hitbox.offset(0, outerBoundaries.height());
+        }
+        if (outerBoundaries.contains(boundaries)) {
+            outerBoundaries.inset(outerBoundaries.width() * (boundaryShrinkRate * deltaTime),
+                    outerBoundaries.height() * (boundaryShrinkRate * deltaTime));
         }
         if (boundaries.contains(o.hitbox)) {
             o.setMoveStrategy(new MoveWrap(boundaries));

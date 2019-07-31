@@ -20,6 +20,7 @@ public class Timer {
 
     void reset() {
         curr = start;
+        reachedTarget = false;
     }
 
     boolean update(long updateTicks) {

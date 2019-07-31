@@ -21,7 +21,7 @@ final class Constants {
     static final int EFFECT_RADIUS = 8;
 
     // WAVE INFO
-    static final int STARTING_ASTEROIDS = 3;
+    static final int STARTING_ASTEROIDS = 2;
     static final float ALIEN_PROB_INC = .1f;
     static final int ASTEROID_INC_WAVE = 1;
     static final long WAVE_GRACE_PERIOD = 5000;
@@ -29,6 +29,7 @@ final class Constants {
 
     // SPAWNBOX STUFF
     static final int BOUNDARY_OFFSET = 100;
+    static final float BOUNDARY_SHRINK_RATE = 0.0001f;
 
     // PLAYER INFO
     static final int STARTING_LIVES = 3;

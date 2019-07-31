@@ -1,7 +1,5 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.SHIP_RESTART_DURATION;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.Random;
@@ -29,8 +28,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         EventGenerator, Destructable {
 
     // ---------------Member variables-------------
-
-    int originalColor;
     Bitmap bitmap;
     private boolean isInvincible;
     private int hitPoints;
@@ -57,7 +54,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     Ship(BaseShipSpec spec) {
         super(spec);
         //General
-        this.originalColor = this.paint.getColor();
         bitmap = BitmapStore.getInstance().getBitmap(spec.tag);
         this.dbmRatio = spec.dimensionBitMapRatio;
 
@@ -81,7 +77,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     Ship(Ship ship) {
         super(ship);
         //General
-        this.originalColor = this.paint.getColor();
         this.bitmap = ship.bitmap;
         this.dbmRatio = ship.dbmRatio;
 
@@ -106,18 +101,32 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     void update(long timeInMillisecond) {
         super.update(timeInMillisecond);
-        if (isInvincible && invDurationTimer.update(timeInMillisecond)) isInvincible = false;
+        if (isInvincible && invDurationTimer.update(timeInMillisecond)) {
+            isInvincible = false;
+            paint.setAlpha(255);
+        }
 
-        if (teleporting && teleportCooldownTimer.update(timeInMillisecond)
-                && teleportDelayTimer.update(timeInMillisecond)) {
-            Random r = new Random();
+        teleportAbility(timeInMillisecond);
+
+        if (shotDelayCounter > 0) shotDelayCounter -= timeInMillisecond;
+    }
+
+    void teleportAbility(long deltaTime) {
+        teleportCooldownTimer.update(deltaTime);
+        if (teleportCooldownTimer.reachedTarget) {
+            Log.d(this.getClass().getCanonicalName(), "Teleport Ability available");
+        }
+        if (teleporting && teleportCooldownTimer.reachedTarget
+                && teleportDelayTimer.update(deltaTime)) {
             eventHandler.teleportObjects(Collections.singleton(getID()));
             teleportCooldownTimer.reset();
             teleportDelayTimer.reset();
             teleporting = false;
             paint.setColorFilter(null);
+        } else if (teleporting && !teleportCooldownTimer.reachedTarget) {
+            Log.d(this.getClass().getCanonicalName(), "Teleport Ability not yet available");
+            teleporting = false;
         }
-        if (shotDelayCounter > 0) shotDelayCounter -= timeInMillisecond;
     }
 
     @Override
@@ -180,6 +189,21 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         return shotDelayCounter == 0;
     }
 
+    void drawInvincible(Canvas canvas, Matrix matrix) {
+        if (!(invDurationTimer.curr % 10 <= 5)) {
+            paint.setAlpha(0);
+        } else {
+            paint.setAlpha(255);
+        }
+    }
+
+    void drawTeleporting() {
+        Random r = new Random();
+        paint.setColorFilter(
+                new PorterDuffColorFilter(Color.rgb(r.nextInt(256), r.nextInt(256), r.nextInt(256)),
+                        PorterDuff.Mode.SRC_IN));
+    }
+
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
@@ -190,18 +214,14 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
                 this.hitbox.centerX(),
                 this.hitbox.centerY());
 
-        if (teleporting && teleportCooldownTimer.reachedTarget) {
-            Random r = new Random();
-            paint.setColorFilter(new PorterDuffColorFilter(
-                    Color.rgb(r.nextInt(256), r.nextInt(256), r.nextInt(256)),
-                    PorterDuff.Mode.SRC_IN));
+        if (teleporting && teleportCooldownTimer.reachedTarget
+                && !teleportDelayTimer.reachedTarget) {
+            drawTeleporting();
         }
-        if (!isInvincible) {
-            canvas.drawBitmap(bitmap, matrix, paint);
-        } else if ((invDurationTimer.curr < (invincibilityDuration - SHIP_RESTART_DURATION))
-                && invDurationTimer.curr % 2 == 0) {
-            canvas.drawBitmap(bitmap, matrix, paint);
+        if (isInvincible) {
+            drawInvincible(canvas, matrix);
         }
+        canvas.drawBitmap(bitmap, matrix, paint);
 
     }
 

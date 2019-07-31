@@ -3,9 +3,9 @@ package EightAM.asteroids;
 import static EightAM.asteroids.Constants.ALIEN_SPAWN_PROB;
 import static EightAM.asteroids.Constants.ASTEROID_INC_WAVE;
 import static EightAM.asteroids.Constants.BOUNDARY_OFFSET;
+import static EightAM.asteroids.Constants.BOUNDARY_SHRINK_RATE;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 
-import android.content.Context;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.Pair;
@@ -27,6 +27,7 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.GameState;
+import EightAM.asteroids.interfaces.Scoreable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BasicShipSpec;
@@ -34,7 +35,6 @@ import EightAM.asteroids.specs.BasicShipSpec;
 public class GameModel implements GameState, EventHandler, ShotListener {
 
     GameStats stats;
-    Context context;
     Wave wave;
     private Lock lock;
     RectF boundaries;
@@ -55,10 +55,9 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     /**
      * Main Constructor of the Model. Called at the start of every game session.
      */
-    public GameModel(Point screenSize, Context context, AudioListener audio) {
+    public GameModel(Point screenSize, AudioListener audio) {
         //TODO: Initialize Grid... Maybe?
         lock = new ReentrantLock();
-        this.context = context;
         boundaries = new RectF(0, 0, screenSize.x, screenSize.y);
         spawnBoundaries = new RectF(boundaries.left - BOUNDARY_OFFSET,
                 boundaries.top - BOUNDARY_OFFSET, boundaries.right + BOUNDARY_OFFSET,
@@ -257,7 +256,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      */
     private void addListeners(GameObject object) {
         if (object instanceof Destructable) {
-            ((Destructable) object).registerDestructListener(this);
+            object.registerDestructListener(this);
         }
         if (object instanceof Shooter) {
             ((Shooter) object).linkShotListener(this);
@@ -269,7 +268,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     private void addMoveStrategy(GameObject object) {
         if (object instanceof Alien || object instanceof Asteroid) {
-            object.setMoveStrategy(new MoveWrapWithSpawn(boundaries, spawnBoundaries));
+            object.setMoveStrategy(
+                    new MoveWrapWithSpawn(boundaries, spawnBoundaries, BOUNDARY_SHRINK_RATE));
         } else {
             object.setMoveStrategy(new MoveWrap(boundaries));
         }
@@ -315,9 +315,14 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     @Override
-    public void destroyObjects(Collection<Destructable> objects) {
+    public void destroyObjects(Collection<Destructable> objects, ObjectID killer) {
         for (Destructable d : objects) {
-            d.destruct(null);
+            DestroyedObject destroyedObject = null;
+            if (killer != null && d instanceof GameObject && d instanceof Scoreable) {
+                destroyedObject = new DestroyedObject(((Scoreable) d).score(), d.getID(), killer,
+                        (GameObject) d);
+            }
+            d.destruct(destroyedObject);
         }
     }
 
@@ -326,10 +331,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         for (ObjectID objectID : tpList) {
             GameObject obj = objectMap.get(objectID);
             if (obj != null) {
-                obj.hitbox.offsetTo((float) (Math.random() * (boundaries.right - boundaries.left)
-                                + boundaries.left),
-                        (float) (Math.random() * (boundaries.bottom - boundaries.top)
-                                + boundaries.top));
+                obj.hitbox.offsetTo(GameRandom.randomFloat(boundaries.left, boundaries.right),
+                        GameRandom.randomFloat(boundaries.bottom, boundaries.top));
             }
             // TODO: play a sound
         }

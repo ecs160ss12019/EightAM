@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        gameModel = new GameModel(size, gameView.getContext(), audio);
+        gameModel = new GameModel(size, audio);
         gameController = new GameController(gameModel, this);
         gameView.setGameModel(gameModel);
         gameView.onResume();

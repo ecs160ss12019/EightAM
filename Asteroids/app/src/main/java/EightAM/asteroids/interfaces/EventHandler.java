@@ -10,7 +10,7 @@ import EightAM.asteroids.ObjectID;
 public interface EventHandler extends DestructListener {
     void createObjects(Collection<GameObject> objects);
 
-    void destroyObjects(Collection<Destructable> objects);
+    void destroyObjects(Collection<Destructable> objects, ObjectID killerID);
 
     void teleportObjects(Collection<ObjectID> tpList);
 

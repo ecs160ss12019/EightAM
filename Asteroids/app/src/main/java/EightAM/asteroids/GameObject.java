@@ -5,12 +5,13 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 
+import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.Drawable;
 import EightAM.asteroids.interfaces.Identifiable;
 import EightAM.asteroids.interfaces.MoveStrategy;
 import EightAM.asteroids.specs.BaseObjectSpec;
 
-public abstract class GameObject implements Drawable, Identifiable {
+public abstract class GameObject implements Drawable, Identifiable, Destructable {
 
     // ---------------Member variables-------------
 

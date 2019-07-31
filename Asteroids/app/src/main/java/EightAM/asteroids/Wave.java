@@ -114,6 +114,7 @@ class Wave {
             eventHandler.createObjects(
                     AsteroidGenerator.createBelt(wave.spawnBox.first, wave.spawnBox.second,
                             wave.asteroidSpawnCount));
+
         }
     }
 }

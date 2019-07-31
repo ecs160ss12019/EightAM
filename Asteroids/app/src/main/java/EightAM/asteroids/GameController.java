@@ -22,7 +22,6 @@ final class GameController implements Runnable {
         this.gameOverListener = listener;
     }
 
-
     @Override
     public void run() {
         currentTick = SystemClock.elapsedRealtime();
@@ -54,6 +53,7 @@ final class GameController implements Runnable {
 
     void pause() {
         isRunning = false;
+        this.model.audioListener.offMusic();
         try {
             thread.join();
         } catch (InterruptedException e) {
@@ -62,6 +62,7 @@ final class GameController implements Runnable {
 
     void resume() {
         isRunning = true;
+        this.model.audioListener.onMusic();
         thread = new Thread(this);
         thread.start();
     }

@@ -49,12 +49,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="613dp"
-            android:layout_marginLeft="613dp"
-            android:layout_marginTop="219dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="77dp"
+            android:layout_marginStart="497dp"
+            android:layout_marginLeft="497dp"
+            android:layout_marginTop="295dp"
+            android:layout_marginEnd="116dp"
+            android:layout_marginRight="116dp"
+            android:layout_marginBottom="1dp"
             app:srcCompat="@drawable/button_target" />
 
         <ImageView
@@ -67,12 +67,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="-2dp"
-            android:layout_marginLeft="-2dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="618dp"
-            android:layout_marginRight="618dp"
-            android:layout_marginBottom="309dp"
+            android:layout_marginStart="614dp"
+            android:layout_marginLeft="614dp"
+            android:layout_marginTop="219dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="96dp"
             app:srcCompat="@drawable/button_up" />
 
         <ImageView
@@ -85,12 +85,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="107dp"
-            android:layout_marginLeft="107dp"
-            android:layout_marginTop="313dp"
-            android:layout_marginEnd="506dp"
-            android:layout_marginRight="506dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginStart="-5dp"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginTop="225dp"
+            android:layout_marginEnd="618dp"
+            android:layout_marginRight="618dp"
+            android:layout_marginBottom="90dp"
             app:srcCompat="@drawable/button_left" />
 
         <ImageView
@@ -103,12 +103,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="228dp"
-            android:layout_marginEnd="617dp"
-            android:layout_marginRight="617dp"
-            android:layout_marginBottom="89dp"
+            android:layout_marginStart="103dp"
+            android:layout_marginLeft="103dp"
+            android:layout_marginTop="315dp"
+            android:layout_marginEnd="516dp"
+            android:layout_marginRight="516dp"
+            android:layout_marginBottom="2dp"
             app:srcCompat="@drawable/button_right" />
 
         <ImageView
@@ -121,12 +121,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="495dp"
-            android:layout_marginLeft="495dp"
-            android:layout_marginTop="311dp"
-            android:layout_marginEnd="122dp"
-            android:layout_marginRight="122dp"
-            android:layout_marginBottom="2dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="616dp"
+            android:layout_marginRight="616dp"
+            android:layout_marginBottom="310dp"
             app:srcCompat="@drawable/button_down" />
 
     </RelativeLayout>

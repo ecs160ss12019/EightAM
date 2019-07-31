@@ -75,12 +75,7 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     public void destruct(DestroyedObject destroyedObject) {
         // implement destruction effects here.
         eventHandler.processScore(destroyedObject);
-        destructListener.onDestruct(this);
-    }
-
-    @Override
-    public void registerDestructListener(DestructListener listener) {
-        this.destructListener = listener;
+        super.destruct(destroyedObject);
     }
 
     @Override

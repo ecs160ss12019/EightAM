@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 
+import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.Drawable;
 import EightAM.asteroids.interfaces.Identifiable;
@@ -21,6 +22,9 @@ public abstract class GameObject implements Drawable, Identifiable, Destructable
     MoveStrategy moveStrategy;
     Rotation rotation;
     Paint paint;
+
+    // listeners
+    DestructListener destructListener;
 
     public GameObject(BaseObjectSpec spec) {
         // defer instantiation of id
@@ -87,4 +91,14 @@ public abstract class GameObject implements Drawable, Identifiable, Destructable
     public abstract void draw(Canvas canvas);
 
     abstract GameObject makeCopy();
+
+    @Override
+    public void destruct(DestroyedObject destroyedObject) {
+        destructListener.onDestruct(this);
+    }
+
+    @Override
+    public void registerDestructListener(DestructListener listener) {
+        this.destructListener = listener;
+    }
 }

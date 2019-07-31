@@ -12,7 +12,6 @@ import android.util.Pair;
 import java.util.Random;
 
 import EightAM.asteroids.interfaces.Collision;
-import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
@@ -33,7 +32,6 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     int reloadTime;
 
     // listeners
-    DestructListener destructListener;
     EventHandler eventHandler;
     BaseBulletSpec bulletSpec;
     ShotListener shotListener;
@@ -275,11 +273,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     @Override
     public void destruct(DestroyedObject destroyedObject) {
         eventHandler.processScore(destroyedObject);
-        destructListener.onDestruct(this);
-    }
-
-    public void registerDestructListener(DestructListener listener) {
-        this.destructListener = listener;
+        super.destruct(destroyedObject);
     }
 
     // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //

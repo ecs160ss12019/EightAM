@@ -36,12 +36,10 @@ class Wave {
 
     void updateAliens(int i) {
         currAliens += i;
-        waveMode.update(this, eventHandler);
     }
 
     void updateAsteroids(int i) {
         currAsteroids += i;
-        waveMode.update(this, eventHandler);
     }
 
     public void setWaveMode(WaveMode waveMode) {

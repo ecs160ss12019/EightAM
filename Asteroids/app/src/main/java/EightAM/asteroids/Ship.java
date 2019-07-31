@@ -189,7 +189,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         return shotDelayCounter == 0;
     }
 
-    void drawInvincible(Canvas canvas, Matrix matrix) {
+    void drawInvincible() {
         if (!(invDurationTimer.curr % 10 <= 5)) {
             paint.setAlpha(0);
         } else {
@@ -219,7 +219,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
             drawTeleporting();
         }
         if (isInvincible) {
-            drawInvincible(canvas, matrix);
+            drawInvincible();
         }
         canvas.drawBitmap(bitmap, matrix, paint);
 
@@ -253,12 +253,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     public void destruct(DestroyedObject destroyedObject) {
         eventHandler.processScore(destroyedObject);
-        destructListener.onDestruct(this);
-    }
-
-    @Override
-    public void registerDestructListener(DestructListener listener) {
-        this.destructListener = listener;
+        super.destruct(destroyedObject);
     }
 
     @Override

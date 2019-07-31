@@ -31,6 +31,8 @@ import EightAM.asteroids.interfaces.Scoreable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BasicShipSpec;
+import EightAM.asteroids.specs.LargeAsteroidSpec;
+import EightAM.asteroids.specs.MediumAsteroidSpec;
 
 public class GameModel implements GameState, EventHandler, ShotListener {
 
@@ -47,7 +49,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     ObjectID currPlayerShip;
     private boolean gameOver;
-
 
     AudioListener audioListener;
 
@@ -91,7 +92,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         objectMap.clear();
         this.currPlayerShip = null;
     }
-
 
     private Collection<GameObject> respawnShip() {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
@@ -170,12 +170,11 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      */
     // Indirection of input to update currPlayerShip parameters
     void input(InputControl.Input i) {
-        //Log.d("check ship id",""+currPlayerShip);
         if (currPlayerShip != null) {
             getPlayerShip().input(i);
-            if (i.UP) {
-                audioListener.onAccelerate();
-            }
+//            if (i.UP) {
+//                audioListener.onShipAccelerate();
+//            }
         }
     }
 
@@ -216,7 +215,10 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             if (!objectMap.containsKey(id)) {
                 objectMap.put(id, o);
                 if (o instanceof Collision) collideables.add(id);
-                if (o instanceof Alien) adversaries.add(id);
+                if (o instanceof Alien) {
+                    adversaries.add(id);
+                    audioListener.onAlienWave();
+                }
                 else if (o instanceof Ship) currPlayerShip = id;
                 addListeners(o);
                 addMoveStrategy(o);
@@ -270,7 +272,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     private void createDebris(GameObject object) {
         if (!((object instanceof Particle) || (object instanceof Bullet))) {
             addObjects(ParticleGenerator.getInstance().createParticles(object.getObjPos()));
-            audioListener.onExplosion();
+            audioListener.onShipExplosion();
         }
         if (object instanceof Asteroid) {
             addObjects(AsteroidGenerator.breakUpAsteroid((Asteroid) object));
@@ -283,13 +285,27 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         createDebris((GameObject) destructable);
         ObjectID id = destructable.getID();
         deleteList.add(id);
+        if (destructable instanceof Asteroid) {
+            if ((int) ((Asteroid) destructable).hitbox.width()
+                    == LargeAsteroidSpec.dimensions.x) {
+                    audioListener.onLargeAsteroidExplosion();
+            } else if ((int) ((Asteroid) destructable).hitbox.width()
+                    == MediumAsteroidSpec.dimensions.x) {
+                audioListener.onMediumAsteroidExplosion();
+            } else if ((int) ((Asteroid) destructable).hitbox.width()
+                    == LargeAsteroidSpec.dimensions.x) {
+                audioListener.onSmallAsteroidExplosion();
+            }
+        } else if (destructable instanceof Alien) {
+            audioListener.onAlienExplosion();
+        }
     }
 
     @Override
     public void onShotFired(Shooter shooter) {
         if (shooter.canShoot()) {
             addObjects(BulletGenerator.createBullets(shooter));
-            audioListener.onShoot();
+            audioListener.onShipShoot();
         }
     }
 
@@ -318,7 +334,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
                 obj.hitbox.offsetTo(GameRandom.randomFloat(boundaries.left, boundaries.right),
                         GameRandom.randomFloat(boundaries.bottom, boundaries.top));
             }
-            // TODO: play a sound
+            audioListener.onShipTeleport();
         }
     }
 

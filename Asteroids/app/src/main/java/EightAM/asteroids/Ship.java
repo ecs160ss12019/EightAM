@@ -114,7 +114,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     void teleportAbility(long deltaTime) {
         teleportCooldownTimer.update(deltaTime);
         if (teleportCooldownTimer.reachedTarget) {
-            Log.d(this.getClass().getCanonicalName(), "Teleport Ability available");
+            //Log.d(this.getClass().getCanonicalName(), "Teleport Ability available");
         }
         if (teleporting && teleportCooldownTimer.reachedTarget
                 && teleportDelayTimer.update(deltaTime)) {
@@ -124,7 +124,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
             teleporting = false;
             paint.setColorFilter(null);
         } else if (teleporting && !teleportCooldownTimer.reachedTarget) {
-            Log.d(this.getClass().getCanonicalName(), "Teleport Ability not yet available");
+            //Log.d(this.getClass().getCanonicalName(), "Teleport Ability not yet available");
             teleporting = false;
         }
     }

@@ -44,5 +44,8 @@ final class Constants {
     static final int asteroidIncWave = 1;
 
     // PLAYER INFO
-    static final int STARTING_LIVES = 4;
+    static final int STARTING_LIVES = 3;
+
+    // GAMEOVER DELAY
+    static final int GAMEOVER_DELAY = 3000;
 }

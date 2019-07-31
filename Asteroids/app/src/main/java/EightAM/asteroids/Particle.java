@@ -53,7 +53,7 @@ public class Particle extends GameObject implements Destructable {
         //this.paint.setARGB(255, r.nextInt(256), r.nextInt(256), r.nextInt(256));
         canvas.drawRect(this.hitbox, this.paint);
 
-        this.paint.setARGB(255, r.nextInt(256), r.nextInt(256), r.nextInt(256));
+        this.paint.setARGB((int)this.duration, r.nextInt(256), r.nextInt(256), r.nextInt(256));
     }
 
     @Override

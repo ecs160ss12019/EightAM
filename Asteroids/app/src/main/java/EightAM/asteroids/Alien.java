@@ -118,7 +118,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 //                this.hitbox.centerY());
 
         canvas.drawBitmap(bitmap, matrix, paint);
-        canvas.drawRect(this.hitbox, paint);
+        //canvas.drawRect(this.hitbox, paint);
     }
 
     // ------------ BEGIN MOVEMENT METHODS ------------ //

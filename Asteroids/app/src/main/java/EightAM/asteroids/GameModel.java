@@ -47,8 +47,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     //TODO: might change
     ObjectID alienID;
 
-    EndGameStats endStats;
-
     /**
      * Main Constructor of the Model. Called at the start of every game session.
      */
@@ -64,7 +62,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         deleteList = new ArrayList<>();
 
         this.gameOver = false;
-        this.stats = new GameStats(spaceSize, context);
+        this.stats = new GameStats(spaceSize);
     }
 
     void startGame() {
@@ -82,7 +80,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     //Ship stuff *START*
     private void resetObjects() {
-        this.stats = new GameStats(spaceSize, context);
+        this.stats = new GameStats(spaceSize);
         objectMap.clear();
         this.currPlayerShip = null;
         //TODO: Might change
@@ -120,8 +118,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     public void onGameEnd() {
         this.gameOver = true;
-        stats.setHighScore();
-        endStats = new EndGameStats(stats);
     }
 
     public void onDeath() {
@@ -132,10 +128,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         } else {
             onGameEnd();
         }
-    }
-
-    EndGameStats endGameStats() {
-        return endStats;
     }
 
     /**

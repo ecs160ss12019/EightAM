@@ -70,7 +70,7 @@ class GameView extends SurfaceView implements Runnable {
                     drawShit(canvas);
 
                     // Drawing hub
-                    model.stats.drawAttributes(canvas, defaultPaint, surfaceHolder);
+                    model.stats.drawAttributes(canvas, defaultPaint);
 
                     // Sound effects
                     this.audio.playInputPress(InputControl.playerInput.UP, InputControl.playerInput.DOWN, InputControl.playerInput.LEFT, InputControl.playerInput.RIGHT,

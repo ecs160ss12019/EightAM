@@ -47,7 +47,7 @@ class GameView extends SurfaceView implements Runnable {
         surfaceHolder = getHolder();
         int colorPrimary = ContextCompat.getColor(getContext(), R.color.colorPrimary);
         int colorAccent = ContextCompat.getColor(getContext(), R.color.colorAccent);
-        defaultPaint = new Paint();
+        defaultPaint = PaintStore.getInstance().getPaint("font_paint");
         defaultPaint.setColor(colorPrimary);
         defaultPaint.setStyle(Paint.Style.FILL);
         defaultPaint.setAntiAlias(true);

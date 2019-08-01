@@ -13,7 +13,7 @@ public class SmallAlienBulletSpec extends BaseBulletSpec {
     public static int maxDistance = 1200;
     public static int damage = 1;
     public static ObjectID owner = null;
-    public static String tag = "small_alien_bullet";
+    public static String tag = "bullet_alien_small";
     public static Point dimensions = new Point(7, 7);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(speed, 0, speed);

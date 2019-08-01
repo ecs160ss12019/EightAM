@@ -77,7 +77,9 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         restartText = findViewById(R.id.restartText);     //restart layout
 
         AssetLoader.load(gameView.getContext());
-        audio = new AudioUtility(gameView.getContext());
+        audio = new AudioUtility();
+        audio.loadSound(this, 0);
+        audio.start();
         InputControl.initializeButtons(this);
 
         Messages.setPaint(this);
@@ -132,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         if (gameController != null) {
             gameController.onPause();
         }
+        audio.sendMusicCommand(false, true, false);
     }
 
     @Override
@@ -140,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         if (gameView == null || gameModel == null || gameController == null) {
             onStartScreen();
         } else {
+            audio.sendMusicCommand(false, false, true);
             gameController.onResume();
             gameView.onResume();
         }
@@ -158,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         gameController.onPause();
         gameView.onPause();
         scoreboard.setHighScore(gameModel.stats.score);
+        audio.offMusic();
         onGameOverScreen();
         new Handler().postDelayed(() -> {
             restartLayout.setVisibility(View.GONE);
@@ -177,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         gameView.onResume();
         gameController.onResume();
         gameModel.startGame();
+        audio.startOverMusic();
     }
 
     protected void setResumeListener() {

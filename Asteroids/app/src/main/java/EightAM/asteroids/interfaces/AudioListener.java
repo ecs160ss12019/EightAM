@@ -15,4 +15,6 @@ public interface AudioListener {
     void onMusic();
     void offMusic();
     void playSound(int soundID);
+
+    void sendMusicCommand(boolean startOver, boolean pause, boolean resume);
 }

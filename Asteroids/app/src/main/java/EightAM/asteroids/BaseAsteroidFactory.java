@@ -6,6 +6,11 @@ import java.util.Map;
 import EightAM.asteroids.interfaces.AsteroidFactory;
 import EightAM.asteroids.specs.BaseAsteroidSpec;
 
+/**
+ * The Asteroid Factory creates instances of the Asteroids.
+ * All asteroids objects are cached to be used/copied later
+ * during the duration of the game.
+ */
 class BaseAsteroidFactory implements AsteroidFactory {
     static BaseAsteroidFactory instance;
     private Map<BaseAsteroidSpec, Asteroid> prototypes;
@@ -23,6 +28,13 @@ class BaseAsteroidFactory implements AsteroidFactory {
         return instance;
     }
 
+    /**
+     * Sets random attributes such as Speed, direction and spin.
+     * The range is entirely dependent on the particular asteroid's
+     * spec
+     *
+     * @param ret - the asteroid to be returned to the generator
+     */
     private void setUniqueAttributes(Asteroid ret) {
         float randSpeed = GameRandom.randomFloat(ret.speedRange.first, ret.speedRange.second);
         float randAngle = GameRandom.randomFloat(Float.MIN_VALUE, (float) Math.PI * 2);

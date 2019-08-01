@@ -9,6 +9,10 @@ import EightAM.asteroids.specs.BaseObjectSpec;
 import EightAM.asteroids.specs.BaseParticleSpec;
 import EightAM.asteroids.specs.BaseShipSpec;
 
+/**
+ * Base Factory determines which factory to invoke depending on the specification provided.
+ * The Base Factory is also a singleton.
+ */
 class BaseFactory implements Factory {
     static BaseFactory instance;
 

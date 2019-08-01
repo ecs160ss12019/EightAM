@@ -14,7 +14,7 @@ import EightAM.asteroids.specs.BaseAlienSpec;
 import EightAM.asteroids.specs.BigAlienSpec;
 import EightAM.asteroids.specs.SmallAlienSpec;
 
-public class AlienGenerator extends CollidableObjectGenerator {
+public class AlienGenerator{
     private static boolean debug = false;
     /**
      * Makes an alien and puts it into model's objectMap.

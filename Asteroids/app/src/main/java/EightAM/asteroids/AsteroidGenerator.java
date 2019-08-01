@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import EightAM.asteroids.specs.LargeAsteroidSpec;
 
-public class AsteroidGenerator extends CollidableObjectGenerator {
+public class AsteroidGenerator{
     private AsteroidGenerator() {
     }
 

@@ -32,9 +32,19 @@ final class AssetLoader {
                     new MediumAsteroidSpec(), new SmallAsteroidSpec(), new SlowLongBulletSpec(),
                     new RandomLootSpec()));
 
+    private static void loadFont(PaintStore paintStore, Context c) {
+        Paint p = new Paint();
+        Typeface tf = ResourcesCompat.getFont(c, R.font.retro);
+        p.setTypeface(tf);
+        paintStore.addPaint("font_paint", p);
+    }
+
     static void load(Context c) {
         BitmapStore bitmapStore = BitmapStore.getInstance();
         PaintStore paintStore = PaintStore.getInstance();
+
+        loadFont(paintStore, c);
+
         for (BaseObjectSpec baseSpec : specList) {
             if (baseSpec instanceof BaseBitmapSpec) {
                 BaseBitmapSpec spec = (BaseBitmapSpec) baseSpec;

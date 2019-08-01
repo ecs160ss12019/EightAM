@@ -22,7 +22,7 @@ public class Messages {
     private static Queue<Message> messageQueue = new ArrayDeque<>();
     private static long lastDrawTime;
     private static Lock lock = new ReentrantLock();
-    private static Paint paint = new Paint();
+    private static Paint paint;
     private static int fontSize;
 
     private Messages() {
@@ -30,12 +30,12 @@ public class Messages {
 
     static void setPaint(Context c) {
         fontSize = c.getResources().getDimensionPixelSize(R.dimen.inGameMessageSize);
+        paint = PaintStore.getInstance().getPaint("font_paint");
         paint.setColor(Color.WHITE);
         paint.setTextSize(fontSize);
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
-        Typeface tf = ResourcesCompat.getFont(c, R.font.retro);
-        paint.setTypeface(tf);
+
     }
 
     static void addMessage(Message message) {

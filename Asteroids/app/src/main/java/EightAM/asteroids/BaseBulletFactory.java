@@ -5,14 +5,20 @@ import java.util.Map;
 
 import EightAM.asteroids.interfaces.BulletFactory;
 import EightAM.asteroids.specs.BaseBulletSpec;
+import EightAM.asteroids.specs.BasicBulletSpec;
+import EightAM.asteroids.specs.LaserBulletSpec;
 
 public class BaseBulletFactory implements BulletFactory {
     static BaseBulletFactory instance;
     private Map<BaseBulletSpec, Bullet> prototypes;
 
-    private BaseBulletFactory() { prototypes = new HashMap<>(); }
+    private BaseBulletFactory() {
+        prototypes = new HashMap<>();
+    }
 
-    static void init() { if (instance == null) instance = new BaseBulletFactory(); }
+    static void init() {
+        if (instance == null) instance = new BaseBulletFactory();
+    }
 
     static BaseBulletFactory getInstance() {
         if (instance == null) init();
@@ -21,20 +27,28 @@ public class BaseBulletFactory implements BulletFactory {
 
     @Override
     public Bullet createBullet(BaseBulletSpec spec) {
-        Bullet ret;
-        if (prototypes.containsKey(spec)) {
-            // we have made this kind of bullet before
-            // so clone this previously known bullet
-            ret = new Bullet(prototypes.get(spec));
-        } else {
-            // this is a new kind of bullet, so store in prototypes
-            Bullet bullet = new Bullet(spec);
-
-            prototypes.put(spec, bullet);
-            ret = new Bullet(spec);
+//        Bullet ret;
+//        if (prototypes.containsKey(spec)) {
+//            // we have made this kind of bullet before
+//            // so clone this previously known bullet
+//            ret = new Bullet(prototypes.get(spec));
+//        } else {
+//            // this is a new kind of bullet, so store in prototypes
+//            Bullet bullet = new Bullet(spec);
+//
+//            prototypes.put(spec, bullet);
+//            ret = new Bullet(spec);
+//        }
+////        if (ret instanceof GameObject) Log.d("BulletFac", "created");
+////        if (ret == null)Log.d("BulletFac", "null");
+        Bullet bullet = prototypes.get(spec);
+        if (bullet == null) {
+            if (spec instanceof BasicBulletSpec) {
+                bullet = new Bullet(spec);
+            } else if (spec instanceof LaserBulletSpec) {
+                bullet = new LaserBullet((LaserBulletSpec) spec);
+            }
         }
-//        if (ret instanceof GameObject) Log.d("BulletFac", "created");
-//        if (ret == null)Log.d("BulletFac", "null");
-        return ret;
+        return (Bullet) bullet.makeCopy();
     }
 }

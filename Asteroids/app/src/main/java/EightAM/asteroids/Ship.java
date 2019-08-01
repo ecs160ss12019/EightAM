@@ -18,9 +18,11 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.Invulnerable;
+import EightAM.asteroids.interfaces.LimitedWeapon;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseShipSpec;
+import EightAM.asteroids.specs.LaserWeaponSpec;
 
 public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
         EventGenerator, Destructable {
@@ -39,7 +41,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     private EventHandler eventHandler;
 
     private Weapon weapon;
-    private Weapon backupWeapon;
+    private Weapon primaryWeapon;
+    private Weapon secondaryWeapon;
 
     private Timer invDurationTimer;
 
@@ -60,7 +63,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
-        this.weapon = BaseWeaponFactory.getInstance().createWeapon(spec.weaponSpec);
+        this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
+        this.secondaryWeapon = BaseWeaponFactory.getInstance().createWeapon(spec.weaponSpec);
         this.teleportCooldownTimer = new Timer(spec.teleportCooldown, 0);
         this.teleportDelayTimer = new Timer(spec.teleportDelay, 0);
 
@@ -80,7 +84,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = ship.rotationSpeed;
         this.acceleration = ship.acceleration;
         this.deceleration = ship.deceleration;
-        this.weapon = (Weapon) ship.weapon.makeCopy();
+        this.primaryWeapon = (Weapon) ship.primaryWeapon.makeCopy();
+        this.secondaryWeapon = (Weapon) ship.secondaryWeapon.makeCopy();
         this.teleportCooldownTimer = new Timer(ship.teleportCooldownTimer);
         this.teleportDelayTimer = new Timer(ship.teleportDelayTimer);
 
@@ -101,6 +106,12 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
     void updateWeapon(long deltaTime) {
+        if (weapon == null) {
+            weapon = primaryWeapon;
+        }
+        if (primaryWeapon instanceof LimitedWeapon && ((LimitedWeapon) primaryWeapon).expired()) {
+            weapon = secondaryWeapon;
+        }
         weapon.update(deltaTime);
     }
 

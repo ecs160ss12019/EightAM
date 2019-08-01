@@ -1,16 +1,17 @@
 package EightAM.asteroids;
 
+import EightAM.asteroids.interfaces.LimitedWeapon;
 import EightAM.asteroids.specs.BaseTimeLimitedWeaponSpec;
 
-abstract class BaseTimeLimitedWeapon extends Weapon {
+abstract class TimeLimitedWeapon extends Weapon implements LimitedWeapon {
     Timer timeLimit;
 
-    BaseTimeLimitedWeapon(BaseTimeLimitedWeaponSpec spec) {
+    TimeLimitedWeapon(BaseTimeLimitedWeaponSpec spec) {
         super(spec);
         this.timeLimit = new Timer(spec.timeLimit, 0);
     }
 
-    BaseTimeLimitedWeapon(BaseTimeLimitedWeapon weapon) {
+    TimeLimitedWeapon(TimeLimitedWeapon weapon) {
         super(weapon);
         this.timeLimit = new Timer(weapon.timeLimit);
     }
@@ -24,5 +25,15 @@ abstract class BaseTimeLimitedWeapon extends Weapon {
     @Override
     boolean canFire() {
         return super.canFire() && !timeLimit.reachedTarget;
+    }
+
+    @Override
+    public boolean expired() {
+        return timeLimit.reachedTarget;
+    }
+
+    @Override
+    public int amountLeft() {
+        return (int) timeLimit.remaining();
     }
 }

@@ -6,7 +6,7 @@ import java.util.Collections;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.specs.LaserWeaponSpec;
 
-class LaserWeapon extends BaseTimeLimitedWeapon {
+class LaserWeapon extends TimeLimitedWeapon {
     LaserWeapon(LaserWeaponSpec spec) {
         super(spec);
     }

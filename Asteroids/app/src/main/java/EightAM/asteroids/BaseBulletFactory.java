@@ -7,6 +7,7 @@ import EightAM.asteroids.interfaces.BulletFactory;
 import EightAM.asteroids.specs.BaseBulletSpec;
 import EightAM.asteroids.specs.BasicBulletSpec;
 import EightAM.asteroids.specs.LaserBulletSpec;
+import EightAM.asteroids.specs.SlowLongBulletSpec;
 
 public class BaseBulletFactory implements BulletFactory {
     static BaseBulletFactory instance;
@@ -43,7 +44,7 @@ public class BaseBulletFactory implements BulletFactory {
 ////        if (ret == null)Log.d("BulletFac", "null");
         Bullet bullet = prototypes.get(spec);
         if (bullet == null) {
-            if (spec instanceof BasicBulletSpec) {
+            if (spec instanceof BasicBulletSpec || spec instanceof SlowLongBulletSpec) {
                 bullet = new Bullet(spec);
             } else if (spec instanceof LaserBulletSpec) {
                 bullet = new LaserBullet((LaserBulletSpec) spec);

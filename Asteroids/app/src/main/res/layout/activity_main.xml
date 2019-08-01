@@ -83,7 +83,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="36dp"
             android:layout_marginLeft="35dp"
-            android:layout_marginBottom="105dp"
+            android:layout_marginBottom="85dp"
             app:srcCompat="@drawable/button_left" />
 
         <ImageView
@@ -95,7 +95,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="36dp"
             android:layout_marginRight="36dp"
-            android:layout_marginBottom="105dp"
+            android:layout_marginBottom="85dp"
             app:srcCompat="@drawable/button_up" />
 
 

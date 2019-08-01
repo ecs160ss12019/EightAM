@@ -16,18 +16,18 @@ public class BasicShipSpec extends BaseShipSpec {
     public static float deceleration = 0.9985f;
     public static int reloadTime = 500;
     public static int invincibilityDuration = 3000;
-    public static int teleportDelay = 1000;
+    public static int teleportDelay = 500;
     public static int teleportCooldown = 5000;
 
     public static String tag = "ship_basic";
-    public static Point dimensions = new Point(16, 16);
+    public static Point dimensions = new Point(32, 32);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation((float) Math.PI * 3f / 2, 0);
     //public static Rotation initialRotation = new Rotation(0, 0);
 
     public static int resID = R.drawable.ic_basic_ship;
-    public static float dbmRatio = 4f;
+    public static float dbmRatio = 2f;
 
     public static int paintColor = Color.BLUE;
     public static Paint.Style paintStyle = Paint.Style.FILL;

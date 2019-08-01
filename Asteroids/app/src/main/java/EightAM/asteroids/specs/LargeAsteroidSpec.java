@@ -10,13 +10,13 @@ import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
 
 public class LargeAsteroidSpec extends BaseAsteroidSpec {
-    public static Pair<Float, Float> speedRange = new Pair<>(0.01f, 0.1f);
+    public static Pair<Float, Float> speedRange = new Pair<>(0.1f, 0.15f);
     public static Pair<Float, Float> spinRange = new Pair<>(0f, 0.002f);
     public static BaseAsteroidSpec breaksInto = new MediumAsteroidSpec();
     public static int breakCount = 2;
 
     public static String tag = "asteroid_large";
-    public static Point dimensions = new Point(100, 100);
+    public static Point dimensions = new Point(200, 200);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(0, 0, speedRange.second);
     public static Rotation initialRotation = new Rotation(0, 0);

@@ -13,7 +13,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static int pointValue = 100;
     public static int hitPoints = 1;
     public static int _reloadTime = 30;
-    public static float maxSpeed = 0.25f;
+    public static float maxSpeed = 0.5f;
     public static float initialAngle = (float) Math.PI * 0.25f;
 
     public static String tag = "alien_small";
@@ -22,7 +22,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation(initialAngle, 0);
 
-    public static float accuracy = 75;
+    public static float accuracy = 50;
 
     public static int paintColor = Color.BLUE;
     public static Paint.Style paintStyle = Paint.Style.FILL;
@@ -31,7 +31,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static float dbmRatio = 2f;
 
     public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(1800, 2500);
-    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(2000, 3000);
+    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(1000, 2000);
     public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
 
     public int reloadTime;

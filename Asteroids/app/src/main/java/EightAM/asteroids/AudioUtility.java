@@ -137,6 +137,5 @@ public class AudioUtility implements AudioListener {
     @Override
     public void offMusic() {
         music.stop();
-        music.release();
     }
 }

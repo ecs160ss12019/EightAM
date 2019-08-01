@@ -4,6 +4,7 @@ import static EightAM.asteroids.Constants.ALIEN_SPAWN_PROB;
 import static EightAM.asteroids.Constants.ASTEROID_INC_WAVE;
 import static EightAM.asteroids.Constants.BOUNDARY_OFFSET;
 import static EightAM.asteroids.Constants.BOUNDARY_SHRINK_RATE;
+import static EightAM.asteroids.Constants.STARTING_MAX_ALIENS;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 
 import android.graphics.Point;
@@ -83,6 +84,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         wave.asteroidSpawnCount = STARTING_ASTEROIDS;
         wave.asteroidInc = ASTEROID_INC_WAVE;
         wave.alienSpawnProb = ALIEN_SPAWN_PROB;
+        wave.maxAlienPerLevel = STARTING_MAX_ALIENS;
         addObjects(respawnShip());
         putObjects();
     }

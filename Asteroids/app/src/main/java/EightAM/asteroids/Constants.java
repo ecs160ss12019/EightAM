@@ -25,7 +25,7 @@ final class Constants {
     static final float ALIEN_PROB_INC = .1f;
     static final int ASTEROID_INC_WAVE = 1;
     static final long WAVE_GRACE_PERIOD = 5000;
-    static final int MAX_ALIENS_PER_LEVEL = 1;
+    static final int STARTING_MAX_ALIENS = 1;
 
     // SPAWNBOX STUFF
     static final int BOUNDARY_OFFSET = 100;

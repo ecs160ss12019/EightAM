@@ -1,9 +1,7 @@
 package EightAM.asteroids;
 
 /**
- * The Velocity class holds the magnitude and direction of velocity.
- *
- * Getter functions return components of the velocity (with respects to x and y).
+ * The Velocity class holds its x and y components.
  */
 public class Velocity {
     float x;
@@ -16,6 +14,7 @@ public class Velocity {
      *
      * @param speed - Magnitude of velocity
      * @param angle - Direction of velocity
+     * @param maxSpeed - Speed limit of the object
      */
 
     public Velocity(float speed, float angle, float maxSpeed) {
@@ -33,23 +32,19 @@ public class Velocity {
     }
 
     /**
-     * Update Velocity
-     * Increment Speed (Magnitude of velocity)
-     * Update Velocity by assignment. //<- subject to change, If you guys think its easier to
-     * increment angle
+     * Updates the velocity by adding to its components over time
+     * Caps the magnitude at maxSpeed
      */
     protected void accelerate(float magnitude, float orientation, float decelerateVal) {
         x += (float) Math.cos(orientation) * magnitude;
         y += (float) Math.sin(orientation) * magnitude;
 
+        //Code below made ship accelerate smoothly
         while (magnitude() > maxSpeed) {
-            //x = MAX_SPEED * (float) Math.cos(Math.atan2(y, x));
-            //y = MAX_SPEED * (float) Math.sin(Math.atan2(y, x));
-            //Code above provides unintentional slingshot feel
-            //Code below made ship accelerate smoothly
             decelerate(decelerateVal);
         }
     }
+
 
     protected void decelerate(float magnitude) {
         x *= magnitude;

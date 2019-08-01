@@ -11,12 +11,12 @@ import android.view.SurfaceView;
 
 import androidx.core.content.ContextCompat;
 
+/**
+ * GameView passively takes the information and data from GameModel
+ * and displays it to the user.
+ */
 class GameView extends SurfaceView implements Runnable {
 
-    // ---------------Member variables-------------
-
-    //for sounds
-   // public AudioUtility audio;
     private Paint defaultPaint;
     private SurfaceHolder surfaceHolder;
     private boolean isRunning;
@@ -24,58 +24,39 @@ class GameView extends SurfaceView implements Runnable {
     private GameModel model;
     private Canvas canvas;
 
-    // ---------------Member methods---------------
-
-    /**
-     * Constructors
-     */
-    GameView(Context ctx) {
-        this(ctx, null);
-    }
 
     GameView(Context ctx, AttributeSet attrs) {
         super(ctx, attrs);
         init();
     }
 
-    GameView(Context ctx, AttributeSet attrs, int defStyleAttrs) {
-        super(ctx, attrs, defStyleAttrs);
-        init();
-    }
 
     void init() {
         surfaceHolder = getHolder();
         int colorPrimary = ContextCompat.getColor(getContext(), R.color.colorPrimary);
-        int colorAccent = ContextCompat.getColor(getContext(), R.color.colorAccent);
         defaultPaint = PaintStore.getInstance().getPaint("font_paint");
         defaultPaint.setColor(colorPrimary);
         defaultPaint.setStyle(Paint.Style.FILL);
         defaultPaint.setAntiAlias(true);
-
-        // For audio
-        //audio = new AudioUtility(getContext());
     }
 
+    /**
+     * This is the main run method to display the objects and the HUD to
+     * the player.
+     * The accessing of the GameModel is mutually exclusive with the GameController
+     */
     @Override
     public void run() {
         while (isRunning) {
-
             if (surfaceHolder.getSurface().isValid()) {
                 canvas = surfaceHolder.lockCanvas();
                 if (canvas == null) return;
                 canvas.drawColor(Color.BLACK);
                 model.getLock().lock();
                 try {
-                    // Drawings
                     drawObjects(canvas);
                     Messages.draw(canvas);
-
-                    // Drawing hub
                     model.stats.drawAttributes(canvas, defaultPaint, getContext());
-
-                    // Sound effects
-//                    this.audio.playInputPress(InputControl.playerInput.UP, InputControl.playerInput.DOWN, InputControl.playerInput.LEFT, InputControl.playerInput.RIGHT,
-//                                              InputControl.playerInput.SHOOT);
                 } finally {
                     model.getLock().unlock();
                 }

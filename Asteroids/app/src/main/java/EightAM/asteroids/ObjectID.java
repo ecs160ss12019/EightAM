@@ -5,13 +5,28 @@ public class ObjectID {
     private Integer id;
     private Faction faction;
 
-    // Used only internally
+    /**
+     * Object ID is used to give each object a unique ID such that it can be referred to
+     * in the GameModel's ObjectMap.
+     *
+     * It also contains the Faction ID, which is used to determine hit detection and point
+     * scoring.
+     *
+     * Only used internally
+     * @param id
+     * @param faction
+     */
+
     private ObjectID(Integer id, Faction faction) {
         this.id = id;
         this.faction = faction;
     }
 
-    // Distributes a unique ID, for the purposes of the game anyway
+    /**
+     * Distributes a unique ID, and associates the ID with a faction
+     * @param type
+     * @return
+     */
     public static ObjectID getNewID(Faction type) {
         currID++;
         return new ObjectID(currID, type);

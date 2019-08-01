@@ -9,6 +9,12 @@ import android.util.Pair;
 
 import EightAM.asteroids.interfaces.EventHandler;
 
+/**
+ * The Wave Class implements a state pattern:
+ * InWave is a state during an active wave
+ * OutWave for the grace period in between waves
+ */
+
 class Wave {
     WaveMode waveMode;
     EventHandler eventHandler;
@@ -64,6 +70,14 @@ class Wave {
             super(waveNumber);
         }
 
+        /**
+         * Updates the wave by incrementing the difficulty, increasing aliens and asteroids iff
+         * the space is clear. Then, the wave enters a grace period (OutWave state)
+         * Else, update will randomly spawn an alien.
+         *
+         * @param wave
+         * @param eventHandler
+         */
         @Override
         void update(Wave wave, EventHandler eventHandler) {
             if (wave.currAsteroids == 0 && wave.currAliens == 0) {
@@ -99,6 +113,12 @@ class Wave {
             super(waveNumber);
         }
 
+        /**
+         * Decrements the counter for the wave grace period.
+         * Once fully decremented, the next wave state is commenced (InWave state)
+         * @param wave
+         * @param eventHandler
+         */
         @Override
         void update(Wave wave, EventHandler eventHandler) {
             if (wave.duration >= WAVE_GRACE_PERIOD) {

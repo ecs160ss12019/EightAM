@@ -50,6 +50,11 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     private Timer teleportDelayTimer;
     private boolean teleporting = false;
 
+    /**
+     * Main constructor that loads in the spec. Only ever used once
+     * per spec.
+     * @param spec
+     */
     Ship(BaseShipSpec spec) {
         super(spec);
         //General
@@ -71,6 +76,10 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.invDurationTimer = new Timer(invincibilityDuration, 0);
     }
 
+    /**
+     * The copy constructor, copies attributes from a Ship prototype.
+     * @param ship
+     */
     Ship(Ship ship) {
         super(ship);
         //General
@@ -93,6 +102,11 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
 
+    /**
+     * Updates the position of the ship based on speed (a function of time).
+     * and decrements the object specific counters
+     * @param timeInMillisecond
+     */
     @Override
     void update(long timeInMillisecond) {
         super.update(timeInMillisecond);
@@ -105,6 +119,11 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     }
 
+    /**
+     * Decrements counters for limited weapons. If special weapon has ran out, then
+     * the basic weapon is used.
+     * @param deltaTime
+     */
     void updateWeapon(long deltaTime) {
         if (weapon == null) {
             weapon = primaryWeapon;
@@ -115,6 +134,12 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         weapon.update(deltaTime);
     }
 
+    /**
+     * Teleport enables the HyperSpace ability of the Ship.
+     * Though, a delay and cooldown timers are introduced to prevent
+     * abuse.
+     * @param deltaTime
+     */
     void teleportAbility(long deltaTime) {
         teleportCooldownTimer.update(deltaTime);
         if (teleportCooldownTimer.reachedTarget) {
@@ -181,7 +206,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
         if (i.SHOOT) {
             shoot();
-//            shotDelayCounter = shotDelay;
         }
 
         if (i.DOWN) {

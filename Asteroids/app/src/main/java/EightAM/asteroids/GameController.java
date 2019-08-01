@@ -7,6 +7,11 @@ import android.util.Log;
 
 import EightAM.asteroids.interfaces.GameOverListener;
 
+/**
+ * GameController modifies and updates the state of the GameModel
+ * by providing with a "sense" of time, i.e. it's the game loop without
+ * the business logic
+ */
 final class GameController implements Runnable {
     private Thread thread;
     private long currentTick;
@@ -22,6 +27,14 @@ final class GameController implements Runnable {
         this.gameOverListener = listener;
     }
 
+    /**
+     * The main run function of the GameController. It sends user input, and
+     * time passed, to the GameModel, such that the GameModel will use the
+     * information to update its state.
+     *
+     * The passing in of the information and data is mutually exclusive with
+     * GameView.
+     */
     @Override
     public void run() {
         currentTick = SystemClock.elapsedRealtime();
@@ -31,12 +44,8 @@ final class GameController implements Runnable {
             if (delta > 0) {
                 model.getLock().lock();
                 try {
-                    // Get player input
                     model.input(InputControl.playerInput);
-                    // Update model
                     model.update(delta);
-
-                    // Detect Game Over
                 } finally {
                     model.getLock().unlock();
                 }

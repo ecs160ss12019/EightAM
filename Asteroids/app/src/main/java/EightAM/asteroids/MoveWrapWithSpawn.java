@@ -7,7 +7,8 @@ import EightAM.asteroids.interfaces.MoveStrategy;
 
 /**
  * Behaves like MoveWrap with outerBoundaries, but when object moves inside boundaries, changes to
- * MoveWrap behavior
+ * MoveWrap behavior. This is to ensure objects smoothly transition from the outside of the screen
+ * to the inside.
  */
 class MoveWrapWithSpawn implements MoveStrategy {
     RectF boundaries;
@@ -38,6 +39,7 @@ class MoveWrapWithSpawn implements MoveStrategy {
         } else if (cy < 0) {
             o.hitbox.offset(0, outerBoundaries.height());
         }
+        //Shrinks the boundaries until objects are within the play area
         if (outerBoundaries.contains(boundaries)) {
             outerBoundaries.inset(outerBoundaries.width() * (boundaryShrinkRate * deltaTime),
                     outerBoundaries.height() * (boundaryShrinkRate * deltaTime));

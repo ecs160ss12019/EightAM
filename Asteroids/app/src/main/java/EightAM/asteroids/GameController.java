@@ -62,7 +62,7 @@ final class GameController implements Runnable {
 
     void pause() {
         isRunning = false;
-        this.model.audioListener.offMusic();
+        //this.model.audioListener.offMusic();
         try {
             thread.join();
         } catch (InterruptedException e) {

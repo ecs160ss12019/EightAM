@@ -13,12 +13,15 @@ public class Particle extends GameObject implements Destructable {
 
     // ---------------Member variables-------------
 
-    Bitmap bitmap;
     long duration;
     DestructListener destructListener;
 
     // ---------------Member methods---------------
 
+    /**
+     *  Main constructor of a Particle object.
+     * @param spec specifies particle's attributes.
+     */
     Particle(BaseParticleSpec spec) {
         super(spec);
         this.id = ObjectID.getNewID(Faction.Neutral);
@@ -31,27 +34,33 @@ public class Particle extends GameObject implements Destructable {
         this.duration = particle.duration;
     }
 
+    /**
+     * Decrement timer (duration). Once the timer is up, explosion fades its animation
+     * @param timeInMillisecond
+     */
     @Override
     void update(long timeInMillisecond) {
         super.update(timeInMillisecond);
 
-//        this.duration -= timeInMillisecond;
         if (this.duration > timeInMillisecond) {
             this.duration -= timeInMillisecond;
         } else {
             this.destruct(null);
             this.duration = 0;
-            //Log.d(this.getClass().toString(), Long.toString(timeInMillisecond));
         }
     }
 
 
+    /**
+     * Timer (duration) acts as alpha value of the color of Particle.
+     * This will create a fading effect as alpha value decreases to zero.
+     * A random combination of RGB will create colorful Particles.
+     * @param canvas
+     */
     @Override
     public void draw(Canvas canvas) {
         Random r = new Random();
-        //this.paint.setARGB(255, r.nextInt(256), r.nextInt(256), r.nextInt(256));
         canvas.drawRect(this.hitbox, this.paint);
-
         this.paint.setARGB((int)this.duration, r.nextInt(256), r.nextInt(256), r.nextInt(256));
     }
 

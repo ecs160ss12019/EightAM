@@ -165,7 +165,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     /**
-     * TODO: change handle name to reflect functionality
      *
      * @param i input by user.
      * @return if to pause game.

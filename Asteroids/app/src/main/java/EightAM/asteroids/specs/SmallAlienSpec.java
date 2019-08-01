@@ -12,7 +12,6 @@ import EightAM.asteroids.Velocity;
 public class SmallAlienSpec extends BaseAlienSpec {
     public static int pointValue = 100;
     public static int hitPoints = 1;
-    public static int _reloadTime = 30;
     public static float maxSpeed = 0.25f;
     public static float initialAngle = (float) Math.PI * 0.25f;
 
@@ -32,28 +31,27 @@ public class SmallAlienSpec extends BaseAlienSpec {
 
     public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(1800, 2500);
     public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(2000, 3000);
-    public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
 
-    public int reloadTime;
+    public static BaseWeaponSpec weaponSpec = new SmallAlienWeaponSpec();
+
     public Pair<Integer, Integer> turnDelayRange;
     public Pair<Integer, Integer> shotDelayRange;
 
     public SmallAlienSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
             float dimensionBitMapRatio, int pointValue,
-            int hitPoints, int reloadTime,
+            int hitPoints, BaseWeaponSpec weaponSpec,
             Pair<Integer, Integer> turnDelayRange,
             Pair<Integer, Integer> shotDelayRange) {
         super(tag, dimensions, initialPosition, initialVelocity, initialRotation, bitMapResourceID,
-                dimensionBitMapRatio, pointValue, hitPoints);
-        this.reloadTime = reloadTime;
+                dimensionBitMapRatio, pointValue, hitPoints, weaponSpec);
         this.turnDelayRange = turnDelayRange;
         this.shotDelayRange = shotDelayRange;
     }
 
     public SmallAlienSpec() {
         this(tag, dimensions, initialPosition, initialVelocity, initialRotation, resID, dbmRatio,
-                pointValue, hitPoints, _reloadTime, _turnDelayRange,
+                pointValue, hitPoints, weaponSpec, _turnDelayRange,
                 _shotDelayRange);
     }
 }

@@ -83,7 +83,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
     }
 
     @Override
-    GameObject makeCopy() {
+    public Object makeCopy() {
         return new Bullet(this);
     }
 

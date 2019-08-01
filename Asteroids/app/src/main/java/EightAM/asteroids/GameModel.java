@@ -31,7 +31,6 @@ import EightAM.asteroids.interfaces.Scoreable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BasicShipSpec;
-import EightAM.asteroids.specs.LargeAsteroidSpec;
 import EightAM.asteroids.specs.MediumAsteroidSpec;
 import EightAM.asteroids.specs.SmallAsteroidSpec;
 
@@ -150,8 +149,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             o.update(timeInMillisecond);
         }
 
-        for (ObjectID i: adversaries){
-            ((Alien)objectMap.get(i)).tryShoot(getPlayerShip().getObjPos());
+        for (ObjectID i : adversaries) {
+            ((Alien) objectMap.get(i)).tryShoot(getPlayerShip().getObjPos());
         }
 
         for (Pair<Collision, GameObject> objectPair : CollisionChecker.enumerateCollisions(this)) {
@@ -219,8 +218,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
                 if (o instanceof Alien) {
                     adversaries.add(id);
                     audioListener.onAlienWave();
-                }
-                else if (o instanceof Ship) currPlayerShip = id;
+                } else if (o instanceof Ship) currPlayerShip = id;
                 addListeners(o);
                 addMoveStrategy(o);
                 updateWaveParam(o, 1);
@@ -287,7 +285,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         deleteList.add(id);
         if (destructable instanceof Asteroid) {
             if (((Asteroid) destructable).breaksInto instanceof MediumAsteroidSpec) {
-                    audioListener.onLargeAsteroidExplosion();
+                audioListener.onLargeAsteroidExplosion();
             } else if (((Asteroid) destructable).breaksInto instanceof SmallAsteroidSpec) {
                 audioListener.onMediumAsteroidExplosion();
             } else {
@@ -301,7 +299,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     @Override
     public void onShotFired(Shooter shooter) {
         if (shooter.canShoot()) {
-            addObjects(BulletGenerator.createBullets(shooter));
+            addObjects(shooter.getWeapon().fire(shooter));
             audioListener.onShipShoot();
         }
     }

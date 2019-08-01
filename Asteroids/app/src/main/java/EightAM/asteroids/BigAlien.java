@@ -6,20 +6,16 @@ public class BigAlien extends Alien {
 
     public BigAlien(BigAlienSpec spec) {
         super(spec);
-        this.reloadTime = spec.reloadTime;
         this.turnDelayRange = spec.turnDelayRange;
         this.shotDelayRange = spec.shotDelayRange;
-        this.bulletSpec = BigAlienSpec.bulletSpec;
-        this.accuracy = spec.accuracy;
+        this.accuracy = BigAlienSpec.accuracy;
         setUp();
     }
 
     public BigAlien(BigAlien alien) {
         super(alien);
-        this.reloadTime = alien.reloadTime;
         this.turnDelayRange = alien.turnDelayRange;
         this.shotDelayRange = alien.shotDelayRange;
-        this.bulletSpec = alien.bulletSpec;
         this.accuracy = alien.accuracy;
         setUp();
     }
@@ -30,7 +26,7 @@ public class BigAlien extends Alien {
     }
 
     @Override
-    GameObject makeCopy() {
+    public Object makeCopy() {
         return new BigAlien(this);
     }
 }

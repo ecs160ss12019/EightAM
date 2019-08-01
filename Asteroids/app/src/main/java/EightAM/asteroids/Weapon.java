@@ -1,29 +1,41 @@
 package EightAM.asteroids;
 
+import android.util.Log;
+
 import java.util.Collection;
 
+import EightAM.asteroids.interfaces.Copyable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.specs.BaseBulletSpec;
+import EightAM.asteroids.specs.BaseWeaponSpec;
 
-abstract class Weapon {
-    private BaseBulletSpec bulletSpec;
-    private int reloadTime;
-    private int timeTillNext;
-    private boolean infiniteAmmo;
-    private int ammo;
+public abstract class Weapon implements Copyable {
+    BaseBulletSpec bulletSpec;
+    Timer reloadTimer;
 
-    int timeNextShot() {
-        return timeTillNext;
+    public Weapon(BaseWeaponSpec weaponSpec) {
+        this.bulletSpec = weaponSpec.bulletSpec;
+        Log.d(weaponSpec.getClass().getCanonicalName(), Integer.toString(weaponSpec.reloadTime));
+        this.reloadTimer = new Timer(weaponSpec.reloadTime, 0);
+    }
+
+    public Weapon(Weapon weapon) {
+        this.bulletSpec = weapon.bulletSpec;
+        Log.d(weapon.getClass().getCanonicalName(), weapon.reloadTimer.toString());
+        this.reloadTimer = new Timer(weapon.reloadTimer);
+    }
+
+    long timeTillNextShot() {
+        return reloadTimer.remaining();
     }
 
     void update(long deltaTime) {
-        timeTillNext -= deltaTime;
-        if (timeTillNext < 0) timeTillNext = 0;
+        reloadTimer.update(deltaTime);
     }
 
     boolean canFire() {
-        return timeTillNext == 0;
+        return reloadTimer.reachedTarget;
     }
 
-    abstract Collection<Bullet> fire(Shooter shooter);
+    abstract Collection<GameObject> fire(Shooter shooter);
 }

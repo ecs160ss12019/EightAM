@@ -19,7 +19,7 @@ class RandomLoot extends Loot {
     }
 
     @Override
-    GameObject makeCopy() {
+    public Object makeCopy() {
         return new RandomLoot(this);
     }
 

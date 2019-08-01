@@ -67,7 +67,7 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     }
 
     @Override
-    GameObject makeCopy() {
+    public Object makeCopy() {
         return new Asteroid(this);
     }
 

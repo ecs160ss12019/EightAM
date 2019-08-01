@@ -56,7 +56,7 @@ public class Particle extends GameObject implements Destructable {
     }
 
     @Override
-    GameObject makeCopy() {
+    public Object makeCopy() {
         return new Particle(this);
     }
 

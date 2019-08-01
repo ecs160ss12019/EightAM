@@ -36,7 +36,7 @@ abstract class Loot extends GameObject implements EventGenerator, Collision {
         this.bitmap = loot.bitmap;
         this.dbmRatio = loot.dbmRatio;
         this.randomAcceleration = loot.randomAcceleration;
-        this.duration = new Timer(loot.duration.target, loot.duration.start);
+        this.duration = new Timer(loot.duration);
     }
 
     @Override
@@ -65,7 +65,7 @@ abstract class Loot extends GameObject implements EventGenerator, Collision {
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
-        if (Math.abs(duration.target - duration.curr) < LOOT_FADE_TIME) {
+        if (Math.abs(duration.remaining()) < LOOT_FADE_TIME) {
             drawFading();
         }
         matrix.setTranslate(this.hitbox.centerX() - (float) (bitmap.getWidth() / 2),

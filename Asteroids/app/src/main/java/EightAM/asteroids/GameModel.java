@@ -287,15 +287,19 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         createDebris((GameObject) destructable);
         ObjectID id = destructable.getID();
         deleteList.add(id);
-        if (destructable instanceof Asteroid) {
-            if (((Asteroid) destructable).breaksInto instanceof MediumAsteroidSpec) {
-                    audioListener.onLargeAsteroidExplosion();
-            } else if (((Asteroid) destructable).breaksInto instanceof SmallAsteroidSpec) {
+        playExplosion((GameObject) destructable);
+    }
+
+    private void playExplosion(GameObject object){
+        if (object instanceof Asteroid) {
+            if (((Asteroid) object).breaksInto instanceof MediumAsteroidSpec) {
+                audioListener.onLargeAsteroidExplosion();
+            } else if (((Asteroid) object).breaksInto instanceof SmallAsteroidSpec) {
                 audioListener.onMediumAsteroidExplosion();
             } else {
                 audioListener.onSmallAsteroidExplosion();
             }
-        } else if (destructable instanceof Alien) {
+        } else if (object instanceof Alien) {
             audioListener.onAlienExplosion();
         }
     }

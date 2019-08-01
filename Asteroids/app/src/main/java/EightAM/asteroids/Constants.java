@@ -2,7 +2,7 @@ package EightAM.asteroids;
 
 final class Constants {
     // GENERAL
-    static final double ALIEN_SPAWN_PROB = .00005d; // 100% while debugging
+    static final double ALIEN_SPAWN_PROB = .00008d; // 100% while debugging
 
     // ASTEROID
     static final float SAFE_DISTANCE = 800;

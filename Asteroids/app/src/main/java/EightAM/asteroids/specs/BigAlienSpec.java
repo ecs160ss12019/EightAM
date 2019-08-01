@@ -30,7 +30,7 @@ public class BigAlienSpec extends BaseAlienSpec {
     public static float dbmRatio = 2f;
 
     public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(2000, 3500);
-    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(1000, 3000);
+    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(1000, 2000);
 
     public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
 

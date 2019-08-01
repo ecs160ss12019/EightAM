@@ -13,7 +13,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static int pointValue = 100;
     public static int hitPoints = 1;
     public static int _reloadTime = 30;
-    public static float maxSpeed = 0.5f;
+    public static float maxSpeed = 0.25f;
     public static float initialAngle = (float) Math.PI * 0.25f;
 
     public static String tag = "alien_small";
@@ -30,8 +30,8 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static int resID = R.drawable.ic_small_alien;
     public static float dbmRatio = 2f;
 
-    public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(1800, 2500);
-    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(1000, 2000);
+    public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(1500, 2000);
+    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(1000, 1500);
     public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
 
     public int reloadTime;

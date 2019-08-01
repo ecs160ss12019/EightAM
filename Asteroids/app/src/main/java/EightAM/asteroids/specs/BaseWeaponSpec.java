@@ -3,7 +3,7 @@ package EightAM.asteroids.specs;
 public abstract class BaseWeaponSpec {
     public BaseBulletSpec bulletSpec;
     public int reloadTime;
-    String tag;
+    public String tag;
 
     public BaseWeaponSpec(String tag, BaseBulletSpec bulletSpec, int reloadTime) {
         this.tag = tag;

@@ -10,16 +10,19 @@ import EightAM.asteroids.specs.BaseBulletSpec;
 import EightAM.asteroids.specs.BaseWeaponSpec;
 
 public abstract class Weapon implements Copyable {
+    String name;
     BaseBulletSpec bulletSpec;
     Timer reloadTimer;
 
     public Weapon(BaseWeaponSpec weaponSpec) {
+        this.name = weaponSpec.tag;
         this.bulletSpec = weaponSpec.bulletSpec;
         Log.d(weaponSpec.getClass().getCanonicalName(), Integer.toString(weaponSpec.reloadTime));
         this.reloadTimer = new Timer(weaponSpec.reloadTime, 0);
     }
 
     public Weapon(Weapon weapon) {
+        this.name = weapon.name;
         this.bulletSpec = weapon.bulletSpec;
         Log.d(weapon.getClass().getCanonicalName(), weapon.reloadTimer.toString());
         this.reloadTimer = new Timer(weapon.reloadTimer);

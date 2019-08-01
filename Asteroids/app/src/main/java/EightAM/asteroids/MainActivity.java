@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         if (gameView == null || gameModel == null || gameController == null) {
             onStartScreen();
         } else {
-            gameView.onResume();
             gameController.onResume();
+            gameView.onResume();
         }
     }
 

@@ -4,9 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Typeface;
-
-import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -19,23 +16,53 @@ import EightAM.asteroids.interfaces.Drawable;
 public class Messages {
     private final static long DEFAULT_FADE_TIME = 500;
     private final static long DEFAULT_DURATION_MS = 5000;
+    private static final int LEFT_POSITION = 100;
+    private static final int RIGHT_POSITION = 100;
+    private static final int TOP_POSITION = 100;
+    private static final int BOTTOM_POSITION = 100;
     private static Queue<Message> messageQueue = new ArrayDeque<>();
     private static long lastDrawTime;
     private static Lock lock = new ReentrantLock();
     private static Paint paint;
-    private static int fontSize;
+    private static int largeFontSize;
+    private static int mediumFontSize;
+    private static int smallFontSize;
+
+    static void setPaint(Context c) {
+        largeFontSize = c.getResources().getDimensionPixelSize(R.dimen.MessageSizeLarge);
+        mediumFontSize = c.getResources().getDimensionPixelSize(R.dimen.MessageSizeMedium);
+        smallFontSize = c.getResources().getDimensionPixelSize(R.dimen.MessageSizeSmall);
+        paint = PaintStore.getInstance().getPaint("font_paint");
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(largeFontSize);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
+
+    }
+
+    static void drawMessage(String message, int color, long durationMS) {
+        drawMessage(message, color, durationMS, FontSize.Medium, HorizontalPosition.Center,
+                VerticalPosition.Center);
+    }
+
+    static void drawMessage(String message, int color, long durationMS, FontSize fontSize,
+            HorizontalPosition x,
+            VerticalPosition y) {
+        drawMessage(message, color, durationMS, fontSize, x, y, DEFAULT_FADE_TIME);
+    }
 
     private Messages() {
     }
 
-    static void setPaint(Context c) {
-        fontSize = c.getResources().getDimensionPixelSize(R.dimen.inGameMessageSize);
-        paint = PaintStore.getInstance().getPaint("font_paint");
-        paint.setColor(Color.WHITE);
-        paint.setTextSize(fontSize);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setAntiAlias(true);
-
+    static void drawMessage(String message, int color, long durationMS, FontSize fontSize,
+            HorizontalPosition x, VerticalPosition y, long fadeTimeMS) {
+        lock.lock();
+        try {
+            messageQueue.add(
+                    new MessageWithFade(message, color, durationMS, fontSize, x, y, fadeTimeMS));
+        } finally {
+            lock.unlock();
+        }
     }
 
     static void addMessage(Message message) {
@@ -68,22 +95,16 @@ public class Messages {
         drawMessage(message, color, DEFAULT_DURATION_MS);
     }
 
-    static void drawMessage(String message, int color, long durationMS) {
-        drawMessage(message, color, durationMS, -1, -1);
+    enum VerticalPosition {
+        Top, Center, Bottom
     }
 
-    static void drawMessage(String message, int color, long durationMS, float x, float y) {
-        drawMessage(message, color, durationMS, x, y, DEFAULT_FADE_TIME);
+    enum HorizontalPosition {
+        Left, Center, Right
     }
 
-    static void drawMessage(String message, int color, long durationMS, float x, float y,
-            long fadeTimeMS) {
-        lock.lock();
-        try {
-            messageQueue.add(new MessageWithFade(message, color, durationMS, x, y, fadeTimeMS));
-        } finally {
-            lock.unlock();
-        }
+    enum FontSize {
+        Large, Medium, Small
     }
 
     static void draw(Canvas canvas) {
@@ -111,12 +132,16 @@ public class Messages {
         String message;
         int color;
         long durationMS;
-        float x, y;
+        FontSize fontSize;
+        HorizontalPosition x;
+        VerticalPosition y;
 
-        Message(String message, int color, long durationMS, float x, float y) {
+        Message(String message, int color, long durationMS, FontSize fontSize, HorizontalPosition x,
+                VerticalPosition y) {
             this.message = message;
             this.color = color;
             this.durationMS = durationMS;
+            this.fontSize = fontSize;
             this.x = x;
             this.y = y;
         }
@@ -124,36 +149,87 @@ public class Messages {
         @Override
         public void draw(Canvas canvas) {
             paint.setColor(this.color);
-            if (x < 0 || y < 0 || x > canvas.getWidth() || y > canvas.getHeight()) {
-                paint.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(message, (float) canvas.getWidth() / 2,
-                        (float) canvas.getHeight() / 2, paint);
+            switch (fontSize) {
+                case Large:
+                    paint.setTextSize(largeFontSize);
+                    break;
+                case Medium:
+                    paint.setTextSize(mediumFontSize);
+                    break;
+                case Small:
+                    paint.setTextSize(smallFontSize);
+                    break;
             }
-            canvas.drawText(message, x, y, paint);
+            int xPos = 0;
+            int yPos = 0;
+            if (x == HorizontalPosition.Center) {
+                paint.setTextAlign(Paint.Align.CENTER);
+                xPos = canvas.getWidth() / 2;
+            } else if (x == HorizontalPosition.Left) {
+                paint.setTextAlign(Paint.Align.LEFT);
+                xPos = LEFT_POSITION;
+            } else if (x == HorizontalPosition.Right) {
+                paint.setTextAlign(Paint.Align.RIGHT);
+                xPos = canvas.getWidth() - RIGHT_POSITION;
+            }
+            if (y == VerticalPosition.Center) {
+                yPos = canvas.getHeight() / 2;
+            } else if (y == VerticalPosition.Top) {
+                yPos = TOP_POSITION;
+            } else if (y == VerticalPosition.Bottom) {
+                yPos = canvas.getHeight() - BOTTOM_POSITION;
+            }
+            canvas.drawText(message, xPos, yPos, paint);
         }
     }
 
     public static class MessageWithFade extends Message implements Drawable {
         long fadeTimeMS;
 
-        MessageWithFade(String message, int color, long durationMS, float x, float y,
-                long fadeTimeMS) {
-            super(message, color, durationMS, x, y);
+        public MessageWithFade(String message, int color, long durationMS, FontSize fontSize,
+                HorizontalPosition x, VerticalPosition y, long fadeTimeMS) {
+            super(message, color, durationMS, fontSize, x, y);
             this.fadeTimeMS = fadeTimeMS;
         }
 
         @Override
         public void draw(Canvas canvas) {
             paint.setColor(this.color);
+            switch (fontSize) {
+                case Large:
+                    paint.setTextSize(largeFontSize);
+                    break;
+                case Medium:
+                    paint.setTextSize(mediumFontSize);
+                    break;
+                case Small:
+                    paint.setTextSize(smallFontSize);
+                    break;
+            }
             if (fadeTimeMS > durationMS) {
                 paint.setAlpha((int) (255.0 * ((float) durationMS / fadeTimeMS)));
             }
-            if (x < 0 || y < 0 || x > canvas.getWidth() || y > canvas.getHeight()) {
+            int xPos = 0;
+            int yPos = 0;
+            if (x == HorizontalPosition.Center) {
                 paint.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(message, (float) canvas.getWidth() / 2,
-                        (float) canvas.getHeight() / 2, paint);
+                xPos = canvas.getWidth() / 2;
+            } else if (x == HorizontalPosition.Left) {
+                paint.setTextAlign(Paint.Align.LEFT);
+                xPos = LEFT_POSITION;
+            } else if (x == HorizontalPosition.Right) {
+                paint.setTextAlign(Paint.Align.RIGHT);
+                xPos = canvas.getWidth() - RIGHT_POSITION;
             }
-            canvas.drawText(message, x, y, paint);
+            if (y == VerticalPosition.Center) {
+                yPos = canvas.getHeight() / 2;
+            } else if (y == VerticalPosition.Top) {
+                yPos = TOP_POSITION;
+            } else if (y == VerticalPosition.Bottom) {
+                yPos = canvas.getHeight() - BOTTOM_POSITION;
+            }
+            canvas.drawText(message, xPos, yPos, paint);
+
         }
     }
 
@@ -161,11 +237,11 @@ public class Messages {
         int periodMS;
         long lastPeak;
 
-        PulsatingMessage(String message, int color, long durationMS, float x, float y,
-                int periodMS) {
-            super(message, color, durationMS, x, y);
+        public PulsatingMessage(String message, int color, long durationMS, FontSize fontSize,
+                HorizontalPosition x, VerticalPosition y, int periodMS) {
+            super(message, color, durationMS, fontSize, x, y);
             this.periodMS = periodMS;
-            lastPeak = System.currentTimeMillis();
+            this.lastPeak = System.currentTimeMillis();
         }
 
         @Override

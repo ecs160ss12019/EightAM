@@ -1,12 +1,15 @@
 package EightAM.asteroids;
 
+import static EightAM.asteroids.Constants.ALIEN_PROB_INC;
 import static EightAM.asteroids.Constants.ALIEN_SPAWN_PROB;
-import static EightAM.asteroids.Constants.ASTEROID_INC_WAVE;
 import static EightAM.asteroids.Constants.BOUNDARY_OFFSET;
 import static EightAM.asteroids.Constants.BOUNDARY_SHRINK_RATE;
-import static EightAM.asteroids.Constants.STARTING_MAX_ALIENS;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
+import static EightAM.asteroids.Constants.STARTING_MAX_ALIENS;
+import static EightAM.asteroids.Constants.STARTING_MAX_POWERUPS;
+import static EightAM.asteroids.Constants.WAVE_GRACE_PERIOD;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.Pair;
@@ -31,10 +34,17 @@ import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.interfaces.Scoreable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
+import EightAM.asteroids.specs.BaseLootSpec;
 import EightAM.asteroids.specs.BasicShipSpec;
 import EightAM.asteroids.specs.MediumAsteroidSpec;
+import EightAM.asteroids.specs.RandomLootSpec;
 import EightAM.asteroids.specs.SmallAsteroidSpec;
 
+/**
+ * GameModel holds the main business logic of the game. It decides
+ * what other functions to invoke, and what conditions to invoke them.
+ * Basically, it is the main game logic
+ */
 public class GameModel implements GameState, EventHandler, ShotListener {
 
     GameStats stats;
@@ -66,7 +76,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         objectMap = new HashMap<>();
         collideables = new HashSet<>();
         adversaries = new HashSet<>();
-
         createList = new ArrayList<>();
         deleteList = new ArrayList<>();
 
@@ -75,39 +84,39 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         this.audioListener = audio;
     }
 
+    /**
+     * Initializes all parameters needed to start the game.
+     */
     void startGame() {
         this.gameOver = false;
         resetObjects();
         stats.newGame();
-        wave = new Wave(this, boundaries, spawnBoundaries);
-        wave.asteroidSpawnCount = STARTING_ASTEROIDS;
-        wave.asteroidInc = ASTEROID_INC_WAVE;
-        wave.alienSpawnProb = ALIEN_SPAWN_PROB;
-        wave.maxAlienPerLevel = STARTING_MAX_ALIENS;
+        wave = new Wave(this, boundaries, spawnBoundaries, STARTING_MAX_ALIENS, STARTING_ASTEROIDS,
+                STARTING_MAX_POWERUPS, WAVE_GRACE_PERIOD, ALIEN_SPAWN_PROB, ALIEN_PROB_INC);
         addObjects(respawnShip());
         putObjects();
     }
 
-    //Ship stuff *START*
+    /**
+     * Reset stats and playing field. i.e. the objects in them.
+     */
     private void resetObjects() {
         this.stats = new GameStats(boundaries);
         objectMap.clear();
         this.currPlayerShip = null;
     }
 
+    /**
+     * Respawns the ship by returning its instance within a collection singleton
+     * @return
+     */
     private Collection<GameObject> respawnShip() {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
         ship.hitbox.offsetTo(boundaries.width() / 2.0f, boundaries.height() / 2.0f);
         return Collections.singleton(ship);
     }
-    //Ship stuff *END*
 
-    @Deprecated
-    public void onCollision(ObjectID actorID, ObjectID targetID) {
-        GameObject target = objectMap.get(targetID);
-        GameObject actor = objectMap.get(actorID);
-        if (actorID.getFaction() == Faction.Player) stats.score(target);
-    }
+
 
     public void removeObjects() {
         GameObject objectToDel;
@@ -165,7 +174,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     /**
-     * TODO: change handle name to reflect functionality
      *
      * @param i input by user.
      * @return if to pause game.
@@ -240,6 +248,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             wave.updateAsteroids(i);
         } else if (object instanceof Alien) {
             wave.updateAliens(i);
+        } else if (object instanceof Loot) {
+            wave.updatePowerups(i);
         }
     }
 
@@ -261,6 +271,15 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         }
     }
 
+    /**
+     * To set the strategy patter of the object that is passed in.
+     * Only Aliens and Asteroids have their move strategy altered upon
+     * spawning.
+     * This is so that these objects naturally drift in from the fringes
+     * of space. Switching move strategies once they're in the play area.
+     * That is, they start to wrap around the screen.
+     * @param object
+     */
     private void addMoveStrategy(GameObject object) {
         if (object instanceof Alien || object instanceof Asteroid) {
             object.setMoveStrategy(
@@ -270,6 +289,12 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         }
     }
 
+    /**
+     * Creates debris from an object (unless it is a bullet or a particle).
+     * All other objects produces particles as debris.
+     * Asteroids, if they're big enough, breaks up into smaller ones.
+     * @param object
+     */
     private void createDebris(GameObject object) {
         if (!((object instanceof Particle) || (object instanceof Bullet))) {
             addObjects(ParticleGenerator.getInstance().createParticles(object.getObjPos()));
@@ -281,14 +306,19 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     @Override
     public void onDestruct(Destructable destructable) {
-        updateWaveParam((GameObject) destructable, -1);
-        createDebris((GameObject) destructable);
         ObjectID id = destructable.getID();
         deleteList.add(id);
+        createDebris((GameObject) destructable);
+        updateWaveParam((GameObject) destructable, -1);
         playExplosion((GameObject) destructable);
     }
 
-    private void playExplosion(GameObject object){
+    /**
+     * Plays the explosion sound effects from a destructable object.
+     * As each instance of an object has a different sound.
+     * @param object
+     */
+    private void playExplosion(GameObject object) {
         if (object instanceof Asteroid) {
             if (((Asteroid) object).breaksInto instanceof MediumAsteroidSpec) {
                 audioListener.onLargeAsteroidExplosion();
@@ -327,6 +357,11 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         }
     }
 
+    /**
+     * The business logic for teleporting objects. This is mainly
+     * used for HyperSpace, the "panic button"
+     * @param tpList
+     */
     @Override
     public void teleportObjects(Collection<ObjectID> tpList) {
         for (ObjectID objectID : tpList) {
@@ -351,12 +386,58 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     public void processScore(DestroyedObject object) {
         if (object.getKiller().getFaction() == Faction.Player) {
             stats.plusScore(object.score());
+            /*
+            Messages.addMessage(
+                    new Messages.MessageWithFade(object.score() + "+", Color.WHITE, 500,
+                            Messages.FontSize.Small, Messages.HorizontalPosition.Center,
+                            Messages.VerticalPosition.Bottom, 500));
+            */
         }
     }
 
     @Override
     public void sendMessage(Messages.Message message) {
         Messages.addMessage(message);
+    }
+
+    @Override
+    public void givePrimaryWeapon(Weapon weapon) {
+        getPlayerShip().primaryWeapon = weapon;
+
+        Messages.addMessage(
+                new Messages.MessageWithFade(weapon.name + " equipped", Color.WHITE, 1500,
+                        Messages.FontSize.Small,
+                        Messages.HorizontalPosition.Center, Messages.VerticalPosition.Bottom,
+                        1500));
+    }
+
+    @Override
+    public void incrementLife(int amount) {
+        Messages.addMessage(
+                new Messages.MessageWithFade(amount + " life gained", Color.WHITE, 1500,
+                        Messages.FontSize.Small,
+                        Messages.HorizontalPosition.Center, Messages.VerticalPosition.Bottom,
+                        1500));
+        stats.livesLeft++;
+    }
+
+    @Override
+    public void giveInvincibility(int duration) {
+        getPlayerShip().invDurationTimer.resetTimer(duration);
+        Messages.addMessage(
+                new Messages.MessageWithFade(duration / 1000 + "s Invincibility", Color.WHITE, 1500,
+                        Messages.FontSize.Small,
+                        Messages.HorizontalPosition.Center, Messages.VerticalPosition.Bottom,
+                        1500));
+    }
+
+    @Override
+    public void createLoot(BaseLootSpec spec) {
+        if (spec instanceof RandomLootSpec) {
+            addObjects(Collections.singleton(
+                    LootGenerator.createRandomLootRandomly(boundaries, (RandomLootSpec) spec))
+            );
+        }
     }
 
     @Override

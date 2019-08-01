@@ -23,6 +23,7 @@ import EightAM.asteroids.specs.LaserBulletSpec;
 import EightAM.asteroids.specs.MediumAsteroidSpec;
 import EightAM.asteroids.specs.RandomLootSpec;
 import EightAM.asteroids.specs.SlowLongBulletSpec;
+import EightAM.asteroids.specs.SmallAlienBulletSpec;
 import EightAM.asteroids.specs.SmallAlienSpec;
 import EightAM.asteroids.specs.SmallAsteroidSpec;
 
@@ -31,7 +32,7 @@ final class AssetLoader {
             Arrays.asList(new BasicBulletSpec(), new BasicParticleSpec(), new BasicShipSpec(),
                     new BigAlienSpec(), new SmallAlienSpec(), new LargeAsteroidSpec(),
                     new MediumAsteroidSpec(), new SmallAsteroidSpec(), new SlowLongBulletSpec(),
-                    new LaserBulletSpec(), new RandomLootSpec()));
+                    new SmallAlienBulletSpec(), new LaserBulletSpec(), new RandomLootSpec()));
 
     private static void loadFont(PaintStore paintStore, Context c) {
         Paint p = new Paint();

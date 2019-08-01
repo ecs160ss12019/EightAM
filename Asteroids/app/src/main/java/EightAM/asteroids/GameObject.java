@@ -5,15 +5,21 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 
+import java.util.Collections;
+
 import EightAM.asteroids.interfaces.Copyable;
 import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.Drawable;
+import EightAM.asteroids.interfaces.EventGenerator;
+import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.Identifiable;
 import EightAM.asteroids.interfaces.MoveStrategy;
 import EightAM.asteroids.specs.BaseObjectSpec;
+import EightAM.asteroids.specs.RandomLootSpec;
 
-public abstract class GameObject implements Drawable, Identifiable, Destructable, Copyable {
+public abstract class GameObject implements Drawable, Identifiable, Destructable, Copyable,
+        EventGenerator {
 
     // ---------------Member variables-------------
 
@@ -23,9 +29,11 @@ public abstract class GameObject implements Drawable, Identifiable, Destructable
     MoveStrategy moveStrategy;
     Rotation rotation;
     Paint paint;
+    Loot lootOnDeath;
 
     // listeners
     DestructListener destructListener;
+    EventHandler eventHandler;
 
     public GameObject(BaseObjectSpec spec) {
         // defer instantiation of id
@@ -35,6 +43,9 @@ public abstract class GameObject implements Drawable, Identifiable, Destructable
                 spec.initialPosition.y + spec.dimensions.y);
         this.rotation = new Rotation(spec.initialRotation);
         this.paint = PaintStore.getInstance().getPaint(spec.tag);
+        if (spec.lootOnDeath != null) {
+            this.lootOnDeath = BaseLootFactory.getInstance().createLoot(spec.lootOnDeath);
+        }
     }
 
     GameObject(GameObject object) {
@@ -42,6 +53,9 @@ public abstract class GameObject implements Drawable, Identifiable, Destructable
         this.hitbox = new RectF(object.hitbox);
         this.rotation = new Rotation(object.rotation);
         this.paint = object.paint;
+        if (object.lootOnDeath != null) {
+            this.lootOnDeath = object.lootOnDeath;
+        }
     }
 
     // ---------------Member methods---------------
@@ -93,11 +107,21 @@ public abstract class GameObject implements Drawable, Identifiable, Destructable
 
     @Override
     public void destruct(DestroyedObject destroyedObject) {
+        if (lootOnDeath != null) {
+            eventHandler.createObjects(Collections.singleton(LootGenerator.createRandomLootAt(
+                    new Point((int) hitbox.centerX(), (int) hitbox.centerY()),
+                    new RandomLootSpec())));
+        }
         destructListener.onDestruct(this);
     }
 
     @Override
     public void registerDestructListener(DestructListener listener) {
         this.destructListener = listener;
+    }
+
+    @Override
+    public void registerEventHandler(EventHandler handler) {
+        this.eventHandler = handler;
     }
 }

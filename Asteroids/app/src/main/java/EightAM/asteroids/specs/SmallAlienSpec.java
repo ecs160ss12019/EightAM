@@ -21,7 +21,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation(initialAngle, 0);
 
-    public static float accuracy = 50;
+    public static float accuracy = 80;
 
     public static int paintColor = Color.BLUE;
     public static Paint.Style paintStyle = Paint.Style.FILL;
@@ -47,6 +47,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
                 dimensionBitMapRatio, pointValue, hitPoints, weaponSpec);
         this.turnDelayRange = turnDelayRange;
         this.shotDelayRange = shotDelayRange;
+        setLootOnDeath(new RandomLootSpec());
     }
 
     public SmallAlienSpec() {

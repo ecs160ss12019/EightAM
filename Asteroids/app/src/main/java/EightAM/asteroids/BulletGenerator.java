@@ -4,7 +4,7 @@ import android.graphics.Point;
 
 import EightAM.asteroids.interfaces.Shooter;
 
-public class BulletGenerator extends CollidableObjectGenerator {
+public class BulletGenerator {
     private BulletGenerator() {
     }
 

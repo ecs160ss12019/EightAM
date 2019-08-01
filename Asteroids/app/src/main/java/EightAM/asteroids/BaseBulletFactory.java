@@ -8,7 +8,16 @@ import EightAM.asteroids.specs.BaseBulletSpec;
 import EightAM.asteroids.specs.BasicBulletSpec;
 import EightAM.asteroids.specs.LaserBulletSpec;
 import EightAM.asteroids.specs.SlowLongBulletSpec;
+import EightAM.asteroids.specs.SmallAlienBulletSpec;
 
+/**
+ * The Bullet Factory creates instances of the bullets.
+ * Like all generators, the instance of a bullet type is
+ * cached in the HashMap.
+ * It's shooterID is set within the generator.
+ * The specification of the bullet is provided by the shooter
+ * as well.
+ */
 public class BaseBulletFactory implements BulletFactory {
     static BaseBulletFactory instance;
     private Map<BaseBulletSpec, Bullet> prototypes;
@@ -28,23 +37,10 @@ public class BaseBulletFactory implements BulletFactory {
 
     @Override
     public Bullet createBullet(BaseBulletSpec spec) {
-//        Bullet ret;
-//        if (prototypes.containsKey(spec)) {
-//            // we have made this kind of bullet before
-//            // so clone this previously known bullet
-//            ret = new Bullet(prototypes.get(spec));
-//        } else {
-//            // this is a new kind of bullet, so store in prototypes
-//            Bullet bullet = new Bullet(spec);
-//
-//            prototypes.put(spec, bullet);
-//            ret = new Bullet(spec);
-//        }
-////        if (ret instanceof GameObject) Log.d("BulletFac", "created");
-////        if (ret == null)Log.d("BulletFac", "null");
         Bullet bullet = prototypes.get(spec);
         if (bullet == null) {
-            if (spec instanceof BasicBulletSpec || spec instanceof SlowLongBulletSpec) {
+            if (spec instanceof BasicBulletSpec || spec instanceof SlowLongBulletSpec ||
+                    spec instanceof SmallAlienBulletSpec) {
                 bullet = new Bullet(spec);
             } else if (spec instanceof LaserBulletSpec) {
                 bullet = new LaserBullet((LaserBulletSpec) spec);

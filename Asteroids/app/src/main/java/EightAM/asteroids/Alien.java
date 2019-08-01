@@ -9,8 +9,6 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.util.Pair;
 
-import java.util.Random;
-
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
@@ -18,7 +16,6 @@ import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseAlienSpec;
-import EightAM.asteroids.specs.BaseBulletSpec;
 
 public abstract class Alien extends GameObject implements Destructable, Collision, EventGenerator,
         Shooter {
@@ -29,23 +26,21 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     float accuracy;
     int pointValue;
     int hitPoints;
-    int reloadTime;
+    Weapon weapon;
 
     // listeners
     EventHandler eventHandler;
-    BaseBulletSpec bulletSpec;
     ShotListener shotListener;
     float distanceTraveled;
 
     // movement
     Pair<Integer, Integer> turnDelayRange;
-    int turnDelay;
+    //    int turnDelay;
+    Timer turnTimer;
     //private boolean debug = true;
 
     // shooting
     Pair<Integer, Integer> shotDelayRange;
-    private int shotDelayCounter;
-    boolean canShoot = false;
 
     Alien(BaseAlienSpec spec) {
         super(spec);
@@ -59,6 +54,9 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         // alien spec
         this.pointValue = spec.pointValue;
         this.hitPoints = spec.hitPoints;
+        this.weapon = BaseWeaponFactory.getInstance().createWeapon(spec.weaponSpec);
+
+        this.turnTimer = new Timer(0, 0);
     }
 
     Alien(Alien alien) {
@@ -71,6 +69,9 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 
         this.pointValue = alien.pointValue;
         this.hitPoints = alien.hitPoints;
+        this.weapon = (Weapon) alien.weapon.makeCopy();
+
+        this.turnTimer = new Timer(0, 0);
     }
 
     // ---------------Member methods --------------
@@ -87,20 +88,12 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     protected void update(long timeInMillisecond) {
         super.update(timeInMillisecond);
         updateDistance(timeInMillisecond);
-
-
-        //Let's Just Straight up not despawn it
-        //Player needs to GITGUD all kill the damn thing
-        /*
-        //if (debug) Log.d("distance", Float.toString(this.distanceTraveled));
-        if (reachedMaxRange(spaceSize)) {
-            //selfDestruct();
+        turnTimer.update(timeInMillisecond);
+        if (turnTimer.reachedTarget) {
+            this.turn();
+            this.setTurnDelay();
         }
-        //if (debug) Log.d("alien", Float.toString(this.hitbox.left));
-        */
-
-        // timer stuff
-        updateTurnTimer();
+        weapon.update(timeInMillisecond);
     }
 
 
@@ -125,22 +118,9 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      * max and min are in frames.
      */
     protected void setTurnDelay() {
-        Random rand = new Random();
         //int randomNum = rand.nextInt((max - min) + 1) + min;
-        this.turnDelay = rand.nextInt((turnDelayRange.second - turnDelayRange.first) + 1)
-                + turnDelayRange.first;
-
-    }
-
-    /**
-     * Updates the turn timer and turns the alien when necessary.
-     */
-    protected void updateTurnTimer() {
-        this.turnDelay--;
-        if (this.turnDelay <= 0) {
-            this.turn();
-            this.setTurnDelay();
-        }
+        this.turnTimer.resetTimer(GameRandom.randomInt(turnDelayRange.second, turnDelayRange.first),
+                0);
     }
 
     /**
@@ -166,10 +146,9 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      */
     protected void turn() {
         float newAngle;
-        do {
-            newAngle = GameRandom.randomFloat((float) Math.PI / 4f, -(float) Math.PI / 4f);
-            this.vel.resetVelocity(vel.maxSpeed, vel.getAngle() + newAngle, vel.maxSpeed);
-        }while(Math.abs(this.vel.y) == this.vel.maxSpeed);
+        newAngle = GameRandom.randomFloat((float) Math.PI / 4f, -(float) Math.PI / 4f);
+        this.vel.resetVelocity(vel.maxSpeed, vel.getAngle() + newAngle, vel.maxSpeed);
+//        vel.resetVelocity(vel.maxSpeed, vel.getAngle() + (float) Math.PI, vel.maxSpeed);
     }
 
     // ------------ END MOVEMENT METHODS ------------ //
@@ -180,26 +159,22 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      * Sets a shot delay for Alien as to not shoot continuously.
      */
     protected void setShotDelay() {
-        Random rand = new Random();
-        this.shotDelayCounter = rand.nextInt((shotDelayRange.second - shotDelayRange.first) + 1)
-                + shotDelayRange.first;
+        weapon.reloadTimer.resetTimer(
+                GameRandom.randomInt(shotDelayRange.second, shotDelayRange.first), 0);
     }
 
     public boolean canShoot() {
-        return shotDelayCounter <= 0;
+        return weapon.canFire();
     }
 
     protected void aimAtTarget(Point targetPos) {
-        this.canShoot = false;
         float delX = targetPos.x - this.getObjPos().x + GameRandom.randomFloat(accuracy, -accuracy);
         float delY = targetPos.y - this.getObjPos().y + GameRandom.randomFloat(accuracy, -accuracy);
         this.shotAngle = (float) Math.atan2(delY, delX);
     }
 
     protected void tryShoot(Point targetPos) {
-        if (this.shotDelayCounter > 0) {
-            this.shotDelayCounter--;
-        } else {
+        if (weapon.canFire()) {
             aimAtTarget(targetPos);
             shoot();
             setShotDelay();
@@ -214,8 +189,9 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         shotListener.onShotFired(this);
     }
 
-    public BaseBulletSpec getBulletSpec() {
-        return bulletSpec;
+    @Override
+    public Weapon getWeapon() {
+        return weapon;
     }
 
     public Point getShotOrigin() {
@@ -232,6 +208,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     // ------------ END SHOOTER IMPLEMENTION ------------ //
 
     // ------------ BEGIN COLLISION IMPLEMENTION ------------ //
+
     /**
      * Collision detection method takes in the hitbox of approaching object, using intersection
      * method to check of collision

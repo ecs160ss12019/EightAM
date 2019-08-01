@@ -9,15 +9,16 @@ import EightAM.asteroids.specs.BaseBulletSpec;
 
 public class Bullet extends GameObject implements Collision, Destructable {
     int damage;
-    float maxDistance;
+    int maxDistance;
     // set by generator
-    private ObjectID owner;
+    ObjectID owner;
 
-    private float distanceTraveled;
-    private DestructListener destructListener;
+    int distanceTraveled;
+    DestructListener destructListener;
 
     Bullet(BaseBulletSpec spec) {
         super(spec);
+        // owner and ID are set by BulletGenerator
         this.damage = spec.damage;
         this.maxDistance = spec.maxDistance;
     }
@@ -83,7 +84,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
     }
 
     @Override
-    GameObject makeCopy() {
+    public Object makeCopy() {
         return new Bullet(this);
     }
 

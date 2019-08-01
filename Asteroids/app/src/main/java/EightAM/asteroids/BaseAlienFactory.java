@@ -28,8 +28,7 @@ class BaseAlienFactory implements AlienFactory {
 
     @Override
     public Alien createAlien(BaseAlienSpec spec) {
-        Alien alien;
-        alien = prototypes.get(spec);
+        Alien alien = prototypes.get(spec);
         if (alien == null) {
             if (spec instanceof BigAlienSpec) {
                 alien = new BigAlien((BigAlienSpec) spec);
@@ -40,7 +39,5 @@ class BaseAlienFactory implements AlienFactory {
             prototypes.put(spec, alien);
         }
         return (Alien) alien.makeCopy();
-//        if (alien instanceof GameObject && debug) Log.d("AlienFac", "created");
-//        if (alien == null && debug) Log.d("AlienFac", "null");
     }
 }

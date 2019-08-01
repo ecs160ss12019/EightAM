@@ -12,7 +12,7 @@ import EightAM.asteroids.Velocity;
 
 public class SlowLongBulletSpec extends BaseBulletSpec {
     public static float speed = .5f;
-    public static float maxDistance = 2000;
+    public static int maxDistance = 2000;
     public static float _bulletTrail = 100;
     public static int damage = 1;
     public static ObjectID owner = null;
@@ -26,7 +26,7 @@ public class SlowLongBulletSpec extends BaseBulletSpec {
     public static Paint.Style paintStyle = Paint.Style.FILL;
 
     public SlowLongBulletSpec(String tag, Point dimensions, Point initialPosition,
-            Velocity initialVelocity, Rotation initialRotation, int damage, float maxDistance,
+            Velocity initialVelocity, Rotation initialRotation, int damage, int maxDistance,
             ObjectID owner) {
         super(tag, dimensions, initialPosition, initialVelocity, initialRotation, damage,
                 maxDistance, owner);

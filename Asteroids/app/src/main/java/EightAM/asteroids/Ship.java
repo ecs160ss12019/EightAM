@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.util.Log;
 
 import java.util.Collections;
 import java.util.Random;
@@ -19,10 +18,11 @@ import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.Invulnerable;
+import EightAM.asteroids.interfaces.LimitedWeapon;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
-import EightAM.asteroids.specs.BaseBulletSpec;
 import EightAM.asteroids.specs.BaseShipSpec;
+import EightAM.asteroids.specs.LaserWeaponSpec;
 
 public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
         EventGenerator, Destructable {
@@ -32,18 +32,17 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     private boolean isInvincible;
     private int hitPoints;
     private int invincibilityDuration;
-    private int teleportDelay;
-    private int teleportCooldown;
-    private int shotDelayCounter = 0;
-    private int shotDelay;
     private float rotationSpeed;
     private float acceleration;
     private float deceleration;
     private ShotListener shotListener;
     private float dbmRatio;
     private DestructListener destructListener;
-    private BaseBulletSpec bulletSpec;
     private EventHandler eventHandler;
+
+    private Weapon weapon;
+    private Weapon primaryWeapon;
+    private Weapon secondaryWeapon;
 
     private Timer invDurationTimer;
 
@@ -61,15 +60,13 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.id = ObjectID.getNewID(Faction.Player);
         this.invincibilityDuration = spec.invincibilityDuration;
         this.isInvincible = true;
-        this.shotDelay = spec.reloadTime;
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
-        this.bulletSpec = spec.bulletSpec;
-        this.teleportDelay = spec.teleportDelay;
-        this.teleportCooldown = spec.teleportCooldown;
-        this.teleportCooldownTimer = new Timer(teleportCooldown, 0);
-        this.teleportDelayTimer = new Timer(teleportDelay, 0);
+        this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
+        this.secondaryWeapon = BaseWeaponFactory.getInstance().createWeapon(spec.weaponSpec);
+        this.teleportCooldownTimer = new Timer(spec.teleportCooldown, 0);
+        this.teleportDelayTimer = new Timer(spec.teleportDelay, 0);
 
         this.invDurationTimer = new Timer(invincibilityDuration, 0);
     }
@@ -84,15 +81,13 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.id = ObjectID.getNewID(Faction.Player);
         this.invincibilityDuration = ship.invincibilityDuration;
         this.isInvincible = true;
-        this.shotDelay = ship.shotDelay;
         this.rotationSpeed = ship.rotationSpeed;
         this.acceleration = ship.acceleration;
         this.deceleration = ship.deceleration;
-        this.bulletSpec = ship.bulletSpec;
-        this.teleportDelay = ship.teleportDelay;
-        this.teleportCooldown = ship.teleportCooldown;
-        this.teleportCooldownTimer = new Timer(teleportCooldown, 0);
-        this.teleportDelayTimer = new Timer(teleportDelay, 0);
+        this.primaryWeapon = (Weapon) ship.primaryWeapon.makeCopy();
+        this.secondaryWeapon = (Weapon) ship.secondaryWeapon.makeCopy();
+        this.teleportCooldownTimer = new Timer(ship.teleportCooldownTimer);
+        this.teleportDelayTimer = new Timer(ship.teleportDelayTimer);
 
         this.invDurationTimer = new Timer(invincibilityDuration, 0);
     }
@@ -105,10 +100,19 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
             isInvincible = false;
             paint.setAlpha(255);
         }
-
+        updateWeapon(timeInMillisecond);
         teleportAbility(timeInMillisecond);
 
-        if (shotDelayCounter > 0) shotDelayCounter -= timeInMillisecond;
+    }
+
+    void updateWeapon(long deltaTime) {
+        if (weapon == null) {
+            weapon = primaryWeapon;
+        }
+        if (primaryWeapon instanceof LimitedWeapon && ((LimitedWeapon) primaryWeapon).expired()) {
+            weapon = secondaryWeapon;
+        }
+        weapon.update(deltaTime);
     }
 
     void teleportAbility(long deltaTime) {
@@ -177,7 +181,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
         if (i.SHOOT) {
             shoot();
-            shotDelayCounter = shotDelay;
+//            shotDelayCounter = shotDelay;
         }
 
         if (i.DOWN) {
@@ -185,8 +189,9 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         }
     }
 
+    @Override
     public boolean canShoot() {
-        return shotDelayCounter == 0;
+        return weapon.canFire();
     }
 
     void drawInvincible() {
@@ -226,7 +231,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
     @Override
-    GameObject makeCopy() {
+    public Object makeCopy() {
         return new Ship(this);
     }
 
@@ -236,8 +241,8 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     }
 
     @Override
-    public BaseBulletSpec getBulletSpec() {
-        return bulletSpec;
+    public Weapon getWeapon() {
+        return this.weapon;
     }
 
     @Override

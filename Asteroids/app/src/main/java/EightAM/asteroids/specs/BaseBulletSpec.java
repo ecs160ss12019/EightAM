@@ -9,11 +9,11 @@ import EightAM.asteroids.Velocity;
 
 public abstract class BaseBulletSpec extends BaseObjectSpec {
     public int damage;
-    public float maxDistance;
+    public int maxDistance;
     public ObjectID owner;
 
     public BaseBulletSpec(String tag, Point dimensions, Point initialPosition,
-            Velocity initialVelocity, Rotation initialRotation, int damage, float maxDistance,
+            Velocity initialVelocity, Rotation initialRotation, int damage, int maxDistance,
             ObjectID owner) {
         super(tag, dimensions, initialPosition, initialVelocity, initialRotation);
         this.damage = damage;

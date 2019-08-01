@@ -2,12 +2,12 @@ package EightAM.asteroids.interfaces;
 
 import android.graphics.Point;
 
-import EightAM.asteroids.specs.BaseBulletSpec;
+import EightAM.asteroids.Weapon;
 
 public interface Shooter extends Identifiable {
     void shoot(/*Weapon weapon (to be implemented...)*/);
 
-    BaseBulletSpec getBulletSpec();
+    Weapon getWeapon();
 
     Point getShotOrigin();
 

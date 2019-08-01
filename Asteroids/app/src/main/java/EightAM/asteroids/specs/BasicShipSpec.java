@@ -14,7 +14,7 @@ public class BasicShipSpec extends BaseShipSpec {
     public static float rotationSpeed = 0.005f;
     public static float acceleration = 0.0035f;
     public static float deceleration = 0.9985f;
-    public static int reloadTime = 30;
+    public static int reloadTime = 500;
     public static int invincibilityDuration = 3000;
     public static int teleportDelay = 1000;
     public static int teleportCooldown = 5000;
@@ -32,23 +32,22 @@ public class BasicShipSpec extends BaseShipSpec {
     public static int paintColor = Color.BLUE;
     public static Paint.Style paintStyle = Paint.Style.FILL;
 
-    public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
-
+    public static BaseWeaponSpec weaponSpec = new BasicShipWeaponSpec();
 
     public BasicShipSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
             float dimensionBitMapRatio, int hitPoints, float maxSpeed, float rotationSpeed,
             float acceleration, float deceleration, int reloadTime, int invincibilityDuration,
-            int teleportDelay, int teleportCooldown, BaseBulletSpec bulletSpec) {
+            int teleportDelay, int teleportCooldown, BaseWeaponSpec weaponSpec) {
         super(tag, dimensions, initialPosition, initialVelocity, initialRotation, bitMapResourceID,
                 dimensionBitMapRatio, hitPoints, maxSpeed, rotationSpeed, acceleration,
                 deceleration, reloadTime, invincibilityDuration, teleportDelay, teleportCooldown,
-                bulletSpec);
+                weaponSpec);
     }
 
     public BasicShipSpec() {
         this(tag, dimensions, initialPosition, initialVelocity, initialRotation, resID, dbmRatio,
                 hitPoints, maxSpeed, rotationSpeed, acceleration, deceleration, reloadTime,
-                invincibilityDuration, teleportDelay, teleportCooldown, bulletSpec);
+                invincibilityDuration, teleportDelay, teleportCooldown, weaponSpec);
     }
 }

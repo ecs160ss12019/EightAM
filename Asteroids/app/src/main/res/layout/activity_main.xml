@@ -56,11 +56,10 @@
             android:layout_alignEnd="@+id/up_button"
             android:layout_alignRight="@+id/up_button"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="75dp"
-            android:layout_marginRight="75dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="79dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="35dp"
             app:srcCompat="@drawable/button_target" />
-
 
 
         <ImageView
@@ -70,9 +69,9 @@
             android:layout_alignStart="@+id/left_button"
             android:layout_alignLeft="@+id/left_button"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="75dp"
-            android:layout_marginLeft="75dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginBottom="30dp"
             app:srcCompat="@drawable/button_right" />
 
         <ImageView
@@ -82,9 +81,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="13dp"
-            android:layout_marginLeft="13dp"
-            android:layout_marginBottom="70dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginBottom="105dp"
             app:srcCompat="@drawable/button_left" />
 
         <ImageView
@@ -94,9 +93,9 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="13dp"
-            android:layout_marginRight="13dp"
-            android:layout_marginBottom="70dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginBottom="105dp"
             app:srcCompat="@drawable/button_up" />
 
 

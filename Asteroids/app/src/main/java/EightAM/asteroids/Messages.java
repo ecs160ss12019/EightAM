@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -31,6 +34,8 @@ public class Messages {
         paint.setTextSize(fontSize);
         paint.setStyle(Paint.Style.FILL);
         paint.setAntiAlias(true);
+        Typeface tf = ResourcesCompat.getFont(c, R.font.retro);
+        paint.setTypeface(tf);
     }
 
     static void addMessage(Message message) {

@@ -21,7 +21,7 @@
         android:id="@+id/view_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/pause_button"
@@ -108,8 +108,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#59000000"
-        android:visibility="gone"
-        tools:layout_editor_absoluteX="36dp"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-16dp">
 
         <TextView
@@ -118,36 +118,36 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="124dp"
-            android:layout_marginLeft="124dp"
-            android:layout_marginTop="164dp"
-            android:layout_marginEnd="122dp"
-            android:layout_marginRight="122dp"
-            android:layout_marginBottom="178dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginEnd="126dp"
+            android:layout_marginRight="126dp"
+            android:layout_marginBottom="204dp"
+            android:fontFamily="@font/retro"
             android:gravity="center"
             android:text="Tap to start"
-            android:textSize="40dp" />
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/scoreText"
             android:layout_width="485dp"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/startText"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="123dp"
-            android:layout_marginLeft="123dp"
-            android:layout_marginTop="227dp"
-            android:layout_marginEnd="123dp"
-            android:layout_marginRight="123dp"
-            android:layout_marginBottom="107dp"
+            android:layout_marginStart="124dp"
+            android:layout_marginLeft="124dp"
+            android:layout_marginTop="61dp"
+            android:layout_marginEnd="122dp"
+            android:layout_marginRight="122dp"
+            android:layout_marginBottom="152dp"
+            android:fontFamily="@font/retro"
             android:gravity="center"
             android:text="High Score"
             android:textSize="22dp" />
@@ -165,6 +165,7 @@
 
         <TextView
             android:id="@+id/restartText"
+            android:fontFamily="@font/retro"
             android:layout_width="485dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -189,30 +190,31 @@
         android:id="@+id/view_paused"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#59000000"
+        android:background="#CC000000"
         android:visibility="gone"
         tools:layout_editor_absoluteX="36dp"
         tools:layout_editor_absoluteY="-16dp">\
 
         <TextView
             android:id="@+id/pausedText"
-            android:layout_width="485dp"
-            android:layout_height="wrap_content"
+            android:fontFamily="@font/retro"
+            android:layout_width="508dp"
+            android:layout_height="83dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="124dp"
-            android:layout_marginLeft="124dp"
-            android:layout_marginTop="164dp"
-            android:layout_marginEnd="122dp"
-            android:layout_marginRight="122dp"
-            android:layout_marginBottom="178dp"
+            android:layout_marginStart="115dp"
+            android:layout_marginLeft="115dp"
+            android:layout_marginTop="158dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginRight="108dp"
+            android:layout_marginBottom="170dp"
             android:gravity="center"
-            android:text="Pause - Tap to resume"
-            android:textSize="40dp" />
+            android:text="Paused - Tap to resume"
+            android:textSize="30dp" />
 
     </RelativeLayout>
 

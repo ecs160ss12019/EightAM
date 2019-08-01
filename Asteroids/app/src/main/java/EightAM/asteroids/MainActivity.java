@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
     }
 
     private void setPauseListener() {
-        pausedText.setText("Paused - Tap to Resume");
         pauseButton.setOnClickListener(view -> {
             restartText.setVisibility(View.GONE);
             restartLayout.setVisibility(View.GONE);

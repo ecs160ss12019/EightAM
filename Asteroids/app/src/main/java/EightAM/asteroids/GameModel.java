@@ -4,6 +4,7 @@ import static EightAM.asteroids.Constants.ALIEN_SPAWN_PROB;
 import static EightAM.asteroids.Constants.ASTEROID_INC_WAVE;
 import static EightAM.asteroids.Constants.BOUNDARY_OFFSET;
 import static EightAM.asteroids.Constants.BOUNDARY_SHRINK_RATE;
+import static EightAM.asteroids.Constants.STARTING_MAX_ALIENS;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
 
 import android.graphics.Point;
@@ -82,6 +83,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         wave.asteroidSpawnCount = STARTING_ASTEROIDS;
         wave.asteroidInc = ASTEROID_INC_WAVE;
         wave.alienSpawnProb = ALIEN_SPAWN_PROB;
+        wave.maxAlienPerLevel = STARTING_MAX_ALIENS;
         addObjects(respawnShip());
         putObjects();
     }
@@ -283,15 +285,19 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         createDebris((GameObject) destructable);
         ObjectID id = destructable.getID();
         deleteList.add(id);
-        if (destructable instanceof Asteroid) {
-            if (((Asteroid) destructable).breaksInto instanceof MediumAsteroidSpec) {
+        playExplosion((GameObject) destructable);
+    }
+
+    private void playExplosion(GameObject object){
+        if (object instanceof Asteroid) {
+            if (((Asteroid) object).breaksInto instanceof MediumAsteroidSpec) {
                 audioListener.onLargeAsteroidExplosion();
-            } else if (((Asteroid) destructable).breaksInto instanceof SmallAsteroidSpec) {
+            } else if (((Asteroid) object).breaksInto instanceof SmallAsteroidSpec) {
                 audioListener.onMediumAsteroidExplosion();
             } else {
                 audioListener.onSmallAsteroidExplosion();
             }
-        } else if (destructable instanceof Alien) {
+        } else if (object instanceof Alien) {
             audioListener.onAlienExplosion();
         }
     }

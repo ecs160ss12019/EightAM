@@ -21,117 +21,84 @@
         android:id="@+id/view_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/pause_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            android:layout_width="66dp"
+            android:layout_height="57dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="649dp"
-            android:layout_marginLeft="649dp"
-            android:layout_marginTop="-2dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="322dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginRight="28dp"
             android:visibility="visible"
             app:srcCompat="@android:drawable/ic_media_pause" />
-
-
-        <ImageView
-            android:id="@+id/shoot_button"
-            android:layout_width="88dp"
-            android:layout_height="84dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="561dp"
-            android:layout_marginLeft="561dp"
-            android:layout_marginTop="323dp"
-            android:layout_marginEnd="82dp"
-            android:layout_marginRight="82dp"
-            android:layout_marginBottom="4dp"
-            app:srcCompat="@drawable/button_target" />
-
-        <ImageView
-            android:id="@+id/left_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/pause_button"
-            android:layout_alignRight="@+id/pause_button"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="-1dp"
-            android:layout_marginLeft="-1dp"
-            android:layout_marginTop="248dp"
-            android:layout_marginEnd="643dp"
-            android:layout_marginRight="643dp"
-            android:layout_marginBottom="81dp"
-            app:srcCompat="@drawable/button_left" />
-
-        <ImageView
-            android:id="@+id/right_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="79dp"
-            android:layout_marginLeft="79dp"
-            android:layout_marginTop="325dp"
-            android:layout_marginEnd="575dp"
-            android:layout_marginRight="575dp"
-            android:layout_marginBottom="3dp"
-            app:srcCompat="@drawable/button_right" />
-
-        <ImageView
-            android:id="@+id/up_button"
-            android:layout_width="78dp"
-            android:layout_height="79dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="650dp"
-            android:layout_marginLeft="650dp"
-            android:layout_marginTop="249dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="82dp"
-            app:srcCompat="@drawable/button_up" />
 
         <ImageView
             android:id="@+id/down_button"
             android:layout_width="78dp"
-            android:layout_height="82dp"
+            android:layout_height="78dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="12dp"
+            app:srcCompat="@drawable/button_panic" />
+
+
+        <ImageView
+            android:id="@+id/shoot_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignEnd="@+id/up_button"
+            android:layout_alignRight="@+id/up_button"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="79dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="35dp"
+            app:srcCompat="@drawable/button_target" />
+
+
+        <ImageView
+            android:id="@+id/right_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignStart="@+id/left_button"
+            android:layout_alignLeft="@+id/left_button"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="80dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginBottom="30dp"
+            app:srcCompat="@drawable/button_right" />
+
+        <ImageView
+            android:id="@+id/left_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="36dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginBottom="105dp"
+            app:srcCompat="@drawable/button_left" />
+
+        <ImageView
+            android:id="@+id/up_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="652dp"
-            android:layout_marginRight="652dp"
-            android:layout_marginBottom="323dp"
-            app:srcCompat="@drawable/button_panic" />
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginBottom="105dp"
+            app:srcCompat="@drawable/button_up" />
+
+
 
     </RelativeLayout>
 
@@ -140,8 +107,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#59000000"
-        android:visibility="gone"
-        tools:layout_editor_absoluteX="36dp"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-16dp">
 
         <TextView
@@ -150,36 +117,36 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="124dp"
-            android:layout_marginLeft="124dp"
-            android:layout_marginTop="164dp"
-            android:layout_marginEnd="122dp"
-            android:layout_marginRight="122dp"
-            android:layout_marginBottom="178dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginEnd="126dp"
+            android:layout_marginRight="126dp"
+            android:layout_marginBottom="204dp"
+            android:fontFamily="@font/retro"
             android:gravity="center"
             android:text="Tap to start"
-            android:textSize="40dp" />
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/scoreText"
             android:layout_width="485dp"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/startText"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="123dp"
-            android:layout_marginLeft="123dp"
-            android:layout_marginTop="227dp"
-            android:layout_marginEnd="123dp"
-            android:layout_marginRight="123dp"
-            android:layout_marginBottom="107dp"
+            android:layout_marginStart="124dp"
+            android:layout_marginLeft="124dp"
+            android:layout_marginTop="61dp"
+            android:layout_marginEnd="122dp"
+            android:layout_marginRight="122dp"
+            android:layout_marginBottom="152dp"
+            android:fontFamily="@font/retro"
             android:gravity="center"
             android:text="High Score"
             android:textSize="22dp" />
@@ -197,6 +164,7 @@
 
         <TextView
             android:id="@+id/restartText"
+            android:fontFamily="@font/retro"
             android:layout_width="485dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -221,30 +189,31 @@
         android:id="@+id/view_paused"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#59000000"
+        android:background="#CC000000"
         android:visibility="gone"
         tools:layout_editor_absoluteX="36dp"
         tools:layout_editor_absoluteY="-16dp">\
 
         <TextView
             android:id="@+id/pausedText"
-            android:layout_width="485dp"
-            android:layout_height="wrap_content"
+            android:fontFamily="@font/retro"
+            android:layout_width="508dp"
+            android:layout_height="83dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="124dp"
-            android:layout_marginLeft="124dp"
-            android:layout_marginTop="164dp"
-            android:layout_marginEnd="122dp"
-            android:layout_marginRight="122dp"
-            android:layout_marginBottom="178dp"
+            android:layout_marginStart="115dp"
+            android:layout_marginLeft="115dp"
+            android:layout_marginTop="158dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginRight="108dp"
+            android:layout_marginBottom="170dp"
             android:gravity="center"
-            android:text="Pause - Tap to resume"
-            android:textSize="40dp" />
+            android:text="Paused - Tap to resume"
+            android:textSize="30dp" />
 
     </RelativeLayout>
 

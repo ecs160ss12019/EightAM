@@ -21,7 +21,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation(initialAngle, 0);
 
-    public static float accuracy = 75;
+    public static float accuracy = 50;
 
     public static int paintColor = Color.BLUE;
     public static Paint.Style paintStyle = Paint.Style.FILL;
@@ -29,8 +29,8 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public static int resID = R.drawable.ic_small_alien;
     public static float dbmRatio = 2f;
 
-    public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(1800, 2500);
-    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(2000, 3000);
+    public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(1500, 2000);
+    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(1000, 1500);
 
     public static BaseWeaponSpec weaponSpec = new SmallAlienWeaponSpec();
 

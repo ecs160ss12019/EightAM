@@ -20,7 +20,7 @@ public class BigAlienSpec extends BaseAlienSpec {
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation(initialAngle, 0);
 
-    public static float accuracy = 100;
+    public static float accuracy = 50;
 
     public static int paintColor = Color.BLUE;
     public static Paint.Style paintStyle = Paint.Style.FILL;
@@ -29,7 +29,7 @@ public class BigAlienSpec extends BaseAlienSpec {
     public static float dbmRatio = 2f;
 
     public static Pair<Integer, Integer> _turnDelayRange = new Pair<>(2000, 3500);
-    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(3000, 5000);
+    public static Pair<Integer, Integer> _shotDelayRange = new Pair<>(1000, 2000);
 
 
     public static BaseWeaponSpec weaponSpec = new BigAlienWeaponSpec();

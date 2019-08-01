@@ -32,27 +32,27 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="28dp"
-            android:layout_marginRight="28dp"
+            android:layout_marginRight="25dp"
             android:visibility="visible"
             app:srcCompat="@android:drawable/ic_media_pause" />
 
         <ImageView
             android:id="@+id/down_button"
-            android:layout_width="78dp"
-            android:layout_height="78dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="12dp"
             app:srcCompat="@drawable/button_panic" />
 
 
         <ImageView
             android:id="@+id/shoot_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignEnd="@+id/up_button"
             android:layout_alignRight="@+id/up_button"
             android:layout_alignParentBottom="true"
@@ -64,8 +64,8 @@
 
         <ImageView
             android:id="@+id/right_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignStart="@+id/left_button"
             android:layout_alignLeft="@+id/left_button"
             android:layout_alignParentBottom="true"
@@ -76,25 +76,25 @@
 
         <ImageView
             android:id="@+id/left_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="36dp"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginBottom="85dp"
             app:srcCompat="@drawable/button_left" />
 
         <ImageView
             android:id="@+id/up_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="36dp"
-            android:layout_marginRight="36dp"
+            android:layout_marginRight="25dp"
             android:layout_marginBottom="85dp"
             app:srcCompat="@drawable/button_up" />
 

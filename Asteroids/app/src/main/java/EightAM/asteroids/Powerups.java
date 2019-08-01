@@ -5,10 +5,10 @@ import EightAM.asteroids.specs.LaserWeaponSpec;
 import EightAM.asteroids.specs.ShotgunWeaponSpec;
 
 public enum Powerups {
-    Laser(0, 30000), // Time limit in milliseconds
-    Shotgun(1, 1000), // each shot fires 10 bullets so 1000 bullets = 100 shots
+    Laser(0, 10000), // Time limit in milliseconds
+    Shotgun(1, 250), // each shot fires 10 bullets so 1000 bullets = 100 shots
     Score(2, 500),
-    Invincible(3, 30000), // time limit in MS
+    Invincible(3, 10000), // time limit in MS
     Life(4, 1);
 
     public final int index;

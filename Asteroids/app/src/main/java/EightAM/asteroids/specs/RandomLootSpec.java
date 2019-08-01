@@ -20,7 +20,7 @@ public class RandomLootSpec extends BaseLootSpec {
     public static Rotation initialRotation = new Rotation((float) Math.PI * 3f / 2, 0);
 
     public static int resID = R.drawable.power_up;
-    public static float dbmRatio = 1f;
+    public static float dbmRatio = .9f;
 
     public static int paintColor = Color.WHITE;
     public static Paint.Style paintStyle = Paint.Style.FILL;

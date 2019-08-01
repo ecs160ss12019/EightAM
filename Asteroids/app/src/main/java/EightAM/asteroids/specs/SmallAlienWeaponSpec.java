@@ -2,7 +2,7 @@ package EightAM.asteroids.specs;
 
 public class SmallAlienWeaponSpec extends BaseWeaponSpec {
     public static String tag = "weapon_alien_small";
-    public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
+    public static BaseBulletSpec bulletSpec = new SmallAlienBulletSpec();
     public static int reloadTime = 800;
 
     public SmallAlienWeaponSpec(String tag, BaseBulletSpec bulletSpec, int reloadTime) {

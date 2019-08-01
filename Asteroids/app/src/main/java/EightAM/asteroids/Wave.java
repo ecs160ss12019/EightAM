@@ -122,10 +122,12 @@ class Wave {
                                 (int) wave.spawnBox.first.bottom)));
                 wave.aliensSpawned++;
             }
+            /*
             if (wave.powerupsSpawned < wave.maxPowerups) {
                 eventHandler.createLoot(new RandomLootSpec());
                 wave.powerupsSpawned++;
             }
+            */
         }
 
     }

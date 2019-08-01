@@ -354,10 +354,12 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     public void processScore(DestroyedObject object) {
         if (object.getKiller().getFaction() == Faction.Player) {
             stats.plusScore(object.score());
+            /*
             Messages.addMessage(
                     new Messages.MessageWithFade(object.score() + "+", Color.WHITE, 500,
                             Messages.FontSize.Small, Messages.HorizontalPosition.Center,
                             Messages.VerticalPosition.Bottom, 500));
+            */
         }
     }
 

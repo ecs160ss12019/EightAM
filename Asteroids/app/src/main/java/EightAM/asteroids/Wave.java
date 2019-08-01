@@ -1,6 +1,5 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.MAX_ALIENS_PER_LEVEL;
 import static EightAM.asteroids.Constants.WAVE_GRACE_PERIOD;
 
 import android.graphics.Color;
@@ -19,6 +18,7 @@ class Wave {
     int aliensSpawned;
     int asteroidSpawnCount;
     int asteroidInc;
+    int maxAlienPerLevel;
 
     int currAsteroids;
     int currAliens;
@@ -69,6 +69,7 @@ class Wave {
             if (wave.currAsteroids == 0 && wave.currAliens == 0) {
                 wave.aliensSpawned = 0;
                 wave.asteroidSpawnCount += wave.asteroidInc;
+                wave.maxAlienPerLevel += waveNumber % 2;
                 wave.duration = 0;
                 eventHandler.sendMessage(
                         new Messages.MessageWithFade("Wave " + waveNumber, Color.WHITE,
@@ -77,7 +78,7 @@ class Wave {
                 );
                 wave.setWaveMode(new OutWave(this.waveNumber + 1));
             }
-            if (Math.random() < wave.alienSpawnProb && wave.aliensSpawned < MAX_ALIENS_PER_LEVEL) {
+            if (Math.random() < wave.alienSpawnProb && wave.aliensSpawned < wave.maxAlienPerLevel) {
                 doAction(wave, eventHandler);
             }
         }

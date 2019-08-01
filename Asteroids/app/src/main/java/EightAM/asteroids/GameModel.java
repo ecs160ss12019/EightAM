@@ -219,7 +219,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
                 if (o instanceof Collision) collideables.add(id);
                 if (o instanceof Alien) {
                     adversaries.add(id);
-                    audioListener.onAlienWave();
+                    audioListener.onAlienBoss();
                 } else if (o instanceof Ship) currPlayerShip = id;
                 addListeners(o);
                 addMoveStrategy(o);

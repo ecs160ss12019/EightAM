@@ -3,7 +3,6 @@ package EightAM.asteroids;
 import android.graphics.Canvas;
 
 import EightAM.asteroids.interfaces.Collision;
-import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseBulletSpec;
 
@@ -14,7 +13,6 @@ public class Bullet extends GameObject implements Collision, Destructable {
     ObjectID owner;
 
     int distanceTraveled;
-    DestructListener destructListener;
 
     Bullet(BaseBulletSpec spec) {
         super(spec);
@@ -90,11 +88,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
 
     @Override
     public void destruct(DestroyedObject destroyedObject) {
-        destructListener.onDestruct(this);
+        eventHandler.onDestruct(this);
     }
 
-    @Override
-    public void registerDestructListener(DestructListener listener) {
-        this.destructListener = listener;
-    }
 }

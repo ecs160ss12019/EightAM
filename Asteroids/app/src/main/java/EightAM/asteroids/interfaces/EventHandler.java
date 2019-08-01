@@ -12,6 +12,8 @@ import EightAM.asteroids.specs.BaseLootSpec;
 public interface EventHandler extends DestructListener {
     void createObjects(Collection<GameObject> objects);
 
+    void onDestruct(Destructable destructable);
+
     void destroyObjects(Collection<Destructable> objects, ObjectID killerID);
 
     void teleportObjects(Collection<ObjectID> tpList);

@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import EightAM.asteroids.interfaces.AIModule;
 import EightAM.asteroids.interfaces.AudioListener;
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Destructable;
@@ -108,14 +109,12 @@ public class GameModel implements GameState, EventHandler, ShotListener {
 
     /**
      * Respawns the ship by returning its instance within a collection singleton
-     * @return
      */
     private Collection<GameObject> respawnShip() {
         GameObject ship = BaseFactory.getInstance().create(new BasicShipSpec());
         ship.hitbox.offsetTo(boundaries.width() / 2.0f, boundaries.height() / 2.0f);
         return Collections.singleton(ship);
     }
-
 
 
     public void removeObjects() {
@@ -156,16 +155,24 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      */
     void update(long timeInMillisecond) {
         putObjects();
+
+        for (ObjectID i : adversaries) {
+            ((AIModule) objectMap.get(i)).processGameState(this);
+        }
+
         for (GameObject o : objectMap.values()) {
             o.update(timeInMillisecond);
         }
 
-        for (ObjectID i : adversaries) {
-            ((Alien) objectMap.get(i)).tryShoot(getPlayerShip().getObjPos());
-        }
-
         for (Pair<Collision, GameObject> objectPair : CollisionChecker.enumerateCollisions(this)) {
             objectPair.first.onCollide(objectPair.second);
+        }
+
+        // there's an annoying bug where sometimes Wave object is not instantiated
+        if (wave == null) {
+            wave = new Wave(this, boundaries, spawnBoundaries, STARTING_MAX_ALIENS,
+                    STARTING_ASTEROIDS, STARTING_MAX_POWERUPS, WAVE_GRACE_PERIOD, ALIEN_SPAWN_PROB,
+                    ALIEN_PROB_INC);
         }
 
         wave.updateDuration(timeInMillisecond);
@@ -174,7 +181,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     }
 
     /**
-     *
      * @param i input by user.
      * @return if to pause game.
      */
@@ -260,9 +266,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      * @param object - the GameObject to check
      */
     private void addListeners(GameObject object) {
-        if (object instanceof Destructable) {
-            object.registerDestructListener(this);
-        }
         if (object instanceof Shooter) {
             ((Shooter) object).linkShotListener(this);
         }
@@ -278,7 +281,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      * This is so that these objects naturally drift in from the fringes
      * of space. Switching move strategies once they're in the play area.
      * That is, they start to wrap around the screen.
-     * @param object
      */
     private void addMoveStrategy(GameObject object) {
         if (object instanceof Alien || object instanceof Asteroid) {
@@ -293,7 +295,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
      * Creates debris from an object (unless it is a bullet or a particle).
      * All other objects produces particles as debris.
      * Asteroids, if they're big enough, breaks up into smaller ones.
-     * @param object
      */
     private void createDebris(GameObject object) {
         if (!((object instanceof Particle) || (object instanceof Bullet))) {
@@ -316,7 +317,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     /**
      * Plays the explosion sound effects from a destructable object.
      * As each instance of an object has a different sound.
-     * @param object
      */
     private void playExplosion(GameObject object) {
         if (object instanceof Asteroid) {
@@ -360,7 +360,6 @@ public class GameModel implements GameState, EventHandler, ShotListener {
     /**
      * The business logic for teleporting objects. This is mainly
      * used for HyperSpace, the "panic button"
-     * @param tpList
      */
     @Override
     public void teleportObjects(Collection<ObjectID> tpList) {

@@ -4,32 +4,34 @@ import android.graphics.Bitmap;
 
 import EightAM.asteroids.interfaces.AIModule;
 import EightAM.asteroids.interfaces.Collision;
-import EightAM.asteroids.interfaces.Destructable;
-import EightAM.asteroids.interfaces.EventGenerator;
-import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.specs.BaseAlienSpec;
 
-abstract class AbstractAlien extends GameObject implements Destructable, Collision, EventGenerator,
-        AIModule {
+abstract class AbstractAlien extends GameObject implements Collision, AIModule {
+    private final int pointValue;
+    private final int hitPoints;
     Bitmap bitmap;
     float dbmRatio;
-    EventHandler eventHandler;
 
     AbstractAlien(BaseAlienSpec spec) {
         super(spec);
+        this.id = ObjectID.getNewID(Faction.Alien);
+
         this.bitmap = BitmapStore.getInstance().getBitmap(spec.tag);
         this.dbmRatio = spec.dimensionBitMapRatio;
+
+        // alien spec
+        this.pointValue = spec.pointValue;
+        this.hitPoints = spec.hitPoints;
     }
 
     AbstractAlien(AbstractAlien alien) {
         super(alien);
+        this.id = ObjectID.getNewID(Faction.Alien);
+
         this.bitmap = alien.bitmap;
         this.dbmRatio = alien.dbmRatio;
-    }
 
-    @Override
-    public void registerEventHandler(EventHandler handler) {
-        this.eventHandler = handler;
+        this.pointValue = alien.pointValue;
+        this.hitPoints = alien.hitPoints;
     }
-
 }

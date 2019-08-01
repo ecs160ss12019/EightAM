@@ -8,8 +8,6 @@ import android.graphics.RectF;
 import java.util.Collections;
 
 import EightAM.asteroids.interfaces.Copyable;
-import EightAM.asteroids.interfaces.DestructListener;
-import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.Drawable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
@@ -18,8 +16,7 @@ import EightAM.asteroids.interfaces.MoveStrategy;
 import EightAM.asteroids.specs.BaseObjectSpec;
 import EightAM.asteroids.specs.RandomLootSpec;
 
-public abstract class GameObject implements Drawable, Identifiable, Destructable, Copyable,
-        EventGenerator {
+public abstract class GameObject implements Drawable, Identifiable, Copyable, EventGenerator {
 
     // ---------------Member variables-------------
 
@@ -32,7 +29,6 @@ public abstract class GameObject implements Drawable, Identifiable, Destructable
     Loot lootOnDeath;
 
     // listeners
-    DestructListener destructListener;
     EventHandler eventHandler;
 
     public GameObject(BaseObjectSpec spec) {
@@ -112,12 +108,7 @@ public abstract class GameObject implements Drawable, Identifiable, Destructable
                     new Point((int) hitbox.centerX(), (int) hitbox.centerY()),
                     new RandomLootSpec())));
         }
-        destructListener.onDestruct(this);
-    }
-
-    @Override
-    public void registerDestructListener(DestructListener listener) {
-        this.destructListener = listener;
+        eventHandler.onDestruct(this);
     }
 
     @Override

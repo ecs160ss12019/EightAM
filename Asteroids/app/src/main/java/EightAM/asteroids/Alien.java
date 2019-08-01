@@ -3,24 +3,18 @@ package EightAM.asteroids;
 // float random = min + r.nextFloat() * (max - min);
 //int randomNum = rand.nextInt((max - min) + 1) + min;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.util.Pair;
 
-import EightAM.asteroids.interfaces.Collision;
-import EightAM.asteroids.interfaces.Destructable;
-import EightAM.asteroids.interfaces.EventGenerator;
+import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseAlienSpec;
 
-public abstract class Alien extends GameObject implements Destructable, Collision, EventGenerator,
-        Shooter {
+public abstract class Alien extends AbstractAlien implements Shooter {
     // --------------- Member variables --------------
-    Bitmap bitmap;
-    float dbmRatio;
     float shotAngle = 0;
     float accuracy;
     int pointValue;
@@ -39,36 +33,17 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 
     // shooting
     Pair<Integer, Integer> shotDelayRange;
+    private Point lastKnownPlayerPosition;
 
     Alien(BaseAlienSpec spec) {
         super(spec);
-        // We now know the faction
-        this.id = ObjectID.getNewID(Faction.Alien);
-
-        // bitmap spec
-        this.bitmap = BitmapStore.getInstance().getBitmap(spec.tag);
-        this.dbmRatio = spec.dimensionBitMapRatio;
-
-        // alien spec
-        this.pointValue = spec.pointValue;
-        this.hitPoints = spec.hitPoints;
         this.weapon = BaseWeaponFactory.getInstance().createWeapon(spec.weaponSpec);
-
         this.turnTimer = new Timer(0, 0);
     }
 
     Alien(Alien alien) {
         super(alien);
-
-        this.id = ObjectID.getNewID(Faction.Alien);
-
-        this.bitmap = alien.bitmap;
-        this.dbmRatio = alien.dbmRatio;
-
-        this.pointValue = alien.pointValue;
-        this.hitPoints = alien.hitPoints;
         this.weapon = (Weapon) alien.weapon.makeCopy();
-
         this.turnTimer = new Timer(0, 0);
     }
 
@@ -92,6 +67,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
             this.setTurnDelay();
         }
         weapon.update(timeInMillisecond);
+        tryShoot();
     }
 
 
@@ -171,9 +147,14 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
         this.shotAngle = (float) Math.atan2(delY, delX);
     }
 
-    protected void tryShoot(Point targetPos) {
+    @Override
+    public void processGameState(GameState state) {
+        lastKnownPlayerPosition = state.getPlayerShip().getObjPos();
+    }
+
+    protected void tryShoot() {
         if (weapon.canFire()) {
-            aimAtTarget(targetPos);
+            aimAtTarget(lastKnownPlayerPosition);
             shoot();
             setShotDelay();
         }
@@ -253,6 +234,6 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     // ------------- END DESTRUCTABLE IMPLEMENTION ------------ //
 
     public void selfDestruct() {
-        destructListener.onDestruct(this);
+        eventHandler.onDestruct(this);
     }
 }

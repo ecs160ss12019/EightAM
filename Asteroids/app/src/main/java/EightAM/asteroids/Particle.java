@@ -1,11 +1,9 @@
 package EightAM.asteroids;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import java.util.Random;
 
-import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseParticleSpec;
 
@@ -14,7 +12,6 @@ public class Particle extends GameObject implements Destructable {
     // ---------------Member variables-------------
 
     long duration;
-    DestructListener destructListener;
 
     // ---------------Member methods---------------
 
@@ -66,11 +63,6 @@ public class Particle extends GameObject implements Destructable {
 
     @Override
     public void destruct(DestroyedObject destroyedObject) {
-        this.destructListener.onDestruct(this);
-    }
-
-    @Override
-    public void registerDestructListener(DestructListener listener) {
-        this.destructListener = listener;
+        this.eventHandler.onDestruct(this);
     }
 }

@@ -2,9 +2,11 @@ package EightAM.asteroids;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.Log;
 
 import androidx.annotation.ColorInt;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -18,7 +18,6 @@ final class Constants {
 
     // PARTICLE EFFECT
     static final int EFFECT_NUM = 10;
-    static final int EFFECT_RADIUS = 8;
 
     // WAVE INFO
     static final int STARTING_ASTEROIDS = 2;

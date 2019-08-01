@@ -1,25 +1,19 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.LOOT_FADE_TIME;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.EventGenerator;
-import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.specs.BaseLootSpec;
 
-abstract class Loot extends GameObject implements EventGenerator, Collision {
+public abstract class Loot extends GameObject implements EventGenerator, Collision {
     Bitmap bitmap;
     float dbmRatio;
 
     float randomAcceleration;
     Timer duration;
-
-    // listeners
-    EventHandler eventHandler;
 
     public Loot(BaseLootSpec spec) {
         super(spec);
@@ -40,34 +34,29 @@ abstract class Loot extends GameObject implements EventGenerator, Collision {
     }
 
     @Override
+    public boolean detectCollisions(GameObject approachingObject) {
+        return this.hitbox.intersect(approachingObject.hitbox);
+    }
+
+    @Override
+    public boolean canCollide() {
+        return true;
+    }
+
+    @Override
     void update(long timeInMillisecond) {
         super.update(timeInMillisecond);
         if (duration.update(timeInMillisecond)) {
             this.destruct(null);
         }
+        // random movement
         this.vel.accelerate(randomAcceleration, GameRandom.randomFloat((float) (2 * Math.PI), 0),
                 1 - randomAcceleration);
-    }
-
-    void drawFading() {
-        if (!(duration.curr % 10 <= 5)) {
-            paint.setAlpha(0);
-        } else {
-            paint.setAlpha(255);
-        }
-    }
-
-    @Override
-    public void registerEventHandler(EventHandler handler) {
-        this.eventHandler = handler;
     }
 
     @Override
     public void draw(Canvas canvas) {
         Matrix matrix = new Matrix();
-        if (Math.abs(duration.remaining()) < LOOT_FADE_TIME) {
-            drawFading();
-        }
         matrix.setTranslate(this.hitbox.centerX() - (float) (bitmap.getWidth() / 2),
                 this.hitbox.centerY() - (float) (bitmap.getHeight() / 2));
         canvas.drawBitmap(bitmap, matrix, paint);

@@ -6,10 +6,8 @@ import android.graphics.Matrix;
 import android.util.Pair;
 
 import EightAM.asteroids.interfaces.Collision;
-import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
-import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.specs.BaseAsteroidSpec;
 
 public class Asteroid extends GameObject implements Destructable, Collision, EventGenerator {
@@ -21,8 +19,6 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     int breakCount;
     int pointValue;
     int hitPoints;
-    EventHandler eventHandler;
-    DestructListener destructListener;
     Pair<Float, Float> speedRange;
     Pair<Float, Float> spinRange;
 
@@ -91,7 +87,7 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
             if (hitPoints <= 0) {
                 destroyThis = true;
             }
-        } else if (gameObject instanceof Ship || gameObject instanceof Alien) {
+        } else {
             destroyThis = true;
         }
         if (destroyThis) {
@@ -102,10 +98,5 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     @Override
     public boolean canCollide() {
         return true;
-    }
-
-    @Override
-    public void registerEventHandler(EventHandler handler) {
-        this.eventHandler = handler;
     }
 }

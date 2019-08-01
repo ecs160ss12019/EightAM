@@ -11,6 +11,7 @@ public abstract class BaseObjectSpec {
     public Point initialPosition;
     public Velocity initialVelocity;
     public Rotation initialRotation;
+    public BaseLootSpec lootOnDeath;
 
     public BaseObjectSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation) {
@@ -19,6 +20,10 @@ public abstract class BaseObjectSpec {
         this.initialPosition = initialPosition;
         this.initialVelocity = initialVelocity;
         this.initialRotation = initialRotation;
+    }
+
+    public void setLootOnDeath(BaseLootSpec lootOnDeath) {
+        this.lootOnDeath = lootOnDeath;
     }
 
     @Override

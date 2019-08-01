@@ -13,16 +13,13 @@ import java.util.Random;
 
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Controllable;
-import EightAM.asteroids.interfaces.DestructListener;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
-import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.Invulnerable;
 import EightAM.asteroids.interfaces.LimitedWeapon;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseShipSpec;
-import EightAM.asteroids.specs.LaserWeaponSpec;
 
 public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
         EventGenerator, Destructable {
@@ -37,14 +34,12 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     private float deceleration;
     private ShotListener shotListener;
     private float dbmRatio;
-    private DestructListener destructListener;
-    private EventHandler eventHandler;
 
-    private Weapon weapon;
-    private Weapon primaryWeapon;
-    private Weapon secondaryWeapon;
+    Weapon weapon;
+    Weapon primaryWeapon;
+    Weapon secondaryWeapon;
 
-    private Timer invDurationTimer;
+    Timer invDurationTimer;
 
     private Timer teleportCooldownTimer;
     private Timer teleportDelayTimer;
@@ -53,7 +48,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     /**
      * Main constructor that loads in the spec. Only ever used once
      * per spec.
-     * @param spec
      */
     Ship(BaseShipSpec spec) {
         super(spec);
@@ -68,7 +62,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
-        this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
+//        this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
         this.secondaryWeapon = BaseWeaponFactory.getInstance().createWeapon(spec.weaponSpec);
         this.teleportCooldownTimer = new Timer(spec.teleportCooldown, 0);
         this.teleportDelayTimer = new Timer(spec.teleportDelay, 0);
@@ -78,7 +72,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     /**
      * The copy constructor, copies attributes from a Ship prototype.
-     * @param ship
      */
     Ship(Ship ship) {
         super(ship);
@@ -93,7 +86,10 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = ship.rotationSpeed;
         this.acceleration = ship.acceleration;
         this.deceleration = ship.deceleration;
-        this.primaryWeapon = (Weapon) ship.primaryWeapon.makeCopy();
+        if (ship.primaryWeapon != null) {
+            this.primaryWeapon = (Weapon) ship.primaryWeapon.makeCopy();
+        }
+        // secondary weapon should always be non null
         this.secondaryWeapon = (Weapon) ship.secondaryWeapon.makeCopy();
         this.teleportCooldownTimer = new Timer(ship.teleportCooldownTimer);
         this.teleportDelayTimer = new Timer(ship.teleportDelayTimer);
@@ -105,12 +101,14 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     /**
      * Updates the position of the ship based on speed (a function of time).
      * and decrements the object specific counters
-     * @param timeInMillisecond
      */
     @Override
     void update(long timeInMillisecond) {
         super.update(timeInMillisecond);
-        if (isInvincible && invDurationTimer.update(timeInMillisecond)) {
+        if (!invDurationTimer.update(timeInMillisecond)) {
+            isInvincible = true;
+        }
+        if (isInvincible && invDurationTimer.reachedTarget) {
             isInvincible = false;
             paint.setAlpha(255);
         }
@@ -122,13 +120,13 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     /**
      * Decrements counters for limited weapons. If special weapon has ran out, then
      * the basic weapon is used.
-     * @param deltaTime
      */
     void updateWeapon(long deltaTime) {
-        if (weapon == null) {
+        if (primaryWeapon != null && weapon != primaryWeapon) {
             weapon = primaryWeapon;
         }
-        if (primaryWeapon instanceof LimitedWeapon && ((LimitedWeapon) primaryWeapon).expired()) {
+        if ((primaryWeapon == null || primaryWeapon instanceof LimitedWeapon
+                && ((LimitedWeapon) primaryWeapon).expired()) && weapon != secondaryWeapon) {
             weapon = secondaryWeapon;
         }
         weapon.update(deltaTime);
@@ -138,7 +136,6 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
      * Teleport enables the HyperSpace ability of the Ship.
      * Though, a delay and cooldown timers are introduced to prevent
      * abuse.
-     * @param deltaTime
      */
     void teleportAbility(long deltaTime) {
         teleportCooldownTimer.update(deltaTime);
@@ -172,7 +169,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
             if (hitPoints <= 0) {
                 destroyThis = true;
             }
-        } else if (gameObject instanceof Asteroid || gameObject instanceof Alien) {
+        } else {
             destroyThis = true;
         }
         if (destroyThis) {
@@ -182,7 +179,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
 
     @Override
     public boolean canCollide() {
-        return !isInvincible;
+        return true;
     }
 
     /**
@@ -298,10 +295,5 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     public boolean isInvulnerable() {
         return isInvincible;
-    }
-
-    @Override
-    public void registerEventHandler(EventHandler handler) {
-        this.eventHandler = handler;
     }
 }

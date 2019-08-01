@@ -11,6 +11,10 @@ public class Timer {
         resetTimer(target, start);
     }
 
+    Timer(long target) {
+        this(target, 0);
+    }
+
     Timer(Timer timer) {
         this.target = timer.target;
         this.start = timer.start;
@@ -27,6 +31,10 @@ public class Timer {
     void reset() {
         curr = start;
         reachedTarget = false;
+    }
+
+    void resetTimer(long target) {
+        resetTimer(target, 0);
     }
 
     void resetTimer(long target, long start) {
@@ -47,11 +55,15 @@ public class Timer {
             if (curr >= target) {
                 reachedTarget = true;
                 return true;
+            } else {
+                reachedTarget = false;
             }
         } else {
             if (curr <= target) {
                 reachedTarget = true;
                 return true;
+            } else {
+                reachedTarget = false;
             }
         }
         return false;

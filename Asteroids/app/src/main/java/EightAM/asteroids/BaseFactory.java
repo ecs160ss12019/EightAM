@@ -4,6 +4,7 @@ import EightAM.asteroids.interfaces.Factory;
 import EightAM.asteroids.specs.BaseAlienSpec;
 import EightAM.asteroids.specs.BaseAsteroidSpec;
 import EightAM.asteroids.specs.BaseBulletSpec;
+import EightAM.asteroids.specs.BaseLootSpec;
 import EightAM.asteroids.specs.BaseObjectSpec;
 import EightAM.asteroids.specs.BaseParticleSpec;
 import EightAM.asteroids.specs.BaseShipSpec;
@@ -40,6 +41,9 @@ class BaseFactory implements Factory {
         }
         if (spec instanceof BaseParticleSpec) {
             return BaseParticleFactory.getInstance().createParticle((BaseParticleSpec) spec);
+        }
+        if (spec instanceof BaseLootSpec) {
+            return BaseLootFactory.getInstance().createLoot((BaseLootSpec) spec);
         }
         return null;
     }

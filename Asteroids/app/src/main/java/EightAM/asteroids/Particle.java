@@ -35,7 +35,7 @@ public class Particle extends GameObject implements Destructable {
     void update(long timeInMillisecond) {
         super.update(timeInMillisecond);
 
-//        this.duration -= timeInMillisecond;
+//        this.durationMS -= timeInMillisecond;
         if (this.duration > timeInMillisecond) {
             this.duration -= timeInMillisecond;
         } else {

@@ -1,21 +1,21 @@
 package EightAM.asteroids;
 
-import EightAM.asteroids.specs.PowerupSpec;
 import EightAM.asteroids.specs.RandomLootSpec;
 
 class RandomLoot extends Loot {
-    PowerupSpec powerupSpec;
+    Powerups.Powerup powerup;
 
-    public RandomLoot(RandomLootSpec spec) {
+    RandomLoot(RandomLootSpec spec) {
         super(spec);
     }
 
     RandomLoot(RandomLoot loot) {
         super(loot);
+        this.powerup = loot.powerup;
     }
 
-    public void setPowerupSpec(PowerupSpec powerupSpec) {
-        this.powerupSpec = powerupSpec;
+    public void setPowerup(Powerups.Powerup powerup) {
+        this.powerup = powerup;
     }
 
     @Override
@@ -24,17 +24,10 @@ class RandomLoot extends Loot {
     }
 
     @Override
-    public boolean detectCollisions(GameObject approachingObject) {
-        return false;
-    }
-
-    @Override
     public void onCollide(GameObject gameObject) {
-
-    }
-
-    @Override
-    public boolean canCollide() {
-        return true;
+        if (gameObject instanceof Ship) {
+            powerup.applyPowerUp(eventHandler);
+            destruct(null);
+        }
     }
 }

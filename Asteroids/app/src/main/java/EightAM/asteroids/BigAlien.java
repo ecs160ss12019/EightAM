@@ -21,11 +21,6 @@ public class BigAlien extends Alien {
     }
 
     @Override
-    public void onCollide(GameObject approachingObject) {
-        super.onCollide(approachingObject);
-    }
-
-    @Override
     public Object makeCopy() {
         return new BigAlien(this);
     }

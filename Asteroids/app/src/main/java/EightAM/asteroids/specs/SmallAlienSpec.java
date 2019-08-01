@@ -47,6 +47,7 @@ public class SmallAlienSpec extends BaseAlienSpec {
                 dimensionBitMapRatio, pointValue, hitPoints, weaponSpec);
         this.turnDelayRange = turnDelayRange;
         this.shotDelayRange = shotDelayRange;
+        setLootOnDeath(new RandomLootSpec());
     }
 
     public SmallAlienSpec() {

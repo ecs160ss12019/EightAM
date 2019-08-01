@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.util.Pair;
 
 import EightAM.asteroids.interfaces.EventHandler;
+import EightAM.asteroids.specs.RandomLootSpec;
 
 /**
  * The Wave Class implements a state pattern:
@@ -19,24 +20,39 @@ class Wave {
     WaveMode waveMode;
     EventHandler eventHandler;
     Pair<RectF, RectF> spawnBox;
-    long duration;
+    Timer durationTimer;
     double alienSpawnProb;
-    int aliensSpawned;
-    int asteroidSpawnCount;
+    double alienSpawnProbInc;
     int asteroidInc;
-    int maxAlienPerLevel;
 
-    int currAsteroids;
+    int maxAliens;
+    int aliensSpawned;
     int currAliens;
 
-    Wave(EventHandler eventHandler, RectF boundaries, RectF spawnBoundaries) {
+    int asteroidSpawnCount;
+    int currAsteroids;
+
+    int maxPowerups;
+    int powerupsSpawned;
+    int currPowerups;
+
+
+    Wave(EventHandler eventHandler, RectF boundaries, RectF spawnBoundaries, int startingAliens,
+            int startingAsteroids, int startingPowerups, int waveGracePeriod, double alienSpawnProb,
+            double alienSpawnProbInc) {
         this.eventHandler = eventHandler;
         this.spawnBox = new Pair<>(boundaries, spawnBoundaries);
         this.waveMode = new InWave(0);
+        this.maxAliens = startingAliens;
+        this.asteroidSpawnCount = startingAsteroids;
+        this.maxPowerups = startingPowerups;
+        this.durationTimer = new Timer(waveGracePeriod);
+        this.alienSpawnProb = alienSpawnProb;
+        this.alienSpawnProbInc = alienSpawnProbInc;
     }
 
     void updateDuration(long timePassed) {
-        this.duration += timePassed;
+        this.durationTimer.update(timePassed);
         waveMode.update(this, eventHandler);
     }
 
@@ -46,6 +62,10 @@ class Wave {
 
     void updateAsteroids(int i) {
         currAsteroids += i;
+    }
+
+    public void updatePowerups(int i) {
+        currPowerups += i;
     }
 
     public void setWaveMode(WaveMode waveMode) {
@@ -74,34 +94,38 @@ class Wave {
          * Updates the wave by incrementing the difficulty, increasing aliens and asteroids iff
          * the space is clear. Then, the wave enters a grace period (OutWave state)
          * Else, update will randomly spawn an alien.
-         *
-         * @param wave
-         * @param eventHandler
          */
         @Override
         void update(Wave wave, EventHandler eventHandler) {
             if (wave.currAsteroids == 0 && wave.currAliens == 0) {
-                wave.aliensSpawned = 0;
                 wave.asteroidSpawnCount += wave.asteroidInc;
-                wave.maxAlienPerLevel += waveNumber % 2;
-                wave.duration = 0;
+                wave.maxAliens += waveNumber % 2;
+                wave.aliensSpawned = 0;
+                wave.durationTimer.reset();
+                wave.powerupsSpawned = 0;
                 eventHandler.sendMessage(
                         new Messages.MessageWithFade("Wave " + waveNumber, Color.WHITE,
-                                WAVE_GRACE_PERIOD, -1,
-                                -1, 1500)
+                                WAVE_GRACE_PERIOD, Messages.FontSize.Large,
+                                Messages.HorizontalPosition.Center,
+                                Messages.VerticalPosition.Center, 1500)
                 );
                 wave.setWaveMode(new OutWave(this.waveNumber + 1));
             }
-            if (Math.random() < wave.alienSpawnProb && wave.aliensSpawned < wave.maxAlienPerLevel) {
-                doAction(wave, eventHandler);
-            }
+            doAction(wave, eventHandler);
         }
 
         @Override
         void doAction(Wave wave, EventHandler eventHandler) {
-            eventHandler.createObjects(AlienGenerator.createAlien(
-                    new Point((int) wave.spawnBox.first.right, (int) wave.spawnBox.first.bottom)));
-            wave.aliensSpawned++;
+            if (Math.random() < wave.alienSpawnProb && wave.aliensSpawned < wave.maxAliens) {
+                eventHandler.createObjects(AlienGenerator.createAlien(
+                        new Point((int) wave.spawnBox.first.right,
+                                (int) wave.spawnBox.first.bottom)));
+                wave.aliensSpawned++;
+            }
+            if (wave.powerupsSpawned < wave.maxPowerups) {
+                eventHandler.createLoot(new RandomLootSpec());
+                wave.powerupsSpawned++;
+            }
         }
 
     }
@@ -116,13 +140,11 @@ class Wave {
         /**
          * Decrements the counter for the wave grace period.
          * Once fully decremented, the next wave state is commenced (InWave state)
-         * @param wave
-         * @param eventHandler
          */
         @Override
         void update(Wave wave, EventHandler eventHandler) {
-            if (wave.duration >= WAVE_GRACE_PERIOD) {
-                wave.duration = 0;
+            if (wave.durationTimer.reachedTarget) {
+                wave.durationTimer.reset();
                 doAction(wave, eventHandler);
                 wave.setWaveMode(new InWave(this.waveNumber));
             }

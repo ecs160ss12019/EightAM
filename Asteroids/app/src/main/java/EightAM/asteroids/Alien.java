@@ -12,7 +12,6 @@ import android.util.Pair;
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
-import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseAlienSpec;
@@ -29,7 +28,6 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
     Weapon weapon;
 
     // listeners
-    EventHandler eventHandler;
     ShotListener shotListener;
     float distanceTraveled;
 
@@ -119,8 +117,8 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      */
     protected void setTurnDelay() {
         //int randomNum = rand.nextInt((max - min) + 1) + min;
-        this.turnTimer.resetTimer(GameRandom.randomInt(turnDelayRange.second, turnDelayRange.first),
-                0);
+        this.turnTimer.resetTimer(
+                GameRandom.randomInt(turnDelayRange.second, turnDelayRange.first));
     }
 
     /**
@@ -160,7 +158,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
      */
     protected void setShotDelay() {
         weapon.reloadTimer.resetTimer(
-                GameRandom.randomInt(shotDelayRange.second, shotDelayRange.first), 0);
+                GameRandom.randomInt(shotDelayRange.second, shotDelayRange.first));
     }
 
     public boolean canShoot() {
@@ -229,7 +227,7 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
             if (hitPoints <= 0) {
                 destroyThis = true;
             }
-        } else if (approachingObject instanceof Ship || approachingObject instanceof Asteroid) {
+        } else {
             destroyThis = true;
         }
         if (destroyThis) {
@@ -256,10 +254,5 @@ public abstract class Alien extends GameObject implements Destructable, Collisio
 
     public void selfDestruct() {
         destructListener.onDestruct(this);
-    }
-
-    @Override
-    public void registerEventHandler(EventHandler handler) {
-        this.eventHandler = handler;
     }
 }

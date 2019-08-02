@@ -4,11 +4,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 import EightAM.asteroids.R;
 import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
 
-public class BasicShipSpec extends BaseShipSpec {
+public class TeleportShipSpec extends BaseShipSpec implements AudioSpec {
     public static int hitPoints = 1;
     public static float maxSpeed = 0.8f;
     public static float rotationSpeed = 0.005f;
@@ -31,10 +35,12 @@ public class BasicShipSpec extends BaseShipSpec {
 
     public static int paintColor = Color.BLUE;
     public static Paint.Style paintStyle = Paint.Style.FILL;
-
     public static BaseWeaponSpec weaponSpec = new BasicShipWeaponSpec();
 
-    public BasicShipSpec(String tag, Point dimensions, Point initialPosition,
+    // sound resIDs
+    public int teleport = R.raw.ship_teleport;
+
+    public TeleportShipSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
             float dimensionBitMapRatio, int hitPoints, float maxSpeed, float rotationSpeed,
             float acceleration, float deceleration, int reloadTime, int invincibilityDuration,
@@ -45,9 +51,14 @@ public class BasicShipSpec extends BaseShipSpec {
                 weaponSpec);
     }
 
-    public BasicShipSpec() {
+    public TeleportShipSpec() {
         this(tag, dimensions, initialPosition, initialVelocity, initialRotation, resID, dbmRatio,
                 hitPoints, maxSpeed, rotationSpeed, acceleration, deceleration, reloadTime,
                 invincibilityDuration, teleportDelay, teleportCooldown, weaponSpec);
+    }
+
+    @Override
+    public Collection<Integer> getResIDs() {
+        return Collections.unmodifiableList(Arrays.asList(explosion, teleport));
     }
 }

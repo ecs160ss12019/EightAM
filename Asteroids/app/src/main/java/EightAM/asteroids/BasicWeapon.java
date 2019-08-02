@@ -17,6 +17,7 @@ class BasicWeapon extends Weapon {
 
     @Override
     Collection<GameObject> fire(Shooter shooter) {
+        super.fire(shooter);
         reloadTimer.reset();
         return Collections.singleton(BulletGenerator.createBullet(shooter));
     }

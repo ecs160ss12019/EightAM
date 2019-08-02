@@ -2,10 +2,11 @@ package EightAM.asteroids.specs;
 
 import android.graphics.Point;
 
+import EightAM.asteroids.R;
 import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
 
-public abstract class BaseShipSpec extends BaseBitmapSpec {
+public abstract class BaseShipSpec extends BaseBitmapSpec implements AudioSpec {
     public int hitPoints;
     public float maxSpeed;
     public float rotationSpeed;
@@ -16,6 +17,9 @@ public abstract class BaseShipSpec extends BaseBitmapSpec {
     public int teleportDelay;
     public int teleportCooldown;
     public BaseWeaponSpec weaponSpec;
+
+    // sound ID
+    public int explosion = R.raw.ship_explosion;
 
     public BaseShipSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,

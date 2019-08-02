@@ -26,6 +26,7 @@ class ShotgunWeapon extends AmmoLimitedWeapon {
 
     @Override
     Collection<GameObject> fire(Shooter shooter) {
+        super.fire(shooter);
         Collection<GameObject> bullets = new ArrayList<>();
         for (int i = 0; i < shotCount; i++) {
             float dTheta = GameRandom.randomFloat(spread.first, spread.second);

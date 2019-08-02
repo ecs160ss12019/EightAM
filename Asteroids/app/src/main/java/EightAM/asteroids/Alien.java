@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.util.Pair;
 
+import EightAM.asteroids.interfaces.AudioListener;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseAlienSpec;
@@ -190,5 +191,11 @@ public abstract class Alien extends AbstractAlien implements Shooter {
 
     public void selfDestruct() {
         eventHandler.onDestruct(this);
+    }
+
+    @Override
+    public void registerAudioListener(AudioListener listener) {
+        super.registerAudioListener(listener);
+        weapon.registerAudioListener(listener);
     }
 }

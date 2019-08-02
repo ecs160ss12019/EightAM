@@ -4,11 +4,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import EightAM.asteroids.R;
 import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
 
-public class RandomLootSpec extends BaseLootSpec {
+public class RandomLootSpec extends BaseLootSpec implements AudioSpec {
     public static float randomAcceleration = 0.0002f;
     public static long durationMS = 10000;
     public static float maxSpeed = 0.8f;
@@ -28,6 +31,10 @@ public class RandomLootSpec extends BaseLootSpec {
 
     public RandomPowerupSpec randomPowerupSpec;
 
+    // sound resIDs
+    public int powerup = R.raw.ship_powerup;
+
+
     public RandomLootSpec(String tag, Point dimensions,
             Point initialPosition, Velocity initialVelocity,
             Rotation initialRotation, int bitMapResourceID,
@@ -41,5 +48,10 @@ public class RandomLootSpec extends BaseLootSpec {
     public RandomLootSpec() {
         this(tag, dimensions, initialPosition, initialVelocity, initialRotation, resID, dbmRatio,
                 randomAcceleration, durationMS, _randomPowerupSpec);
+    }
+
+    @Override
+    public Collection<Integer> getResIDs() {
+        return Collections.singleton(powerup);
     }
 }

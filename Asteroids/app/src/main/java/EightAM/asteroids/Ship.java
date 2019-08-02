@@ -11,6 +11,8 @@ import android.graphics.PorterDuffColorFilter;
 import java.util.Collections;
 import java.util.Random;
 
+import EightAM.asteroids.interfaces.AudioGenerator;
+import EightAM.asteroids.interfaces.AudioListener;
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Controllable;
 import EightAM.asteroids.interfaces.Destructable;
@@ -20,10 +22,10 @@ import EightAM.asteroids.interfaces.LimitedWeapon;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseShipSpec;
-import EightAM.asteroids.specs.LaserWeaponSpec;
+import EightAM.asteroids.specs.TeleportShipSpec;
 
 public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
-        EventGenerator, Destructable {
+        EventGenerator, Destructable, AudioGenerator {
 
     // ---------------Member variables-------------
     Bitmap bitmap;
@@ -46,6 +48,11 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     private Timer teleportDelayTimer;
     private boolean teleporting = false;
 
+    // sound ids
+    public int explosionID;
+    public int teleportID;
+    private AudioListener audioListener;
+
     /**
      * Main constructor that loads in the spec. Only ever used once
      * per spec.
@@ -63,12 +70,15 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
-        this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
+//        this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
         this.secondaryWeapon = BaseWeaponFactory.getInstance().createWeapon(spec.weaponSpec);
         this.teleportCooldownTimer = new Timer(spec.teleportCooldown, 0);
         this.teleportDelayTimer = new Timer(spec.teleportDelay, 0);
 
         this.invDurationTimer = new Timer(invincibilityDuration, 0);
+
+        this.explosionID = spec.explosion;
+        this.teleportID = ((TeleportShipSpec) spec).teleport;
     }
 
     /**
@@ -96,6 +106,9 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.teleportDelayTimer = new Timer(ship.teleportDelayTimer);
 
         this.invDurationTimer = new Timer(invincibilityDuration, 0);
+
+        this.explosionID = ship.explosionID;
+        this.teleportID = ship.teleportID;
     }
 
 
@@ -145,6 +158,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         }
         if (teleporting && teleportCooldownTimer.reachedTarget
                 && teleportDelayTimer.update(deltaTime)) {
+            audioListener.sendSoundCommand(teleportID);
             eventHandler.teleportObjects(Collections.singleton(getID()));
             teleportCooldownTimer.reset();
             teleportDelayTimer.reset();
@@ -280,6 +294,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     public void destruct(DestroyedObject destroyedObject) {
         eventHandler.processScore(destroyedObject);
+        audioListener.sendSoundCommand(explosionID);
         super.destruct(destroyedObject);
     }
 
@@ -296,5 +311,19 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
     @Override
     public boolean isInvulnerable() {
         return isInvincible;
+    }
+
+    @Override
+    public void registerAudioListener(AudioListener listener) {
+        this.audioListener = listener;
+        if (weapon != null) {
+            weapon.registerAudioListener(listener);
+        }
+        if (primaryWeapon != null) {
+            primaryWeapon.registerAudioListener(listener);
+        }
+        if (secondaryWeapon != null) {
+            secondaryWeapon.registerAudioListener(listener);
+        }
     }
 }

@@ -9,7 +9,7 @@ import EightAM.asteroids.R;
 import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
 
-public class SmallAlienSpec extends BaseAlienSpec {
+public class SmallAlienSpec extends BaseAlienSpec implements AudioSpec {
     public static int pointValue = 100;
     public static int hitPoints = 1;
     public static float maxSpeed = 0.25f;
@@ -37,6 +37,9 @@ public class SmallAlienSpec extends BaseAlienSpec {
     public Pair<Integer, Integer> turnDelayRange;
     public Pair<Integer, Integer> shotDelayRange;
 
+    // sound resIDs
+    public int explosion = R.raw.alien_explosion;
+
     public SmallAlienSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
             float dimensionBitMapRatio, int pointValue,
@@ -47,12 +50,14 @@ public class SmallAlienSpec extends BaseAlienSpec {
                 dimensionBitMapRatio, pointValue, hitPoints, weaponSpec);
         this.turnDelayRange = turnDelayRange;
         this.shotDelayRange = shotDelayRange;
-        setLootOnDeath(new RandomLootSpec());
     }
 
     public SmallAlienSpec() {
         this(tag, dimensions, initialPosition, initialVelocity, initialRotation, resID, dbmRatio,
                 pointValue, hitPoints, weaponSpec, _turnDelayRange,
                 _shotDelayRange);
+        setLootOnDeath(new RandomLootSpec());
+        setExplosionID(explosion);
     }
+
 }

@@ -29,6 +29,4 @@ public interface EventHandler extends DestructListener {
     void giveInvincibility(int duration);
 
     void createLoot(BaseLootSpec spec);
-
-    void playSound(int soundID);
 }

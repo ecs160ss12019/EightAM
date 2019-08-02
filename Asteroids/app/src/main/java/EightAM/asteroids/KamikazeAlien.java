@@ -6,13 +6,15 @@ import android.graphics.Point;
 import android.util.Log;
 import android.util.Pair;
 
+import EightAM.asteroids.interfaces.AudioGenerator;
+import EightAM.asteroids.interfaces.AudioListener;
 import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseAlienSpec;
 import EightAM.asteroids.specs.KamikazeAlienSpec;
 
-class KamikazeAlien extends AbstractAlien implements Shooter {
+class KamikazeAlien extends AbstractAlien implements Shooter, AudioGenerator {
 
     ShotListener shotListener;
 
@@ -147,5 +149,11 @@ class KamikazeAlien extends AbstractAlien implements Shooter {
                 this.hitbox.centerX(),
                 this.hitbox.centerY());
         canvas.drawBitmap(bitmap, matrix, paint);
+    }
+
+    @Override
+    public void registerAudioListener(AudioListener listener) {
+        super.registerAudioListener(listener);
+        weapon.registerAudioListener(listener);
     }
 }

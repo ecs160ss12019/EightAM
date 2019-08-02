@@ -7,8 +7,9 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import android.util.Pair;
 
+import EightAM.asteroids.interfaces.AudioGenerator;
+import EightAM.asteroids.interfaces.AudioListener;
 import EightAM.asteroids.interfaces.EventHandler;
-import EightAM.asteroids.specs.RandomLootSpec;
 
 /**
  * The Wave Class implements a state pattern:
@@ -16,7 +17,7 @@ import EightAM.asteroids.specs.RandomLootSpec;
  * OutWave for the grace period in between waves
  */
 
-class Wave {
+class Wave implements AudioGenerator {
     WaveMode waveMode;
     EventHandler eventHandler;
     Pair<RectF, RectF> spawnBox;
@@ -35,6 +36,7 @@ class Wave {
     int maxPowerups;
     int powerupsSpawned;
     int currPowerups;
+    private AudioListener audioListener;
 
 
     Wave(EventHandler eventHandler, RectF boundaries, RectF spawnBoundaries, int startingAliens,
@@ -72,6 +74,11 @@ class Wave {
         this.waveMode = waveMode;
     }
 
+    @Override
+    public void registerAudioListener(AudioListener listener) {
+        this.audioListener = listener;
+    }
+
     static abstract class WaveMode {
         int waveNumber;
 
@@ -86,6 +93,8 @@ class Wave {
 
     // While there are aliens and asteroids
     static class InWave extends WaveMode {
+        boolean playedAlienWave;
+
         InWave(int waveNumber) {
             super(waveNumber);
         }
@@ -121,13 +130,11 @@ class Wave {
                         new Point((int) wave.spawnBox.first.right,
                                 (int) wave.spawnBox.first.bottom)));
                 wave.aliensSpawned++;
+                if (!playedAlienWave) {
+                    wave.audioListener.onAlienWave();
+                    playedAlienWave = true;
+                }
             }
-            /*
-            if (wave.powerupsSpawned < wave.maxPowerups) {
-                eventHandler.createLoot(new RandomLootSpec());
-                wave.powerupsSpawned++;
-            }
-            */
         }
 
     }
@@ -157,7 +164,7 @@ class Wave {
             eventHandler.createObjects(
                     AsteroidGenerator.createBelt(wave.spawnBox.first, wave.spawnBox.second,
                             wave.asteroidSpawnCount));
-
+            wave.audioListener.onAsteroidWave();
         }
     }
 }

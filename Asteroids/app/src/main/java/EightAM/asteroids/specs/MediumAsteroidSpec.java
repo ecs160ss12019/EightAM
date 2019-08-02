@@ -5,11 +5,14 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.Pair;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import EightAM.asteroids.R;
 import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
 
-public class MediumAsteroidSpec extends BaseAsteroidSpec {
+public class MediumAsteroidSpec extends BaseAsteroidSpec implements AudioSpec {
     public static Pair<Float, Float> speedRange = new Pair<>(0.05f, 0.25f);
     public static Pair<Float, Float> spinRange = new Pair<>(0f, 0.01f);
     public static BaseAsteroidSpec breaksInto = new SmallAsteroidSpec();
@@ -30,6 +33,9 @@ public class MediumAsteroidSpec extends BaseAsteroidSpec {
     public static int pointValue = 15;
     public static int hitPoints = 1;
 
+    // sound resIDs
+    public static int explosion = R.raw.asteroid_medium;
+
     public MediumAsteroidSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
             float dimensionBitMapRatio,
@@ -44,5 +50,11 @@ public class MediumAsteroidSpec extends BaseAsteroidSpec {
     public MediumAsteroidSpec() {
         this(tag, dimensions, initialPosition, initialVelocity, initialRotation, resID, dbmRatio,
                 speedRange, spinRange, breaksInto, breakCount, pointValue, hitPoints);
+        setExplosionID(explosion);
+    }
+
+    @Override
+    public Collection<Integer> getResIDs() {
+        return Collections.singleton(explosion);
     }
 }

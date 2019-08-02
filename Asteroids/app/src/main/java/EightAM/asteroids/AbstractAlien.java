@@ -4,16 +4,23 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 
 import EightAM.asteroids.interfaces.AIModule;
+import EightAM.asteroids.interfaces.AudioGenerator;
+import EightAM.asteroids.interfaces.AudioListener;
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.specs.BaseAlienSpec;
 
-public abstract class AbstractAlien extends GameObject implements Collision, AIModule {
+public abstract class AbstractAlien extends GameObject implements Collision, AIModule,
+        AudioGenerator {
     int pointValue;
     int hitPoints;
     Bitmap bitmap;
     float dbmRatio;
     Point lastKnownPlayerPos;
+
+    // sound IDs
+    int explosionID;
+    private AudioListener audioListener;
 
     AbstractAlien(BaseAlienSpec spec) {
         super(spec);
@@ -85,5 +92,10 @@ public abstract class AbstractAlien extends GameObject implements Collision, AIM
     @Override
     public boolean canCollide() {
         return true;
+    }
+
+    @Override
+    public void registerAudioListener(AudioListener listener) {
+        this.audioListener = listener;
     }
 }

@@ -12,39 +12,13 @@ import android.util.Log;
 import android.util.SparseIntArray;
 
 import java.io.IOException;
+import java.util.Collection;
 
-import EightAM.asteroids.interfaces.AudioListener;
+public class AudioUtility implements Runnable {
 
-public class AudioUtility implements AudioListener, Runnable {
+    static AudioUtility instance;
 
-    // ---------------Member variables-------------
-
-    // Background music
-    Handler handler;
-    Thread thread;
-    MediaPlayer music;
-    // Sound effects
-    private SoundPool sounds;
-    SparseIntArray resIDToSoundID;
-    private int alien_explosion = -1;
-    private int alien_alarm = -1;
-    private int alien_boss = -1;
-    private int asteroid_large_explosion = -1;
-    private int asteroid_medium_explosion = -1;
-    private int asteroid_small_explosion = -1;
-    private int asteroid_wave = -1;
-    private int ship_explosion = -1;
-    private int ship_shoot = -1;
-    private int ship_powerup = -1;
-    private int ship_teleport = -1;
-
-    //temp
-    private int ship_shoot1 = -1;
-    private int ship_shoot2 = -1;
-
-    // ---------------Member methods---------------
-
-    AudioUtility() {
+    private AudioUtility() {
         // Initialize soundPool
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -58,29 +32,35 @@ public class AudioUtility implements AudioListener, Runnable {
         } else {
             sounds = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
         }
-
         resIDToSoundID = new SparseIntArray();
-
     }
 
-    void loadSound(Context c, int resID) {
-        // Load the sounds from resource file
-        alien_explosion = sounds.load(c, R.raw.alien_explosion, 1);
-        alien_alarm = sounds.load(c, R.raw.alien_wave, 1);
-        alien_boss = sounds.load(c, R.raw.alien_boss, 1);
-        asteroid_large_explosion = sounds.load(c, R.raw.asteroid_larger, 1);
-        asteroid_medium_explosion = sounds.load(c, R.raw.asteroid_medium, 1);
-        asteroid_small_explosion = sounds.load(c, R.raw.asteroid_small, 1);
-        asteroid_wave = sounds.load(c, R.raw.sound_alarm, 1);
-        ship_shoot = sounds.load(c, R.raw.ship_shoot, 1);
-        ship_explosion = sounds.load(c, R.raw.ship_explosion, 1);
-        ship_teleport = sounds.load(c, R.raw.ship_teleport, 1);
-        ship_powerup = sounds.load(c, R.raw.ship_powerup, 1);
-        music = MediaPlayer.create(c, R.raw.background_music);
+    // ---------------Member variables-------------
 
-        //temp
-        ship_shoot1 = sounds.load(c, R.raw.ship_shoot1, 1);
-        ship_shoot2 = sounds.load(c, R.raw.ship_shoot2, 1);
+    // Background music
+    Handler handler;
+    Thread thread;
+    MediaPlayer music;
+    // Sound effects
+    private SoundPool sounds;
+    SparseIntArray resIDToSoundID;
+
+    // ---------------Member methods---------------
+
+    public static AudioUtility getInstance() {
+        if (instance == null) instance = new AudioUtility();
+        return instance;
+    }
+
+    void loadMusic(Context c, int resID) {
+        music = MediaPlayer.create(c, resID);
+    }
+
+    void loadSound(Context c, Collection<Integer> resIDs) {
+        for (Integer resID : resIDs) {
+            int soundID = sounds.load(c, resID, 1);
+            resIDToSoundID.append(resID, soundID);
+        }
     }
 
     void start() {
@@ -99,90 +79,25 @@ public class AudioUtility implements AudioListener, Runnable {
         }
     }
 
-    boolean isInit() {
-        return handler != null;
-    }
-
-    public Handler getHandler() {
-        return handler;
-    }
-
-    @Override
-    public void onAlienExplosion() {
-        playSound(alien_explosion);
-    }
-
-    @Override
-    public void onAlienWave() {
-        playSound(alien_alarm);
-    }
-
-    @Override
-    public void onAsteroidWave() {
-        playSound(asteroid_wave);
-    }
-
-    @Override
-    public void onLargeAsteroidExplosion() {
-        playSound(asteroid_large_explosion);
-    }
-
-    @Override
-    public void onMediumAsteroidExplosion() {
-        playSound(asteroid_medium_explosion);
-    }
-
-    @Override
-    public void onSmallAsteroidExplosion() {
-        playSound(asteroid_small_explosion);
-    }
-
-    @Override
-    public void onShipShoot() {
-        playSound(ship_shoot1);
-
-        // temp, testing result: shoot1 is better (kenny)
-//        playSound(ship_shoot);
-//        playSound(ship_shoot2);
-    }
-
-    @Override
-    public void onShipExplosion() {
-        playSound(ship_explosion);
-    }
-
-    @Override
-    public void onShipPowerup() {
-        playSound(ship_powerup);
-    }
-
-    public void onShipTeleport() {
-        playSound(ship_teleport);
-    }
-
-    @Override
-    public void onAlienBoss() {
-        playSound(alien_boss);
-    }
-
-    @Override
-    public void playSound(int soundID) {
+    public void sendSoundCommand(int soundID) {
         handler.post(new AudioRunnable(soundID, this));
     }
 
-    public void sendPlayCommand(int soundID) {
+    public void playSound(int soundID) {
         sounds.play(soundID, 1, 1, 0, 0, 1);
     }
 
-    @Override
     public void sendMusicCommand(boolean startOver, boolean pause, boolean resume) {
         handler.post(new MusicRunnable(startOver, pause, resume, this));
+    }
+
+    public void playSoundFromResID(int resID) {
+        sendSoundCommand(resIDToSoundID.get(resID));
     }
 
     /**
      * Background music
      */
-    @Override
     public void onMusic() {
         sendMusicCommand(false, false, true);
     }
@@ -190,7 +105,6 @@ public class AudioUtility implements AudioListener, Runnable {
     /**
      * Background music stops when paused
      */
-    @Override
     public void offMusic() {
         sendMusicCommand(false, true, false);
     }
@@ -210,7 +124,7 @@ public class AudioUtility implements AudioListener, Runnable {
 
         @Override
         public void run() {
-            audioUtility.sendPlayCommand(soundID);
+            audioUtility.playSound(soundID);
         }
     }
 

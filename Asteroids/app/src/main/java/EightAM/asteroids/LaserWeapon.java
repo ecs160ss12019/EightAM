@@ -17,6 +17,7 @@ class LaserWeapon extends TimeLimitedWeapon {
 
     @Override
     Collection<GameObject> fire(Shooter shooter) {
+        super.fire(shooter);
         reloadTimer.reset();
         return Collections.singleton(BulletGenerator.createBullet(shooter));
     }

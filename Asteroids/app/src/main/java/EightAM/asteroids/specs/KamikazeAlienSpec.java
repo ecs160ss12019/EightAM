@@ -41,6 +41,8 @@ public class KamikazeAlienSpec extends BaseAlienSpec {
     public Pair<Float, Float> trackingError;
     public float explodeRadius;
 
+    public static int explosion = R.raw.alien_explosion;
+
     public KamikazeAlienSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
             float dimensionBitMapRatio, int pointValue, int hitPoints,
@@ -59,5 +61,6 @@ public class KamikazeAlienSpec extends BaseAlienSpec {
         this(tag, dimensions, initialPosition, initialVelocity, initialRotation, resID,
                 dbmRatio, pointValue, hitPoints, weaponSpec, _rotationSpeed, _acceleration,
                 _deceleration, _trackingError, _explodeRadius);
+        setExplosionID(explosion);
     }
 }

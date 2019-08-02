@@ -5,12 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.Pair;
 
+import EightAM.asteroids.interfaces.AudioGenerator;
+import EightAM.asteroids.interfaces.AudioListener;
 import EightAM.asteroids.interfaces.Collision;
 import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.specs.BaseAsteroidSpec;
 
-public class Asteroid extends GameObject implements Destructable, Collision, EventGenerator {
+public class Asteroid extends GameObject implements Destructable, Collision, EventGenerator,
+        AudioGenerator {
 
     // ---------------Member variable---------------
 
@@ -21,6 +24,10 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     int hitPoints;
     Pair<Float, Float> speedRange;
     Pair<Float, Float> spinRange;
+
+    // sound stuff
+    int explosionID;
+    private AudioListener audioListener;
 
     // ---------------Member methods----------------
 
@@ -34,6 +41,8 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
         this.breakCount = spec.breakCount;
         this.pointValue = spec.pointValue;
         this.hitPoints = spec.hitPoints;
+
+        this.explosionID = spec.explosionID;
     }
 
     Asteroid(Asteroid asteroid) {
@@ -46,6 +55,8 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
         this.breakCount = asteroid.breakCount;
         this.pointValue = asteroid.pointValue;
         this.hitPoints = asteroid.hitPoints;
+
+        this.explosionID = asteroid.explosionID;
     }
 
     @Override
@@ -71,6 +82,7 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     public void destruct(DestroyedObject destroyedObject) {
         // implement destruction effects here.
         eventHandler.processScore(destroyedObject);
+        audioListener.sendSoundCommand(explosionID);
         super.destruct(destroyedObject);
     }
 
@@ -98,5 +110,10 @@ public class Asteroid extends GameObject implements Destructable, Collision, Eve
     @Override
     public boolean canCollide() {
         return true;
+    }
+
+    @Override
+    public void registerAudioListener(AudioListener listener) {
+        this.audioListener = listener;
     }
 }

@@ -14,6 +14,9 @@ public abstract class BaseAsteroidSpec extends BaseBitmapSpec {
     public int pointValue = 10;
     public int hitPoints = 1;
 
+    // sound IDs
+    public int explosionID;
+
     public BaseAsteroidSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
             float dimensionBitMapRatio, Pair<Float, Float> speedRange,
@@ -29,4 +32,7 @@ public abstract class BaseAsteroidSpec extends BaseBitmapSpec {
         this.hitPoints = hitPoints;
     }
 
+    public void setExplosionID(int explosionID) {
+        this.explosionID = explosionID;
+    }
 }

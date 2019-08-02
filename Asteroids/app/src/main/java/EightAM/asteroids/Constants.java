@@ -4,18 +4,6 @@ final class Constants {
     // GENERAL
     static final double ALIEN_SPAWN_PROB = .1d; // 100% while debugging
 
-    // ASTEROID
-    static final float SAFE_DISTANCE = 800;
-
-    // SHIP
-    static final int SHIP_RESTART_DURATION = 300;
-
-    // BIG ALIEN
-    static final double BIGALIEN_SPAWN_PROB = 0.7d;
-
-    // SMALL ALIEN
-    static final double SMALLALIEN_SPAWN_PROB = 0.3d;
-
     // PARTICLE EFFECT
     static final int EFFECT_NUM = 10;
 

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import EightAM.asteroids.interfaces.GameOverListener;
+import EightAM.asteroids.specs.LevelAudioSpec;
 
 public class MainActivity extends AppCompatActivity implements GameOverListener {
 
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
     TextView pausedText;
 
     AudioUtility audio;
+    SoundManager sound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +78,13 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         restartLayout = findViewById(R.id.view_restart);
         restartText = findViewById(R.id.restartText);     //restart layout
 
+        // loads all sounds, bitmaps, and god knows what else
+        audio = AudioUtility.getInstance();
         AssetLoader.load(gameView.getContext());
-        audio = new AudioUtility();
-        audio.loadSound(this, 0);
         audio.start();
         InputControl.initializeButtons(this);
+
+        sound = new SoundManager(audio, new LevelAudioSpec());
 
         Messages.setPaint(this);
         scoreboard = new Scoreboard(this);
@@ -176,7 +180,8 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        gameModel = new GameModel(size, audio);
+        gameModel = new GameModel(size);
+        gameModel.registerAudioListener(sound);
         gameController = new GameController(gameModel, this);
         gameView.setGameModel(gameModel);
         gameView.onResume();

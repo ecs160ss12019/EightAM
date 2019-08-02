@@ -10,7 +10,7 @@ import EightAM.asteroids.Velocity;
 
 public class LaserBulletSpec extends BaseBulletSpec {
     public static float speed = 5f;
-    public static int maxDistance = 500;
+    public static int maxDistance = 250;
     public static int _bulletTrail = 500;
     public static int damage = 5;
     public static ObjectID owner = null;

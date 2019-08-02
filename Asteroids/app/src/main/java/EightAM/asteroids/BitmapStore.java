@@ -9,6 +9,11 @@ import androidx.annotation.DrawableRes;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * BitmapStore stores the extrinsic attributes for the GameObjects
+ * By doing so, the GameObjects also exhibit elements of the
+ * Flyweight pattern.
+ */
 final class BitmapStore {
     private static Map<String, Bitmap> mBitmapsMap;
     private static BitmapStore instance;

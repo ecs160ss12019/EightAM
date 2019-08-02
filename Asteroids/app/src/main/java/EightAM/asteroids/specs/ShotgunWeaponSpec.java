@@ -8,7 +8,7 @@ public class ShotgunWeaponSpec extends BaseAmmoLimitedWeaponSpec {
     public static String tag = "weapon_shotgun";
     public static BaseBulletSpec bulletSpec = new BasicBulletSpec();
     public static int reloadTime = 500;
-    public static int ammoCount = 500;
+    public static int ammoCount = 150;
     public static int _shotCount = 10;
     public int shotCount;
     public Pair<Float, Float> spread = new Pair<>((float) Math.PI / 6, (float) -Math.PI / 6);

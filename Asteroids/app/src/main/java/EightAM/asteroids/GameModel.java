@@ -307,7 +307,6 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
         deleteList.add(id);
         createDebris((GameObject) destructable);
         updateWaveParam((GameObject) destructable, -1);
-//        playExplosion((GameObject) destructable);
     }
 
 //    /**
@@ -332,7 +331,6 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
     public void onShotFired(Shooter shooter) {
         if (shooter.canShoot()) {
             addObjects(shooter.getWeapon().fire(shooter));
-//            audioListener.onShipShoot();
         }
     }
 

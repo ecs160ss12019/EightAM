@@ -56,7 +56,7 @@ public abstract class AbstractAlien extends GameObject implements Collision, AIM
      */
     @Override
     public void processGameState(GameState state) {
-        lastKnownPlayerPos = state.getPlayerShip().getObjPos();
+        if(state.getPlayerShip() != null)lastKnownPlayerPos = state.getPlayerShip().getObjPos();
     }
 
     // Collision methods
@@ -97,5 +97,11 @@ public abstract class AbstractAlien extends GameObject implements Collision, AIM
     @Override
     public void registerAudioListener(AudioListener listener) {
         this.audioListener = listener;
+    }
+
+    @Override
+    public void destruct(DestroyedObject destroyedObject) {
+        super.destruct(destroyedObject);
+        audioListener.sendSoundCommand(explosionID);
     }
 }

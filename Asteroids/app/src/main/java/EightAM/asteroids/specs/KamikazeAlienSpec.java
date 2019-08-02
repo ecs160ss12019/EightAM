@@ -28,7 +28,7 @@ public class KamikazeAlienSpec extends BaseAlienSpec {
     public static int paintColor = Color.RED;
     public static Paint.Style paintStyle = Paint.Style.FILL;
 
-    public static int resID = R.drawable.ic_bomb_ship; // placeholder for Irene's suicide asset
+    public static int resID = R.drawable.ic_kamikaze_alien; // placeholder for Irene's suicide asset
     public static float dbmRatio = 2f;
 
     public static int pointValue = 50;

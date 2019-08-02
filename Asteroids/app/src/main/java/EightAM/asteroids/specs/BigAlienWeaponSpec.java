@@ -5,7 +5,7 @@ import EightAM.asteroids.R;
 public class BigAlienWeaponSpec extends BaseWeaponSpec implements AudioSpec {
     public static String tag = "weapon_alien_big";
     public static BaseBulletSpec bulletSpec = new SlowLongBulletSpec();
-    public static int reloadTime = 500;
+    public static int reloadTime = 3200;
 
     // sound resIDs
     public int shoot = R.raw.ship_shoot2;

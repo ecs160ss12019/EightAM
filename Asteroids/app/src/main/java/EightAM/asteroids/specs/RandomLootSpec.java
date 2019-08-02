@@ -19,7 +19,7 @@ public class RandomLootSpec extends BaseLootSpec {
     public static Velocity initialVelocity = new Velocity(0, 0, maxSpeed);
     public static Rotation initialRotation = new Rotation((float) Math.PI * 3f / 2, 0);
 
-    public static int resID = R.drawable.power_up;
+    public static int resID = R.drawable.ic_lootbox;
     public static float dbmRatio = .9f;
 
     public static int paintColor = Color.WHITE;

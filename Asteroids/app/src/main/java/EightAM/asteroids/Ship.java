@@ -64,7 +64,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
-        this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
+        //this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
         this.secondaryWeapon = BaseWeaponFactory.getInstance().createWeapon(spec.weaponSpec);
         this.teleportCooldownTimer = new Timer(spec.teleportCooldown, 0);
         this.teleportDelayTimer = new Timer(spec.teleportDelay, 0);

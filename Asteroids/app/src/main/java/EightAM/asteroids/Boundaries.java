@@ -5,6 +5,8 @@ import android.graphics.RectF;
 
 class Boundaries {
     /**
+     * This class serves as the spawn location for the asteroids.
+     *
      * @return a Point within the spawnBoundaries but now inside boundaries
      */
     static Point getRandomPosition(RectF boundaries, RectF spawnBoundaries) {

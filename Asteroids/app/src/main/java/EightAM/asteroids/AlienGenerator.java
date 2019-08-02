@@ -9,6 +9,12 @@ import java.util.Random;
 
 import EightAM.asteroids.specs.BaseAlienSpec;
 import EightAM.asteroids.specs.KamikazeAlienSpec;
+import EightAM.asteroids.specs.SmallAlienSpec;
+import EightAM.asteroids.specs.BigAlienSpec;
+
+import static EightAM.asteroids.Constants.BIGALIEN_SPAWN_PROB;
+import static EightAM.asteroids.Constants.KAMIKAZE_SPAWN_PROB;
+import static EightAM.asteroids.Constants.SMALLALIEN_SPAWN_PROB;
 
 public class AlienGenerator{
     private static boolean debug = false;
@@ -47,22 +53,24 @@ public class AlienGenerator{
      * @return some Alien Spec
      */
     private static BaseAlienSpec getAlienSpec() {
-        Random rand = new Random();
-        float f = rand.nextFloat();
+        float f = GameRandom.randomFloat(1f, 0f);
 
-        return new KamikazeAlienSpec(); // testing
-        // prob comparisons
-        // should be listed smallest -> largest
-//        if (f < SMALLALIEN_SPAWN_PROB) {
-//            if (debug) { Log.d("debug", "attempt to make small alien"); }
-//            return new SmallAlienSpec();
-//        }
-//        if (f < BIGALIEN_SPAWN_PROB) {
-//            if (debug) { Log.d("debug", "attempt to make big alien"); }
-//            return new BigAlienSpec();
-//        }
-//
-//        return new BigAlienSpec(); // default alien to generate
+//          testing
+//         prob comparisons
+//         should be listed smallest -> largest
+        if (f < KAMIKAZE_SPAWN_PROB){
+            return new KamikazeAlienSpec();
+        }
+        if (f < SMALLALIEN_SPAWN_PROB) {
+            if (debug) { Log.d("debug", "attempt to make small alien"); }
+            return new SmallAlienSpec();
+        }
+        if (f < BIGALIEN_SPAWN_PROB) {
+            if (debug) { Log.d("debug", "attempt to make big alien"); }
+            return new BigAlienSpec();
+        }
+
+        return new BigAlienSpec(); // default alien to generate
     }
 
     /**

@@ -12,7 +12,7 @@ import EightAM.asteroids.Velocity;
 
 public class SlowLongBulletSpec extends BaseBulletSpec {
     public static float speed = .5f;
-    public static int maxDistance = 2000;
+    public static int maxDistance = 3200;
     public static float _bulletTrail = 100;
     public static int damage = 1;
     public static ObjectID owner = null;

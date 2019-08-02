@@ -21,6 +21,7 @@ import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseShipSpec;
 import EightAM.asteroids.specs.LaserWeaponSpec;
+import EightAM.asteroids.specs.ShotgunWeaponSpec;
 
 public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
         EventGenerator, Destructable {

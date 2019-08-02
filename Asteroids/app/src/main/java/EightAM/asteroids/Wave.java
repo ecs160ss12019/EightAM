@@ -98,8 +98,9 @@ class Wave {
         @Override
         void update(Wave wave, EventHandler eventHandler) {
             if (wave.currAsteroids == 0 && wave.currAliens == 0) {
-                wave.asteroidSpawnCount += wave.asteroidInc;
+                wave.asteroidSpawnCount += waveNumber % 2;
                 wave.maxAliens += waveNumber % 2;
+                wave.alienSpawnProb += wave.alienSpawnProbInc;
                 wave.aliensSpawned = 0;
                 wave.durationTimer.reset();
                 wave.powerupsSpawned = 0;

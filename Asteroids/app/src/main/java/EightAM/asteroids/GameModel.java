@@ -2,6 +2,7 @@ package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.ALIEN_PROB_INC;
 import static EightAM.asteroids.Constants.ALIEN_SPAWN_PROB;
+import static EightAM.asteroids.Constants.ASTEROID_INC_WAVE;
 import static EightAM.asteroids.Constants.BOUNDARY_OFFSET;
 import static EightAM.asteroids.Constants.BOUNDARY_SHRINK_RATE;
 import static EightAM.asteroids.Constants.STARTING_ASTEROIDS;
@@ -233,7 +234,11 @@ public class GameModel implements GameState, EventHandler, ShotListener {
                 if (o instanceof Collision) collideables.add(id);
                 if (o instanceof AIModule) {
                     adversaries.add(id);
-                    audioListener.onAlienBoss();
+                    if (o instanceof KamikazeAlien) {
+                        audioListener.onAlienBoss();
+                    } else {
+                        audioListener.onAlienWave();
+                    }
                 } else if (o instanceof Ship) currPlayerShip = id;
                 addListeners(o);
                 addMoveStrategy(o);

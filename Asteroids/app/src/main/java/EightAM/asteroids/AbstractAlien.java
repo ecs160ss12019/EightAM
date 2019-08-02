@@ -49,7 +49,7 @@ public abstract class AbstractAlien extends GameObject implements Collision, AIM
      */
     @Override
     public void processGameState(GameState state) {
-        lastKnownPlayerPos = state.getPlayerShip().getObjPos();
+        if(state.getPlayerShip() != null)lastKnownPlayerPos = state.getPlayerShip().getObjPos();
     }
 
     // Collision methods

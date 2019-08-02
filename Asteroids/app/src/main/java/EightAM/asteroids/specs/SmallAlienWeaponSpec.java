@@ -18,4 +18,9 @@ public class SmallAlienWeaponSpec extends BaseWeaponSpec implements AudioSpec {
         this(tag, bulletSpec, reloadTime);
         setShootID(shoot);
     }
+
+    @Override
+    public String getTag() {
+        return tag;
+    }
 }

@@ -22,4 +22,9 @@ public class BombWeaponSpec extends BaseAmmoLimitedWeaponSpec {
         this(tag, bulletSpec, reloadTime, ammoCount, _shotCount);
         setShootID(shoot);
     }
+
+    @Override
+    public String getTag() {
+        return tag;
+    }
 }

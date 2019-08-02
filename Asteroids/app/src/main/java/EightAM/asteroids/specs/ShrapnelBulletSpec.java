@@ -10,7 +10,7 @@ import EightAM.asteroids.Velocity;
 
 public class ShrapnelBulletSpec extends BaseBulletSpec {
     public static float speed = .5f;
-    public static int maxDistance = 600;
+    public static int maxDistance = 900;
     public static int damage = 1;
     public static ObjectID owner = null;
     public static String tag = "bullet_shrapnel";

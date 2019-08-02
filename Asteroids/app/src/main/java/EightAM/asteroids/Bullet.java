@@ -41,7 +41,6 @@ public class Bullet extends GameObject implements Collision {
     }
 
     public void onCollide(GameObject approachingObject) {
-        // TODO more stuff here
         destruct(null);
     }
 
@@ -58,7 +57,7 @@ public class Bullet extends GameObject implements Collision {
      * @param timeInMillisecond current time of the game in ms
      */
     private void distanceTraveled(long timeInMillisecond) {
-        distanceTraveled += timeInMillisecond;
+        distanceTraveled++;
     }
 
     /**

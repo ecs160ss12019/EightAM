@@ -54,6 +54,11 @@ public class LargeAsteroidSpec extends BaseAsteroidSpec implements AudioSpec {
     }
 
     @Override
+    public String getTag() {
+        return tag;
+    }
+
+    @Override
     public Collection<Integer> getResIDs() {
         return Collections.singleton(explosion);
     }

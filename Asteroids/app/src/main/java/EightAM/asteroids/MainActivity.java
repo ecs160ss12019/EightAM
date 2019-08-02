@@ -7,7 +7,6 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,21 +15,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import EightAM.asteroids.interfaces.GameOverListener;
 import EightAM.asteroids.specs.LevelAudioSpec;
 
 public class MainActivity extends AppCompatActivity implements GameOverListener {
 
+    GameMode mode;
+
     GameView gameView;
     GameController gameController;
     GameModel gameModel;
+
     Scoreboard scoreboard;
 
     RelativeLayout startLayout;
     RelativeLayout buttonLayout;
     RelativeLayout restartLayout;
     RelativeLayout pausedLayout;
+    ConstraintLayout shipSelectLayout;
     ImageView pauseButton;
     TextView startText;
     TextView scoreText;
@@ -77,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         pausedText = findViewById(R.id.pausedText);       //paused layout
         restartLayout = findViewById(R.id.view_restart);
         restartText = findViewById(R.id.restartText);     //restart layout
+        shipSelectLayout = findViewById(R.id.ShipSelect);
+
+
+        mode = new StartScreen(this);
 
         // loads all sounds, bitmaps, and god knows what else
         audio = AudioUtility.getInstance();
@@ -93,38 +101,71 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         setStartListener();
         setPauseListener();
         setResumeListener();
+    }
 
-        // Play background music
-        //gameView.audio.playMusic(MainActivity.this);
+    void hideButtons() {
+        buttonLayout.setVisibility(View.GONE);
+    }
+
+    void showButtons() {
+        buttonLayout.setVisibility(View.VISIBLE);
+    }
+
+    void hideStartScreen() {
+        startLayout.setVisibility(View.GONE);
+    }
+
+    void showStartScreen() {
+        startLayout.setVisibility(View.VISIBLE);
+    }
+
+    void hideShipSelect() {
+        shipSelectLayout.setVisibility(View.GONE);
+    }
+
+    void showShipSelect() {
+        shipSelectLayout.setVisibility(View.VISIBLE);
+    }
+
+    void hidePauseScreen() {
+        pausedLayout.setVisibility(View.GONE);
+    }
+
+    void showPauseScreen() {
+        pausedLayout.setVisibility(View.VISIBLE);
+    }
+
+    void hideRestartScreen() {
+        restartLayout.setVisibility(View.GONE);
+    }
+
+    void showRestartScreen() {
+        restartLayout.setVisibility(View.VISIBLE);
     }
 
     void onStartScreen() {
         scoreText.setText(scoreboard.getHighScore());
-        startLayout.setVisibility(View.VISIBLE);
-        startText.setVisibility(View.VISIBLE);
-        scoreText.setVisibility(View.VISIBLE);
+//        startLayout.setVisibility(View.VISIBLE);
+//        startText.setVisibility(View.VISIBLE);
+//        scoreText.setVisibility(View.VISIBLE);
     }
 
-    // TODO: disable collision detection before user taps on screen
     private void setStartListener() {
         startText.setOnClickListener(view -> {
-            restartLayout.setVisibility(View.GONE);
-            restartText.setVisibility(View.GONE);
-            startLayout.setVisibility(View.GONE);
-            buttonLayout.setVisibility(View.VISIBLE);
-            startGame();
+            mode.transitionTo(new ShipSelection(this));
         });
     }
 
     private void setPauseListener() {
         pauseButton.setOnClickListener(view -> {
-            restartText.setVisibility(View.GONE);
-            restartLayout.setVisibility(View.GONE);
-            startLayout.setVisibility(View.GONE);
-            startText.setVisibility(View.GONE);
-            scoreText.setVisibility(View.GONE);
-            pausedLayout.setVisibility(View.VISIBLE);
-            pausedText.setVisibility(View.VISIBLE);
+//            restartText.setVisibility(View.GONE);
+//            restartLayout.setVisibility(View.GONE);
+//            startLayout.setVisibility(View.GONE);
+//            startText.setVisibility(View.GONE);
+//            scoreText.setVisibility(View.GONE);
+//            pausedLayout.setVisibility(View.VISIBLE);
+//            pausedText.setVisibility(View.VISIBLE);
+            mode.transitionTo(new Pause(this));
             onPause();
         });
     }
@@ -153,34 +194,35 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
         }
     }
 
-    protected void onGameOverScreen() {
-        buttonLayout.setVisibility(View.GONE);
-        restartLayout.setVisibility(View.VISIBLE);
-        restartText.setVisibility(View.VISIBLE);
-        // TODO: set score
-    }
+//    protected void onGameOverScreen() {
+//        buttonLayout.setVisibility(View.GONE);
+//        restartLayout.setVisibility(View.VISIBLE);
+//        restartText.setVisibility(View.VISIBLE);
+//    }
 
     @Override
     public void onGameOver() {
-        Log.d(this.getClass().getCanonicalName(), "onGameOver() called");
         gameController.onPause();
         gameView.onPause();
+
         scoreboard.setHighScore(gameModel.stats.score);
         audio.offMusic();
-        onGameOverScreen();
+//        onGameOverScreen();
+        mode.transitionTo(new GameOver(this));
         new Handler().postDelayed(() -> {
-            restartLayout.setVisibility(View.GONE);
-            restartText.setVisibility(View.GONE);
-            setStartListener();
+//            restartLayout.setVisibility(View.GONE);
+//            restartText.setVisibility(View.GONE);
+//            setStartListener();
+            mode.transitionTo(new StartScreen(this));
             onStartScreen();
         }, GAMEOVER_DELAY);
     }
 
-    public void startGame() {
+    public void startGame(Ships shipType) {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        gameModel = new GameModel(size);
+        gameModel = new GameModel(size, shipType);
         gameModel.registerAudioListener(sound);
         gameController = new GameController(gameModel, this);
         gameView.setGameModel(gameModel);
@@ -192,9 +234,11 @@ public class MainActivity extends AppCompatActivity implements GameOverListener 
 
     protected void setResumeListener() {
         pausedText.setOnClickListener(view -> {
-            pausedLayout.setVisibility(View.GONE);
-            buttonLayout.setVisibility(View.VISIBLE);
+//            pausedLayout.setVisibility(View.GONE);
+//            buttonLayout.setVisibility(View.VISIBLE);
+            mode.transitionTo(new InGame(this));
             onResume();
         });
     }
+
 }

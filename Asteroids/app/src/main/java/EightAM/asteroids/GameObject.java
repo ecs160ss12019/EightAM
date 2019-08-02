@@ -106,6 +106,7 @@ public abstract class GameObject implements Drawable, Identifiable, Copyable, Ev
                     LootGenerator.createRandomLootAt(getObjPos(),
                             (RandomLootSpec) lootOnDeathSpec)));
         }
+        eventHandler.processScore(destroyedObject);
         eventHandler.onDestruct(this);
     }
 

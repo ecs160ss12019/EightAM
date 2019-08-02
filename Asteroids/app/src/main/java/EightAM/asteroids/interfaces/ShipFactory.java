@@ -1,8 +1,8 @@
 package EightAM.asteroids.interfaces;
 
-import EightAM.asteroids.Ship;
+import EightAM.asteroids.AbstractShip;
 import EightAM.asteroids.specs.BaseShipSpec;
 
 public interface ShipFactory {
-    Ship createShip(BaseShipSpec spec);
+    AbstractShip createShip(BaseShipSpec spec);
 }

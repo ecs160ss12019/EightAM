@@ -2,6 +2,9 @@ package EightAM.asteroids.specs;
 
 import android.graphics.Point;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import EightAM.asteroids.R;
 import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
@@ -12,10 +15,7 @@ public abstract class BaseShipSpec extends BaseBitmapSpec implements AudioSpec {
     public float rotationSpeed;
     public float acceleration;
     public float deceleration;
-    public int reloadTime;
     public int invincibilityDuration;
-    public int teleportDelay;
-    public int teleportCooldown;
     public BaseWeaponSpec weaponSpec;
 
     // sound ID
@@ -24,8 +24,8 @@ public abstract class BaseShipSpec extends BaseBitmapSpec implements AudioSpec {
     public BaseShipSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int bitMapResourceID,
             float dimensionBitMapRatio, int hitPoints, float maxSpeed, float rotationSpeed,
-            float acceleration, float deceleration, int reloadTime, int invincibilityDuration,
-            int teleportDelay, int teleportCooldown, BaseWeaponSpec weaponSpec) {
+            float acceleration, float deceleration, int invincibilityDuration,
+            BaseWeaponSpec weaponSpec) {
         super(tag, dimensions, initialPosition, initialVelocity, initialRotation,
                 bitMapResourceID, dimensionBitMapRatio);
         this.hitPoints = hitPoints;
@@ -33,10 +33,12 @@ public abstract class BaseShipSpec extends BaseBitmapSpec implements AudioSpec {
         this.rotationSpeed = rotationSpeed;
         this.acceleration = acceleration;
         this.deceleration = deceleration;
-        this.reloadTime = reloadTime;
         this.invincibilityDuration = invincibilityDuration;
-        this.teleportDelay = teleportDelay;
-        this.teleportCooldown = teleportCooldown;
         this.weaponSpec = weaponSpec;
+    }
+
+    @Override
+    public Collection<Integer> getResIDs() {
+        return Collections.singleton(explosion);
     }
 }

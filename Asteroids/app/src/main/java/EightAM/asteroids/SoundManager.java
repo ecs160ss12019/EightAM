@@ -43,6 +43,10 @@ class SoundManager implements AudioListener {
         audioUtility.playSoundFromResID(resID);
     }
 
+    public void onGameOver() {
+        audioUtility.playSoundFromResID(spec.game_over);
+    }
+
     @Override
     public void sendMusicCommand(boolean startOver, boolean pause, boolean resume) {
         audioUtility.sendMusicCommand(startOver, pause, resume);

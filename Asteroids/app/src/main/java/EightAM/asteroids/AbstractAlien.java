@@ -32,6 +32,7 @@ public abstract class AbstractAlien extends GameObject implements Collision, AIM
         // alien spec
         this.pointValue = spec.pointValue;
         this.hitPoints = spec.hitPoints;
+        this.explosionID = spec.explosionID;
 
         lastKnownPlayerPos = new Point(0, 0);
     }
@@ -45,6 +46,7 @@ public abstract class AbstractAlien extends GameObject implements Collision, AIM
 
         this.pointValue = alien.pointValue;
         this.hitPoints = alien.hitPoints;
+        this.explosionID = alien.explosionID;
 
         lastKnownPlayerPos = new Point(0, 0);
     }

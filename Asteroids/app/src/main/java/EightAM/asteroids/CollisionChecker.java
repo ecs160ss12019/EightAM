@@ -55,9 +55,10 @@ class CollisionChecker {
                     shouldTestCollision = true;
                 }
             } else if (me instanceof Loot) {
-                shouldTestCollision = (them.getID().getFaction() == Faction.Player) && (them instanceof Ship);
-            } else if (me instanceof Ship) {
-                if (((Ship) me).isInvulnerable()) {
+                shouldTestCollision = (them.getID().getFaction() == Faction.Player)
+                        && (them instanceof AbstractShip);
+            } else if (me instanceof AbstractShip) {
+                if (((AbstractShip) me).isInvulnerable()) {
                     shouldTestCollision = false;
                 } else if (them.getID().getFaction() != me.getID().getFaction()
                         && !(them instanceof Particle || them instanceof Loot)) {

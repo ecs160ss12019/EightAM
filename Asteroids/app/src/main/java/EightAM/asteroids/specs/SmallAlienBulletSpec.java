@@ -10,7 +10,7 @@ import EightAM.asteroids.Velocity;
 
 public class SmallAlienBulletSpec extends BaseBulletSpec {
     public static float speed = 1f;
-    public static int maxDistance = 1200;
+    public static int maxDistance = 1000;
     public static int damage = 1;
     public static ObjectID owner = null;
     public static String tag = "bullet_alien_small";

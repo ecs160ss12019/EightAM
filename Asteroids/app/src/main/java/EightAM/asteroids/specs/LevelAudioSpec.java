@@ -7,11 +7,17 @@ import java.util.Collections;
 import EightAM.asteroids.R;
 
 public class LevelAudioSpec implements AudioSpec {
+    String tag = "level_audio";
     public int alien_wave = R.raw.alien_wave;
     public int alien_boss = R.raw.alien_boss;
     public int asteroid_wave = R.raw.sound_alarm;
     public int game_over = R.raw.game_over;
 
+
+    @Override
+    public String getTag() {
+        return tag;
+    }
 
     @Override
     public Collection<Integer> getResIDs() {

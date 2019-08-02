@@ -5,7 +5,7 @@ final class Constants {
     static final double ALIEN_SPAWN_PROB = .00005d; // 100% while debugging
 
     // PARTICLE EFFECT
-    static final int EFFECT_NUM = 10;
+    static final int EFFECT_NUM = 20;
 
     // WAVE INFO
     static final int STARTING_ASTEROIDS = 2;
@@ -15,8 +15,8 @@ final class Constants {
     static final int STARTING_MAX_ALIENS = 1;
 
     // SPAWNBOX STUFF
-    static final int BOUNDARY_OFFSET = 100;
-    static final float BOUNDARY_SHRINK_RATE = 0.0001f;
+    static final int BOUNDARY_OFFSET = 200;
+    static final float BOUNDARY_SHRINK_RATE = 0.00001f;
 
     // PLAYER INFO
     static final int STARTING_LIVES = 3;

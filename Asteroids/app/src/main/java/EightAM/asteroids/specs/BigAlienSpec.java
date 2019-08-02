@@ -58,4 +58,8 @@ public class BigAlienSpec extends BaseAlienSpec implements AudioSpec {
         setExplosionID(explosion);
     }
 
+    @Override
+    public String getTag() {
+        return tag;
+    }
 }

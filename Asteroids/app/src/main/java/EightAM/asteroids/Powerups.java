@@ -1,5 +1,7 @@
 package EightAM.asteroids;
 
+import android.graphics.Color;
+
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.specs.LaserWeaponSpec;
 import EightAM.asteroids.specs.ShotgunWeaponSpec;
@@ -67,6 +69,10 @@ public enum Powerups {
             eventHandler.processScore(
                     new DestroyedObject(points, ObjectID.getNewID(Faction.Neutral),
                             ObjectID.getNewID(Faction.Player), null));
+            eventHandler.sendMessage(new Messages.MessageWithFade(points + "+", Color.WHITE, 500,
+                    Messages.FontSize.Small, Messages.HorizontalPosition.Center,
+                    Messages.VerticalPosition.Bottom, 500)
+            );
         }
     }
 

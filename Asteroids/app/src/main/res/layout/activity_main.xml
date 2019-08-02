@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,8 +16,91 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ShipSelect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:visibility="gone">
+
+        <TextView
+            android:id="@+id/BombText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="Bomb"
+            android:textSize="20sp"
+            app:fontFamily="@font/retro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/BombImg"
+            app:layout_constraintStart_toStartOf="@+id/BombImg"
+            app:layout_constraintTop_toBottomOf="@+id/BombImg"/>
+        <TextView
+            android:id="@+id/LaserText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="Laser"
+            android:textSize="20sp"
+            app:fontFamily="@font/retro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/LaserImg"
+            app:layout_constraintStart_toStartOf="@+id/LaserImg"
+            app:layout_constraintTop_toBottomOf="@+id/LaserImg"/>
+        <TextView
+            android:id="@+id/TeleportText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="Teleport"
+            android:textSize="20sp"
+            app:fontFamily="@font/retro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/TeleportImg"
+            app:layout_constraintStart_toStartOf="@+id/TeleportImg"
+            app:layout_constraintTop_toBottomOf="@+id/TeleportImg"/>
+        <ImageView
+            android:id="@+id/TeleportImg"
+            android:layout_width="200dp" android:layout_height="240dp"
+            android:rotation="-90"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/LaserImg"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_basic_ship"/>
+        <ImageView
+            android:id="@+id/BombImg"
+            android:layout_width="200dp" android:layout_height="240dp"
+            android:rotation="-90"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/LaserImg"
+            app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/ic_bomb_ship"/>
+        <ImageView
+            android:id="@+id/LaserImg"
+            android:layout_width="200dp" android:layout_height="240dp"
+            android:layout_marginTop="0dp" android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            android:gravity="center"
+            android:rotation="-90"
+            android:visibility="visible" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:srcCompat="@drawable/ic_laser_ship"/>
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="0dp" android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" android:gravity="center"
+            android:text="Select your ship"
+            android:textSize="30sp"
+            app:fontFamily="@font/retro"
+            app:layout_constraintBottom_toTopOf="@+id/LaserImg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <RelativeLayout
         android:id="@+id/view_button"
         android:layout_width="match_parent"
@@ -34,7 +118,7 @@
             android:layout_marginEnd="28dp"
             android:layout_marginRight="25dp"
             android:visibility="visible"
-            app:srcCompat="@android:drawable/ic_media_pause" />
+            app:srcCompat="@android:drawable/ic_media_pause"/>
 
         <ImageView
             android:id="@+id/down_button"
@@ -46,7 +130,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="12dp"
-            app:srcCompat="@drawable/button_panic" />
+            app:srcCompat="@drawable/button_panic"/>
 
 
         <ImageView
@@ -59,7 +143,7 @@
             android:layout_marginEnd="79dp"
             android:layout_marginRight="80dp"
             android:layout_marginBottom="35dp"
-            app:srcCompat="@drawable/button_target" />
+            app:srcCompat="@drawable/button_target"/>
 
 
         <ImageView
@@ -72,7 +156,7 @@
             android:layout_marginStart="80dp"
             android:layout_marginLeft="80dp"
             android:layout_marginBottom="30dp"
-            app:srcCompat="@drawable/button_right" />
+            app:srcCompat="@drawable/button_right"/>
 
         <ImageView
             android:id="@+id/left_button"
@@ -84,7 +168,7 @@
             android:layout_marginStart="36dp"
             android:layout_marginLeft="25dp"
             android:layout_marginBottom="85dp"
-            app:srcCompat="@drawable/button_left" />
+            app:srcCompat="@drawable/button_left"/>
 
         <ImageView
             android:id="@+id/up_button"
@@ -96,8 +180,7 @@
             android:layout_marginEnd="36dp"
             android:layout_marginRight="25dp"
             android:layout_marginBottom="85dp"
-            app:srcCompat="@drawable/button_up" />
-
+            app:srcCompat="@drawable/button_up"/>
 
 
     </RelativeLayout>
@@ -128,7 +211,7 @@
             android:fontFamily="@font/retro"
             android:gravity="center"
             android:text="Tap to start"
-            android:textSize="30dp" />
+            android:textSize="30dp"/>
 
         <TextView
             android:id="@+id/scoreText"
@@ -149,7 +232,7 @@
             android:fontFamily="@font/retro"
             android:gravity="center"
             android:text="High Score"
-            android:textSize="22dp" />
+            android:textSize="22dp"/>
 
     </RelativeLayout>
 
@@ -164,7 +247,6 @@
 
         <TextView
             android:id="@+id/restartText"
-            android:fontFamily="@font/retro"
             android:layout_width="485dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -179,9 +261,10 @@
             android:layout_marginEnd="122dp"
             android:layout_marginRight="122dp"
             android:layout_marginBottom="178dp"
-            android:text="Game Over"
+            android:fontFamily="@font/retro"
             android:gravity="center"
-            android:textSize="40dp" />
+            android:text="Game Over"
+            android:textSize="40dp"/>
 
     </RelativeLayout>
 
@@ -196,7 +279,6 @@
 
         <TextView
             android:id="@+id/pausedText"
-            android:fontFamily="@font/retro"
             android:layout_width="508dp"
             android:layout_height="83dp"
             android:layout_alignParentStart="true"
@@ -211,9 +293,10 @@
             android:layout_marginEnd="108dp"
             android:layout_marginRight="108dp"
             android:layout_marginBottom="170dp"
+            android:fontFamily="@font/retro"
             android:gravity="center"
             android:text="Paused - Tap to resume"
-            android:textSize="30dp" />
+            android:textSize="30dp"/>
 
     </RelativeLayout>
 

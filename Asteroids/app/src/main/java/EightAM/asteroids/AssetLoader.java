@@ -17,14 +17,17 @@ import EightAM.asteroids.specs.BaseBitmapSpec;
 import EightAM.asteroids.specs.BaseObjectSpec;
 import EightAM.asteroids.specs.BasicBulletSpec;
 import EightAM.asteroids.specs.BasicParticleSpec;
-import EightAM.asteroids.specs.BasicShipWeaponSpec;
 import EightAM.asteroids.specs.BigAlienSpec;
 import EightAM.asteroids.specs.BigAlienWeaponSpec;
+import EightAM.asteroids.specs.BombShipSpec;
 import EightAM.asteroids.specs.BombWeaponSpec;
 import EightAM.asteroids.specs.GameMusicSpec;
 import EightAM.asteroids.specs.KamikazeAlienSpec;
 import EightAM.asteroids.specs.LargeAsteroidSpec;
 import EightAM.asteroids.specs.LaserBulletSpec;
+import EightAM.asteroids.specs.LaserCannonBulletSpec;
+import EightAM.asteroids.specs.LaserCannonSpec;
+import EightAM.asteroids.specs.LaserShipSpec;
 import EightAM.asteroids.specs.LaserWeaponSpec;
 import EightAM.asteroids.specs.LevelAudioSpec;
 import EightAM.asteroids.specs.MediumAsteroidSpec;
@@ -35,19 +38,23 @@ import EightAM.asteroids.specs.SlowLongBulletSpec;
 import EightAM.asteroids.specs.SmallAlienBulletSpec;
 import EightAM.asteroids.specs.SmallAlienSpec;
 import EightAM.asteroids.specs.SmallAsteroidSpec;
+import EightAM.asteroids.specs.SpiritBombSpec;
 import EightAM.asteroids.specs.TeleportShipSpec;
+import EightAM.asteroids.specs.TeleportShipWeaponSpec;
 
 final class AssetLoader {
     static final List<BaseObjectSpec> specList = Collections.unmodifiableList(
             Arrays.asList(new BasicBulletSpec(), new BasicParticleSpec(), new TeleportShipSpec(),
-                    new BigAlienSpec(), new SmallAlienSpec(), new KamikazeAlienSpec(),
-                    new LargeAsteroidSpec(), new MediumAsteroidSpec(), new SmallAsteroidSpec(),
-                    new SlowLongBulletSpec(), new SmallAlienBulletSpec(), new ShrapnelBulletSpec(),
-                    new LaserBulletSpec(), new RandomLootSpec()));
+                    new LaserShipSpec(), new BombShipSpec(), new BigAlienSpec(),
+                    new SmallAlienSpec(), new KamikazeAlienSpec(), new LargeAsteroidSpec(),
+                    new MediumAsteroidSpec(), new SmallAsteroidSpec(), new SlowLongBulletSpec(),
+                    new SmallAlienBulletSpec(), new ShrapnelBulletSpec(), new LaserBulletSpec(),
+                    new LaserCannonBulletSpec(), new RandomLootSpec()));
 
     static final List<AudioSpec> audioSpecList = Collections.unmodifiableList(
-            Arrays.asList(new BasicShipWeaponSpec(), new BigAlienWeaponSpec(), new BombWeaponSpec(),
-                    new LaserWeaponSpec(), new LevelAudioSpec(), new ShotgunWeaponSpec(),
+            Arrays.asList(new TeleportShipWeaponSpec(), new BigAlienWeaponSpec(),
+                    new BombWeaponSpec(), new SpiritBombSpec(), new LaserWeaponSpec(),
+                    new LaserCannonSpec(), new LevelAudioSpec(), new ShotgunWeaponSpec(),
                     new SmallAsteroidSpec())
     );
 
@@ -92,6 +99,7 @@ final class AssetLoader {
             }
         }
         for (AudioSpec audioSpec : audioSpecList) {
+            Log.d("AssetLoader: ", audioSpec.getTag());
             audioStore.loadSound(c, audioSpec.getResIDs());
         }
 

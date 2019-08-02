@@ -33,9 +33,6 @@ class Wave implements AudioGenerator {
     int asteroidSpawnCount;
     int currAsteroids;
 
-    int maxPowerups;
-    int powerupsSpawned;
-    int currPowerups;
     private AudioListener audioListener;
 
 
@@ -47,7 +44,6 @@ class Wave implements AudioGenerator {
         this.waveMode = new InWave(0);
         this.maxAliens = startingAliens;
         this.asteroidSpawnCount = startingAsteroids;
-        this.maxPowerups = startingPowerups;
         this.durationTimer = new Timer(waveGracePeriod);
         this.alienSpawnProb = alienSpawnProb;
         this.alienSpawnProbInc = alienSpawnProbInc;
@@ -66,9 +62,6 @@ class Wave implements AudioGenerator {
         currAsteroids += i;
     }
 
-    public void updatePowerups(int i) {
-        currPowerups += i;
-    }
 
     public void setWaveMode(WaveMode waveMode) {
         this.waveMode = waveMode;
@@ -112,7 +105,6 @@ class Wave implements AudioGenerator {
                 wave.alienSpawnProb += wave.alienSpawnProbInc;
                 wave.aliensSpawned = 0;
                 wave.durationTimer.reset();
-                wave.powerupsSpawned = 0;
                 eventHandler.sendMessage(
                         new Messages.MessageWithFade("Wave " + waveNumber, Color.WHITE,
                                 WAVE_GRACE_PERIOD, Messages.FontSize.Large,

@@ -25,7 +25,7 @@ class RandomLoot extends Loot {
 
     @Override
     public void onCollide(GameObject gameObject) {
-        if (gameObject instanceof Ship) {
+        if (gameObject instanceof AbstractShip) {
             powerup.applyPowerUp(eventHandler);
             destruct(null);
         }

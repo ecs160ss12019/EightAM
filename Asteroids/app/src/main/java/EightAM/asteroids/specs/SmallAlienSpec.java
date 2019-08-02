@@ -60,4 +60,8 @@ public class SmallAlienSpec extends BaseAlienSpec implements AudioSpec {
         setExplosionID(explosion);
     }
 
+    @Override
+    public String getTag() {
+        return tag;
+    }
 }

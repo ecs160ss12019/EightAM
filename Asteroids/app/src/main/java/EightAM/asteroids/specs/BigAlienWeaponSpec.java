@@ -19,4 +19,8 @@ public class BigAlienWeaponSpec extends BaseWeaponSpec implements AudioSpec {
         setShootID(shoot);
     }
 
+    @Override
+    public String getTag() {
+        return tag;
+    }
 }

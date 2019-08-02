@@ -4,6 +4,8 @@ public interface AudioListener {
     void onAlienWave();
     void onAsteroidWave();
     void onAlienBoss();
+
+    void onGameOver();
     void onMusic();
     void offMusic();
 

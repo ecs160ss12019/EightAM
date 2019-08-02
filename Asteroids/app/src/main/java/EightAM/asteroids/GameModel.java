@@ -37,6 +37,9 @@ import EightAM.asteroids.interfaces.Scoreable;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseLootSpec;
+import EightAM.asteroids.specs.BaseShipSpec;
+import EightAM.asteroids.specs.BombShipSpec;
+import EightAM.asteroids.specs.LaserShipSpec;
 import EightAM.asteroids.specs.RandomLootSpec;
 import EightAM.asteroids.specs.TeleportShipSpec;
 
@@ -58,6 +61,7 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
     List<GameObject> createList;
     List<ObjectID> deleteList;
 
+    BaseShipSpec shipSpec;
     ObjectID currPlayerShip;
     private boolean gameOver;
 
@@ -66,8 +70,7 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
     /**
      * Main Constructor of the Model. Called at the start of every game session.
      */
-    public GameModel(Point screenSize) {
-        //TODO: Initialize Grid... Maybe?
+    public GameModel(Point screenSize, Ships shipType) {
         lock = new ReentrantLock();
         boundaries = new RectF(0, 0, screenSize.x, screenSize.y);
         spawnBoundaries = new RectF(boundaries.left - BOUNDARY_OFFSET,
@@ -78,6 +81,18 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
         adversaries = new HashSet<>();
         createList = new ArrayList<>();
         deleteList = new ArrayList<>();
+
+        switch (shipType) {
+            case Teleport:
+                shipSpec = new TeleportShipSpec();
+                break;
+            case Laser:
+                shipSpec = new LaserShipSpec();
+                break;
+            case Bomb:
+                shipSpec = new BombShipSpec();
+                break;
+        }
 
         this.gameOver = false;
         this.stats = new GameStats(boundaries);
@@ -110,7 +125,7 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
      * Respawns the ship by returning its instance within a collection singleton
      */
     private Collection<GameObject> respawnShip() {
-        GameObject ship = BaseFactory.getInstance().create(new TeleportShipSpec());
+        GameObject ship = BaseFactory.getInstance().create(shipSpec);
         ship.hitbox.offsetTo(boundaries.width() / 2.0f, boundaries.height() / 2.0f);
         return Collections.singleton(ship);
     }
@@ -133,6 +148,7 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
     }
 
     public void onGameEnd() {
+        audioListener.onGameOver();
         this.gameOver = true;
     }
 
@@ -190,9 +206,10 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
         }
     }
 
-    public Ship getPlayerShip() {
+    @Override
+    public AbstractShip getPlayerShip() {
         if (currPlayerShip != null && objectMap.containsKey(currPlayerShip)) {
-            return (Ship) objectMap.get(currPlayerShip);
+            return (AbstractShip) objectMap.get(currPlayerShip);
         } else {
             return null;
         }
@@ -229,7 +246,7 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
                 if (o instanceof Collision) collideables.add(id);
                 if (o instanceof AIModule) {
                     adversaries.add(id);
-                } else if (o instanceof Ship) currPlayerShip = id;
+                } else if (o instanceof AbstractShip) currPlayerShip = id;
                 addListeners(o);
                 addMoveStrategy(o);
                 updateWaveParam(o, 1);
@@ -249,8 +266,6 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
             wave.updateAsteroids(i);
         } else if (object instanceof Alien) {
             wave.updateAliens(i);
-        } else if (object instanceof Loot) {
-            wave.updatePowerups(i);
         }
     }
 
@@ -376,7 +391,7 @@ public class GameModel implements GameState, EventHandler, ShotListener, AudioGe
 
     @Override
     public void processScore(DestroyedObject object) {
-        if (object.getKiller().getFaction() == Faction.Player) {
+        if (object != null && object.getKiller().getFaction() == Faction.Player) {
             stats.plusScore(object.score());
             /*
             Messages.addMessage(

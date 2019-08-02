@@ -11,7 +11,6 @@ public class BulletGenerator {
     /**
      * Makes a new basic bullet and puts it into objectMap.
      */
-    //TODO: Implement prepareSpec;
     public static Bullet createBullet(Shooter shooter) {
         Bullet bullet = (Bullet) BaseFactory.getInstance().create(shooter.getWeapon().bulletSpec);
         prepareBullet(shooter, bullet);
@@ -24,7 +23,6 @@ public class BulletGenerator {
      * @param shooter the one shooting the bullet
      * @return a basic bullet spec
      */
-    //TODO: Implement Bullet spec in bullet
     private static void prepareBullet(Shooter shooter, GameObject bullet) {
         Point origin = shooter.getShotOrigin();
         ((Bullet) bullet).setOwner(shooter.getID());

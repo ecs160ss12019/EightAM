@@ -2,12 +2,12 @@ package EightAM.asteroids.interfaces;
 
 import java.util.Set;
 
+import EightAM.asteroids.AbstractShip;
 import EightAM.asteroids.GameObject;
 import EightAM.asteroids.ObjectID;
-import EightAM.asteroids.Ship;
 
 public interface GameState {
-    Ship getPlayerShip();
+    AbstractShip getPlayerShip();
 
     Set<ObjectID> getCollideableIDs();
 

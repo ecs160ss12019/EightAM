@@ -51,6 +51,11 @@ public class RandomLootSpec extends BaseLootSpec implements AudioSpec {
     }
 
     @Override
+    public String getTag() {
+        return tag;
+    }
+
+    @Override
     public Collection<Integer> getResIDs() {
         return Collections.singleton(powerup);
     }

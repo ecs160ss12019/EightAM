@@ -62,5 +62,11 @@ public class KamikazeAlienSpec extends BaseAlienSpec {
                 dbmRatio, pointValue, hitPoints, weaponSpec, _rotationSpeed, _acceleration,
                 _deceleration, _trackingError, _explodeRadius);
         setExplosionID(explosion);
+        setLootOnDeath(new RandomLootSpec());
+    }
+
+    @Override
+    public String getTag() {
+        return tag;
     }
 }

@@ -1,18 +1,14 @@
 package EightAM.asteroids;
 
 import static EightAM.asteroids.Constants.STARTING_LIVES;
-import static EightAM.asteroids.Constants.TEXT_ADJUSTMENT;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.text.TextPaint;
 
 import androidx.core.content.res.ResourcesCompat;
-
-import org.w3c.dom.Text;
 
 import EightAM.asteroids.interfaces.Scoreable;
 
@@ -89,9 +85,10 @@ public class GameStats {
      */
     public void drawAttributes(Canvas canvas, Paint paint, Context context) {
         paint.setTextSize(textFormatting);
+        paint.setTextAlign(Paint.Align.CENTER);
         Typeface tf = ResourcesCompat.getFont(context,R.font.retro);
         paint.setTypeface(tf);
-        canvas.drawText("Score: " + score, (spaceSize.width() / 2) - TEXT_ADJUSTMENT, textFormatting * 1, paint);
-        canvas.drawText("Lives: " + livesLeft, (spaceSize.width() / 2) - TEXT_ADJUSTMENT, textFormatting * 2, paint);
+        canvas.drawText("Score: " + score, (spaceSize.width() / 2), textFormatting, paint);
+        canvas.drawText("Lives: " + livesLeft, (spaceSize.width() / 2), textFormatting * 2, paint);
     }
 }

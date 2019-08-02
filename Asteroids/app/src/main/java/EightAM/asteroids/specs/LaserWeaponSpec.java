@@ -19,4 +19,9 @@ public class LaserWeaponSpec extends BaseTimeLimitedWeaponSpec implements AudioS
         this(tag, bulletSpec, reloadTime, timeLimit);
         setShootID(shoot);
     }
+
+    @Override
+    public String getTag() {
+        return tag;
+    }
 }

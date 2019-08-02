@@ -4,35 +4,33 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-import androidx.annotation.ColorInt;
-
 import EightAM.asteroids.ObjectID;
 import EightAM.asteroids.Rotation;
 import EightAM.asteroids.Velocity;
 
-public class SlowLongBulletSpec extends BaseBulletSpec {
-    public static float speed = .5f;
-    public static int maxDistance = 1600;
-    public static float _bulletTrail = 100;
-    public static int damage = 1;
+public class LaserCannonBulletSpec extends BaseBulletSpec {
+    public static float speed = 5f;
+    public static int maxDistance = 250;
+    public static int damage = 5;
     public static ObjectID owner = null;
-    public static String tag = "bullet_slow_long";
+    public static String tag = "bullet_laser_cannon";
     public static Point dimensions = new Point(20, 20);
     public static Point initialPosition = new Point(0, 0);
     public static Velocity initialVelocity = new Velocity(speed, 0, speed);
     public static Rotation initialRotation = new Rotation(0, 0);
-    @ColorInt
-    public static int paintColor = Color.MAGENTA;
+
+    public static int paintColor = Color.rgb(79, 146, 255);
     public static Paint.Style paintStyle = Paint.Style.FILL;
 
-    public SlowLongBulletSpec(String tag, Point dimensions, Point initialPosition,
+    public LaserCannonBulletSpec(String tag, Point dimensions, Point initialPosition,
             Velocity initialVelocity, Rotation initialRotation, int damage, int maxDistance,
             ObjectID owner) {
         super(tag, dimensions, initialPosition, initialVelocity, initialRotation, damage,
-                maxDistance, owner);
+                maxDistance,
+                owner);
     }
 
-    public SlowLongBulletSpec() {
+    public LaserCannonBulletSpec() {
         this(tag, dimensions, initialPosition, initialVelocity, initialRotation, damage,
                 maxDistance, owner);
     }

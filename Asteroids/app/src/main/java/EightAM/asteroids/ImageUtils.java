@@ -2,15 +2,9 @@ package EightAM.asteroids;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.LinearGradient;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
@@ -18,7 +12,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 public final class ImageUtils {
-
+    // From https://stackoverflow.com/questions/33696488/getting-bitmap-from-vector-drawable
     public static Bitmap getVectorBitmap(Context context, int resID) {
         Drawable drawable = VectorDrawableCompat.create(context.getResources(), resID,
                 context.getTheme());
@@ -32,29 +26,6 @@ public final class ImageUtils {
         Canvas canvas = new Canvas(result);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
-
-        return result;
-    }
-
-    public static Bitmap getRasterizedBitmap(Context c, int resID) {
-        return BitmapFactory.decodeResource(c.getResources(), resID);
-    }
-
-
-    public static Bitmap gradientBitmap(Bitmap src, int color1, int color2) {
-        int width = src.getWidth();
-        int height = src.getHeight();
-        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(result);
-
-        canvas.drawBitmap(src, 0, 0, null);
-
-        Paint paint = new Paint();
-        LinearGradient shader = new LinearGradient(0, 0, 0, height, color1, color2,
-                Shader.TileMode.CLAMP);
-        paint.setShader(shader);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawRect(0, 0, width, height, paint);
 
         return result;
     }

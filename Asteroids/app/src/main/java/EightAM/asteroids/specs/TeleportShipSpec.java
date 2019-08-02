@@ -19,8 +19,8 @@ public class TeleportShipSpec extends BaseShipSpec implements AudioSpec {
     public static float acceleration = 0.005f;
     public static float deceleration = 0.9995f;
     public static int invincibilityDuration = 3000;
-    public static int _teleportDelay = 500;
-    public static int _teleportCooldown = 5000;
+    public static int _teleportDelay = 100;
+    public static int _teleportCooldown = 3000;
 
     public static String tag = "ship_teleport";
     public static Point dimensions = new Point(32, 32);

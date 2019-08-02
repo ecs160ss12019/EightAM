@@ -13,6 +13,7 @@ import EightAM.asteroids.interfaces.EventGenerator;
 import EightAM.asteroids.interfaces.EventHandler;
 import EightAM.asteroids.interfaces.Identifiable;
 import EightAM.asteroids.interfaces.MoveStrategy;
+import EightAM.asteroids.specs.BaseLootSpec;
 import EightAM.asteroids.specs.BaseObjectSpec;
 import EightAM.asteroids.specs.RandomLootSpec;
 
@@ -26,7 +27,7 @@ public abstract class GameObject implements Drawable, Identifiable, Copyable, Ev
     MoveStrategy moveStrategy;
     Rotation rotation;
     Paint paint;
-    Loot lootOnDeath;
+    BaseLootSpec lootOnDeathSpec;
 
     // listeners
     EventHandler eventHandler;
@@ -39,9 +40,7 @@ public abstract class GameObject implements Drawable, Identifiable, Copyable, Ev
                 spec.initialPosition.y + spec.dimensions.y);
         this.rotation = new Rotation(spec.initialRotation);
         this.paint = PaintStore.getInstance().getPaint(spec.tag);
-        if (spec.lootOnDeath != null) {
-            this.lootOnDeath = BaseLootFactory.getInstance().createLoot(spec.lootOnDeath);
-        }
+        this.lootOnDeathSpec = spec.lootOnDeath;
     }
 
     GameObject(GameObject object) {
@@ -49,10 +48,9 @@ public abstract class GameObject implements Drawable, Identifiable, Copyable, Ev
         this.hitbox = new RectF(object.hitbox);
         this.rotation = new Rotation(object.rotation);
         this.paint = object.paint;
-        if (object.lootOnDeath != null) {
-            this.lootOnDeath = object.lootOnDeath;
-        }
+        this.lootOnDeathSpec = object.lootOnDeathSpec;
     }
+
 
     // ---------------Member methods---------------
 
@@ -103,10 +101,10 @@ public abstract class GameObject implements Drawable, Identifiable, Copyable, Ev
 
     @Override
     public void destruct(DestroyedObject destroyedObject) {
-        if (lootOnDeath != null) {
-            eventHandler.createObjects(Collections.singleton(LootGenerator.createRandomLootAt(
-                    new Point((int) hitbox.centerX(), (int) hitbox.centerY()),
-                    new RandomLootSpec())));
+        if (lootOnDeathSpec instanceof RandomLootSpec) {
+            eventHandler.createObjects(Collections.singleton(
+                    LootGenerator.createRandomLootAt(getObjPos(),
+                            (RandomLootSpec) lootOnDeathSpec)));
         }
         eventHandler.onDestruct(this);
     }

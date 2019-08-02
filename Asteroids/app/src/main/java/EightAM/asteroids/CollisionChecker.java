@@ -39,7 +39,7 @@ class CollisionChecker {
     static boolean shouldICollide(Collision me, Collision them) {
         if (me.canCollide() && them.canCollide() && !me.getID().equals(them.getID())) {
             boolean shouldTestCollision = false;
-            if (me instanceof Alien) {
+            if (me instanceof AbstractAlien) {
                 if (me.getID().getFaction() != them.getID().getFaction() && !(them instanceof Loot
                         || them instanceof Particle)) {
                     shouldTestCollision = true;

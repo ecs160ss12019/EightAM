@@ -3,16 +3,15 @@ package EightAM.asteroids;
 import android.graphics.Canvas;
 
 import EightAM.asteroids.interfaces.Collision;
-import EightAM.asteroids.interfaces.Destructable;
 import EightAM.asteroids.specs.BaseBulletSpec;
 
-public class Bullet extends GameObject implements Collision, Destructable {
+public class Bullet extends GameObject implements Collision {
     int damage;
     int maxDistance;
     // set by generator
     ObjectID owner;
 
-    int distanceTraveled;
+    int distanceTraveled = 0;
 
     Bullet(BaseBulletSpec spec) {
         super(spec);
@@ -59,7 +58,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
      * @param timeInMillisecond current time of the game in ms
      */
     private void distanceTraveled(long timeInMillisecond) {
-        distanceTraveled += timeInMillisecond * this.vel.magnitude();
+        distanceTraveled += timeInMillisecond;
     }
 
     /**
@@ -68,7 +67,7 @@ public class Bullet extends GameObject implements Collision, Destructable {
      * @return true if the bullet has exceeded its maximum range
      */
     protected boolean reachedMaxRange() {
-        return distanceTraveled > maxDistance;
+        return distanceTraveled >= maxDistance;
     }
 
     @Override

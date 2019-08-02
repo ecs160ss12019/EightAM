@@ -124,7 +124,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             if (objectToDel instanceof Collision) {
                 collideables.remove(id);
             }
-            if (objectToDel instanceof Alien) {
+            if (objectToDel instanceof AIModule) {
                 adversaries.remove(id);
             }
             objectMap.remove(id);
@@ -231,7 +231,7 @@ public class GameModel implements GameState, EventHandler, ShotListener {
             if (!objectMap.containsKey(id)) {
                 objectMap.put(id, o);
                 if (o instanceof Collision) collideables.add(id);
-                if (o instanceof Alien) {
+                if (o instanceof AIModule) {
                     adversaries.add(id);
                     audioListener.onAlienBoss();
                 } else if (o instanceof Ship) currPlayerShip = id;
@@ -271,6 +271,8 @@ public class GameModel implements GameState, EventHandler, ShotListener {
         }
         if (object instanceof EventGenerator) {
             ((EventGenerator) object).registerEventHandler(this);
+        } else if (object instanceof Destructable) {
+
         }
     }
 

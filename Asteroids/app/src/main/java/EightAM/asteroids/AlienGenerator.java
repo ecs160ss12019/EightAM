@@ -1,8 +1,5 @@
 package EightAM.asteroids;
 
-import static EightAM.asteroids.Constants.BIGALIEN_SPAWN_PROB;
-import static EightAM.asteroids.Constants.SMALLALIEN_SPAWN_PROB;
-
 import android.graphics.Point;
 import android.util.Log;
 
@@ -11,8 +8,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import EightAM.asteroids.specs.BaseAlienSpec;
-import EightAM.asteroids.specs.BigAlienSpec;
-import EightAM.asteroids.specs.SmallAlienSpec;
+import EightAM.asteroids.specs.KamikazeAlienSpec;
 
 public class AlienGenerator{
     private static boolean debug = false;
@@ -54,18 +50,19 @@ public class AlienGenerator{
         Random rand = new Random();
         float f = rand.nextFloat();
 
+        return new KamikazeAlienSpec(); // testing
         // prob comparisons
         // should be listed smallest -> largest
-        if (f < SMALLALIEN_SPAWN_PROB) {
-            if (debug) { Log.d("debug", "attempt to make small alien"); }
-            return new SmallAlienSpec();
-        }
-        if (f < BIGALIEN_SPAWN_PROB) {
-            if (debug) { Log.d("debug", "attempt to make big alien"); }
-            return new BigAlienSpec();
-        }
-
-        return new BigAlienSpec(); // default alien to generate
+//        if (f < SMALLALIEN_SPAWN_PROB) {
+//            if (debug) { Log.d("debug", "attempt to make small alien"); }
+//            return new SmallAlienSpec();
+//        }
+//        if (f < BIGALIEN_SPAWN_PROB) {
+//            if (debug) { Log.d("debug", "attempt to make big alien"); }
+//            return new BigAlienSpec();
+//        }
+//
+//        return new BigAlienSpec(); // default alien to generate
     }
 
     /**

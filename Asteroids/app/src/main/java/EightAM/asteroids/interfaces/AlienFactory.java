@@ -1,8 +1,8 @@
 package EightAM.asteroids.interfaces;
 
-import EightAM.asteroids.Alien;
+import EightAM.asteroids.AbstractAlien;
 import EightAM.asteroids.specs.BaseAlienSpec;
 
 public interface AlienFactory {
-    Alien createAlien(BaseAlienSpec spec);
+    AbstractAlien createAlien(BaseAlienSpec spec);
 }

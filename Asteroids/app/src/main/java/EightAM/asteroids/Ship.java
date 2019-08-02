@@ -20,6 +20,7 @@ import EightAM.asteroids.interfaces.LimitedWeapon;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseShipSpec;
+import EightAM.asteroids.specs.LaserWeaponSpec;
 
 public class Ship extends GameObject implements Shooter, Controllable, Collision, Invulnerable,
         EventGenerator, Destructable {
@@ -62,7 +63,7 @@ public class Ship extends GameObject implements Shooter, Controllable, Collision
         this.rotationSpeed = spec.rotationSpeed;
         this.acceleration = spec.acceleration;
         this.deceleration = spec.deceleration;
-//        this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
+        this.primaryWeapon = BaseWeaponFactory.getInstance().createWeapon(new LaserWeaponSpec());
         this.secondaryWeapon = BaseWeaponFactory.getInstance().createWeapon(spec.weaponSpec);
         this.teleportCooldownTimer = new Timer(spec.teleportCooldown, 0);
         this.teleportDelayTimer = new Timer(spec.teleportDelay, 0);

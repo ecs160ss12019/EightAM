@@ -28,6 +28,10 @@ public class Timer {
         return Math.abs(target - curr);
     }
 
+    long total() {
+        return Math.abs(target - start);
+    }
+
     void reset() {
         curr = start;
         reachedTarget = false;

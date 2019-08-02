@@ -7,6 +7,7 @@ import EightAM.asteroids.interfaces.WeaponFactory;
 import EightAM.asteroids.specs.BaseAmmoLimitedWeaponSpec;
 import EightAM.asteroids.specs.BaseTimeLimitedWeaponSpec;
 import EightAM.asteroids.specs.BaseWeaponSpec;
+import EightAM.asteroids.specs.BombWeaponSpec;
 import EightAM.asteroids.specs.LaserWeaponSpec;
 import EightAM.asteroids.specs.ShotgunWeaponSpec;
 
@@ -25,11 +26,15 @@ class BaseWeaponFactory implements WeaponFactory {
 
     @Override
     public Weapon createWeapon(BaseWeaponSpec spec) {
+        if (spec == null) return null;
         Weapon weapon = prototypes.get(spec);
         if (weapon == null) {
             if (spec instanceof BaseAmmoLimitedWeaponSpec) {
                 if (spec instanceof ShotgunWeaponSpec) {
                     weapon = new ShotgunWeapon((ShotgunWeaponSpec) spec);
+                }
+                if (spec instanceof BombWeaponSpec) {
+                    weapon = new BombWeapon((BombWeaponSpec) spec);
                 }
             } else if (spec instanceof BaseTimeLimitedWeaponSpec) {
                 if (spec instanceof LaserWeaponSpec) {

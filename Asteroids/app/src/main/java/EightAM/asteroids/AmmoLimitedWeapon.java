@@ -30,4 +30,9 @@ abstract class AmmoLimitedWeapon extends Weapon implements LimitedWeapon {
     public int amountLeft() {
         return (int) ammoCount.remaining();
     }
+
+    @Override
+    public int amountTotal() {
+        return (int) ammoCount.total();
+    }
 }

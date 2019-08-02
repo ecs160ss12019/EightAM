@@ -18,10 +18,12 @@ import EightAM.asteroids.specs.BasicBulletSpec;
 import EightAM.asteroids.specs.BasicParticleSpec;
 import EightAM.asteroids.specs.BasicShipSpec;
 import EightAM.asteroids.specs.BigAlienSpec;
+import EightAM.asteroids.specs.KamikazeAlienSpec;
 import EightAM.asteroids.specs.LargeAsteroidSpec;
 import EightAM.asteroids.specs.LaserBulletSpec;
 import EightAM.asteroids.specs.MediumAsteroidSpec;
 import EightAM.asteroids.specs.RandomLootSpec;
+import EightAM.asteroids.specs.ShrapnelBulletSpec;
 import EightAM.asteroids.specs.SlowLongBulletSpec;
 import EightAM.asteroids.specs.SmallAlienBulletSpec;
 import EightAM.asteroids.specs.SmallAlienSpec;
@@ -30,9 +32,10 @@ import EightAM.asteroids.specs.SmallAsteroidSpec;
 final class AssetLoader {
     static final List<BaseObjectSpec> specList = Collections.unmodifiableList(
             Arrays.asList(new BasicBulletSpec(), new BasicParticleSpec(), new BasicShipSpec(),
-                    new BigAlienSpec(), new SmallAlienSpec(), new LargeAsteroidSpec(),
-                    new MediumAsteroidSpec(), new SmallAsteroidSpec(), new SlowLongBulletSpec(),
-                    new SmallAlienBulletSpec(), new LaserBulletSpec(), new RandomLootSpec()));
+                    new BigAlienSpec(), new SmallAlienSpec(), new KamikazeAlienSpec(),
+                    new LargeAsteroidSpec(), new MediumAsteroidSpec(), new SmallAsteroidSpec(),
+                    new SlowLongBulletSpec(), new SmallAlienBulletSpec(), new ShrapnelBulletSpec(),
+                    new LaserBulletSpec(), new RandomLootSpec()));
 
     private static void loadFont(PaintStore paintStore, Context c) {
         Paint p = new Paint();

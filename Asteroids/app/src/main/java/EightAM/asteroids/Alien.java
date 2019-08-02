@@ -8,7 +8,6 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.util.Pair;
 
-import EightAM.asteroids.interfaces.GameState;
 import EightAM.asteroids.interfaces.Shooter;
 import EightAM.asteroids.interfaces.ShotListener;
 import EightAM.asteroids.specs.BaseAlienSpec;
@@ -17,8 +16,6 @@ public abstract class Alien extends AbstractAlien implements Shooter {
     // --------------- Member variables --------------
     float shotAngle = 0;
     float accuracy;
-    int pointValue;
-    int hitPoints;
     Weapon weapon;
 
     // listeners
@@ -33,7 +30,6 @@ public abstract class Alien extends AbstractAlien implements Shooter {
 
     // shooting
     Pair<Integer, Integer> shotDelayRange;
-    private Point lastKnownPlayerPosition;
 
     Alien(BaseAlienSpec spec) {
         super(spec);
@@ -147,14 +143,9 @@ public abstract class Alien extends AbstractAlien implements Shooter {
         this.shotAngle = (float) Math.atan2(delY, delX);
     }
 
-    @Override
-    public void processGameState(GameState state) {
-        lastKnownPlayerPosition = state.getPlayerShip().getObjPos();
-    }
-
     protected void tryShoot() {
         if (weapon.canFire()) {
-            aimAtTarget(lastKnownPlayerPosition);
+            aimAtTarget(lastKnownPlayerPos);
             shoot();
             setShotDelay();
         }
@@ -186,42 +177,6 @@ public abstract class Alien extends AbstractAlien implements Shooter {
     }
     // ------------ END SHOOTER IMPLEMENTION ------------ //
 
-    // ------------ BEGIN COLLISION IMPLEMENTION ------------ //
-
-    /**
-     * Collision detection method takes in the hitbox of approaching object, using intersection
-     * method to check of collision
-     *
-     * @param approachingObject the hitbox of approaching object,
-     * @return true for collision, otherwise false
-     */
-    @Override
-    public boolean detectCollisions(GameObject approachingObject) {
-        return hitbox.intersect(approachingObject.hitbox);
-    }
-
-    @Override
-    public void onCollide(GameObject approachingObject) {
-        boolean destroyThis = false;
-        if (approachingObject instanceof Bullet) {
-            hitPoints -= ((Bullet) approachingObject).damage;
-            if (hitPoints <= 0) {
-                destroyThis = true;
-            }
-        } else {
-            destroyThis = true;
-        }
-        if (destroyThis) {
-            destruct(new DestroyedObject(pointValue, id, approachingObject.id, this));
-        }
-    }
-
-    @Override
-    public boolean canCollide() {
-        return true;
-    }
-
-    // ------------ END COLLISION IMPLEMENTION ------------ //
 
     // ------------ BEGIN DESTRUCTABLE IMPLEMENTION ------------ //
 

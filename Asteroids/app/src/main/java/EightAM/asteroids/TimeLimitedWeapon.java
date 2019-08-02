@@ -36,4 +36,9 @@ abstract class TimeLimitedWeapon extends Weapon implements LimitedWeapon {
     public int amountLeft() {
         return (int) timeLimit.remaining();
     }
+
+    @Override
+    public int amountTotal() {
+        return (int) timeLimit.total();
+    }
 }

@@ -19,7 +19,6 @@ class LaserBullet extends Bullet {
 
     @Override
     public void draw(Canvas canvas) {
-        super.draw(canvas);
         int trail = (bulletTrail < distanceTraveled) ? bulletTrail : distanceTraveled;
         if (trail > 0) {
             canvas.drawLine(hitbox.centerX(), hitbox.centerY(),
